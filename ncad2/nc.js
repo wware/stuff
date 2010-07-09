@@ -1,5 +1,5 @@
-var tabLinks = new Array();
-var contentDivs = new Array();
+var tabLinks = [ ];
+var contentDivs = [ ];
 var atomArray;
 
 var mouseIsDown = false;
@@ -10,6 +10,7 @@ var numAtoms = 20;
 var FAST_DRAW_THRESHOLD = 40;
 
 var currentMode;
+var scalar = 0.2;
 
 var orientation;
 var boundingBox;
@@ -44,27 +45,30 @@ function init() {
     document.getElementById("propane").onclick = propane;
     document.getElementById("peptide").onclick = cpeptide;
     var tabListItems = document.getElementById('tabs').childNodes;
+    var id;
     for ( var i = 0; i < tabListItems.length; i++ ) {
-	if ( tabListItems[i].nodeName == "LI" ) {
+	if ( tabListItems[i].nodeName === "LI" ) {
 	    var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
-	    var id = getHash( tabLink.getAttribute('href') );
+	    id = getHash( tabLink.getAttribute('href') );
 	    tabLinks[id] = tabLink;
 	    contentDivs[id] = document.getElementById( id );
 	}
     }
-    var i = 0;
-    for ( var id in tabLinks ) {
+    i = 0;
+    for ( id in tabLinks ) {
 	tabLinks[id].onclick = showTab;
-	if ( i == 0 ) tabLinks[id].className = 'selected';
+	if ( i === 0 ) {
+	    tabLinks[id].className = 'selected';
+	}
 	i++;
     }
-    var i = 0;
-    for ( var id in contentDivs ) {
-	if ( i != 0 ) contentDivs[id].className = 'tabContent hide';
+    i = 0;
+    for ( id in contentDivs ) {
+	if ( i !== 0 ) {
+	    contentDivs[id].className = 'tabContent hide';
+	}
 	i++;
     }
-    var canvas = document.getElementById("canvas");
-    var context = canvas.getContext("2d");
     document.onmousedown = mouseDown;
     document.onmousemove = mouseMove;
     document.onmouseup = mouseUp;
@@ -74,9 +78,9 @@ function init() {
 }
 
 function makeVector(x,y,z) {
-    this.getX = function() { return x; }
-    this.getY = function() { return y; }
-    this.getZ = function() { return z; }
+    this.getX = function() { return x; };
+    this.getY = function() { return y; };
+    this.getZ = function() { return z; };
     this.toString = function() {
 	return "[ vector " + x + " " + y + " " + z + " ]";
     };
@@ -84,42 +88,42 @@ function makeVector(x,y,z) {
 	return new makeVector(x + other.getX(),
 			      y + other.getY(),
 			      z + other.getZ());
-    }
+    };
     this.scale = function(factor) {
 	return new makeVector(x * factor,
 			      y * factor,
 			      z * factor);
-    }
+    };
     this.distsq = function(other) {
         dx = x - other.getX();
         dy = y - other.getY();
         dz = z - other.getZ();
         return dx * dx + dy * dy + dz * dz;
-    }
+    };
     this.reorient = function() {
 	return orientation.transform(this);
-    }
+    };
 }
 
 function makeAtom(pos,radius,color) {
     // velocity? previous position? force vector?
     this.getPos = function() {
 	return pos;
-    }
+    };
     this.vdwRadius = function() {
         return radius;
-    }
+    };
     this.reorient = function() {
 	var newpos = orientation.transform(pos);
 	var r = orientation.P * radius;  // apply perspective
 	return new makeAtom(newpos, r, color);
-    }
+    };
     this.toString = function() {
 	return "[ atom " + color + " " + pos.toString() + " ]";
-    }
+    };
     this.nudge = function(delta) {
 	return new makeAtom(pos.plus(delta), radius, color);
-    }
+    };
     this.draw = function(canvas,context) {
 	var K = 300;
 	var x = K * pos.getX() + canvas.width/2;
@@ -136,7 +140,7 @@ function makeAtom(pos,radius,color) {
 	context.strokeStyle = '#000';
 	context.arc(x, y, r, 0, 2 * Math.PI*2, true);
 	context.stroke();
-    }
+    };
 }
 
 function drawAtoms() {
@@ -144,27 +148,30 @@ function drawAtoms() {
     var context = canvas.getContext("2d");
     context.fillStyle = "#bdd";
     context.fillRect(0, 0, canvas.width, canvas.height);
-    rotArray = new Array();
+    rotArray = [ ];
     for (var i = 0; i < numAtoms; i++) {
 	rotArray[i] = atomArray[i].reorient();
     }
     rotArray.sort(function(atom1,atom2) {
-	    if (atom1.getPos().getZ() > atom2.getPos().getZ()) return 1;
-	    if (atom1.getPos().getZ() < atom2.getPos().getZ()) return -1;
+	    if (atom1.getPos().getZ() > atom2.getPos().getZ()) {
+		return 1;
+	    }
+	    if (atom1.getPos().getZ() < atom2.getPos().getZ()) {
+		return -1;
+	    }
 	    return 0;
 	});
-    for (var i = 0; i < numAtoms; i++) {
+    for (i = 0; i < numAtoms; i++) {
 	rotArray[i].draw(canvas, context);
     }
 }
 
 function determineBonds() {
     var MAXBONDLENGTH = 3 * scalar;
-    var MAXLENGTHSQ = MAXBONDLENGTH * MAXBONDLENGTH;
     var SLOP = 1.2;
     // var SLOP = 3.0;
-    var buckets = new Array();
-    bondList = new Array();
+    var buckets = [ ];
+    bondList = [ ];
     bucketkey = function(atom) {
         pos = atom.getPos();
         x = pos.getX();
@@ -173,15 +180,17 @@ function determineBonds() {
         return [Math.floor(pos.getX() / MAXBONDLENGTH),
                 Math.floor(pos.getY() / MAXBONDLENGTH),
                 Math.floor(pos.getZ() / MAXBONDLENGTH)];
-    }
+    };
     // first sort all the atoms into buckets, this is O(N)
+    var atom;
+    var key;
     for (var i = 0; i < numAtoms; i++) {
         atom = atomArray[i];
         key = bucketkey(atom);
         if (key in buckets) {
             bucket = buckets[key];
         } else {
-            bucket = new Array();
+            bucket = [ ];
             buckets[key] = bucket;
         }
         bucket[bucket.length] = atom;
@@ -190,17 +199,17 @@ function determineBonds() {
     // In the innermost loop where it says MAXBONDLENGTH, it should
     // really be a bond length chosen based on the two atoms, e.g. an
     // H-H bond will be shorter than a C-C bond.
-    for (var i = 0; i < numAtoms; i++) {
-        var atom = atomArray[i];
-        var key = bucketkey(atom);
+    for (i = 0; i < numAtoms; i++) {
+        atom = atomArray[i];
+        key = bucketkey(atom);
         var x1 = key[0];
         var y1 = key[1];
         var z1 = key[2];
-        var theseBonds = new Array();
+        var theseBonds = [ ];
         var pos = atom.getPos();
         var r1 = atom.vdwRadius();
-        for (var x2 = x1 - 1; x2 < x1 + 2; x2++)
-            for (var y2 = y1 - 1; y2 < y1 + 2; y2++)
+        for (var x2 = x1 - 1; x2 < x1 + 2; x2++) {
+            for (var y2 = y1 - 1; y2 < y1 + 2; y2++) {
                 for (var z2 = z1 - 1; z2 < z1 + 2; z2++) {
                     var key2 = [x2, y2, z2];
                     for (var j in buckets[key2]) {
@@ -211,6 +220,8 @@ function determineBonds() {
                         }
                     }
                 }
+	    }
+	}
         bondList[i] = theseBonds;
     }
 }
@@ -228,12 +239,12 @@ function determineBoundingBox() {
         x = pos.getX();
         y = pos.getY();
         z = pos.getZ();
-        if (x < xmin) xmin = x;
-        if (x > xmax) xmax = x;
-        if (y < ymin) ymin = y;
-        if (y > ymax) ymax = y;
-        if (z < zmin) zmin = z;
-        if (z > zmax) zmax = z;
+        if (x < xmin) { xmin = x; }
+        if (x > xmax) { xmax = x; }
+        if (y < ymin) { ymin = y; }
+        if (y > ymax) { ymax = y; }
+        if (z < zmin) { zmin = z; }
+        if (z > zmax) { zmax = z; }
     }
     boundingBox = [new makeVector(xmin, ymin, zmin),
                    new makeVector(xmin, ymin, zmax),
@@ -265,13 +276,13 @@ function drawFast() {
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
 	context.stroke();
-    }
+    };
     if (numAtoms < FAST_DRAW_THRESHOLD) {
-        rotArray = new Array();
+        rotArray = [ ];
         for (var i = 0; i < numAtoms; i++) {
             rotArray[i] = atomArray[i].reorient();
         }
-        for (var i = 0; i < bondList.length; i++) {
+        for (i = 0; i < bondList.length; i++) {
             for (var k = 0; k < bondList[i].length; k++) {
                 var j = bondList[i][k];
                 pos1 = rotArray[i].getPos();
@@ -305,8 +316,6 @@ function drawFast() {
 
 // http://en.wikipedia.org/wiki/Van_der_Waals_radius
 
-var scalar = 0.2;
-
 function baseAtom(x, y, z, radius, color) {
     atom = new makeAtom(new makeVector(scalar * x,
                                        scalar * y,
@@ -338,7 +347,7 @@ function sulfur(x, y, z) {
 function propane() {
     scalar = 0.2;
 
-    atomArray = new Array();
+    atomArray = [ ];
     carbon(-0.85748833891984, 0.34794546061805, 0.98214417192606);
     carbon(0.4065315061009, -0.28637730259981, 0.32481170697201);
     carbon( 0.53857043456917, -0.1123325081226, -1.2159381954418);
@@ -359,7 +368,7 @@ function propane() {
 function cpeptide() {
     scalar = 0.06;
 
-    atomArray = new Array();
+    atomArray = [ ];
     nitrogen(24.966000, -0.646000, 22.314000);
     carbon(24.121000, 0.549000, 22.271000);
     carbon(24.794000, 1.733000, 22.943000);
@@ -495,7 +504,7 @@ function makeMatrix(x00,x01,x02,x10,x11,x12,x20,x21,x22) {
 	x00 + " " + x01 + " " + x02 + " " +
 	x10 + " " + x11 + " " + x12 + " " +
 	x20 + " " + x21 + " " + x22 + "]";
-    }
+    };
     this.get = function(i,j) {
 	switch (i) {
 	    case 0:
@@ -504,20 +513,23 @@ function makeMatrix(x00,x01,x02,x10,x11,x12,x20,x21,x22) {
 		case 1:  return x01;
 		default: return x02;
 	    }
+	    break;
 	    case 1:
 	    switch (j) {
 		case 0:  return x10;
 		case 1:  return x11;
 		default: return x12;
 	    }
+	    break;
 	    default:
 	    switch (j) {
 		case 0:  return x20;
 		case 1:  return x21;
 		default: return x22;
 	    }
+	    break;
 	}
-    }
+    };
     this.set = function(i,j,value) {
 	switch (i) {
 	    case 0:
@@ -526,26 +538,29 @@ function makeMatrix(x00,x01,x02,x10,x11,x12,x20,x21,x22) {
 		case 1:  x01 = value; return;
 		default: x02 = value; return;
 	    }
+	    break;
 	    case 1:
 	    switch (j) {
 		case 0:  x10 = value; return;
 		case 1:  x11 = value; return;
 		default: x12 = value; return;
 	    }
+	    break;
 	    default:
 	    switch (j) {
 		case 0:  x20 = value; return;
 		case 1:  x21 = value; return;
 		default: x22 = value; return;
 	    }
+	    break;
 	}
-    }
+    };
     this.timesVector = function(v) {
 	v = new makeVector(x00 * v.getX() + x01 * v.getY() + x02 * v.getZ(),
 			   x10 * v.getX() + x11 * v.getY() + x12 * v.getZ(),
 			   x20 * v.getX() + x21 * v.getY() + x22 * v.getZ());
 	return v;
-    }
+    };
     this.timesMatrix = function(m) {
 	return new makeMatrix(x00 * m.get(0,0) + x01 * m.get(1,0) + x02 * m.get(2,0),
 			      x00 * m.get(0,1) + x01 * m.get(1,1) + x02 * m.get(2,1),
@@ -556,7 +571,7 @@ function makeMatrix(x00,x01,x02,x10,x11,x12,x20,x21,x22) {
 			      x20 * m.get(0,0) + x21 * m.get(1,0) + x22 * m.get(2,0),
 			      x20 * m.get(0,1) + x21 * m.get(1,1) + x22 * m.get(2,1),
 			      x20 * m.get(0,2) + x21 * m.get(1,2) + x22 * m.get(2,2));
-    }
+    };
     this.renormalize = function() {
 	renorm = function(i1,j1,i2,j2,i3,j3) {
 	    x = this.get(i1,j1);
@@ -566,10 +581,10 @@ function makeMatrix(x00,x01,x02,x10,x11,x12,x20,x21,x22) {
 	    this.set(i1,j1,k * x);
 	    this.set(i2,j2,k * y);
 	    this.set(i3,j3,k * z);
-	}
+	};
 	renorm(0,0,0,1,0,2); renorm(1,0,1,1,1,2); renorm(2,0,2,1,2,2);
 	renorm(0,0,1,0,2,0); renorm(0,1,1,1,2,1); renorm(0,2,1,2,2,2);
-    }
+    };
 }
 
 function makeOrientation() {
@@ -577,7 +592,7 @@ function makeOrientation() {
     this.rotcount = 0;
     this.toString = function() {
 	return "[ orientation " + this.matrix.toString() + " ]";
-    }
+    };
     renormalize = function() {
 	// every 100th rotation, renormalize the matrix
 	if (this.rotcount < 100) {
@@ -586,21 +601,21 @@ function makeOrientation() {
 	}
 	this.rotcount = 0;
 	this.matrix.renormalize();
-    }
+    };
     this.rotX = function(angle) {
 	var c = Math.cos(angle);
 	var s = Math.sin(angle);
 	var m = new makeMatrix(1,0,0, 0,c,s, 0,-s,c);
 	this.matrix = m.timesMatrix(this.matrix);
 	// this.renormalize();
-    }
+    };
     this.rotY = function(angle) {
 	var c = Math.cos(angle);
 	var s = Math.sin(angle);
 	var m = new makeMatrix(c,0,s, 0,1,0, -s,0,c);
 	this.matrix = m.timesMatrix(this.matrix);
 	// this.renormalize();
-    }
+    };
     // perspective factor isn't valid for a vector unless you've run
     // the transform method on that vector, and not yet run it on any other
     this.P = 1;
@@ -609,14 +624,14 @@ function makeOrientation() {
 	var perspectiveDistance = 3;
 	this.P = perspectiveDistance / (perspectiveDistance - vec.getZ());
 	return new makeVector(this.P * vec.getX(), this.P * vec.getY(), vec.getZ());
-    }
+    };
 }
 
 function showTab() {
     var selectedId = getHash( this.getAttribute('href') );
     currentMode = selectedId;
     for ( var id in contentDivs ) {
-	if ( id == selectedId ) {
+	if ( id === selectedId ) {
 	    tabLinks[id].className = 'selected';
 	    contentDivs[id].className = 'tabContent';
 	} else {
@@ -629,7 +644,9 @@ function showTab() {
 
 function getFirstChildWithTagName( element, tagName ) {
     for ( var i = 0; i < element.childNodes.length; i++ ) {
-	if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
+	if ( element.childNodes[i].nodeName === tagName ) {
+	    return element.childNodes[i];
+	}
     }
 }
 
@@ -640,37 +657,38 @@ function getHash( url ) {
 
 function getEvent(e) {
     // IE doesn't pass the event object
-    if (e == null) e = window.event;
+    if (e === null) { e = window.event; }
     // IE uses srcElement, others use target
-    return (e.target != null) ? e.target : e.srcElement;
+    return (e.target !== null) ? e.target : e.srcElement;
 }
 
 function mouseDown(e) {
     var target = getEvent(e);
-    if (currentMode == "view") {
-        if (target.id == "canvas") {
+    if (currentMode === "view") {
+        if (target.id === "canvas") {
             mouseIsDown = true;
             previousX = e.clientX;
             previousY = e.clientY;
         }
-        if (numAtoms < FAST_DRAW_THRESHOLD)
+        if (numAtoms < FAST_DRAW_THRESHOLD) {
             determineBonds();
-        else
+        } else {
             determineBoundingBox();
+	}
     }
 }
 
 function mouseUp() {
     mouseIsDown = false;
-    if (currentMode == "view") {
+    if (currentMode === "view") {
         drawAtoms();
     }
 }
 
 function mouseMove(e) {
-    if (mouseIsDown && currentMode == "view") {
+    if (mouseIsDown && currentMode === "view") {
 	var target = getEvent(e);
-	if (target.id == "canvas") {
+	if (target.id === "canvas") {
 	    var newX = e.clientX;
 	    var newY = e.clientY;
 	    var theta = 0.02 * (newX - previousX);
