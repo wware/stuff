@@ -1,0 +1,59 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; name:     ftp.cp
+;; purpose:  ftp client to connect to two servers at the same time
+;;           and cause a transfer from one server to another
+;;           via a direct data connection between the two servers.
+;; author:   George J. Carrette. 
+;; date:     31-JAN-1996.
+;;
+;; usage:    ftp.cp host1 host2 <transfer-script> [:debug=true]
+;;
+;;           The script is a list of file transfer specifications:
+;;           ("filename1" -> "filename2")
+;;           ("filename1" <- "filename2")
+;;
+;;           environment variables should be set up for the symbols
+;;           host1_USER host2_PASS host2_USER host2_PASS or else
+;;           this script will prompt the user.
+;;
+;; note:     we may be able to use the restart (REST) command,
+;;           combined with the append command (APPE) and a reverse-engineered
+;;           knowledge of the block or compressed mode restart marker
+;;           for a particular server as a way of implementing
+;;           a kind of "tail" command, extremely useful for transfering
+;;           log files. However, our most interesting target, OSF/1
+;;           ftpd doesn't seem to implement MODE B or C.
+
+(require 'ftp.scm)
+
+(define (main)
+  (let ((debug (lkey-default (cdddr *args*) "debug" "true")))
+    (set! *ftp-debug* (cond ((equal? debug "true") t)
+			    ((equal? debug "false") nil)
+			    ('else
+			     (error "invalid debug option" debug))))
+    
+    (ftp.cp (or (larg-default (cdddr *args*) 0)
+		(error "no host1 specified"))
+	    (or (larg-default (cdddr *args*) 1)
+		(error "no host2 specified"))
+	    (load-cmds (or (larg-default (cdddr *args*) 2)
+			   (error "no transfer script specified"))))))
+
+
+(define (load-cmds filename)
+  (let ((forms (load filename t))
+	(result nil)
+	(exp nil))
+    (while forms
+      (set! exp (car forms))
+      (set! forms (cdr forms))
+      (cond ((and (pair? exp) (string? (car exp)))
+	     (set! result (cons exp result)))
+	    ((pair? (set! exp (eval exp)))
+	     (set! result (nconc (reverse exp) result)))))
+    (nreverse result)))
+
+
+

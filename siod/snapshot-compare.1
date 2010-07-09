@@ -1,0 +1,55 @@
+.TH SNAPSHOT-COMPARE 1C LOCAL 
+.SH NAME
+snapshot-compare \- compare two snapshots of a directory tree
+.SH SYNOPSIS
+.B snapshot-compare <snapshot-1> <snapshot-2> [:strip=N] [:strip1=N] [:strip2=N]
+
+.SH DESCRIPTION
+.I snapshot-compare
+
+will load the two directory snapshot databases, strip a number of slashes
+from the pathnames of the files in the databases, then generate a report
+describing files which are in one snapshot but not the other,
+and also what files which have different MD5 checksums between snapshots.
+
+The following example shows that the file foo.bar is contained
+exclusively in the x.after snapshot, and the snapshot-compare.1 file
+is different between snapshots.
+
+.EX
+bosa00> ./snapshot-compare x.before x.after
+; loading x.before
+; done 227 files
+; loading x.after
+; done 229 files
+; x.after /moby/src/kit/foo.bar
+diff /moby/src/kit/snapshot-compare.1
+.EE
+
+The effect of the strip parameter is demonstrated in this example:
+
+.EX
+bosa00> ./snapshot-compare x.before x.after :strip=3
+; loading x.before
+; done 227 files
+; loading x.after
+; done 229 files
+; strip 3 levels of / from x.before
+; strip 3 levels of / from x.after
+; x.after kit/foo.bar
+diff kit/snapshot-compare.1
+.EE
+
+.SH EXIT STATUS
+
+Errors result in a non-zero exit status.
+
+.SH AUTHOR
+George Carrette. gjc@world.std.com
+
+.SH SEE ALSO
+siod snapshot-dir
+
+.SH FILES
+/usr/local/bin/snapshot-compare
+/usr/local/bin/siod

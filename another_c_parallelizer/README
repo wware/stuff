@@ -1,0 +1,74 @@
+This is a massive-multithreading system for C programs. It makes it
+easy to write programs running huge numbers of threads. This can be
+useful for games, simulations, and webservers.
+
+The source file 'simple.c' shows a simple example of how to use this
+system. The "#pragma par on" and "#pragma par_off" statements indicate
+which functions should be parallelized. The parallelized functions
+look pretty normal in simple.c; you don't need to change your source
+code very much to make it work.
+
+But you _do_ need to explicitly say where you want context switches to
+happen, which is done with the "CSW" marker. This sounds like a
+horrible thing, but there is a freedom in placing context switches
+yourself. You therefore can say with certainty when will _not_ happen,
+and that allows you to assume certain kinds of stability in certain
+regions of your code.
+
+Your code is processed by process.py, a Python script that translates
+the C source file into a second C source file, where each parallelized
+function has been turned into a sort of state machine, with each state
+representing the code between a pair of context switches. To permit
+one parallelized function to call another, and to keep the state
+machines fully reentrant, there are frames that maintain the state of
+each thread at each function call level. Every frame links to its
+caller, and to its thread.
+
+'simple.c' sets up 100,000 threads all running the same couple
+function. Any thread that gets erroneous results will cause an error
+message. All the threads succeed, so you get an "All is well" message
+at the end.
+
+The new_thread() function creates a new thread with a function. There
+is presently no really clean way to pass arguments into a thread. The
+'conway.c' example shows an ugly way to pass in arguments.
+
+The step_thread() function advances the whole collection of threads
+by a number of steps. Each step represents one thread's progress from
+one context switch to the next one. Threads take turns in a circular
+fashion, each taking a step. step_thread() returns 1 when all the
+threads have finished running.
+
+The 'conway.c' example illustrates Conway's game of life, which is a
+cellular automaton. This system is more general than you need for a
+CA, as each thread in this system can be running a different program
+or at a different point in the same program as all the other threads.
+
+#########################
+
+This stuff appeared about a year ago in a Usenet posting:
+http://groups.google.com/groups?selm=3BADEFA0.83859697%40alum.mit.edu
+
+I have since added a fork function, pfork(), for creating new threads
+on the fly. The reason for bothering with fork() is that it offers a
+way to pass arguments into a starting thread, which is not available
+with the new_thread() function. But there are limitations: this system
+is not clever about pointers that cross frames; function returns are
+handled this way but that's a pretty special case, and you want to
+avoid them in general. Don't write code like this:
+
+int g(int *xaddr, int *yaddr) { ... }
+
+void f()
+{
+  int x, y, z;
+  ....
+  z = g(&x, &y);
+  ....
+}
+
+This creates pointers in one frame that point to locations in another
+frame. As long as you never apply pfork() here, that's OK, but pfork()
+is NOT clever enough to create new frames where the new pointers are
+set up correctly. That turns out to be a harder problem than I'm
+willing to solve right now.

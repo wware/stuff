@@ -1,0 +1,186 @@
+<html>
+<head>
+<script language="javascript">
+var codeBits = new Array();
+
+function getCodeFor(tag) {
+    indent = "";
+    results = new Array();
+    var stack = [ ];
+    code = codeBits[tag];
+    var i = 0;
+    if (code == null) return results;
+    var litprogTag = /<\*[a-zA-Z][a-zA-Z0-9]*\*>/;
+    var lines = code.split("\n");
+    while (true) {
+        var line = lines[i];
+        var match = litprogTag.exec(line);
+        if (i == lines.length - 1) {
+            var n = stack.length;
+            if (n > 0) {
+                indent = stack.pop();
+                i = stack.pop();
+                lines = stack.pop();
+                tag = stack.pop();
+            } else {
+                var area = document.getElementById("codearea");
+                var str = "<pre>";
+                for (j = 0; j < results.length; j++)
+                    str += results[j] + "\n";
+                str += "</pre>";
+                area.innerHTML = str;
+                return;
+            }
+        } else if (match == null) {
+            results[results.length] = indent + lines[i];
+            i++;
+        } else {
+            // push on stack: tag, lines, i, indent
+            stack.push(tag);
+            stack.push(lines);
+            stack.push(i+1);
+            stack.push(indent);
+            // add leading spaces to indent
+            indent = indent + lines[i].substring(0, match.index);
+            // de-reference LP tag to get subroutine code
+            tag = match[0];
+            tag = tag.substring(2, tag.length - 2);
+            code = codeBits[tag]
+            // change i and lines
+            lines = code.split("\n");
+            i = 0;
+        }
+    }
+}
+</script>
+</head>
+
+<body>
+<table border="1">
+<tr>
+<td colspan="2">
+<b><i>What exists today in Mediawiki</i></b><p>
+There is a
+<a href="http://en.literateprograms.org/LiteratePrograms:Welcome">Literate
+Programming wiki</a> already in existence, but the code for it is
+inaccessible, and it appears to be underutilized and unmaintained. I'd
+like to see something that can be applied easily to any Mediawiki
+anywhere.<p>
+
+I think a good starting point is the <a href="">GeSHi</a> Mediawiki
+extension, which does syntax highlighting for a large number of
+programming langauges. Mediawiki extensions are well maintained and
+supported. So ideally I'd like something that can be packaged into a
+single extension, probably a fork of the GeSHi extension.
+</td>
+</tr>
+<tr>
+<td valign="top">
+<b><i>Weaving in Javascript</i></b><p>
+This is a literate programming hack, in roughly the spirit
+of <a href="http://en.wikipedia.org/wiki/Noweb">noweb</a>. The weaving
+process is being done in Javascript. You can see the code by viewing the
+HTML source for this page in your browser. In Firefox, that's in the "View"
+menu at the top.<p>
+
+First we have a main routine into which other code snippets will be
+included. This is code snippet A, indicated by the notation
+"<*A*>=...code...". Two other snippets are being included in it, B and
+C.
+
+<!------- HERE IS THE A PIECE ----------->
+<blockquote>
+<pre>
+<*A*>=
+def main():
+    <*B*>
+    return 4
+
+<*C*>
+</pre>
+<script language="javascript">
+codeBits["A"] =
+"def main():\n" +
+"    <*B*>\n" +
+"    return 4\n" +
+"\n" +
+"<*C*>\n";
+</script>
+</blockquote>
+<!------- END OF THE A PIECE ----------->
+
+What you can't see on the plain HTML page is that there is some
+Javascript associated with this definition of "<*A*>", which puts it
+in a Javascript array. This allows the code to later be weaved
+together, the LP term for putting the B and C parts into the correct
+places in the A part. There could be deeper nestings as well.<p>
+
+In Python, indentation is important, so the Javascript weaving process
+is careful to preserve indentation. When we include the B piece in A,
+the four spaces before the "<*B*>" marker are pre-pended to each line
+in the B piece. That way, any indentation that we used in B will be
+preserved, wherever the B code is used.
+
+<!------- HERE IS THE B PIECE ----------->
+<blockquote>
+<pre>
+<*B*>=
+for i in range(10):
+    print "hello world", foo()
+</pre>
+<script language="javascript">
+codeBits["B"] =
+"for i in range(10):\n" +
+"    print \"hello world\", foo()\n";
+</script>
+</blockquote>
+<!------- END OF THE B PIECE ----------->
+
+Finally, the C piece of code.
+
+<!------- HERE IS THE C PIECE ----------->
+<blockquote>
+<pre>
+<*C*>=
+def foo():
+    return \", goodbye world\"
+</pre>
+<script language="javascript">
+codeBits["C"] =
+"def foo():\n" +
+"    return \", goodbye world\"\n";
+</script>
+</blockquote>
+<!------- END OF THE C PIECE ----------->
+</td>
+
+<td width="40%" valign="top">
+<div id="ui">
+</div>
+
+<div id="codearea">
+</div>
+
+<script language="javascript">
+var area = document.getElementById("ui");
+var str = "Extract code: ";
+for (k in codeBits) {
+    str += "<a href=#" +
+           " onMouseOver=getCodeFor(\"" + k + "\")>" +
+           k + "</a> ";
+}
+area.innerHTML = str;
+</script>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<b><i>Adding this hack to GeSHi</i></b><p>
+To make this work, GeSHi will need to detect code snippets
+(not too hard) and then add bits of Javascript to what it already
+produces.
+</td>
+</tr>
+</table>
+</body>
+</html>

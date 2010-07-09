@@ -1,0 +1,54 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>Does the Canvas Tag work on your browser?</title> </head>
+<body>
+<h1>Does the Canvas Tag work on your browser?</h1>
+<div id="blurb">
+<p>
+Run your mouse over the square below to see pretty colored dots. If
+you don't see a square with colored dots, you don't have a working
+canvas tag, sorry. Use your browser's <b>View Source</b> function to
+see how this works.
+</p>
+</div>
+<p>
+<canvas onmouseover="drawCircles()" onmouseout="eraseEverything()" id="myCanvas" height="300" width="300" style="border: 2px solid ; margin: 30px;"/>
+<p>
+<script type="text/javascript">
+var done = false;
+function twoDigits(x) {
+    x = parseInt(x).toString(16);
+    while (x.length < 2) { x = "0" + x; } return x;
+}
+function drawCircles() {
+    if (!done) {
+        var x = document.getElementById("blurb");
+        x.innerHTML += "<p>Lucky you! Canvas tag appears to work.</p>";
+        done = true;
+    }
+    // eraseEverything();
+    var myCanvas = document.getElementById("myCanvas");
+    var context = myCanvas.getContext("2d");
+    // context.clearRect(0, 0, 300, 300);
+    for (var i = 0; i < 30; i++) {
+        radius = 10;
+        x = 150 + (150 - radius) * (2 * Math.random() - 1);
+        y = 150 + (150 - radius) * (2 * Math.random() - 1);
+        context.beginPath();
+        context.arc(x, y, radius, 0, 2 * Math.PI, false);
+        context.closePath();
+        context.fillStyle = "#" +
+            parseInt(Math.random() * 16).toString(16) +
+            parseInt(Math.random() * 16).toString(16) +
+            parseInt(Math.random() * 16).toString(16);
+        context.fill();
+    }
+}
+function eraseEverything() {
+    var myCanvas = document.getElementById("myCanvas");
+    var context = myCanvas.getContext("2d");
+    context.clearRect(0, 0, 300, 300);
+}
+</script>
+</body></html>

@@ -1,0 +1,214 @@
+AI Playpen
+(c)2000 Will Ware
+
+This is a collection of artificial intelligence widgets. There are
+genetic algorithms, neural nets, and an embeddable stack-based machine
+(kinda like a JVM). The combination of GA and the stack machine allows
+for the evolution of programs rather than just sets of parameters.
+
+
+------- nn: Fast Neural Nets for Python ----------
+
+Not yet documented, see nn.py and neur.c. The C object is a neuron
+model, neurons can be conveniently grouped into layers, and there is
+an object for holding a set of training data. The test example is an
+exclusive-OR function of two input bits.
+
+
+------- ga: Genetic algorithm accelerator for Python ----------
+
+This is a C module for the Python language for fooling with genetic
+algorithms. For information on the Python language, visit the website
+http://www.python.org/doc/ and take a look at the tutorial. In this
+C module, there are two fundamental objects.
+
+All animals, plants, and one-celled beasties have a genetic code, a
+long sequence of chemical units called base pairs. For life on Earth,
+there are four base pairs: guanine, cytosine, adenine, and thymine,
+forming a four-letter code. Your genome is a very long string made up
+entirely of those four letters: ...CGAGAGGAGCATCCTTTCCCACCGT...
+
+Similarly, many interesting problems have solutions which can be
+represented as a sequence of integers in some range. If you had
+infinite time and infinite resources, you could list all the possible
+integer sequences, test each one to determine its quality as a
+solution to your problem, sort all the results, and choose the best
+solution. This is called "exhaustive search" because you are searching
+the entire range of possible solutions.
+
+Frequently exhaustive search is impossible or impractical. In such
+cases, you can't hope to find the single best possible solution, so
+you want an imperfect-but-adequate method to help you find an
+imperfect-but-adequate solution.
+
+Nature faced the same difficulty in designing organisms to occupy
+various niches in the environment. It's not practical to synthesize
+every possible genome and see what organism is produced. Nature hit
+upon evolution as a way to search genome space for viable organisms
+without doing exhaustive search.
+
+
+---------- Implementation -----------------
+
+A chromosome is represented by an object defined using SWIG, an
+interface generator connecting C and Python (see www.swig.org; this
+uses version 1.3a4). The chromosome is a C array of unsigned ints. The
+unsigned ints are in a range from 0 to maxval-1, where maxval is the
+number of bases used. In biological evolution, maxval=4 (C, G, A, T).
+
+A population is a Python list of chromosomes, with a couple of methods
+which apply the methods of the chromosome objects. Central to the
+evolutionary process is the fitness function, which is used to rank
+chromosomes and determine their chances of reproductive success.
+
+You'll want to define a fitness function which accepts a chromosome
+and returns a fitness value, indicating the quality of the chromosome
+as a solution to your problem, or a "fitness" in the Darwinian sense
+of "survival of the fittest". The fitness function should return a
+numerical value, either an integer or a float. To access the values
+within the chromosome, use its list() or tuple() methods.
+
+
+---------- Designing your fitness function --------------
+
+The fitness function is critical to getting good use out of your
+genetic algorithm. It will be executed a very large number of times
+so it should be as efficient as possible.
+
+The fitness function should also provide as gradual a slope as
+possible, in the mapping from chromosomes to utility. It should
+offer incremental rewards for every small step toward the optimal
+solution.
+
+A perfectly bad fitness function would be one that gave a positive
+value for exactly one correct solution, and gave zero for every other
+possible chromosome. The reason that's bad is because evolution needs
+to operate in small steps, each of which provides a small advantage.
+You can't reasonably expect to be so lucky as to simply stumble across
+the perfect solution, unless you're prepared to search the entire
+space of possible chromosomes.
+
+I don't have enough experience with genetic algorithms to make more
+specific recommendations than these. My interest in gaining more
+experience is the reason for writing this module.
+
+If you can afford an exhaustive search of the chromosome space, you
+might as well do it. You'll guarantee yourself a global optimum. A
+genetic algorithm can sometimes become stuck in a local optimum.
+
+
+------- How the chromosomes evolve ----------
+
+The evolution step goes from one generation to the next, in the
+following steps.
+
+First, two chromosomes are chosen at random from the current
+generation. A crossover operation is done on these. That is, a
+section of each is exchanged with the other. So a pair of
+chromosomes like this:
+  a1 a2 a3 a4 a5 a6 a7 a8
+  b1 b2 b3 b4 b5 b6 b7 b8
+might be crossed-over to yield these two chromosomes:
+  a1 a2 a3 a4 a5 b6 b7 b8
+  b1 b2 b3 b4 b5 a6 a7 a8
+
+Second, the new chromosomes are subjected to a low-probability
+point mutation. That means that, given one chance in 200, each
+chromosome has one of its integers changed to a different value
+in the 0..N-1 range.
+
+Third, enough of these new chromosomes are generated to make a
+new population twice the size of the current population, and each
+of them is evaluated for its fitness using the fitness function.
+
+Fourth, the double-sized new population is sorted in order of
+increasing fitness, and the less-fit half is thrown away. The
+more-fit half becomes the new generation.
+
+Lather, rinse, repeat.
+
+
+------------ Examples to add ---------------
+
+NP-complete problems: the traveling salesman problem
+
+The memory leaks have me a little concerned, and I'm thinking
+about putting more stuff in C to try to avoid them. The whole
+population would live in C, just like the stuff I posted to
+alt.sources. So basically it would be a SWIGged clean-up of
+something already on alt.sources.
+
+
+
+
+
+------- iguana: A Fast Stack Machine for Scripting Languages -------
+
+Iguana is a fast stack machine for floating-point arithmetic, callable
+from Python, linked with Swig. For more info on Swig, see
+www.swig.org. I am using version 1.3a4. Iguana offers the inexpensive
+concurrency of microthreads without waiting for Stackless Python to
+become convenient. The Iguana virtual machine also has a substantial
+speed advantage over the Python VM.
+
+The Iguana VM is based on the execution model for the Forth language.
+It uses an argument stack and a subroutine return stack, as well as an
+array of variables and an instruction pointer. You should probably not
+even look at Iguana unless you're conversant with Forth. So I'll assume
+familiarity with Forth from this point forward.
+
+Here's an example Iguana usage. Notice that the compiler for Iguana VM
+is implemented in Python, not Iguana. It's much easier to write and
+maintain it in Python, and implementing it in Iguana would be a pain.
+
+----- begin -------
+import iguana
+M = iguana.Machine()
+factorial = """
+DEFINE FACTORIAL
+    DUP IF
+        DUP 1 SUB FACTORIAL MUL RETURN
+    ENDIF
+    DROP 1 RETURN
+"""
+M.compilestring(factorial)
+M.compilestring("START 70 FACTORIAL PRINT CR STOP")
+x = M.Thread()
+x.run()
+----- end -------
+
+The first string """DEFINE FACTORIAL ... RETURN""" provides the
+definition of a factorial function, coded for Iguana's stack machine.
+The behavior of most of the operators in the definition can be found
+by studying the ops.b file.
+
+Here is how the FACTORIAL function is compiled:
+
+FACTORIAL       0 -30 DUP
+                1 -39 JUMPZ 10
+                3 -30 DUP
+                4 -36 PUSHCONST 1
+                6 -3 SUB
+                7 0 FACTORIAL
+                8 -4 MUL
+                9 -42 RETURN
+                10 -33 DROP
+                11 -36 PUSHCONST 1
+                13 -42 RETURN
+
+A useful thing to look at is the JUMPZ opcode at location 1, and the
+JUMP opcode at location 9. These were compiled by the IF..ELSE..ENDIF
+construction.
+
+Control structures:
+IF..ELSE..ENDIF, BEGIN..UNTIL, BEGIN..WHILE..REPEAT
+DO..LOOP
+BEGIN..UNTIL, BEGIN..WHILE..REPEAT
+
+****** Threads per machine, how threads share the same program
+
+****** Multiple machines with different programs can coexist
+
+****** Give machines an extension hook, write communication stuff
+
+****** START and STOP

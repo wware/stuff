@@ -1,0 +1,86 @@
+I want to get a little more serious about pursuing the mixed-mode
+simulation idea. I tried downloading Amber because the Folding@Home
+guys have good things to say about it, but it's NOT OPEN SOURCE.
+
+So I'm going with Gromacs. First you need to install FFTW, and
+you need to do "./configure --enable-float" to get FFTW to build
+correctly. Then Gromacs will build. It installs into
+/usr/local/gromacs/{bin,include,lib,share}.
+
+You also want to install RasMol, see http://rasmol.org
+Later I decided that VMD was more useful for this stuff.
+
+BTW, the password for using Google Code is NOT the same as my
+Gmail password. Who can remember such things? Oy.
+
+Next we need some Gromacs tutorials.
+http://www.gromacs.org/WIKI-import/Main_Page/Tutorials
+http://manual.gromacs.org/current/online/getting_started.html
+
+Here's info about the little introductory demo that comes with Gromacs.
+http://manual.gromacs.org/current/online/gmxdemo.html
+I was able to use the demo to do a little molecular dynamics run.
+    % cp -R /usr/local/gromacs/share/gromacs/tutor/ grtut
+    % cd grtut/gmxdemo
+    % export PATH=$PATH:/usr/local/gromacs/bin
+    % /bin/csh demo
+
+Trajectory files are large and non-ASCII, hardly a surprise.
+They have a ".trr" suffix. The example they use is a protein
+with 13 amino acids.
+
+=======================================================
+
+I got VMD to animate a trajectory file, thanks to some commentary
+on Tom Moore's blog:
+http://machine-phase.blogspot.com/2009/04/gromacs-basics-running-through-demo.html
+Follow the instructions after "Once you have VMD installed".
+
+===========================================
+
+I downloaded OpenMM, which is a very interesting set of APIs for
+abstracting the hard parts of GPU code. I unpacked the Linux library
+into /usr/local/openmm and then built the Source/src/example stuff,
+and when it was built I typed
+
+    % ./HelloArgon > foo.pdb
+
+which gives a multiple-frame PDB file, and you can then just say:
+
+    % vmd foo.pdb
+
+and you see the animation. Very cool.
+
+It looks like the SimTK/OpenMM guys don't really have their Python
+wrapper all together yet. So I'll need to SWIG something if I want
+to use Python. The OpenMM framework has parts that aren't MD-specific
+so it could be a good entry into SWIGging general-purpose GPU stuff
+which I'd want to do eventually anyway.
+
+=============================================
+
+I've come to realize that in my fevered imagination, I have been commmingling
+two different projects.
+
+One is to bring the old NanoCAD Java app into the 21st century, specifically to
+cast it in something like the cloud computing paradigm that Google talks about.
+This would be done using Javascript and a canvas tag, or using Adobe Flash, or
+possibly using a Python client that talks to a server. The client would display
+atoms and bonds, and handle input events, and do a little bookkeeping, but for
+any serious computation it would ship stuff off to a server, which might use a
+GPU to do molecular dynamics. If you were using it to make a movie of a
+molecule's motions, the server would cook up the movie and then send you email
+when it was ready.
+
+The second idea is the mixed-mode simulation described here:
+http://willware.blogspot.com/2009/06/whole-cell-simulation.html
+and more specifically here:
+http://en.wikipedia.org/wiki/User:WillWare/Mixed-mode_molecular_simulation
+
+The second idea is intellectually the deeper of the two, and the likelier to
+make some positive impact on the quality of human life. In economic terms, it
+makes in-silico experimentation cheaper (at least I hope it will, and by a lot)
+so that a researcher can use that to pre-screen experiments before going into a
+biology lab. Cheaper in-silico experimentation therefore lowers the effective
+cost of real lab experimentation, and the hope is that this hastens the cures
+to big diseases and generally makes the world a better place.

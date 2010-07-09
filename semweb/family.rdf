@@ -1,0 +1,75 @@
+<!-- -*- mode:sgml -*- -->
+<rdf:RDF
+   xmlns="http://willware.net/family.rdf"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:bio="http://purl.org/vocab/bio/0.1/"
+   xmlns:chefmoz="http://chefmoz.org/rdf/elements/1.0/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+  <owl:Ontology
+     rdf:about="http://willware.net/family.rdf"
+     dc:title="Geneological vocabulary"
+     dc:description="A vocabulary for doing geneology, representing relationships in families."
+     dc:date="2003/10/24">
+    <!-- rdfs:seeAlso rdf:resource="http://www.w3.org/2001/08/rdfweb/foaf"/ -->
+    <owl:imports rdf:resource="http://www.w3.org/2000/01/rdf-schema"/>
+    <owl:imports rdf:resource="http://www.w3.org/2002/07/owl"/>
+  </owl:Ontology>
+  
+  <!--
+      Classes and properties:
+      MoveTo (subclass of bio:Event)
+      
+      foaf:Person
+      gender -> literal ("male" or "female")
+      
+      bio:Marriage
+      ended -> bio:Event
+      child -> foaf:Person
+    -->
+  
+  <!-- Classes -->
+  
+  <rdfs:Class
+     rdf:about="http://willware.net/family.rdf/MoveTo"
+     rdfs:comment="An event involving a change of residence.">
+    <rdfs:subClassOf rdf:resource="http://purl.org/vocab/bio/0.1/Event"/>
+    <rdfs:isDefinedBy rdf:resource="http://willware.net/family.rdf"/>
+  </rdfs:Class>
+  
+  <!-- Properties -->
+  
+  <rdf:Property
+     rdf:about="http://willware.net/family.rdf/gender"
+     rdfs:label="gender"
+     rdfs:comment="The gender of a person">
+    <rdfs:isDefinedBy rdf:resource="http://willware.net/family.rdf"/>
+    <rdfs:domain rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <!-- How do we indicate that the range is limited to "male" and "female"?
+	 What about people who get sex change operations, or are born with
+	 both sets of plumbing? -->
+  </rdf:Property>
+  
+  <rdf:Property
+     rdf:about="http://willware.net/family.rdf/ended"
+     rdfs:label="ended"
+     rdfs:comment="The end of a marriage">
+    <rdfs:isDefinedBy rdf:resource="http://willware.net/family.rdf"/>
+    <rdfs:domain rdf:resource="http://purl.org/vocab/bio/0.1/Marriage"/>
+    <rdfs:range rdf:resource="http://purl.org/vocab/bio/0.1/Event"/>
+  </rdf:Property>
+  
+  <rdf:Property
+     rdf:about="http://willware.net/family.rdf/child"
+     rdfs:label="child"
+     rdfs:comment="A child born to a couple or marriage">
+    <rdfs:isDefinedBy rdf:resource="http://willware.net/family.rdf"/>
+    <rdfs:domain rdf:resource="http://purl.org/vocab/bio/0.1/Marriage"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+  </rdf:Property>
+  
+</rdf:RDF>

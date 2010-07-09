@@ -1,0 +1,29 @@
+.TH FTP-TEST 1C LOCAL 
+.SH NAME
+ftp-test \- connect to an ftp server multiple times.
+.SH SYNOPSIS
+.B ftp-test <hostname> [:connections=N] [:wait=pause] 
+.B          [:username=anonymous] [:password=user@hostname]
+.B          [:debug=false]
+.SH DESCRIPTION
+.I ftp-test
+opens multiple connections to the ftp server, logging in with
+the username and password specified. Then waits a given number
+of seconds, or prompts for and reads a line of user input if wait=pause.
+
+.SH EXIT STATUS
+
+connection errors result in a non-zero exit status.
+
+.SH AUTHOR
+gjc@newscorp.com
+
+.SH SEE ALSO
+siod ftp-cp
+
+.SH FILES
+/usr/local/bin/ftp-test
+/usr/local/bin/siod
+/usr/local/lib/libsiod.so
+/usr/local/lib/siod/ss.so
+/usr/local/lib/siod/ftp.scm

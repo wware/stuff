@@ -1,0 +1,37 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+(define (main)
+  (let ((directory (or (larg-default (cdddr *args*) 0)
+		       (error "no directory name specified")))
+	(snapshot-file (larg-default (cdddr *args*) 1)))
+    (require 'find-files.scm)
+    (if (> (verbose) 1)
+	(writes nil
+		"directory = " directory "\n"
+		"snapshot-file = " snapshot-file "\n"))
+    (let ((info (get-directory-snapshot directory)))
+      (cond (snapshot-file
+	     (save-forms snapshot-file info))
+	    ('else
+	     (mapcar (lambda (x)
+		       (writes nil "(")
+		       (print (car x))
+		       (mapcar (lambda (x)
+				 (writes nil " ")
+				 (print x))
+			       (cdr x))
+		       (writes nil ")\n"))
+		     info))))))
+
+
+    
+    
+    
+    
+    
+
+	    
+
+
+
+  

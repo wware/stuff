@@ -1,0 +1,1956 @@
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_Canon'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ManufacturerWarranty_8794691'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#WarrantyPromise'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ManufacturerWarranty_8794691'
+P 'http://purl.org/goodrelations/v1#durationOfWarrantyInMonths'
+O '"12"^^<http://www.w3.org/2001/XMLSchema#int>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ManufacturerWarranty_8794691'
+P 'http://purl.org/goodrelations/v1#hasWarrantyScope'
+O 'http://purl.org/goodrelations/v1#PartsAndLabor-PickUp'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ManufacturerWarranty_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Labor warranty: 1 year limited. Parts warranty: 1 year limited"@en'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0013803096095"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#hasWarrantyPromise'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ManufacturerWarranty_8794691'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#TypeAndQuantityNode_8794691_1'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#Offering_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=8794691&type=product&id=1205537713445&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0013803096095"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_Canon'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"With Auto Optimization and a 14-bit A/D converter, this digital SLR camera is able to capture stunning images at high resolutions. The built-in self-cleaning unit helps rid the sensor of dust and allows you to change lenses (18-55mm lens included) without worry.\\n\\n\\n\\n\\n\\n\\n\\n\\n Learn more about the Canon EOS RebelXSi. (Flash demo)"@en'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Canon EOS Digital Rebel XSi 12.2-Megapixel Digital SLR Camera with Lens - Black Rebel XSi"@en'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/8794/8794691_sc.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/8794/8794691_s.gif'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0013803096095"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#PoSM_8794691'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"8794691"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"With Auto Optimization and a 14-bit A/D converter, this digital SLR camera is able to capture stunning images at high resolutions. The built-in self-cleaning unit helps rid the sensor of dust and allows you to change lenses (18-55mm lens included) without worry.\\n\\n\\n\\n\\n\\n\\n\\n\\n Learn more about the Canon EOS RebelXSi. (Flash demo)"@en'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=8794691&type=product&id=1205537713445&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/8794/8794691_sc.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/8794/8794691_s.gif'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#TypeAndQuantityNode_8794691_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#TypeAndQuantityNode_8794691_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#TypeAndQuantityNode_8794691_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#TypeAndQuantityNode_8794691_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_8794691'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"649.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"649.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/8794691/semanticweb.rdf#UnitPriceSpecification_8794691_2'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_VanguardCinema'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0658769933833"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_2'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#TypeAndQuantityNode_17917499_1'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#Offering_17917499'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17917499&type=product&id=1328714&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0658769933833"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_VanguardCinema'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"The will-o\'-the-wisp black sheep of a North Carolina farming family, Frannie Vaughan (Farrah Fawcett) reacts to the news that her mother has only six months to live in her usual quirky fashion -- she dashes off to parts unknown, intending to return home in exactly six months so that she may be at her mother\'s bedside \\"when the time comes.\\" Imagine her embarrassment when, upon coming back to the farm, Frannie learns that her mother\'s demise occurred three days before schedule,in fact, she is even late for the funeral. When she finds out her embittered sister, Natalie (Ashley Crow), intends to sell the farm, Frannie tries to make up for past misdeeds by earning enough money (200,000 dollars to be exact) to keep the property in the family. That is why the heroine ends up packing underwear in the local silk mill owned by a handsome and unattached chap named Ruben (Brad Johnson). An odd mixture of comedy, pathos, and heavy drama (including the loss of a limb in some faulty factory machinery), the made-for-TV Silk Hope originally aired October 17, 1999, on CBS. ~ Hal Erickson, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Silk Hope - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1791/17917499.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1791/17917499s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0658769933833"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#PoSM_17917499'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"17917499"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"The will-o\'-the-wisp black sheep of a North Carolina farming family, Frannie Vaughan (Farrah Fawcett) reacts to the news that her mother has only six months to live in her usual quirky fashion -- she dashes off to parts unknown, intending to return home in exactly six months so that she may be at her mother\'s bedside \\"when the time comes.\\" Imagine her embarrassment when, upon coming back to the farm, Frannie learns that her mother\'s demise occurred three days before schedule,in fact, she is even late for the funeral. When she finds out her embittered sister, Natalie (Ashley Crow), intends to sell the farm, Frannie tries to make up for past misdeeds by earning enough money (200,000 dollars to be exact) to keep the property in the family. That is why the heroine ends up packing underwear in the local silk mill owned by a handsome and unattached chap named Ruben (Brad Johnson). An odd mixture of comedy, pathos, and heavy drama (including the loss of a limb in some faulty factory machinery), the made-for-TV Silk Hope originally aired October 17, 1999, on CBS. ~ Hal Erickson, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17917499&type=product&id=1328714&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1791/17917499.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1791/17917499s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#TypeAndQuantityNode_17917499_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#TypeAndQuantityNode_17917499_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#TypeAndQuantityNode_17917499_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#TypeAndQuantityNode_17917499_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17917499'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17917499/semanticweb.rdf#UnitPriceSpecification_17917499_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_LittlePimCo'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126262"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_2'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#TypeAndQuantityNode_17411383_1'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#Offering_17411383'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17411383&type=product&id=1925548&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126262"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_LittlePimCo'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Designed specifically for babies, toddlers, and preschoolers to learn English as a second language, this installment of the award-winning Little Pim language series follows panda bear Little Pim throughout English speaking countries, where he learns the words needed to express a variety of common needs and concepts, such as waking up and bedtime. The unique series encourages language development during the pivotal time between six months and five years of age, when the brain is the most receptive to learning new languages and enhancing pre-existing verbal skills. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Little Pim: English/ESL, Vol. 2 - Wake Up Smiling - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411383.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411383s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126262"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#PoSM_17411383'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"17411383"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Designed specifically for babies, toddlers, and preschoolers to learn English as a second language, this installment of the award-winning Little Pim language series follows panda bear Little Pim throughout English speaking countries, where he learns the words needed to express a variety of common needs and concepts, such as waking up and bedtime. The unique series encourages language development during the pivotal time between six months and five years of age, when the brain is the most receptive to learning new languages and enhancing pre-existing verbal skills. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17411383&type=product&id=1925548&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411383.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411383s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#TypeAndQuantityNode_17411383_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#TypeAndQuantityNode_17411383_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#TypeAndQuantityNode_17411383_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#TypeAndQuantityNode_17411383_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411383'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"12.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"12.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411383/semanticweb.rdf#UnitPriceSpecification_17411383_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_20thCenturyFox'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0024543244929"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_2'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#TypeAndQuantityNode_7855172_1'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#Offering_7855172'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=7855172&type=product&id=1540221&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0024543244929"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_20thCenturyFox'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Includes:Doubting Thomas (1935)\\nSteamboat Round the Bend (1935)\\nLife Begins at 40 (1935)\\nIn Old Kentucky (1935)\\n\\nDoubting Thomas \\nDoubting Thomas is the 1935 film version of George Kelly\'s satirical comedy The Torch Bearers, tailored for the talents of Will Rogers. Billie Burke, Will\'s wife, becomes so involved in a local amateur theatre group that she has no time for her husband. In retaliation, Will pretends to \\"go Hollywood,\\" proving that he is stage-struck by doing an extended imitation of Bing Crosby. The film\'s highlight is the \\"opening night\\" scene, a cornucopia of missed cues, inappropriate costumes and collapsing scenery. An earlier, silent version of The Torch Bearers has unfortunately been lost to the ages. ~ Hal Erickson, All Movie Guide\\n\\nSteamboat Round the Bend \\nTwo of America\'s most distinguished humorists, Oklahoma\'s Will Rogers and Kentucky\'s Irvin S. Cobb, costar in Steamboat Round the Bend. Cobb isn\'t much of an actor, so it is Rogers who carries the comic weight of this fast-paced slice of Americana. Will uncharacteristically sticks to the script for most of the proceedings as the proprietor of a combination travelling waxworks and medicine show. The plot resolution hinges on a climactic steamboat race, in which Rogers\' paddlewheeler is fed bit by bit into its own furnace when the fuel supply runs out. Steamboat Round the Bend was released posthumously after Rogers\' sudden death, at which point Fox Studios tried unsuccessfully to create a \\"new\\" Will Rogers--in the form of his old friend and costar Irvin S. Cobb. ~ Hal Erickson, All Movie Guide\\n\\nLife Begins at 40 \\nA best-selling nonfictional book of the 1920s provided the title for this Will Rogers vehicle. Rogers plays a small town newspaper editor who prints all the news that fits his own homespun view of the world. Against the wishes of the town higher-ups, Rogers tries to clear the name of Richard Cromwell, a young man accused of a long-ago bank robbery. Along the way, the genial editor smooths the path of romance between Cromwell and sweet Rochelle Hudson. Life Begins at 40 contains some great bits of dialogue, notably Rogers\' comment after unloading a box of canned goods that the American emblem should be changed from an eagle to a can opener. ~ Hal Erickson, All Movie Guide\\n\\nIn Old Kentucky \\nOklahoma\'s own Will Rogers stars in In Old Kentucky. The storyline is in the grand tradition of most films about the Bluegrass State: There\'s a long-standing family feud, a pair of star-crossed lovers, and a crucial horse race. Rogers cuts through the banality with his seemingly off-the-cuff observations about Kentucky life in particular and the World in general. The best moment of In Old Kentucky has Rogers attempting to escape from jail by putting on blackface makeup and disguising himself as Bill \\"Bojangles\\" Robinson--whereupon he\'s forced to tap-dance to prove his identity. 1935\'s In Old Kentucky was the third film version of Charles T. Dazey\'s 1895 stage play. ~ Hal Erickson, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Will Rogers Collection, Vol. 1 [4 Discs] - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/7855/7855172.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/7855/7855172s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0024543244929"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#PoSM_7855172'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"7855172"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Includes:Doubting Thomas (1935)\\nSteamboat Round the Bend (1935)\\nLife Begins at 40 (1935)\\nIn Old Kentucky (1935)\\n\\nDoubting Thomas \\nDoubting Thomas is the 1935 film version of George Kelly\'s satirical comedy The Torch Bearers, tailored for the talents of Will Rogers. Billie Burke, Will\'s wife, becomes so involved in a local amateur theatre group that she has no time for her husband. In retaliation, Will pretends to \\"go Hollywood,\\" proving that he is stage-struck by doing an extended imitation of Bing Crosby. The film\'s highlight is the \\"opening night\\" scene, a cornucopia of missed cues, inappropriate costumes and collapsing scenery. An earlier, silent version of The Torch Bearers has unfortunately been lost to the ages. ~ Hal Erickson, All Movie Guide\\n\\nSteamboat Round the Bend \\nTwo of America\'s most distinguished humorists, Oklahoma\'s Will Rogers and Kentucky\'s Irvin S. Cobb, costar in Steamboat Round the Bend. Cobb isn\'t much of an actor, so it is Rogers who carries the comic weight of this fast-paced slice of Americana. Will uncharacteristically sticks to the script for most of the proceedings as the proprietor of a combination travelling waxworks and medicine show. The plot resolution hinges on a climactic steamboat race, in which Rogers\' paddlewheeler is fed bit by bit into its own furnace when the fuel supply runs out. Steamboat Round the Bend was released posthumously after Rogers\' sudden death, at which point Fox Studios tried unsuccessfully to create a \\"new\\" Will Rogers--in the form of his old friend and costar Irvin S. Cobb. ~ Hal Erickson, All Movie Guide\\n\\nLife Begins at 40 \\nA best-selling nonfictional book of the 1920s provided the title for this Will Rogers vehicle. Rogers plays a small town newspaper editor who prints all the news that fits his own homespun view of the world. Against the wishes of the town higher-ups, Rogers tries to clear the name of Richard Cromwell, a young man accused of a long-ago bank robbery. Along the way, the genial editor smooths the path of romance between Cromwell and sweet Rochelle Hudson. Life Begins at 40 contains some great bits of dialogue, notably Rogers\' comment after unloading a box of canned goods that the American emblem should be changed from an eagle to a can opener. ~ Hal Erickson, All Movie Guide\\n\\nIn Old Kentucky \\nOklahoma\'s own Will Rogers stars in In Old Kentucky. The storyline is in the grand tradition of most films about the Bluegrass State: There\'s a long-standing family feud, a pair of star-crossed lovers, and a crucial horse race. Rogers cuts through the banality with his seemingly off-the-cuff observations about Kentucky life in particular and the World in general. The best moment of In Old Kentucky has Rogers attempting to escape from jail by putting on blackface makeup and disguising himself as Bill \\"Bojangles\\" Robinson--whereupon he\'s forced to tap-dance to prove his identity. 1935\'s In Old Kentucky was the third film version of Charles T. Dazey\'s 1895 stage play. ~ Hal Erickson, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=7855172&type=product&id=1540221&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/7855/7855172.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/7855/7855172s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#TypeAndQuantityNode_7855172_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#TypeAndQuantityNode_7855172_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#TypeAndQuantityNode_7855172_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#TypeAndQuantityNode_7855172_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7855172'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"59.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"59.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7855172/semanticweb.rdf#UnitPriceSpecification_7855172_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_NewLineHomeVideo'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0794043100246"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_2'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#TypeAndQuantityNode_7610962_1'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#Offering_7610962'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=7610962&type=product&id=1394956&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0794043100246"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_NewLineHomeVideo'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Directed by Danny Leiner, Harold and Kumar Go to White Castle follows the life-changing (and mind-altering) journey of Korean-American investment banker Harold (John Cho) and Indian-American medical-school candidate Kumar (Kal Penn). Both underdogs, Harold and Kumar decide to spend what would have been an otherwise uneventful Friday night satisfying an oddly intense urge for White Castle hamburgers. However, finding a White Castle proves a highly difficult task, and the two friends wind up on an epic road trip of deep thoughts, deeper inhaling, and enough half-baked, politically incorrect philosophizing to outweigh a White Castle value meal. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Harold and Kumar Go to White Castle - UMD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/nonsku/default_movies_l.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/nonsku/default_movies_s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0794043100246"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#PoSM_7610962'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"7610962"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Directed by Danny Leiner, Harold and Kumar Go to White Castle follows the life-changing (and mind-altering) journey of Korean-American investment banker Harold (John Cho) and Indian-American medical-school candidate Kumar (Kal Penn). Both underdogs, Harold and Kumar decide to spend what would have been an otherwise uneventful Friday night satisfying an oddly intense urge for White Castle hamburgers. However, finding a White Castle proves a highly difficult task, and the two friends wind up on an epic road trip of deep thoughts, deeper inhaling, and enough half-baked, politically incorrect philosophizing to outweigh a White Castle value meal. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=7610962&type=product&id=1394956&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/nonsku/default_movies_l.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/nonsku/default_movies_s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#TypeAndQuantityNode_7610962_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#TypeAndQuantityNode_7610962_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#TypeAndQuantityNode_7610962_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#TypeAndQuantityNode_7610962_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_7610962'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"17.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"17.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/7610962/semanticweb.rdf#UnitPriceSpecification_7610962_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0747313586028"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#TypeAndQuantityNode_5998254_1'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#Offering_5998254'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=5998254&type=product&id=1637871&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Passio Domini Nostri Jesu Christi Secundum Joannem by Part / Macdonald / Anderson / Peregrinus / Pitts"@en'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Passio Domini Nostri Jesu Christi Secundum Joannem"@en'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/en_US/images/musicmoviegame/music/features/5998254.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/en_US/images/musicmoviegame/music/features/5998254s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0747313586028"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#PoSM_5998254'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"5998254"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Passio Domini Nostri Jesu Christi Secundum Joannem by Part / Macdonald / Anderson / Peregrinus / Pitts"@en'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=5998254&type=product&id=1637871&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/en_US/images/musicmoviegame/music/features/5998254.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/en_US/images/musicmoviegame/music/features/5998254s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#TypeAndQuantityNode_5998254_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#TypeAndQuantityNode_5998254_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#TypeAndQuantityNode_5998254_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_5998254'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"9.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"9.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/5998254/semanticweb.rdf#UnitPriceSpecification_5998254_2'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_AlphaVideo'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0089218961693"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_2'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#TypeAndQuantityNode_17620479_1'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#Offering_17620479'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17620479&type=product&id=1948508&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0089218961693"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_AlphaVideo'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Includes:Shadows (1922)\\nThe Hunchback of Notre Dame (1923)\\nThe Shock (1923)\\nThe Phantom of the Opera (1925)\\n\\nShadows \\nWhen it reviewed this simple little drama, the trade paper The Film Daily remarked (rather awkwardly), \\"Ben Schulberg has never achieved a reputation previously for desiring a place among the artistic producers, but...Shadows is one of the most artistically made pictures.\\" Art was definitely not one of B.P. Schulberg\'s fortes but every now and again he\'d produce something with true creative merit. Lon Chaney\'s fine performance as the Chinaman Yen Sin certainly enhanced this picture. Yen Sin is washed up onto the shore of a fishing village inhabited by God-fearing white people. He runs a laundry out of a houseboat, but because of his race and religion he suffers a lot of prejudice from the townsfolk. Then John Malden, a young minister (Harrison Ford, also turning in a stunning performance), comes to town and converts Yen Sin to Christianity. Malden wins Sympathy Gibbs (Marguerite De La Motte), a young widow whose cruel husband has been lost at sea. but after they marry he receives a mysterious note that is ostensibly from Sympathy\'s lost husband. The man blackmails Malden, who loses his church and home. Yen Sin, however, knows that the man who is tormenting Malden is actually deacon Nate Snow (John Sainpolis), who is bitter because he wanted Sympathy. Yen Sin waits until the appropriate moment, then exposes Snow to the whole village. Afterwards the Chinaman cuts the ropes tying his houseboat to the pier and sails off to his death. ~ Janiss Garza, All Movie Guide\\n\\nThe Hunchback of Notre Dame \\nThis second film version of the Victor Hugo novel Notre Dame de Paris (the first was a Theda Bara vehicle, The Dancer of Paris) was a super-duper-spectacular as only Hollywood of the 1920s could make them, but it is never so large that it dwarfs the contribution of its star, Lon Chaney. As the hunchbacked bellringer Quasimodo, Chaney adorned himself with a special device that made his cheeks jut out grotesquely; a contact lens that blanked out one of his eyes; and, most painfully, a huge rubber hump covered with coarse animal fur and weighing anywhere from 30 to 50 pounds. While Quasimodo is but one of many interconnecting characters in the original Hugo novel, he dominates the narrative of this expensive Universal production. Set in the walled city of Paris in the 16th century, the story is set in motion when the evil Jehan (Brandon Hurst), brother of saintly Notre Dame archdeacon Dom Claude (Nigel De Brulier), orders the dog-like Quasimodo to attempt to kidnap gypsy girl Esmeralda (Patsy Ruth Miller). Quasimodo is captured and flogged for his crime, whereupon Esmeralda shows him kindness by offering him water. He reciprocates when Esmeralda, framed on a murder charge by the obsessed Jehan (if he can\'t have her, no one can), is sentenced to be hanged. Quasimodo grabs a rope and swings down from the towers of Notre Dame, rescues Esmeralda from the gallows, and carries her into the church, shouting \\"Sanctuary! Sanctuary!\\" Through a series of convoluted plot twists, Clopin (Ernest Torrence), the king of beggars, leads an army of the Parisian poor to storm the gates of the cathedral and reclaim Esmeralda. Quasimodo defends both the girl and his church by tossing heavy objects and pouring molten lead upon the invaders. This climactic scene was filmed at night, requiring the services of literally every arc light in Hollywood. The Notre Dame set (which wasn\'t quite as large in real life as it seems on screen) remained standing on the Universal back lot for years after this film was completed, doing background service in the 1925 Lon Chaney starrer The Phantom of the Opera. With Hunchback of Notre Dame, Lon Chaney rose from mere leading player to major star, which led him to even greater success at MGM, where his reputation as \\"the man of a thousand faces\\" really got a workout. The story would be remade by in 1939 with Charles Laughton, in 1955 with Anthony Quinn, in 1982 with Anthony Hopkins, and again in 1996 as a sanitized Disney animated musical. ~ Hal Erickson, All Movie Guide\\n\\nThe Shock \\nThis tale of a crook\'s reform takes place in the San Francisco of the early 1900s. Predictably, Lon Chaney plays a crook and a misshapen cripple (the type of role almost expected of him at this point in his career). Anne Vincent, better known as \\"Queen Anne\\" (Christine Mayo), sends Wilse Dilling (Chaney) to a small town to keep an eye on Mischa Hadley (William Welsh), an embezzling banker who is her lover. Dilling falls in love with Hadley\'s daughter, Gertrude (Virginia Valli), and blows up the bank\'s safe to destroy incriminating records. The blast, however, leaves Gertrude a cripple, and Dilling uses his savings to restore her to health. Queen Anne, whose greed knows no end, has told Hadley that he will either give her more money or give her his daughter. Ultimately, she has Gertrude kidnapped and taken to a Chinese den. Dilling rescues her and she helps in his regeneration. The 1906 San Francisco earthquake shakes everything up, and Dilling\'s reform is complete. ~ Janiss Garza, All Movie Guide\\n\\nThe Phantom of the Opera \\nLon Chaney stars as Erik, the Phantom, in what is probably his most famous and certainly his most horrifying role. Produced by Universal, the film shot in 1923 and shelved for nearly two years, and was subjected to intensive studio tinkering. While many expected a disaster, the film turned out to be a rousing success. It was both the stepping off point for Chaney\'s run as a superstar at MGM and the prototype for the horror film cycle at Universal in the 1930s. The story concerns Erik, a much-feared fiend who haunts the Paris Opera House. Lurking around the damp, dank passages deep in the cellars of the theater, he secretly coaches understudy Christine Daae (Mary Philbin) to be an opera star. Through a startling sequence of terrors, including sending a giant chandelier crashing down on the opera patrons, the Phantom forces the lead soprano to withdraw from the opera, permitting Christine to step in. Luring Christine into his subterranean lair below the opera house, the Phantom confesses his love. But Christine is in love with Raoul de Chagny (Norman Kerry). The Phantom demands that Christine break off her relationship with Raoul before he\'ll allow her to return to the opera house stage. She agrees, but immediately upon her release from the Phantom\'s lair, she runs into the arms of Raoul and they plan to flee to England after her performance that night. The Phantom overhears their conversation and, during her performance, the Phantom kidnaps Christine, taking her to the depths of his dungeon. It is left to Raoul and Simon Buquet (Gibson Gowland), a secret service agent, to track down the Phantom and rescue Christine. ~ Paul Brenner, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Phantom of the Opera/The Hunchback of Notre Dame/Shadows/The Shock [4 Discs] - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1762/17620479.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1762/17620479s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0089218961693"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#PoSM_17620479'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"17620479"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Includes:Shadows (1922)\\nThe Hunchback of Notre Dame (1923)\\nThe Shock (1923)\\nThe Phantom of the Opera (1925)\\n\\nShadows \\nWhen it reviewed this simple little drama, the trade paper The Film Daily remarked (rather awkwardly), \\"Ben Schulberg has never achieved a reputation previously for desiring a place among the artistic producers, but...Shadows is one of the most artistically made pictures.\\" Art was definitely not one of B.P. Schulberg\'s fortes but every now and again he\'d produce something with true creative merit. Lon Chaney\'s fine performance as the Chinaman Yen Sin certainly enhanced this picture. Yen Sin is washed up onto the shore of a fishing village inhabited by God-fearing white people. He runs a laundry out of a houseboat, but because of his race and religion he suffers a lot of prejudice from the townsfolk. Then John Malden, a young minister (Harrison Ford, also turning in a stunning performance), comes to town and converts Yen Sin to Christianity. Malden wins Sympathy Gibbs (Marguerite De La Motte), a young widow whose cruel husband has been lost at sea. but after they marry he receives a mysterious note that is ostensibly from Sympathy\'s lost husband. The man blackmails Malden, who loses his church and home. Yen Sin, however, knows that the man who is tormenting Malden is actually deacon Nate Snow (John Sainpolis), who is bitter because he wanted Sympathy. Yen Sin waits until the appropriate moment, then exposes Snow to the whole village. Afterwards the Chinaman cuts the ropes tying his houseboat to the pier and sails off to his death. ~ Janiss Garza, All Movie Guide\\n\\nThe Hunchback of Notre Dame \\nThis second film version of the Victor Hugo novel Notre Dame de Paris (the first was a Theda Bara vehicle, The Dancer of Paris) was a super-duper-spectacular as only Hollywood of the 1920s could make them, but it is never so large that it dwarfs the contribution of its star, Lon Chaney. As the hunchbacked bellringer Quasimodo, Chaney adorned himself with a special device that made his cheeks jut out grotesquely; a contact lens that blanked out one of his eyes; and, most painfully, a huge rubber hump covered with coarse animal fur and weighing anywhere from 30 to 50 pounds. While Quasimodo is but one of many interconnecting characters in the original Hugo novel, he dominates the narrative of this expensive Universal production. Set in the walled city of Paris in the 16th century, the story is set in motion when the evil Jehan (Brandon Hurst), brother of saintly Notre Dame archdeacon Dom Claude (Nigel De Brulier), orders the dog-like Quasimodo to attempt to kidnap gypsy girl Esmeralda (Patsy Ruth Miller). Quasimodo is captured and flogged for his crime, whereupon Esmeralda shows him kindness by offering him water. He reciprocates when Esmeralda, framed on a murder charge by the obsessed Jehan (if he can\'t have her, no one can), is sentenced to be hanged. Quasimodo grabs a rope and swings down from the towers of Notre Dame, rescues Esmeralda from the gallows, and carries her into the church, shouting \\"Sanctuary! Sanctuary!\\" Through a series of convoluted plot twists, Clopin (Ernest Torrence), the king of beggars, leads an army of the Parisian poor to storm the gates of the cathedral and reclaim Esmeralda. Quasimodo defends both the girl and his church by tossing heavy objects and pouring molten lead upon the invaders. This climactic scene was filmed at night, requiring the services of literally every arc light in Hollywood. The Notre Dame set (which wasn\'t quite as large in real life as it seems on screen) remained standing on the Universal back lot for years after this film was completed, doing background service in the 1925 Lon Chaney starrer The Phantom of the Opera. With Hunchback of Notre Dame, Lon Chaney rose from mere leading player to major star, which led him to even greater success at MGM, where his reputation as \\"the man of a thousand faces\\" really got a workout. The story would be remade by in 1939 with Charles Laughton, in 1955 with Anthony Quinn, in 1982 with Anthony Hopkins, and again in 1996 as a sanitized Disney animated musical. ~ Hal Erickson, All Movie Guide\\n\\nThe Shock \\nThis tale of a crook\'s reform takes place in the San Francisco of the early 1900s. Predictably, Lon Chaney plays a crook and a misshapen cripple (the type of role almost expected of him at this point in his career). Anne Vincent, better known as \\"Queen Anne\\" (Christine Mayo), sends Wilse Dilling (Chaney) to a small town to keep an eye on Mischa Hadley (William Welsh), an embezzling banker who is her lover. Dilling falls in love with Hadley\'s daughter, Gertrude (Virginia Valli), and blows up the bank\'s safe to destroy incriminating records. The blast, however, leaves Gertrude a cripple, and Dilling uses his savings to restore her to health. Queen Anne, whose greed knows no end, has told Hadley that he will either give her more money or give her his daughter. Ultimately, she has Gertrude kidnapped and taken to a Chinese den. Dilling rescues her and she helps in his regeneration. The 1906 San Francisco earthquake shakes everything up, and Dilling\'s reform is complete. ~ Janiss Garza, All Movie Guide\\n\\nThe Phantom of the Opera \\nLon Chaney stars as Erik, the Phantom, in what is probably his most famous and certainly his most horrifying role. Produced by Universal, the film shot in 1923 and shelved for nearly two years, and was subjected to intensive studio tinkering. While many expected a disaster, the film turned out to be a rousing success. It was both the stepping off point for Chaney\'s run as a superstar at MGM and the prototype for the horror film cycle at Universal in the 1930s. The story concerns Erik, a much-feared fiend who haunts the Paris Opera House. Lurking around the damp, dank passages deep in the cellars of the theater, he secretly coaches understudy Christine Daae (Mary Philbin) to be an opera star. Through a startling sequence of terrors, including sending a giant chandelier crashing down on the opera patrons, the Phantom forces the lead soprano to withdraw from the opera, permitting Christine to step in. Luring Christine into his subterranean lair below the opera house, the Phantom confesses his love. But Christine is in love with Raoul de Chagny (Norman Kerry). The Phantom demands that Christine break off her relationship with Raoul before he\'ll allow her to return to the opera house stage. She agrees, but immediately upon her release from the Phantom\'s lair, she runs into the arms of Raoul and they plan to flee to England after her performance that night. The Phantom overhears their conversation and, during her performance, the Phantom kidnaps Christine, taking her to the depths of his dungeon. It is left to Raoul and Simon Buquet (Gibson Gowland), a secret service agent, to track down the Phantom and rescue Christine. ~ Paul Brenner, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17620479&type=product&id=1948508&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1762/17620479.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1762/17620479s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#TypeAndQuantityNode_17620479_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#TypeAndQuantityNode_17620479_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#TypeAndQuantityNode_17620479_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#TypeAndQuantityNode_17620479_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17620479'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17620479/semanticweb.rdf#UnitPriceSpecification_17620479_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_DuckdownRecords'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0693461200692"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_2'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#TypeAndQuantityNode_6622425_1'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#Offering_6622425'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=6622425&type=product&id=1358988&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0693461200692"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_DuckdownRecords'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"One of Brooklyn\'s finest underground rap crews, Black Moon, offer a look inside its music and the lives of its group members, both at home and on the road, in this home video. Black Moon: Behind the Moon features group members Buckshot, 5FT, and Evil Dee giving a tour of their neighborhood, working in their home studio, visiting radio stations during a promotional tour for the album Total Eclipse, and sharing the stage with the likes of Sean Price, Starang Wondah, and Cocoa Brovaz during their furious live show. ~ Mark Deming, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Black Moon: Behind the Moon - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/6622/6622425.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/6622/6622425s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0693461200692"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#PoSM_6622425'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"6622425"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"One of Brooklyn\'s finest underground rap crews, Black Moon, offer a look inside its music and the lives of its group members, both at home and on the road, in this home video. Black Moon: Behind the Moon features group members Buckshot, 5FT, and Evil Dee giving a tour of their neighborhood, working in their home studio, visiting radio stations during a promotional tour for the album Total Eclipse, and sharing the stage with the likes of Sean Price, Starang Wondah, and Cocoa Brovaz during their furious live show. ~ Mark Deming, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=6622425&type=product&id=1358988&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/6622/6622425.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/6622/6622425s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#TypeAndQuantityNode_6622425_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#TypeAndQuantityNode_6622425_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#TypeAndQuantityNode_6622425_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#TypeAndQuantityNode_6622425_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_6622425'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"14.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/6622425/semanticweb.rdf#UnitPriceSpecification_6622425_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#BusinessEntity_BestBuy'
+P 'http://purl.org/goodrelations/v1#offers'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+
+S 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_LittlePimCo'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#BusinessEntity'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://www.w3.org/2002/07/owl#Ontology'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"RDF/XML product data for Best Buy Co., Inc., based on http://purl.org/goodrelations/"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf'
+P 'http://www.w3.org/2002/07/owl#imports'
+O 'http://purl.org/goodrelations/v1'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#Offering'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#AmericanExpress'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Cash'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#Discover'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#MasterCard'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#acceptedPaymentMethods'
+O 'http://purl.org/goodrelations/v1#VISA'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModeMail'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#DeliveryModePickUp'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#availableDeliveryMethods'
+O 'http://purl.org/goodrelations/v1#UPS'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Enduser'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#PublicInstitution'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#eligibleCustomerTypes'
+O 'http://purl.org/goodrelations/v1#Reseller'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#eligibleRegions'
+O '"US"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#hasBusinessFunction'
+O 'http://purl.org/goodrelations/v1#Sell'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126330"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#hasPriceSpecification'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_2'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://purl.org/goodrelations/v1#includesObject'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#TypeAndQuantityNode_17411374_1'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#Offering_17411374'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17411374&type=product&id=1925547&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServiceModel'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126330"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://purl.org/goodrelations/v1#hasManufacturer'
+O 'http://products.semweb.bestbuy.com/company.rdf#Manufacturer_LittlePimCo'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Designed specifically for babies, toddlers, and preschoolers to learn English as a second language, this installment of the award-winning Little Pim language series follows panda bear Little Pim throughout English speaking countries, where he learns over 60 phrases commonly heard during mealtime. The unique series encourages language development during the pivotal time between six months and five years of age, when the brain is the most receptive to learning new languages and enhancing pre-existing verbal skills. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://www.w3.org/2000/01/rdf-schema#label'
+O '"Little Pim: English/ESL, Vol. 1 - Eating and Drinking - DVD"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411374.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411374s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#ProductOrServicesSomeInstancesPlaceholder'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://purl.org/goodrelations/v1#hasEAN_UCC-13'
+O '"0949229126330"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://purl.org/goodrelations/v1#hasMakeAndModel'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#PoSM_17411374'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://purl.org/goodrelations/v1#hasStockKeepingUnit'
+O '"17411374"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://www.w3.org/2000/01/rdf-schema#comment'
+O '"Designed specifically for babies, toddlers, and preschoolers to learn English as a second language, this installment of the award-winning Little Pim language series follows panda bear Little Pim throughout English speaking countries, where he learns over 60 phrases commonly heard during mealtime. The unique series encourages language development during the pivotal time between six months and five years of age, when the brain is the most receptive to learning new languages and enhancing pre-existing verbal skills. ~ Tracie Cooper, All Movie Guide"@en'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://www.w3.org/2000/01/rdf-schema#seeAlso'
+O 'http://www.bestbuy.com/site/olspage.jsp?skuId=17411374&type=product&id=1925547&cmp=RMX&ky=1whYTIhnZ0ydleik4tkW4Z7Fn1kPFrBgb'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://xmlns.com/foaf/0.1/depiction'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411374.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+P 'http://xmlns.com/foaf/0.1/thumbnail'
+O 'http://images.bestbuy.com/BestBuy_US/images/products/1741/17411374s.jpg'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#TypeAndQuantityNode_17411374_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#TypeAndQuantityNode'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#TypeAndQuantityNode_17411374_1'
+P 'http://purl.org/goodrelations/v1#amountOfThisGood'
+O '"1.0"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#TypeAndQuantityNode_17411374_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#TypeAndQuantityNode_17411374_1'
+P 'http://purl.org/goodrelations/v1#typeOfGood'
+O 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#ProductOrServicesSomeInstancesPlaceholder_17411374'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"12.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://purl.org/goodrelations/v1#priceType'
+O '"SRP"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_1'
+P 'http://purl.org/goodrelations/v1#valueAddedTaxIncluded'
+O '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_2'
+P 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+O 'http://purl.org/goodrelations/v1#UnitPriceSpecification'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_2'
+P 'http://purl.org/goodrelations/v1#hasCurrency'
+O '"USD"^^<http://www.w3.org/2001/XMLSchema#string>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_2'
+P 'http://purl.org/goodrelations/v1#hasCurrencyValue'
+O '"12.99"^^<http://www.w3.org/2001/XMLSchema#float>'
+
+S 'http://products.semweb.bestbuy.com/products/17411374/semanticweb.rdf#UnitPriceSpecification_17411374_2'
+P 'http://purl.org/goodrelations/v1#hasUnitOfMeasurement'
+O '"C62"^^<http://www.w3.org/2001/XMLSchema#string>'
+

@@ -1,0 +1,41 @@
+.TH FTP-CP 1C LOCAL 
+.SH NAME
+ftp-cp \- copy files from from one place to another using passive mode ftp
+.SH SYNOPSIS
+.B ftp-cp host1 host2 script [:debug=true]
+.SH DESCRIPTION
+.I ftp-cp
+Loads the script file and then establishes ftp control connections
+to the servers at host1 and host2. The values of environment variables
+hostX_USER and hostX_PASS are used to log in to the ftp servers, or 
+the interactive user is prompted for input as required.
+
+The script file is loaded as lisp-format data, containing expressions
+that indicate file transfers, or that evaluate to a list of
+file transfer specifications, for example:
+
+.EX
+("filename1" -> "filename2")
+("filename1" <- "filename2")
+(mapcar (lambda (x)
+          (list (string-append "/home/gjc/ftp/" x)
+                '->
+                (string-append "/usr/users/gjc/ftp/" x)))
+        '(data.1 data.2 data.3))
+.EE
+
+.SH EXIT STATUS
+
+Errors result in a non-zero exit status.
+
+.SH AUTHOR
+gjc@world.std.com
+
+.SH SEE ALSO
+siod
+
+.SH FILES
+/usr/local/bin/ftp-cp
+/usr/local/bin/siod
+/usr/local/lib/libsiod.so
+/usr/local/lib/siod/ss.so

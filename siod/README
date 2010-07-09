@@ -1,0 +1,65 @@
+I am tinkering with this and with FreeRTOS (see www.freertos.org)
+because I have this collection of hobbyist ambitions. One is to tinker
+with something like a Lisp machine, a machine wherein Lisp appears at
+a very low level. Another is to set up a microcontroller board to be
+programmed with a language that's easier and safer than C. Another is
+to establish myself as a quasi-expert regarding something that
+somebody might pay me to work on, but is nevertheless fun to do, and I
+harbor the fantasy that people may still be trying to make money
+selling gadgets with microcontrollers in them, and therefore want to
+program them. I think an RTOS under a Lisp/Scheme system would be cool.
+I could also be convinced that it should be Java running over an RTOS,
+but that requires a bigger board.
+
+So my target board for this stuff is a SAM7 board from Sparkfun,
+probably this one:
+http://www.sparkfun.com/commerce/product_info.php?products_id=774
+
+It has 64K of RAM, USB connections, an SD card slot, a JTAG connector
+for easy programming, some prototyping space, all in all a very useful
+looking and affordable board.
+
+===================
+
+Building binutils 2.20 and GCC 4.3.2 for ARM, binutils first
+
+    ./configure --prefix=/usr/local --target=arm-elf
+    make
+    # ouch, warnings treated as errors
+    vi gas/config/tc-arm.c   # add curly braces to line 2489
+    make
+    sudo make install
+
+GCC needs to be built in a separate directory from its sources
+
+    sudo yum groupinstall "Legacy Software Development"
+    sudo yum install gmp-devel mpfr-devel
+    mkdir ../build-gcc
+    cd ../build-gcc
+    ../gcc-4.3.2/configure --prefix=/usr/local --target=arm-elf
+    make    # this is likely to take quite a while
+    # OOPS: http://gcc.gnu.org/ml/gcc/2008-03/msg00611.html
+
+===================
+
+This is version 3.2 of Siod, Scheme In One Defun.
+
+It is a small implementation of the Scheme programming language
+with some database, unix programming and cgi scripting extensions.
+The runtime footprint of the basic system is fairly small, with
+the libsiod shared library linking to about 70kbytes of code on a
+VAX using the standard DEC compilers for VMS. Results on other processor
+architectures should scale accordingly.
+
+George Carrette, June 16, 1996. gjc@world.std.com
+
+The standard distribution contains unix manual pages in source
+and text (txt) formats. A number of command files are provided that
+invoke the interpreter to perform useful and/or exemplary tasks.
+Support files and extensions 
+
+Building: 
+
+  unix .... the makefile has different targets for common
+            operating system variants, and has been tested on all systems
+            included in file.

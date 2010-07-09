@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    
+    <title>Molecule viewer and animator</title>
+    
+    <style type="text/css">
+      td#sponsor { background-color: #cfc; padding: 0.5em; }
+      ul#tabs li { display: inline; }
+      ul#tabs li a { color: #444; background-color: #ddd; border: 3px solid #aaa;
+                     padding: 0.1em; text-decoration: none; }
+      ul#tabs li a:hover { background-color: #cfe; }
+      ul#tabs li a.selected { color: #000; background-color: #cf8;
+                              font-weight: bold; border: solid #000; }
+      div.tabContent { border: 3px solid #48c; padding: 0.3em; background-color: #bef; }
+      div.tabContent.hide { display: none; }
+    </style>
+    <script language="javascript" src="nc.js">
+    </script>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  </head>
+  <body onload="init()" bgcolor="#eff">
+
+    <ul id="tabs" halign="left">
+      <li><a href="#about">About</a></li>
+      <li><a href="#view">View</a></li>
+      <li><a href="#library">Library</a></li>
+      <li><a href="#simulate">Simulate</a></li>
+      <li><a href="#help">Help</a></li>
+    </ul>
+
+    <div class="tabContent" id="about">
+      <table>
+	<tr>
+	  <td valign="top">
+	    <h1>Molecule viewer and animator</h1>
+	    <p>Uses Javascript and canvas tag, molecular dynamics will
+	      run
+	      on <a href="https://simtk.org/home/openmm">OpenMM</a> on
+	      a GPU-enhanced server at my house.</p>
+	    <p>This is version XXXXX. The
+	      author gratefully acknowledges...</p>
+	    <p>This software is dual-licensed. It may be used
+	      non-commercially under
+	      a <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative
+	      Commons BY-NC license</a>. Commercial users will need to
+	      contact me directly to discuss terms.
+	    </p>
+	    <p>Users can sign in and get additional services, like
+	      downloable MPEG movies when they do an animation</p>
+	    <table>
+	      <tr>
+		<td>Username</td>
+		<td><input type="text" id="username"</td>
+	      </tr>
+	      <tr>
+		<td>Password</td>
+		<td><input type="password" id="password"</td>
+	      </tr>
+	      <tr>
+		<td>
+		  <button id="login">Log in</button>
+		</td>
+		<td>
+		  <button id="signup">Sign up</button>
+		</td>
+	      </tr>
+	    </table>
+	  </td>
+	  <td valign="top" id="sponsor">
+	    <p><b>Sponsorship as a possible revenue source?</b></p>
+	    <p><!--img width="227" height="350" align="right"
+	    src="http://www.rcsb.org/pdb/education_discussion/molecule_of_the_month/images/1fo4_composite.jpg"/-->Thanks
+	    to <a href="http://www.rcsb.org/pdb/home/home.do">RCSB
+	    Protein Data Bank</a> for their generous support. (Not a
+	    real sponsor, just tinkering with the idea...)</p>
+	  </td>
+	</tr>
+      </table>
+    </div>
+
+    <div class="tabContent" id="help">
+      <p>Tutorials, instructional videos, maybe a wiki somewhere,
+      etc...</p>
+      <hr>
+      <div id="jslog">
+	Log output:
+      </div>
+    </div>
+
+    <div class="tabContent" id="library">
+      <p>Hydrocarbons, proteins, the user's favorite molecules, other
+      stuff...</p>
+      <p>This is (or will be) a molecule viewer with molecular
+	dynamics (done in the cloud) for minimization and simulation.
+	You can import structures from a library or cut and paste a
+	structure into a pop-up text window.</p>
+      <p>I'm not sure whether it should allow you to build structures
+	in the GUI, the way NanoCAD did. I guess it would pretty lame
+	if it didn't.</p>
+    </div>
+
+    <div class="tabContent" id="view">
+      <table>
+	<tr>
+	  <td>Drag with mouse to rotate.</td>
+	  <td><button id="propane">Propane</button></td>
+	  <td><button id="peptide">Peptide</button></td>
+	</tr>
+      </table>
+      <br>
+      <canvas
+	 id="canvas"
+	 height="480" width="640"
+	 bgcolor="gray"
+	 style="border: 2px solid; margin: 10px;"/>
+    </div>
+
+    <div class="tabContent" id="simulate">
+      <p>Do a simulation run, which the user can view as an
+      animation</p>
+      <p>Do energy minimization to find the minimal-energy
+      arrangement of atoms in a molecule.</p>
+      <p>Think about parameters, e.g. step size, temperature, etc</p>
+      <p>If users sign in, they can download an MPEG of their
+      simulation run.</p>
+      <p><b><i>TODO:</i></b> Set
+      up <a href="https://simtk.org/home/openmm">OpenMM</a> running on
+      a server at the house</p>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<rdf:RDF
+  xmlns="http://willware.net/wares.rdf/"
+  xmlns:family="http://willware.net/family.rdf/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:bio="http://purl.org/vocab/bio/0.1/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:wn="http://xmlns.com/wordnet/1.6/"
+  xmlns:chefmoz="http://chefmoz.org/rdf/elements/1.0/"
+  xmlns:air="http://www.daml.org/2001/10/html/airport-ont#"
+  xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+
+<foaf:Person rdf:nodeID="Will">
+	<foaf:name>Will Ware</foaf:name>
+	<family:gender>male</family:gender>
+	<foaf:mbox rdf:resource="mailto:wware@alum.mit.edu"/>
+	<foaf:homepage rdf:resource="http://willware.net/"/>
+	<!-- foaf:dateOfBirth>1959-02-25</foaf:dateOfBirth -->
+	<bio:olb>Author of this stuff</bio:olb>
+	<bio:event>
+		<bio:Birth rdf:nodeID="willsBirth">
+			<bio:date>1959-02-25</bio:date>
+			<bio:place>New Haven, CT</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="willSueMarriage">
+			<bio:date>2001-10-27</bio:date>
+			<bio:place>Newton, MA (42.3322, -71.1937)</bio:place>
+			<family:ended rdf:nodeID="sueDied"/>
+		</bio:Marriage>
+	</bio:event>
+	<contact:nearestAirport>
+		<wn:Airport rdf:nodeID="loganAirport" air:icaoCode="KBOS" air:iataCode="BOS"/>
+	</contact:nearestAirport>
+	<foaf:plan>Clueless, therefore planless.</foaf:plan>
+	<foaf:knows rdf:nodeID="Rich"/>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Sue">
+	<foaf:name>Sue Bauter</foaf:name>
+	<family:gender>female</family:gender>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1949-03-27</bio:date>
+			<bio:place>Joliet, IL</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="willSueMarriage"/>
+	</bio:event>
+	<bio:event>
+		<bio:Death rdf:nodeID="sueDied">
+			<bio:date>2003-09-22</bio:date>
+			<bio:place>Orlando, FL</bio:place>
+		</bio:Death>
+	</bio:event>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Rich">
+	<foaf:name>Rich Ware</foaf:name>
+	<family:gender>male</family:gender>
+	<foaf:mbox rdf:resource="mailto:rware@alum.mit.edu"/>
+	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1957-05-18</bio:date>
+			<bio:place>Manhattan, NY</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="richMarianWedding">
+			<bio:place>Amherst, MA</bio:place>
+			<family:child rdf:nodeID="Paul"/>
+			<family:child rdf:nodeID="Alice"/>
+		</bio:Marriage>
+	</bio:event>
+	<contact:nearestAirport>
+		<wn:Airport rdf:nodeID="loganAirport"/>
+	</contact:nearestAirport>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Marian">
+	<foaf:name>Marian Ware</foaf:name>
+	<family:gender>female</family:gender>
+	<foaf:knows rdf:nodeID="Rich"/>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="richMarianWedding"/>
+	</bio:event>
+	<contact:nearestAirport>
+		<wn:Airport rdf:nodeID="loganAirport"/>
+	</contact:nearestAirport>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Bob">
+	<foaf:name>Bob Ware III</foaf:name>
+	<family:gender>male</family:gender>
+	<foaf:mbox rdf:resource="mailto:bobindayton@gmail.com"/>
+	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1966-05-07</bio:date>
+			<bio:place>New Haven, CT</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="bobAnjaWedding">
+			<family:child rdf:nodeID="Benjamin"/>
+			<family:child rdf:nodeID="Elena"/>
+		</bio:Marriage>
+	</bio:event>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Anja">
+	<foaf:name>Anja Wittig Ware</foaf:name>
+	<family:gender>female</family:gender>
+	<foaf:knows rdf:nodeID="Rich"/>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="bobAnjaWedding"/>
+	</bio:event>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Benjamin">
+	<foaf:name>Benjamin Moritz Ware</foaf:name>
+	<family:gender>male</family:gender>
+	<foaf:knows rdf:nodeID="Bob"/>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Elena">
+	<foaf:name>Elena Ware</foaf:name>
+	<family:gender>female</family:gender>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Paul">
+	<foaf:name>Paul Ware</foaf:name>
+	<family:gender>male</family:gender>
+	<contact:nearestAirport>
+		<wn:Airport rdf:nodeID="loganAirport"/>
+	</contact:nearestAirport>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Alice">
+	<foaf:name>Alice Ware</foaf:name>
+	<family:gender>female</family:gender>
+</foaf:Person>
+
+<bio:Marriage rdf:nodeID="BobLoisMarriage">
+	<bio:date>1957-01-01</bio:date>
+	<bio:place>Boston, MA</bio:place>
+	<family:child rdf:nodeID="Will"/>
+	<family:child rdf:nodeID="Rich"/>
+	<family:child rdf:nodeID="Bob"/>
+	<family:child rdf:nodeID="Martha"/>
+</bio:Marriage>
+
+<foaf:Person rdf:nodeID="willsDad">
+	<foaf:name>Bob Ware Jr.</foaf:name>
+	<family:gender>male</family:gender>
+	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1926-06-02</bio:date>
+			<bio:place>Kansas City, MO</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Death rdf:nodeID="dadDied">
+			<bio:date>2009-01-23</bio:date>
+			<bio:place>Boston, MA</bio:place>
+		</bio:Death>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="BobLoisMarriage" />
+	</bio:event>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="willsMom">
+	<foaf:name>Lois Ware</foaf:name>
+	<family:gender>female</family:gender>
+	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1932-06-27</bio:date>
+			<bio:place>Northampton, MA</bio:place>
+		</bio:Birth>
+	</bio:event>
+	<bio:event>
+		<bio:Marriage rdf:nodeID="BobLoisMarriage"/>
+	</bio:event>
+</foaf:Person>
+
+</rdf:RDF>

@@ -1,0 +1,94 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; name:     ftp-test
+;; purpose:  create test conditions for monitoring of an ftp service. 
+;; usage:    ftp-test <hostname> [:connections=N] [:wait=pause]
+;;                    [:username=anonymous] [:password=user@hostname]
+;;                    [:debug=false]
+;;
+;;
+;; This just makes a given number of connections,
+;; then waits a number of seconds, or prompts for user input
+;; if wait is specified as the string pause.
+;; No actual transfers are done.
+;;
+;; $Id: ftp-test,v 1.1 1996/06/18 21:07:21 gjc Exp $
+
+(require'ftp.scm)
+
+(define (main)
+  (let ((host (or (larg-default (cdddr *args*) 0)
+		  (error "No remote host specified")))
+	(nconn (string->number (lkey-default (cdddr *args*)
+					     'connections "1")))
+	(wait (lkey-default (cdddr *args*) 'wait "1"))
+	(debug (lkey-default (cdddr *args*) 'debug "false")))
+    (cond ((equal? debug "true")
+	   (set! *ftp-debug* t))
+	  ((equal? debug "false")
+	   (set! *ftp-debug* nil))
+	  ('else
+	   (error "invalid debug value" debug)))
+    (putenv (string-append (ftp-fixhostname host)
+			 "_USER="
+			 (lkey-default (cdddr *args*)
+				       'username
+				       "anonymous")))
+    (putenv (string-append (ftp-fixhostname host)
+			   "_PASS="
+			   (lkey-default (cdddr *args*)
+					 'password
+					 (string-append (getenv "USER")
+							"@"
+							(gethostname)))))
+    (if (> (ftp-test host
+		     nconn
+		     (cond ((equal? wait "pause")
+			    'pause)
+			   ('else
+			    (string->number wait))))
+	   0)
+	(error "Some connections failed"))))
+
+(define (ftp-test host nconn waitvalue)
+  (let ((j 0)
+	(conn-array (cons-array nconn))
+	(nfailed 0)
+	(status nil))
+    (define (setconn v) (aset conn-array j v))
+    (while (< j nconn)
+      (set! status (*catch 'errobj (ftp-setup host setconn)))
+      (cond ((and (pair? status) (string? (car status)))
+	     (set! nfailed (+ 1 nfailed))
+	     (print (cdr status))))
+      (set! j (+ 1 j))
+      (writes nil ".")
+      (fflush)
+      (if (= 0 (fmod j 50)) (writes nil
+				    " "
+				    (number->string j 10 4)
+				    "\n")))
+    (writes nil "\n")
+    (cond ((eq? waitvalue 'pause)
+	   (writes nil
+		   "Pausing for operator input, to continue type <RETURN>: ")
+	   (fflush)
+	   (readline))
+	  ('else
+	   (writes nil "Sleeping for " waitvalue " seconds...")
+	   (fflush)
+	   (sleep waitvalue)
+	   (writes nil "\n")))
+    (writes nil "Closing connections.\n")
+    (set! j 0)
+    (while (< j nconn)
+      (*catch 'errobj (ftp-teardown (aref conn-array j) setconn))
+      (set! j (+ 1 j))
+      (writes nil ".")
+      (fflush)
+      (if (= 0 (fmod j 50)) (writes nil
+				    " "
+				    (number->string j 10 4)
+				    "\n")))
+    (writes nil "\nDone.\n")
+    nfailed))

@@ -1,0 +1,279 @@
+Eurascal, an open-source Eurisko clone
+
+We don't know a lot about Eurisko. There are intriguing stories,
+particularly the story about the naval competition where it triumphed
+repeatedly over experienced human players. But its details, and in
+particular its source code, are lost to posterity. At least until
+Lenat decides to share them...
+
+We do know how Eurisko worked in broad strokes. We know that it worked
+with heuristics, or little theories about how some part of the world
+worked. We know that these were scored for predictive power or
+utility. We know that this scoring was at least partially performed by
+other heuristics, which provided opportunities for spontaneous
+conspiracies allowing some heuristics to gain an unfair advantage over
+others, to the detriment of the program's overall performance.
+
+The ideas comprising Eurisko, and the benefits they might offer in
+various areas of human endeavor, are too interesting to be left in
+Lenat's file cabinet forever. These ideas should be re-developed in an
+open source context where everyone may benefit from them. This is the
+intention of the Eurascal project.
+
+===================
+
+One piece of it is a deduction engine, which I have been prototyping
+in Python. This needs a lot of work, but basically it deals in
+statements which are Lisp-like structures of symbols. Some symbols are
+verbs, others are nouns. Nouns can be variables (like "x") or common
+nouns (like "man") or proper nouns (like "Socrates"). The idea with
+variables is that you can plug common or proper nouns in them, so they
+can be used to construct general statements (like "all men are
+mortal", rendered as "(implies (is-a x man) (is-a x mortal))".
+
+Concrete statements should have no variables and at least one proper
+noun. Abstract statements no proper nouns and at least one variable.
+Principles of logic have only verbs and variables, and those verbs
+should be logical stuff like "not" and "and" and "implies".
+
+One thing I don't have in the deduction engine yet is a detector for
+paradoxes. The system should do something if it ever sees "x" and
+"(not x)" in its collection of putatively true statements. If it
+arrives at a conclusion directly contradicting a previous conclusion,
+it should have some way to backtrack both, and see if it can find an
+error. So statements should have some kind of paper trail or history
+for that backtracking.
+
+When Eurascal is proposing hypotheses, I'm not sure if they need to be
+concrete statements. Certainly a lot of theories will be concrete
+statements.
+
+My point in saying that is that I don't think Eurascal should
+regularly bother with developing basic principles of logic when it's
+working on some project that isn't specifically about logic. The
+principles of logic should be nailed down unless you've chosen
+specifically to work on them.
+
+The next thing will be to do some statistical aspects of machine
+learning. My thought for that is to write tests where you generate
+multidimensional data with statistical properties, and the statistical
+shape of this data includes some interesting logic, and Eurascal needs
+to be able to discover all that. When Lenat did Eurisko, the work
+hadn't yet been done on statistical data mining that has been done
+today, and there wasn't generally much interest in the topic at that
+time, but today it makes sense.
+
+http://en.wikipedia.org/wiki/Data_mining
+http://en.wikipedia.org/wiki/Multifactor_dimensionality_reduction
+http://en.wikipedia.org/wiki/Cluster_analysis
+http://en.wikipedia.org/wiki/Statistical_classification
+http://en.wikipedia.org/wiki/Hidden_Markov_model
+http://en.wikipedia.org/wiki/Bayesian_inference
+http://en.wikipedia.org/wiki/Maximum_likelihood
+
+http://en.wikipedia.org/wiki/Eurisko
+http://en.wikipedia.org/wiki/Heuristic_algorithm
+http://en.wikipedia.org/wiki/Category:Heuristics
+http://en.wikipedia.org/wiki/Category:Knowledge_engineering
+http://en.wikipedia.org/wiki/Semantic_reasoner
+http://jena.sourceforge.net/ --- maybe Eurascal should extend or
+connect to Jena rather than building a brand spanking new inference
+engine??
+
+So a person using Eurascal to study a large body of data could then
+pull out structural information buried in the data, which would be
+really handy.
+
+Write Eurascal as a software library, in Python or Scheme or Java. The
+user works with it by writing and running Python or Scheme programs
+that make calls into the library. Start by writing a user's manual for
+that library. In fact, start by writing a textbook on the topics
+above, with software examples included, which call into the library.
+Then write the library itself last.
+
+It looks to me like the data mining piece is a substantial work on its
+own, largely separate from the Eurisko clone. If I can use Jena for
+logic, why can't I use something else for data mining?
+
+Can I take the Eurisko piece and do the same thing? Where I would
+write a tutorial or user's manual for a software library, and then
+write the library later. I think that ought to be feasible, and it
+ought to help me shape the thing in the way I want it, completing
+software tests for it along the way.
+
+Once the libraries are written and tested and well-worn, it will
+become obvious what to do next. I'll know whether I should put some
+monolithic GUI around the whole thing, or leave them as libraries, or
+provide a small suite of standard main programs.
+
+Meanwhile the thing can become a platform on which to define
+machine-readable XML-ish hypothesis and experiment language. So it can
+support the distributed ML science project, which needs its own name,
+and is much more important. Because it might help to win the
+Methuselah Mouse Prize, and extend my lifespan by decades.
+
+====================================
+
+Assuming you want some piece of this thing to process large amounts of
+data, as is discussed in the JPL paper, you need to think about how
+you'll get that data into the program. You also want to think about
+how the program can be distributed over a large number of processors,
+ala MPI or NAMD, but that's a much bigger messier question. For now
+I'm content to envision that we have video frames arriving (maybe, to
+keep life simple, we accept only each tenth video frame) and we want
+to apply some kind of filter to each one. And we want these filters to
+rank themselves according to some figure of merit, just as Eurisko
+hypotheses are ranked according to some figure of merit. So maybe
+after each filter has done its work, and the ranking work is all done,
+we accept the next available video frame, thereby avoiding getting
+swamped.
+
+Here's an API for accepting video. You have a little piece of glue
+code between the video source and yourself, and you tell the glue
+piece "I am now ready to accept a video frame" and it calls a
+callback, providing a void pointer and a length. The real video source
+has no idea that you're ignoring frames. It calls into the glue code
+every time a frame is available. It will probably use two or four
+ping-pong buffers.
+
+I don't find this interesting, but it's probably a quick piece of code
+and it would make the thing useful to more people.
+
+==================================
+
+The upshot of the email conversation with Eric D, Josh and Damian
+appears to be that an autonomous scientific process is unlikely to go
+anywhere interesting. That accords with my own intuition -- I can see
+how to perform deductions, mine data, play genetic algorithm games
+with hypotheses, and formulate a hypothesis as a very literal
+prediction of an experimental outcome. Data mining can give you
+generalizations, but it can't give you the kind of story-telling that
+we use in formulating theories. If it were pure story-telling, then
+Roger Schank's work would apply, or the CYRUS program developed in his
+group at Yale. But scientific theories are stories plus physical
+intuition, plus analogies (ala Hofstadter), plus ineffable intuitive
+leaps.
+
+So the best thing is to leave the theorizing to the human, and let the
+machine do what the machine does well.
+
+    After I wrote the stuff above, a very interesting thing appeared
+    in the news, which I blogged about: http://bit.ly/14k2DM
+
+    Researchers in England have connected a computer to some lab
+    robotics and developed a system that was able to generate new
+    scientific hypotheses about yeast metabolism, and then design and
+    perform experiments to confirm the hypotheses.
+
+    This really is a big deal. It vindicates the whole Eurascal
+    premise.
+
+How does that fit with my initial intention, to get machine science to
+vastly outpace human science, so that a machine could win the
+Methuselah Mouse Prize, thereby granting me immortality? Do I still
+get my immortality, with humans in the loop?
+
+Let's imagine that we have infrastructure that supports scientific
+theorizing such that theorizing becomes much easier and much more
+widely available. Anybody can become a weekend theorist in any of
+hundreds of fields of science. The infrastructure gives them access to
+vast amounts of experimental data, and data mining methods to pull
+patterns out of that data. Anybody with or without a college education
+can play this game, and there are websites where people swap theories.
+You can post a prediction to the website and the server there will
+match the prediction against a huge body of experimental data.
+
+With that infrastructure in place, and all the APIs made public and
+documented well, there will be people who script increasingly larger
+pieces of the work, so the gradual transition to a more thoroughly
+machine-based scientific process will happen incrementally. Meanwhile
+humans will still get to decide priorities.
+
+=============================================
+
+Maxima (previously Macsyma) is a nice example where a program helps a
+person to deal with large cumbersome chunks of data that have
+well-defined structures and operators. Here are some ideas inspired by
+Macsyma/Maxima:
+
+    * Macsyma for scientific hypotheses - machine representation of
+      hypotheses, with common operators invokable from the command
+      line
+    * Same thing for data mining
+    * How is this any different from the researcher command-line tool
+      described above?
+
+Here is Orange, a data mining and machine-learning library with a
+Python binding: http://www.ailab.si/orange/
+
+There is more Python binding stuff for Orange at
+http://www.stat.columbia.edu/~jakulin/orng/ but I think it would be
+smart to study Orange itself first.
+
+It looks like many data mining people (the ones working in Python
+anyway) consider it sensible to skip straight to the math libraries
+like SciPy and ignore pre-packaged solutions like Orange.
+
+So it appears that the whole idea with data mining is to take a mess
+of data and find various kinds of structure in it. An obvious thing is
+clusterings of points in some metric space. One could ask the
+question, if I were an alien transmitting binary data toward Earth,
+what patterns might I put in it? Data with actual noise in it, like
+digitizations of audio or video or sensor data or radio spectrum,
+would not be a big component.
+
+Suppose you had a complicated structure, something like Wikipedia, or
+like a MIDI file representing a Brandenburg Concerto. Suppose it were
+being studied by an alien who knew nothing about ASCII or human
+language or music or culture. You'll have several levels of
+organization, each level hopefully making the next level accessible.
+For the low level stuff, you can do these statistical data mining
+operations, but what do you do for the next level up? Markov models to
+pull out grammars or harmonic structures? How do you differentiate
+real grammar from statistically generated travesties? You really need
+a linguist, and you need to be cognizant of clues and hints from the
+context. If you're learning a language with no explicit instruction,
+you need to watch the behavior of the speakers to see which words
+correlate with which actions and intentions.
+ 
+==============================================
+ 
+I have been reading Smullyan's book "First Order Logic". It's written
+as a math text, which I don't mind, but it wastes vast ink on
+notational minutiae and stupid methods (like "analytical tableaux")
+which I do. Were I to write a FOL text, I'd want to cover the same
+general ideas, including theorems and conclusions, but rather than a
+math text I'd want it to be a typical software tutorial with
+incidental instruction. Mathematical rigor would be replaced by unit
+tests.
+
+The big difference between propositional logic and first-order logic
+is that the former works only with specific logical variables, and the
+latter allows for generalization ("for all" and "there exists").
+
+============================================
+
+I read the Blondie24 book, wherein two guys use genetic algorithms to
+create neural nets that rate game boards for checkers, and base game
+play on choosing the available move with the highest rating. They set
+up a big tournament where these candidates all played one another, and
+were allowed to reproduce based on their success. After 250
+generations of evolution, they got a neural net that could competently
+challenge very high-level checkers players.
+
+The author (one of the two guys) claims that this is a big advance
+over traditional AI, because at no point does anybody put in huge
+amounts of human knowledge about checkers. That's true, and that's
+valuable, but there are a couple of issues. One is that neural nets
+are inscrutable; you can't figure out how they do their reasoning, and
+they can't explain themselves. Another is that the product of the
+genetic algorithm is fixed and constant, and doesn't learn from
+further experience, ruling out the possibility that it might develop
+competence in any other area, or deal capably with a change in the
+rules of checkers.
+
+======================================
+
+Orange has a Python API. CWM is all written in Python. There is a
+boatload of AI Python code at http://code.google.com/p/aima-python/
+Hmm, it doesn't seem to work so well.

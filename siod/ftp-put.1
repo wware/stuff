@@ -1,0 +1,30 @@
+.TH FTP-PUT 1C LOCAL 
+.SH NAME
+ftp-put \- copy files from local host to remote using passive mode ftp
+.SH SYNOPSIS
+.B ftp-put LocalFilename RemoteHost [RemoteFilename] [:debug=true] [:buff=2048]
+.SH DESCRIPTION
+.I ftp-put
+Opens a connection to the ftp server on the RemoteHost, and puts
+the LocalFilename to a temporary filename constructed from the RemoteFilename.
+When the data transfer is complete a RENAME operation is issued. Therefore
+the RemoteFilename appears atomically. This is very important when uploading
+files to an area from which other ftp and http processes are actively 
+serving.
+
+.SH EXIT STATUS
+
+Errors result in a non-zero exit status.
+
+.SH AUTHOR
+gjc@newscorp.com
+
+.SH SEE ALSO
+siod ftp-cp
+
+.SH FILES
+/usr/local/bin/ftp-put
+/usr/local/bin/siod
+/usr/local/lib/libsiod.so
+/usr/local/lib/siod/ss.so
+/usr/local/lib/siod/ftp.scm

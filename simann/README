@@ -1,0 +1,30 @@
+This is a series of experiments with a simulated annealing algorithm I
+came up with while at Polaroid. It's actually based on a slight
+misunderstanding of the "real" algorithm, which does a random walk
+through the search space. But luckily it improves on the "real"
+algorithm, because at the early high temperatures, it doesn't just
+walk among immediate neighbors, performing evaluations at each step.
+At high temps it makes big random jumps around the search space, doing
+evaluations only at the landing sites. As the temperature drops, the
+expected jump distance shrinks.
+
+In order for this to work, the fitness function needs to have fairly
+gentle slopes, so that energy minima have wide neighborhoods of
+gradually lower energy around them. That way, the hints we get from
+those big early jumps will guide us to the neihborhoods of good minima
+where we can zero in on later shorter jumps.
+
+There should be lots of interesting problems to which this can be
+applied. It does well when searching for minima in R^2 or R^3, I'll
+need to try significantly higher dimensional search spaces. How does
+it do in R^256 or R^1024?
+
+It should be applicable to design problems of the sort that John
+Koza's invention machine used to do. Maybe I should set myself a
+series of physical design challenges and try to get some patents out
+of it. Maybe bridge designs or building designs or car designs.
+
+You also need a good physics simulator, but those are plentiful these
+days. I was wondering, how do you use GPUs with this algorithm? Now
+it occurs to me that the expensive part of any design process will
+be the physical simulation, and GPUs will be perfect for that.

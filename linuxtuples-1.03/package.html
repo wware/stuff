@@ -1,0 +1,484 @@
+
+LinuxTuples is an open-source tuple space server, with associated code
+for writing clients, designed to run on a networked cluster of Red Hat
+Linux 8.0 boxes with x86 processors. The tuple space is maintained and
+served from one machine on the the network. Tuple space is an elegant
+and intuitive message-passing scheme to coordinate parallel
+computations.
+
+<h3>QUICK START GUIDE</h3>
+
+You've already unpacked the tarball, so type "make". That will build
+the executables tuple_server, tuple_client, and fft, and the shared
+object library linuxtuples.so.<p>
+
+Start the tuple server by typing "./tuple_server 25000" on one
+machine. On my cluster, that machine is "desktop", and 25000 is the
+port number for the tuple space service. On all the machines in your
+cluster, set these environment variables:<p>
+
+<pre>
+export LINUXTUPLES_HOST=desktop
+export LINUXTUPLES_PORT=25000
+</pre>
+
+Tuple space is a database of persistent tuples. Imagine a library,
+where people can put in a book, get a book to take away, or read a
+book without removing it so that others can still read it.<p>
+
+Because it's quick and painless to whip up tuple clients in Python,
+and because Python is easy to read and understand, the first wave of
+examples will be in Python. Later we'll look at C clients. The first
+example Python code will print a dump of all the tuples in the tuple
+space.
+
+<pre>
+	[wware@desktop linuxtuples]$ python
+	Python 2.2.1 (#1, Aug 30 2002, 12:15:30)
+	[GCC 3.2 20020822 (Red Hat Linux Rawhide 3.2-4)] on linux2
+	Type "help", "copyright", "credits" or "license" for more
+	information.
+	>>> import linuxtuples
+	>>> conn = linuxtuples.connect()
+	>>> conn.dump()
+	[]
+</pre>
+
+That empty list means that the tuple server has no tuples yet. When we
+write "linuxtuples.connect()", we are making a client connection to
+the tuple server. The connection is a Python object with the following
+methods:<p>
+
+<pre>
+	conn.put(tuple)
+		puts a tuple into the tuple space
+
+	conn.get(template)
+		gets a tuple from the tuple space, which must match
+		the template, where None values are wildcards; blocks
+		until a matching tuple is found
+
+	conn.read(template)
+		reads a tuple from tuple space without removing it,
+		blocks until a matching tuple is found
+
+	conn.get_nonblocking(template)
+		non-blocking version of get(), returns None if no
+		matching tuple is found
+
+	conn.read_nonblocking(template)
+		non-blocking version of read(), returns None if no
+		matching tuple is found
+
+	conn.dump()
+		return the contents of the tuple space; if given a
+		list of templates, return only those tuples that
+		match at least one template
+
+	conn.count()
+		return the number of tuples in the tuple space; if
+		given a list of templates, return only the count of
+		those tuples that match at least one template
+
+	conn.log()
+		print a running log of tuple server activity to
+		stdout; use this in a "while 1:" loop
+</pre>
+
+An alternate syntax for the linuxtuples.connect function allows you to
+specify the host and port number explicitly, rather than taking them
+from the environment variables LINUXTUPLES_HOST and LINUXTUPLES_PORT.
+
+<pre>
+	>>> import linuxtuples
+	>>> host = "desktop"
+	>>> port = 20000
+	>>> conn = linuxtuples.connect(host, port)
+	>>> conn.put((123, 3.1416, "abc"))
+	>>> conn.dump()
+	[(123, 3.1416, "abc")]
+	>>> conn.count()
+	1
+</pre>
+
+Now we'll set up a client that performs some computational work. On
+another machine, go into Python and type the following.
+
+<pre>
+import linuxtuples
+conn = linuxtuples.connect()   # use args here, or env. variables
+while 1:
+	# Handle requests to perform square roots
+	request = conn.get(("sqrt", None))
+	x = request[1]
+	conn.put(("sqrt done", x, x ** .5))
+</pre>
+
+This will set up a worker task that performs square roots. Open up
+another Python interpreter, on the same machine or another on the
+network, and exercise the square root worker task with this squart
+root client.
+
+<pre>
+import linuxtuples
+conn = linuxtuples.connect()
+conn.put(("sqrt", 5.0))
+conn.put(("sqrt", 6.0))
+conn.put(("sqrt", 7.0))
+print conn.get(("sqrt done", 5.0, None))
+print conn.get(("sqrt done", 6.0, None))
+print conn.get(("sqrt done", 7.0, None))
+</pre>
+
+Here is what's going on.<p>
+
+(1) The worker task opens a connection to the tuple server and asks
+for a tuple that matches ("sqrt", None), that is, a tuple whose first
+element is "sqrt" and whose second element is unspecified. The worker
+waits until such a tuple becomes available.<p>
+
+(2) The client task opens a connection and puts the tuple ("sqrt",
+5.0). This matches the worker's request, so the worker removes it from
+the tuple space and assigns it as the value of the "request" variable.
+The worker then assigns x to 5.0 and puts the tuple ("sqrt done", 5.0,
+2.23606) in the tuple space.<p>
+
+(3) The same client-worker dance happens with the 6.0 and 7.0 tuples.<p>
+
+(4) The client does a series of get operations, picking up the result
+tuples created by the worker, removing them from the space and
+printing them.<p>
+
+You can watch all this activity in amazingly gory detail with the
+following Python code:
+
+<pre>
+import linuxtuples
+conn = linuxtuples.connect()
+while 1:
+	conn.log()
+</pre>
+
+
+<h3>Maintaining your Cluster</h3>
+
+We don't want to do a lot of baby-sitting of individual computers in
+the cluster. In the ideal case we should do something simple to get
+them started, and then do all our work on one machine in such a way
+that subtasks are automatically picked up by the other machines. It
+would also be nice to do this in a way that gives reasonably even
+load-balancing, where each machine gets roughly the same amount of
+work.<p>
+
+Gelernter's solution to this was to invent a tuple operation called
+"eval" which spawned worker tasks elsewhere in the system. That
+approach strikes me as somewhat inelegant; and as described, it does
+not address the problem of getting the software out to the other
+machines.<p>
+
+I will assume that you'll use NFS to make executables available to all
+machines, and that all machines will find them at the same directory.
+I do something very simple on my cluster; I use NFS to map /home/wware
+on one machine to all the /home/wware mount points on all the slave
+machines, so that all the paths in my home directory are identical on
+all machines.<p>
+
+(Note to self: It would be much better to use ssh and scp rather than
+NFS. If you tarball the .ssh directory from one machine and clone it
+on all the other machines, they all ssh to each other very happily.
+The firewall setup for NFS is a bit complicated and it makes each
+machine insecure.)<p>
+
+You can control jobs from a single computer using the jobcontrol.py
+script. The various commands look like this.
+
+<pre>
+jobcontrol.py log -- show a continuous running log of tuple
+                     server activity
+jobcontrol.py dump -- display the current contents of tuple
+                      space; tuple elements truncated for
+                      brevity when longer than 20 characters
+
+jobcontrol.py size -- tell how many tuples are in tuple space
+jobcontrol.py jobs -- tell what jobs are currently running on
+                      the various machines in the cluster
+jobcontrol.py empty -- empty all tuples from tuple space
+jobcontrol.py start <program> <N> -- start N instances of a
+                     program distributed around the cluster
+jobcontrol.py stop -- stop all programs distributed around
+                      the cluster
+jobcontrol.py test -- run some tests to verify that the tuple
+                      server is alive
+</pre>
+
+You'll need to edit the 'slaves' list in jobcontrol.py, which is
+currently set up for my cluster.
+
+
+
+
+
+<h3>Thinking In Parallel</h3>
+
+Many worker tasks will take the same general form as the square root
+worker above:
+
+<pre>
+	while 1:
+		get a request
+		do a bunch of work
+		put the result
+</pre>
+
+Square-rooting one floating-point number is too trivial a task to make
+this worthwhile. The overhead for network communication overwhelmingly
+outweighs any performance benefits from parallelism. Operations like
+large matrix multiplies or inverses, or large FFTs, are worth doing.
+In those cases, shipping tuples around takes a lot less time than the
+actual work.<p>
+
+Suppose you have a bunch of workers all waiting for requests. The
+efficient way to use them is to send out several requests at the same
+time, and then collect the results. If you wait for the N-th result
+before sending out the (N+1)-th request, you aren't taking any
+advantage of parallelism.<p>
+
+When we put a request out into tuple space, there may be many other
+requests of the same sort floating around, so we want to make sure we
+get back the right result. We want to put a unique mark on the request
+that we can use to identify the correct result.<p>
+
+There are two ways to do this. One is to use the input data in the
+request as a field to be matched by the result. This is what we did
+with ("sqrt", 5.0) and ("sqrt done", 5.0, 2.23606).<p>
+
+The other approach is to generate a few random numbers and use them to
+key both the request and the result. Using three 32-bit numbers should
+make it extremely unlikely that two different results will have the
+same numbers, and be mistaken for one another. Four 32-bit numbers is
+even safer.<p>
+
+It's generally preferable to use the input data as a key, if the input
+data doesn't take up too many bytes. If it's much more than a few
+dozen bytes, use some random integers instead. This will conserve
+network bandwidth, as well as memory on the server.<p>
+
+There are a few operations that appear in the popular MPI
+message-passing system that are obviously useful, and for these I
+would like to present tuple-space equivalent operations. One idea in
+MPI is that of a "barrier", a point in the code where different
+programs wait for one another until all have reached that point. Then
+they proceed with the rest of their computation.<p>
+
+MPI assumes a computational model where all the computers in the
+cluster are running the same program, so it's meaningful to talk about
+them arriving all at the same point in the source code. There is no
+fundamental requirement in a tuple system that all programs would have
+the same source code, but the notion of synchronization is still a
+possibility.<p>
+
+One program will initiate the synchronization by putting a starting
+tuple. This program needs to know how many programs are trying to
+synchronize. Let's suppose it's three programs. The initial tuple
+would then be ("synchronize", 3). The first element would need to be
+unique enough to avoid collisions with other groups of programs that
+might also want to synchronize, but that's another problem.<p>
+
+Each of the first three programs (which might include the initiator)
+runs a piece of code like this.
+
+<pre>
+	str, count = conn.get(("synchronize", None))
+	count = count - 1
+	conn.put((str, count))
+	conn.read((str, 0))
+</pre>
+
+As each program arrives in the "waiting area", it announces its
+presence by decrementing the count of the synchronization tuple. All
+the programs wait for the count to reach zero before moving on. The
+initiating program should clean up the tuple space by getting the
+("synchronize", 0) tuple. If it's left behind, it may cause confusion
+with a future attempt to synchronize.<p>
+
+In MPI, there's a handy operation called "broadcast" which gets a
+bunch of programs to agree on a value. This might be done, for
+instance, to communicate the value of C's argv[] array from one master
+task to several slave tasks. An example of the broadcast function's
+usage is this:
+
+<pre>
+	MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
+</pre>
+
+The master task assigns a value to the integer n, and that value is
+written into all the slaves' n variables. The machinery for doing this
+is hidden in the bowels of MPICH.<p>
+
+Broadcasting is easy to do with tuples. The owner of n's original
+value puts a tuple like ("value of n", 17), and the other tasks read
+("value of n", None) to learn the value.<p>
+
+Another sort of broadcast (for which, as far as I know in MPI, there
+is no equivalent) is "public information", like the weather in Houston
+or the current Dow Jones average. The owner of this information might
+put a tuple periodically. When the value changes, he gets the old
+tuple and puts a new one. Anybody wanting to know the value can simply
+read ("Dow Jones average", None) and get a fresh value, without being
+aware of when or how the updates occur.<p>
+
+The last parallel programming technique that I want to steal from MPI
+is called scatter-gather. The idea is that you have a list of inputs
+and you want to run some function on them to get a list of outputs,
+and you want to let each machine work on a sublist.<p>
+
+MPI has a couple of tricky clever functions that will chop up the
+input list into roughly-equal-length sublists, distribute them to the
+machines, fetch the output sublists, and reassemble the entire output
+list. This is all done with a couple of function calls.<p>
+
+A nearly-as-elegant approach is feasible with tuples.
+
+<pre>
+	n = len(input_list)
+	for i in range(n):
+		conn.put(("please process", i, input_list[i]))
+	output_list = [ ]
+	for i in range(n):
+		x = conn.get(("here you go", i, None))
+		output_list.append(x[2])
+</pre>
+
+This assumes that we have hungry waiting worker bees all ready to turn
+("please process", index, data) tuples into ("here you go", index,
+result) tuples. But like MPI, we get nice even load-balancing with
+this approach. Each worker bee tries to grab another request tuple as
+soon as he finishes with the last one, so all the worker bees stay
+busy as much as they can. Putting the index in both the request and
+the response tuples makes it easy to reassemble the output list in the
+proper order.<p>
+
+You might look at this and think, the master is lazy! He should do
+some of the work himself! And in MPI, he does. But with this approach,
+he will block on the get() calls, leaving the processor's time free
+for the worker bee who will do some of the work. As long as each
+computer in the cluster has at least one worker bee running, the work
+will be distributed efficiently.
+
+<h3>C Tuple Clients</h3>
+
+You can exercise some C clients by starting the "fft" and
+"tuple_client" executables. You'll see print-outs of how long it takes
+to perform an 8K FFT. These programs don't print anything interesting
+or instructive, but their source code shows how to work with tuple
+space in C.<p>
+
+A "struct context" (defined in tuple.h) is equivalent to the "conn"
+object we've been using in Python. It represents the information we
+need to establish a connection with the tuple server. We don't
+actually open a socket until we perform a tuple operation
+(put_tuple(), get_tuple(), read_tuple(), get_nb_tuple(),
+read_nb_tuple()) and then we'll close the socket before completing the
+operation. The context struct remembers the server's name and port
+number.<p>
+
+get_server_portnumber() takes a pointer to a context struct. It tries
+to get the server name and port number from environment variables. If
+it fails, we'll need to get them from command line arguments.<p>
+
+The make_tuple() function uses printf-style variable arguments,
+starting with a format string, and returns a tuple. This isn't a
+Python tuple, it's a LinuxTuples tuple, a data structure we will learn
+about shortly. The possible elements of a tuple are indicated by
+characters in the format string: "i" for a C int, "d" for a C double,
+"s" or "s#" for a string, and "?" for a wildcard.<p>
+
+Strings can either be ASCII strings like "fft" or "fft done", or they
+can function as buffers used for arrays or large data structures. This
+is an efficient way to ship large blocks of data around.<p>
+
+Until I get around to writing more, study: fft.c, tuple_client.c.
+
+
+<h3>C Data Structures</h3>
+
+<pre>
+tuple.h
+struct element
+struct tuple
+struct context
+</pre>
+
+If you type "make htmldocs", and if you have doxygen installed on your
+machine (it comes automatically with Red Hat 7.3 or later), then
+doxygen will create documentation for these structures. Otherwise
+you can just read the stuff in tuple.h.
+
+
+<h3>External access to your tuple space</h3>
+
+You may wish to access your tuple server over the Internet. Obviously
+security will be a concern. To address this, you should access your
+tuple server using SSH port-forwarding, where a port on your local
+machine is re-mapped to a port on a remote machine, and the remote
+machine trusts you because you have a copy of an SSH key from it.<p>
+
+Here are some links with info about SSH port-forwarding.<p>
+
+<a href="http://www.eskimo.com/support/ssh-forwarding.html">
+http://www.eskimo.com/support/ssh-forwarding.html</a><br>
+<a href="http://www.linuxjournal.com/article.php?sid=5462">
+http://www.linuxjournal.com/article.php?sid=5462</a><br>
+<a href="http://www.yak.net/fqa/81.html">http://www.yak.net/fqa/81.html</a><br>
+<a href="http://www.onlamp.com/lpt/a/1670">http://www.onlamp.com/lpt/a/1670</a><br><p>
+
+The onlamp.com page has something particularly interesting. I don't
+ordinarily run the tuple server on the same machine that provides
+SSH access to my house. So I need to route the SSH pipe thru my
+house's SSH server to the machine where the tuple server is actually
+running. The appropriate command is this:<p>
+
+<pre>
+ssh -f -N -L25000:desktop:25000 willware.net
+</pre>
+
+The "-f" option means that SSH will ask for a password, and then fork
+into the background, popping out only when the port-forwarding
+connection is broken. The "-N" option means that we will not be
+opening up a shell on willware.net, nor will we run any commands. The
+"-L25000:desktop:25000" option means that when a program running on
+the remote client sends a packet to its own port 25000, that packet
+is actually delivered to port 25000 on desktop, the machine that runs
+my tuple server.<p>
+
+To use the tuple server from another machine, for instance the server
+at work, I type that command, and I also type:<p>
+
+<pre>
+export LINUXTUPLES_HOST=localhost
+export LINUXTUPLES_PORT=25000
+</pre>
+
+Then I can run a tuple space client on the work server. The connection
+will close when the client is finished, and I'll need to type the long
+"ssh" command again to reconnect.<p>
+
+This all assumes that the remote client (in my case, the server at
+work) is trusted by the SSH server, and the way you do that is by giving
+yourself an account on the SSH server and copying the remote client's
+~/.ssh/id_dsa.pub file to the end of the SSH server's ~/.ssh/authorized_keys
+file.
+
+
+<h3>TODO</h3>
+
+It might be nice to make up a GUI app that gave some kind of useful
+snapshot of tuple space activity. Minimally this would be statistics
+like the number of tuples in the space. There might also be some kind
+of visual display of the tuples themselves, or maybe a colored pie
+chart showing the proportions of tuples that match different criteria.<p>
+
+Here's what I'm doing to keep the C code tidy:
+<pre>
+indent -i8 -br -npcs *.c *.h
+</pre>

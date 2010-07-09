@@ -1,0 +1,36 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; this is a siod "compiler"
+;; actually it is more of a linker or binder. assembler maybe.
+
+(define (main)
+  (let ((input-files nil)
+	(arg nil)
+	(j 0)
+	(output-file (lkey-default (cdddr *args*) 'o "a.out"))
+	(m-flag (lkey-default (cdddr *args*) 'm "2"))
+	(v-flag (lkey-default (cdddr *args*) 'v "01"))
+	(i-flag (lkey-default (cdddr *args*) 'i "/usr/local/bin/siod"))
+	(forms nil))
+    (while (set! arg (larg-default (cdddr *args*) j nil))
+      (set! input-files (append input-files (list arg)))
+      (set! j (+ 1 j)))
+    (or input-files
+	(error "no source, object or ucode file specified"))
+    (set! forms (process-input-files input-files))
+    (fast-save output-file
+	       forms
+	       nil
+	       (string-append
+		"#!" i-flag " "
+		"-v" v-flag ","
+		"-m" m-flag "\n# -*-parser:fasl-*-\n"))
+    (chmod output-file
+	   (encode-file-mode '(RUSR WUSR XUSR RGRP XGRP ROTH XOTH)))))
+
+
+;; we don't even do macroexpansions.
+
+(define (process-input-files l)
+  (apply append (mapcar (lambda (x) (load x t)) l)))
+

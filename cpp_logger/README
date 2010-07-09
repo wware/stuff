@@ -1,0 +1,28 @@
+I'm tinkering with some ideas for embedded development. One is that it
+would be good if every object in every language had a toString method.
+
+You have pervasive, flexible logging everywhere in the system, like
+log4j. You can switch it off with #ifdef's if you really need the
+performance, but it should always be possible to painlessly switch it
+back on for debug purposes. You can have lots of different channels of
+debug; the Xionics codebase did a brilliant job with that.
+
+You want a runtime library that provides logging infrastructure, and
+loading binaries into the hardware, and controlling the buttons or
+keyboard or trackball, and fetching screen dumps. This is presumably
+all done over a USB cable or serial cable.
+
+This library might be the thing you replace when you build an
+emulator. There's an abstraction layer that differentiates the real
+hardware from the emulator. On the emulator, that same abstraction
+layer does the same job of logging, loading, controls, and screen
+dumps.
+
+Then you can connect the device to a server and develop remotely. You
+also need to be able to reset the device, which can be done with a
+parallel port line off the server. It should be set up so that it's
+very difficult or impossible to brick the device. Maybe the server can
+detect when the device is bricked, and JTAG it.
+
+If you need a JVM, and these days everybody does, a good one is Apache
+Harmony. It's in good shape as a project and it's not GPL.

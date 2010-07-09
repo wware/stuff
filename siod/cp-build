@@ -1,0 +1,227 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; name:    cp.build
+;; purpose: copy a file to a "versioned" location, keeping
+;;          an audit trail and a soft link to the most recent version.
+;;          Useful in software release management implementation.
+;;          Check rules watch out for errors.
+;; author:  George Carrette, Platform Engineering.
+;;
+;; $Id: cp-build,v 1.3 1996/03/10 03:38:34 gjc Exp $
+
+(define *version-marker* ",")
+
+(define *audit-failure-rules* '(old same size))
+
+(define (main)
+  (let ((from-file (larg-default (cddr *args*) 1))
+	(into-file (larg-default (cddr *args*)
+				 2
+				 (getenv "CP_BUILD_DESTINATION")))
+	(setlk (let ((arg (lkey-default (cddr *args*) 'lock "error")))
+		 (cond ((equal? arg "error")
+			F_SETLK)
+		       ((equal? arg "wait")
+			F_SETLKW)
+		       ('else
+			(error "unvalid lock option:" arg)))))
+	(audit-file nil)
+	(into-version nil)
+	(old-link nil)
+	(new-link nil)
+	(from-stat nil)
+	(into-file-version nil)
+	(from-file-stream nil)
+	(into-file-stream nil)
+	(override (mapcar intern
+			  (strbreakup (lkey-default (cddr *args*)
+						    'override
+						    "")
+				      ",")))
+	(from-md5 nil))
+    (cond ((and into-file (memq 'DIR (assq 'mode (stat into-file))))
+	   (set! into-file (string-append into-file
+					  (if (substring-equal?
+					       "/"
+					       into-file
+					       (- (length into-file) 1)
+					       (length into-file))
+					      ""
+					    "/")
+					  from-file))))
+    (writes nil from-file " => " into-file "\n")
+    (or (and from-file (> (length from-file) 0))
+	(error "no from-file specified"))
+    (or (and into-file (> (length into-file) 0))
+	(error "no into-file specified"))
+    (set! from-file-stream (fopen from-file "r"))
+    (set! from-stat (fstat from-file-stream))
+    (set! audit-file (string-append into-file *version-marker* "audit"))
+    (let ((sf (fopen audit-file "a+"))
+	  (pos nil)
+	  (new-data nil)
+	  (audit-data nil))
+      (let ((result (setlk sf F_WRLCK)))
+	(cond (result
+	       (let ((who (F_GETLK sf F_UNLCK)))
+		 (cond ((pair? who)
+			(writes nil
+				"on " audit-file ":\n"
+				"Lock of type " (car who)
+				" already owned by pid " (cadr who) "\n"))))
+	       (error (string-append "F_SETLK " result) audit-file))))
+      (set! audit-data (load-audit-data sf))
+      (set! new-data (list 'cp.version
+			   (list 'getcwd (getcwd))
+			   (list 'getuid (getuid))
+			   (list 'getgid (getgid))
+			   (list 'USER   (getenv "USER"))
+			   (list 'date   (http-date))
+			   (list '=> from-file into-file)
+			   (cons 'from-stat from-stat)))
+      (let ((failures (subset (lambda (x)
+				(not (memq x override)))
+			      (check-audit-rules new-data audit-data))))
+	(cond (failures
+	       (writes nil "Failed rules. To force use :override="
+		       (unbreakupstr failures ",")
+		       "\n")
+	       (F_SETLK sf F_UNLCK)
+	       (fclose sf)
+	       (error "cp.audit.check"))))
+      (print new-data sf)
+      (fflush sf)
+      (set! old-link (*catch 'errobj (readlink into-file)))
+      (cond ((and (pair? old-link)
+		  (equal? "readlink" (car old-link))
+		  (eq? (intern "No such file or directory") (cdr old-link)))
+	     (writes nil "** First generation of file **\n")
+	     (set! old-link nil)
+	     (set! into-version 1))
+	    ((string? old-link)
+	     (set! into-version
+		   (+ 1 (string->number (car (last (strbreakup
+						    old-link
+						    *version-marker*))))))
+	     (or (> into-version 1)
+		 (error "inconsistent link contents" old-link)))
+	    ('else
+	     (print (list 'error old-link) sf)
+	     (fflush sf)
+	     (F_SETLK sf F_UNLCK)
+	     (fclose sf)
+	     (error "cp.version")))
+      (set! new-link
+	    (string-append (car (last (strbreakup into-file "/")))
+			   *version-marker*
+			   (number->string-padded into-version 4)))
+      (print (list 'cp.doit
+		   (list 'old-link old-link)
+		   (list 'new-version into-version)
+		   (list 'new-link new-link))
+	     sf)
+      (fflush sf)
+      (set! into-file-version (string-append into-file
+					     *version-marker*
+					     (number->string-padded
+					      into-version 4)))
+      (writes nil "** " into-file " -> " new-link " **\n")
+      (set! into-file-stream (fopen into-file-version "w"))
+      (set! md5 (copy-file-data from-file-stream into-file-stream))
+      (fclose from-file-stream)
+      (fclose into-file-stream)
+      (utime into-file-version (cdr (assq 'mtime from-stat)))
+      (chmod into-file-version (string->number "444" 8))
+      (if old-link (unlink into-file))
+      (symlink new-link into-file)
+      (writes nil "** Done **\n")
+      (print (list 'completed
+		   (list 'date (http-date))
+		   (list 'md5 md5))
+	     sf)
+      (fflush sf)
+      (F_SETLK sf F_UNLCK)
+      (fclose sf))))
+
+(define (copy-file-data from-file-stream into-file-stream)
+  (let ((buffer (cons-array 8192 'string))
+	(n nil)
+	(c (md5-init)))
+    (while (set! n (fread buffer from-file-stream))
+      (md5-update c buffer n)
+      (fwrite (list buffer n) into-file-stream))
+    (array->hexstr (md5-final c))))
+
+(define (check-audit-rules new-data audit-data)
+  (subset (lambda (r)
+	    (let ((fcn-name (intern (string-append "cp.build.audit." r))))
+	      (cond ((and (symbol-bound? fcn-name) (eval fcn-name))
+		     ((eval fcn-name) new-data audit-data))
+		    ('else
+		     (writes nil "Warning, undefined audit rule: " r "\r")))))
+	  *audit-failure-rules*))
+
+(define (cp.build.audit.old new-data audit-data)
+  ;; see if this file is older than the others.
+  nil)
+
+(define (cp.build.audit.same new-data audit-data)
+  ;; this rule helps to detect a case of when a new build failed
+  ;; in the current directory, but the programmer did a cp.build
+  ;; anyway, which could result an old build being used instead
+  ;; if one existed in that directory.
+  (let ((new-stat (cdr (assq 'from-stat new-data))))
+    (let ((same (subset (lambda (d)
+			  (and (eq? (car d) 'cp.version)
+			       (file-stats-appear-same
+				new-stat
+				(cdr (assq 'from-stat d)))))
+			audit-data)))
+      (cond (same
+	     (writes nil
+		     "** WARNING ** "
+		     (cadr (assq 'getcwd new-data))
+		     "/"
+		     (cadr (assq '=> new-data))
+		     "\n"
+		     "** Is the same as a file was previously copied: "
+		     (cadr (assq 'date (car same))) "\n"
+		     "** "
+		     (cadr (assq 'getcwd (car same)))
+		     "/"
+		     (cadr (assq '=> (car same)))
+		     "\n")))
+      same)))
+
+(define (file-stats-appear-same a b)
+  (not (memq nil
+	     (mapcar (lambda (x)
+		       (equal? (cdr (assq x a))
+			       (cdr (assq x b))))
+		     '(ctime
+		       mtime
+		       size
+		       dev
+		       ino
+		       gen)))))
+
+
+(define (cp.build.audit.size new-data audit-data)
+  ;; check to see if the file size has changed by more than say 20 percent.
+  nil)
+
+(define (number->string-padded x pad)
+  (let ((n (number->string x)))
+    (while (< (length n) pad)
+      (set! n (string-append "0" n)))
+    n))
+
+(define (load-audit-data sf)
+  (fseek sf 0 SEEK_SET)
+  (let ((result nil)
+	(form nil))
+    (while (not (eq? (eof-val) (set! form (read sf))))
+      (set! result (cons form result)))
+    (fseek sf 0 SEEK_END)
+    (nreverse result)))
+

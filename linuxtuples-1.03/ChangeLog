@@ -1,0 +1,33 @@
+
+Wed Sep  6 18:09:43 CEST 2006
+Added new operation REPLACE(template, replacement)
+This op will remove all tuples matching the template, and put back a single one.
+
+
+Wed Sep  6 14:07:37 CEST 2006 - Bram Stolk
+Much more rigorous error checking.
+Improved logging.
+Use higher backlog parameter for bind().
+Status report on stderr of tuple_server:
+  to use this, set LINUXTUPLES_STATUS environment variable.
+  The server will show the status of all its threads.
+  '-' means no thread
+  'b' means the thread is blocked on a get/read operation
+  'a' means the thread tries to get access to the tuple space.
+  'r' means the thread is in recv() system call.
+  'p' means the thread is currently putting a tuple in the space.
+
+
+Thu May 11 17:06:08 CEST 2006 - Bram Stolk
+Use shutdown() system calls on sockets.
+Fixed race condition for dump() operation.
+Improved error reporting.
+Release python's interpreter lock when doing operations that may block.
+
+
+Thu May  4 17:26:44 CEST 2006 - Bram Stolk
+Set a low stacksize for the pthreads we create.
+Use a backlog in the listen() system call.
+Cleaned up logging.
+Added pingpong.py sample.
+Fixed race-condition: first close socket, then mark slot as unused.

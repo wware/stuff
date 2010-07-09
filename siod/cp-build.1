@@ -1,0 +1,63 @@
+.TH cp-build 1C LOCAL 
+.SH NAME
+cp-build \- copy a file to a destination with version numbering and auditing
+.SH SYNOPSIS
+.B cp-build
+filename [destination] [:override=option[,options]] [:lock=option]
+.SH DESCRIPTION
+The
+.I cp-build
+command will copy a file to a destination directory or file,
+while appending a version number to the end of the final destination,
+and setting up a symbolic link from the final destination to
+the new version of the file it creates. The user must have write
+access to the destination audit file in order to run the command.
+The audit file is used to interlock against concurrent copies to
+the same final destination and to enforce various rules controlling
+the copying.
+
+The actual destination data file is left with a read-only protection.
+
+.RE
+.SS COMMAND LINE OPTIONS
+.TP 8
+.BI destination 
+The
+.I destination
+defaults to the setting of the environment variable CP_BUILD_DESTINATION
+and may be either a directory or a file.
+.TP
+.BI :override= "XXXXX"
+The
+.I XXXXX
+is used to force the command to go ahead and copy the file to
+the destination even if certain rules have been violated.
+The defined rules are 
+.I old,same,size.
+Which prevent an old file,
+the same file, or a file of a radically different size from
+being copied to the destination. Currently only the 
+.I same
+rule is implemented.
+.TP
+.BI :lock= "option"
+The
+.I option
+defaults to 
+.I error
+which will result in any error if any other process is doing a
+.I cp-build
+concurrently. The option may also be specified as
+.I wait
+which will cause the cp-build to wait the other process has
+released its lock on the audit file.
+
+
+.SH FILES
+/usr/local/bin/siod
+/var/shlib/libsiod.so
+
+.SH SEE ALSO
+siod
+.SH AUTHOR
+George Carrette, GJC\@world.std.com

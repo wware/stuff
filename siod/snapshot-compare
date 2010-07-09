@@ -1,0 +1,117 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; name:    snapshot.compare
+;; purpose: analyze information information about files in a directory 
+;;          hierarchy that was collected by the snapshot.dir command.
+;; created: 1-JUN-95 George Carrette.
+;;	    
+;; $Id: snapshot-compare,v 1.3 1996/03/10 03:42:27 gjc Exp $
+
+(define (main)
+  (let ((sn1 (or (larg-default (cdddr *args*) 0)
+		 (error "must specify <snapshot-file-1>")))
+	(sn2 (or (larg-default (cdddr *args*) 1)
+		 (error "must specify <snapshot-file-2>")))
+	(l1 nil)
+	(l2 nil)
+	(sl (lkey-default (cdddr *args*) 'strip))
+	(sl1 nil)
+	(sl2 nil)
+	(ignore (lkey-list (cdddr *args*) 'ignore)))
+    (if (set! sl1 (lkey-default (cdddr *args*) 'strip1 sl))
+	(set! sl1 (string->number sl1)))
+    (if (set! sl2 (lkey-default (cdddr *args*) 'strip2 sl))
+	(set! sl2 (string->number sl2)))
+    (writes nil "; loading " sn1 "\n")
+    (set! l1 (load sn1 t))
+    (set! l1 (filter-file-list-1 l1))
+    (writes nil "; done " (length l1) " files\n")
+    (writes nil "; loading " sn2 "\n")
+    (set! l2 (load sn2 t))
+    (set! l2 (filter-file-list-1 l2))
+    (writes nil "; done " (length l2) " files\n")
+    (strip-level sl1 l1 sn1)
+    (strip-level sl2 l2 sn2)
+    (set! l1 (filter-file-list-2 l1 ignore))
+    (set! l2 (filter-file-list-2 l2 ignore))
+    (snapshot.compare sn1 l1 sn2 l2)))
+
+(define (filter-file-list-1 l)
+  (let ((result nil))
+    (while l
+      (and (assq 'md5 (car l))
+	   (set! result (cons (car l) result)))
+      (set! l (cdr l)))
+    (nreverse result)))
+
+(define (filter-file-list-2 l ignore)
+  (let ((result nil)
+	(i nil))
+    (while l
+      (set! i ignore)
+      (while (pair? i)
+	(if (fnmatch (car i) (caar l))
+	    (set! i 'ignore)
+	  (set! i (cdr i))))
+      (or i (set! result (cons (car l) result)))
+      (set! l (cdr l)))
+    (nreverse result)))
+
+
+(define (strip-level sl l sn)
+  (cond (sl
+	 (writes nil "; strip " sl " levels of / from " sn "\n")
+	 (while l
+	   (set-cdr! (car l)
+		     (cons (cons 'original (caar l))
+			   (cdar l)))
+	   (set-car! (car l)
+		     (unbreakupstr
+		      (nthcdr sl (strbreakup (caar l) "/"))
+		      "/"))
+	   (set! l (cdr l))))))
+
+(define (make-table l)
+  (let ((h (cons-array (length l))))
+    (while l
+      (hset h (caar l) (cdar l))
+      (set! l (cdr l)))
+    h))
+
+(define (show-exclusive snf l table)
+  (while l
+    (or (href table (caar l))
+	(writes nil "; " snf " " (caar l) "\n"))
+    (set! l (cdr l))))
+  
+(define (snapshot.compare sn1 list1 sn2 list2)
+  (let ((table1 (make-table list1))
+	(table2 (make-table list2))
+	(l nil))
+    (show-exclusive sn1 list1 table2)
+    (show-exclusive sn2 list2 table1)
+    (set! l list1)
+    (while l
+      (if (and (href table2 (caar l))
+	       (not (equal? (assq 'md5 (car l))
+			    (assq 'md5 (href table2 (caar l))))))
+	  (writes nil
+		  "diff " (caar l) "\n"))
+      (set! l (cdr l)))))
+
+(define (nthcdr j l)
+  (while (> j 0)
+    (set! l (cdr l))
+    (set! j (- j 1)))
+  l)
+    
+
+(define (lkey-list l keyword)
+  (let ((result nil)
+	(key (string-append ":" keyword "=")))
+    (while l
+      (if (substring-equal? key (car l) 0 (length key))
+	  (set! result (cons (substring (car l) (length key)) result)))
+      (set! l (cdr l)))
+    (nreverse result)))
+    

@@ -1,0 +1,96 @@
+\documentclass[12pt,reqno]{article}
+
+\usepackage[usenames]{color}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amscd}
+\usepackage{wrapfig}
+
+\usepackage[colorlinks=true,
+linkcolor=black, filecolor=black,
+citecolor=black]{hyperref}
+
+\usepackage{fullpage}
+\usepackage{float}
+
+\usepackage{psfig}
+\usepackage{graphics,amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{epsf}
+
+\DeclareGraphicsExtensions{.png}
+\renewcommand{\figurename}{Fig.}
+
+\begin{document}
+
+\begin{center}
+ \vskip 1cm{\LARGE\bf State machines for Python}
+ \vskip 1cm
+ \large
+
+Will Ware \\
+12 Francine Road \\ 
+Framingham, MA \\ 
+\href{mailto:wware@alum.mit.edu}{\tt wware@alum.mit.edu}
+\end{center}
+
+
+\vskip .2 in
+
+The behavior of some systems can be modeled as sets of state machines.
+Suitably implemented, the same state machines can be used for an
+application running in real time and for simulation and verification.
+
+This library is such an implementation in Python. State machines are
+space efficient and it is practical to maintain thousands. This has
+potential application in computer games and in animations involving
+flocking species such as birds or fish.
+
+State machines as presented here have no intrinsic concept of time but
+can post events in the future, and listen for those events later.
+Timely delivery of future events is managed by a framework in which
+state machines run, called a Runner. A state machine can wait for
+input. When doing so, it will remain at the same state until the new
+input occurs.
+
+There are two Runner implementations, one for real time and one for
+simulation. When in simulation, the Runner will compress time
+intervals where nothing is happening so that simulations run more
+quickly.
+
+The Runner manages a group of state machines as well as a queue of
+timestamped future events. When a state machine needs to specify a
+time interval, it does so by stamping an event with the future time,
+and using the event to change its own input. ``Events'' are simply
+Python functions with no arguments.
+
+Using GraphViz it is easy to make nice diagrams of state machines. The
+three examples below (Figures \ref{ex1}, \ref{ex2}, and \ref{ex3}) are
+taken from the smtests.py source file.
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[scale=0.65]{ex1.eps}
+  \caption{First example state machine}
+  \label{ex1}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[scale=0.65]{ex2.eps}
+  \caption{Second example state machine}
+  \label{ex2}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[scale=0.65]{ex3.eps}
+  \caption{Third example state machine}
+  \label{ex3}
+  \end{center}
+\end{figure}
+
+\end{document}

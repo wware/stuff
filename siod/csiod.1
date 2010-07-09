@@ -1,0 +1,36 @@
+.TH CSIOD 1C LOCAL 
+.SH NAME
+csiod \- a compiler/linker for siod
+.SH SYNOPSIS
+.B csiod [:o=outfile] [:m=flag] [:v=flag] [:i=val] infile ...
+.SH DESCRIPTION
+.I csiod
+Creates the output-filename, default a.out, by loading all
+the expressions from the input files, and then saving the
+result in fast-loading format. A "#! interpreter-name" style
+header is written to the output file using information
+from the optional flag arguments.
+
+.RE
+.SS COMMAND LINE OPTIONS
+.TP 8
+.BI :m=flag
+The
+.I flag
+defaults to 2, causing the procedure main to be invoked. Use
+a value of 3 for cgi scripts.
+.TP
+.BI :v=flag
+The 
+.I flag
+defaults to "01" causing errors to be reported. A value of "0"
+supresses error messages, higher values cause more messages.
+Use a value of "1" or "0" for cgi scripts.
+.TP
+.BI :i=val
+The 
+.I val
+defaults to /usr/local/bin/siod
+
+.SH SEE ALSO
+the man pages for siod

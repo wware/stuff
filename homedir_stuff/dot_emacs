@@ -1,0 +1,180 @@
+;; Emacs should start with the scratch buffer in fundamental mode
+;; instead of Lisp mode.
+(setq initial-major-mode 'fundamental-mode)
+
+; (setq set-fill-column 78)
+(setq set-fill-column 100)
+
+(setq inferior-lisp-program "guile")
+
+(setq sentence-end-double-space nil)
+
+(setq make-backup-files nil)
+
+(defun f8-function ()
+  (list-buffers)
+  (delete-window))
+
+(setq default-tab-width 8)
+(setq tab-width 8)
+
+(setq c-basic-offset 4)
+
+(global-set-key "\C-l" 'start-kbd-macro)
+(global-set-key "\C-o" 'end-kbd-macro)
+(global-set-key "\C-p" 'call-last-kbd-macro)
+(global-set-key "\C-n" 'goto-line)
+(global-set-key "\C-b" 'switch-to-buffer)
+(global-set-key "\C-xp" 'blink-matching-open)
+;; (global-set-key "\C-u" 'scroll-down)
+(global-set-key [f35] 'scroll-up)
+(global-set-key [f29] 'scroll-down)
+; (global-set-key "f8" 'f8-function)
+
+(setq line-number-mode t)
+
+(add-hook 'text-mode-hook
+  '(lambda () (auto-fill-mode 1)))
+
+(setq-default fill-column 70)
+
+;; C color coding
+(defun my-c-mode-hook ()
+  (turn-on-font-lock)
+  (setq c-basic-offset 8)
+  (c-set-offset 'substatement-open 0) ; this is the one you care about
+  (c-set-offset 'statement-case-open 0)
+  (c-set-offset 'case-label '+)
+  (setq tab-width 8)
+  (setq indent-tabs-mode t)
+  (message "my-c-mode-hook function executed"))
+(add-hook 'c-mode-hook 'turn-on-font-lock)
+(setq line-number-mode 1)
+
+(defun j4 ()
+  (setq c-basic-offset 4))
+
+(defun my-java-mode-hook ()
+  (setq c-basic-offset 8)
+  (c-set-offset 'substatement-open 0) ; this is the one you care about
+  (c-set-offset 'statement-case-open 0)
+  (c-set-offset 'case-label '+)
+  (setq tab-width 8)
+  (setq indent-tabs-mode t)
+  (message "my-java-mode-hook function executed"))
+
+(add-hook 'java-mode-hook 'my-java-mode-hook)
+
+(setq auto-mode-alist
+       (cons '("\\.ui$" . sgml-mode) auto-mode-alist))
+
+;(load-file "/home/wware/emacs/lisp/python-mode.el")
+;(autoload 'python-mode "python-mode" "" t)
+;(setq auto-mode-alist
+;      (cons '("\\.py$" . python-mode) auto-mode-alist))
+(setq auto-mode-alist
+       (cons '("\\.pyx$" . python-mode) auto-mode-alist))
+
+(autoload 'cscope-bind-keys "cscope" nil t)
+
+
+(defun linux-c-mode ()
+  "C mode with adjusted defaults for use with the Linux kernel."
+  (interactive)
+  (c-mode)
+  (setq c-indent-level 8)
+  (setq c-brace-imaginary-offset 0)
+  (setq c-brace-offset -8)
+  (setq c-argdecl-indent 8)
+  (setq c-label-offset -8)
+  (setq c-continued-statement-offset 8)
+  (setq indent-tabs-mode nil)
+  (setq tab-width 8))
+
+(require 'mmm-mode)
+(setq mmm-global-mode 'maybe)
+(mmm-add-mode-ext-class nil "\\.php3?\\'" 'html-php)
+(mmm-add-classes
+ '((html-php
+    :submode php-mode
+    :front "<\\?\\(php\\)?"
+    :back "\\?>")))
+(autoload 'php-mode "php-mode" "PHP editing mode" t)
+(add-to-list 'auto-mode-alist '("\\.php3?\\'" . sgml-html-mode))
+
+;;;
+;;; Get rid of those nasty ^M characters at the end of tip window lines
+;;;
+(add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m t)
+(add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
+
+;;;
+;;; Use this when it looks like you might have an unclosed comment or string.
+;;;
+(global-set-key '[f9] 'font-lock-fontify-buffer)
+(global-set-key '[S-f9]
+                (lambda ()
+                  (interactive)
+                  (progn
+                    (font-lock-mode nil)
+                    (if (and
+                         (numberp font-lock-maximum-decoration)
+                         (< font-lock-maximum-decoration 9))
+                        (set-variable 'font-lock-maximum-decoration
+                                      (+ font-lock-maximum-decoration 1))
+                      (set-variable 'font-lock-maximum-decoration 1))
+                    (font-lock-fontify-buffer)
+                    (font-lock-mode t))))
+
+;; Clean up indentation, and remove any blank space at the end of the line.
+;; Go on to the next line. Use ctrl-U to do a bunch of lines.
+(global-set-key
+ '[S-f10]
+ (lambda ()
+   (interactive)
+   (progn
+     (beginning-of-line)
+     (c-indent-command)
+     (end-of-line)
+     (delete-horizontal-space)
+     (beginning-of-line)
+     (next-line 1))))
+
+;;;
+;;; Need easy access to search & replace.  This one is good because it matches
+;;; regular expressions without getting in the way.  On the "to-string" side
+;;; of things, use '\&' to match the whole regexp and \{digit} to match the
+;;; {digit}'th '\(...\)' in the regexp.
+;;;
+(global-set-key '[f3] 'replace-regexp)
+(global-set-key '[S-f3] 'query-replace)
+(global-set-key '[C-f3] 'query-replace-regexp)
+
+(global-set-key
+ '[f4]
+ (lambda ()
+   (interactive)
+   (progn
+     (mark-whole-buffer)
+     (tabify (point-min) (point-max)))))
+
+(put 'upcase-region 'disabled nil)
+
+(put 'downcase-region 'disabled nil)
+
+;; (setq inferior-lisp-program "/usr/local/bin/clisp")
+(custom-set-variables
+  ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ '(case-fold-search t)
+ '(current-language-environment "Latin-9")
+ '(default-input-method "latin-9-prefix")
+ '(global-font-lock-mode t nil (font-lock))
+ '(show-paren-mode t nil (paren))
+ '(transient-mark-mode t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ )
+
+

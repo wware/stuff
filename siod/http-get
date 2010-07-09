@@ -1,0 +1,123 @@
+#!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
+
+;; name:     http-get
+;; purpose:  perform simple HTTP transaction from command line.
+;; author:   george j. carrette
+;; $Id: http-get,v 1.4 1996/07/11 21:46:20 gjc Exp $
+
+(require 'http-stress.scm)
+(require-so (so-ext 'regex))
+(require-so (so-ext 'ss))
+
+(define *http-proxy* nil)
+(define *show-header* nil)
+
+(define *http-args-count* '("GET" () ()))
+
+(define (main)
+  (set! *http-proxy* (lkey-default (cdddr *args*) "proxy"))
+  (set! *show-header* (lkey-default (cdddr *args*) "header"))
+  (let ((alarmt (lkey-default (cdddr *args*) "alarm")))
+    (and alarmt
+	 (> (set! alarmt (string->number alarmt)) 0)
+	 (alarm alarmt t)))
+  (let ((post (lkey-default (cdddr *args*) "post")))
+    (if post
+	(setup-post-args post)))
+  (if (and (lkey-default (cdddr *args*) "username")
+	   (lkey-default (cdddr *args*) "password"))
+      (http-set-basic-authorization 
+       (lkey-default (cdddr *args*) "username")
+       (lkey-default (cdddr *args*) "password")))
+  (http.get (or (larg-default (cdddr *args*) 0)
+		(error "no URL specified"))
+	    (larg-default (cdddr *args*) 1)))
+
+(define (http.get from into)
+  (if *http-proxy*
+      (http.get-proxy from into)
+    (http.get-direct from into)))
+
+(define (http.get-direct from into)
+  (let ((p (set! p (parse-url from)))
+	(node nil))
+    (or (equal? "http"  (cdr (assq 'service p)))
+	(error "service not http" (cdr (assq 'service p))))
+    (set! node (cdr (assq 'node p)))
+    (if (string-search ":" node)
+	(begin (set! *http-server-host*
+		     (substring node 0 (string-search ":" node)))
+	       (set! *http-server-port*
+		     (string->number
+		      (substring
+		       node
+		       (+ 1 (string-search ":" node))))))
+      (set! *http-server-host* node))
+    (http-handle-data (http (string-append (cdr (assq 'ident p))
+					   (cdr (assq 'arg p)))
+
+			    (car *http-args-count*)
+			    (cadr *http-args-count*)
+			    (caddr *http-args-count*))
+		      into)))
+
+(define (http.get-proxy from into)
+  (let ((j (string-search ":" *http-proxy*)))
+    (if j
+	(begin (set! *http-server-host* (substring *http-proxy* 0 j))
+	       (set! *http-server-port* (string->number
+					 (substring *http-proxy* (+ j 1)))))
+      (set! *http-server-host* *http-proxy*)))
+  (print (list *http-server-host*
+	       *http-server-port*))
+  (http-handle-data (http from
+			  (car *http-args-count*)
+			  (cadr *http-args-count*)
+			  (caddr *http-args-count*))
+		    into))
+
+
+(define (http-handle-data data into)
+  (if (or (> (verbose) 1)
+	  *show-header*)
+      (let ((l data))
+	(while (and l (car l))
+	  (writes nil (car l) "\n")
+	  (set! l (cdr l)))
+	(writes nil "\n")))
+  (let ((stream (and into (fopen into "w")))
+	(l (cdr (memq nil data))))
+    (while l
+      (fwrite (car l) stream)
+      (set! l (cdr l)))
+    (and stream (fclose stream))))
+
+(define *url-pat* (regcomp "(.*)://([^/]*)([^?]*)(.*)"
+			   REG_EXTENDED))
+
+(define (parse-url str)
+  (let ((match (regexec *url-pat* str)))
+    (define (chunk n)
+      (substring str (car (nth n match)) (cdr (nth n match))))
+    (cond ((not (pair? match))
+	   (error (string-append "parsing URL: "
+				 (regerror match *url-pat*))))
+	  ('else
+	   (list (cons 'service (chunk 1))
+		 (cons 'node (chunk 2))
+		 (cons 'ident (chunk 3))
+		 (cons 'arg (chunk 4)))))))
+
+(define (setup-post-args filename)
+  (let ((f (fopen filename "r"))
+	(line nil)
+	(result nil)
+	(ind nil))
+    (while (set! line (readline f))
+      (cond ((set! ind (string-search "=" line))
+	     (set! result (cons (substring line 0 ind) result))
+	     (set! result (cons (substring line (+ 1 ind)) result)))))
+    (set! *http-args-count*
+	  (list "POST"
+		"application/x-www-form-urlencoded"
+		(apply url-encode-form-data (nreverse result))))))

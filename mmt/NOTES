@@ -1,0 +1,6 @@
+I'd like to get the #include's from tryit.c to yo.c. That would be
+good. And I'd like some bigger examples, and some unit tests. Maybe
+some performance tests. Conway's Game of Life could be good, one
+microthread per cell. I did that in some other C parallelizer I did
+once.
+

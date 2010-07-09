@@ -1,0 +1,91 @@
+.TH SNAPSHOT-DIR 1C LOCAL 
+.SH NAME
+snapshot-dir \- create a snapshot database of a directory tree
+.SH SYNOPSIS
+.B snapshot-dir [-vN] directory [database-name]
+
+.SH DESCRIPTION
+.I snapshot-dir
+
+Finds all files in the directory, recursively, and writes to the 
+[database-name] or to standard output a description of each file
+including name, file modes, sizes, dates, and an MD5 checksum
+of each REG file, and the contents of each symbolic link.
+
+This database can be further processed by other programs that
+can determine what has changed in a file system.
+
+The -v argument lets you specify a verbosity level.
+
+.EX
+# snapshot-dir /tmp/gjc
+("/tmp/gjc/."
+ (dev 8 0)
+ (ino . 8034)
+ (mode DIR XOTH ROTH XGRP RGRP XUSR WUSR RUSR)
+ (nlink . 3)
+ (uid . 148)
+ (gid . 0)
+ (rdev . 36789)
+ (size . 512)
+ (atime . 815151544)
+ (mtime . 815085346)
+ (ctime . 815085346)
+ (blksize . 8192)
+ (blocks . 2)
+ (flags . 0)
+ (gen . 815085365)
+)
+("/tmp/gjc/foo"
+ (dev 8 0)
+ (ino . 8059)
+ (mode DIR XOTH ROTH XGRP RGRP XUSR WUSR RUSR)
+ (nlink . 3)
+ (uid . 148)
+ (gid . 0)
+ (rdev . 36821)
+ (size . 512)
+ (atime . 815151319)
+ (mtime . 815151527)
+ (ctime . 815151527)
+ (blksize . 8192)
+ (blocks . 2)
+ (flags . 0)
+ (gen . 815085366)
+)
+("/tmp/gjc/foo/test.txt"
+ (md5 . "bd7090333ff9eabec6a4c1f9461aaaff")
+ (dev 8 0)
+ (ino . 8085)
+ (mode REG ROTH RGRP WUSR RUSR)
+ (nlink . 1)
+ (uid . 148)
+ (gid . 0)
+ (rdev . 36963)
+ (size . 13)
+ (atime . 815151527)
+ (mtime . 815151537)
+ (ctime . 815151537)
+ (blksize . 8192)
+ (blocks . 2)
+ (flags . 0)
+ (gen . 815151527)
+)
+.EE
+
+.SH EXIT STATUS
+
+Errors result in a non-zero exit status.
+
+.SH AUTHOR
+gjc@world.std.com
+
+.SH SEE ALSO
+siod
+
+.SH FILES
+/usr/local/bin/snapshot-dir
+/usr/local/bin/siod
+/usr/local/lib/siod/find-files.scm
+
+

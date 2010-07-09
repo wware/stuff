@@ -1,0 +1,164 @@
+.TH SIOD 1C LOCAL 
+.SH NAME
+siod \- small scheme interpreter (Scheme In One Defun).
+.SH SYNOPSIS
+.B siod
+[-sX] [-hX] [-iX] [-gX] [-oX] [-nX] [-eX] [-vX] [-lX] [-mX] [-vX] [filenames]
+.SH DESCRIPTION
+.I Siod
+is a very small scheme interpreter which can be used for 
+interactive calculations,
+scripts, or included as a command interpreter or extension/macro 
+language in other applications. See the documentation for interfacing 
+requirements and how to add user-defined data types. The dash-style command
+line options may also be delimited by commas.
+
+.RE
+.SH ARGUMENTS
+The arguments are files which are loaded from the current or SIOD_LIB
+directory, by usual default /usr/local/lib/siod. Or the symbol repl
+to cause entry into the read-eval-print-loop, or parenthetical
+expressions to be evaluated.
+
+.RE
+.SS COMMAND LINE OPTIONS
+.TP 8
+.BI \-h "XXXXX"
+The
+.I XXXXX
+should be an integer, specifying the number of cons cells to
+allocate in the heap. The default is 100000:10. Or an integer followed by
+a colon, the number after which gives the maximum number of heaps to 
+malloc with mark and sweep gc mode.
+.TP
+.BI \-i "XXXXX"
+The 
+.I XXXXX
+should be the name of an init file to load before going into
+the read/eval/print loop.
+.TP
+.BI \-g "X"
+The
+.I X
+is 1 for a stop and copy garbage collector, 0 for a mark
+and sweep one (the default).
+.TP
+.BI \-o "XXXXX"
+The
+.I XXXXX
+should be an integer, specifying the size of the obarray (symbol hash table)
+to use. Defaults to 1000. Each array element is a list of symbols.
+.TP
+.BI \-n "XXXXX"
+The
+.I XXXXX
+should be an integer, specifying the number of pre-cons numbers
+to create. The default is 100.
+.TP
+.BI \-s "XXXXX"
+The
+.I XXXXX
+should be an integer, specifying the number of bytes of recursion
+on the machine (C-call frame) stack to allow. This may be changed
+while the programming is running, and is mainly a convenience for
+detecting defects in programs. Default 200000.
+.TP
+.BI \-e "XXXXX"
+The
+.I XXXXX
+is an expression to evaluate (after loading the init file, if any).
+After evaluating the expression the program will exit.
+.TP
+.BI \-l "XXXXX"
+The
+.I XXXXX
+is a library directory to use for the require procedure. defaults
+to the environment variable SIOD_LIB or /usr/local/lib/siod.
+.TP
+.BI \-v "XXXXX"
+The
+.I XXXXX
+is an integer verboseness from 0 to 4. When used in scripts the
+most generally useful level is 0. Defaults to 4.
+.TP 8
+.BI \-m "XXXXX"
+The
+.I XXXXX
+can be 0 (default) which has no effect, or 1, which causes the scheme
+procedure main, with no arguments to be invoked after all files are loaded, 
+or 2, which does the same thing but prevents further arguments from
+being interpreted, or 3, which will wrap special error handling
+around the call to main which is convenient for writing cgi scripts
+producing html. The environment may be obtained from the getenv
+procedure or the variable *env*. Arguments are found in *args*.
+.TP
+.BI \-v "XXXXX"
+The 
+.I XXXXX
+Is passed along to the siod argument processing, however if the value
+is greater than 0 a Content-type: text/plain header is generated
+immediately (except if the number is represented with a leading zero),
+which can be convenient for debugging WWW cgi scripts. For example:
+
+.EX
+#!/usr/local/bin/siod -v0,-m2
+(define (main)
+  (writes nil "Hello World\n"))
+.EE
+
+Which if invoked normally will result in
+
+.EX
+%hello.scm
+Hello World
+.EE
+
+And with the verbose flag over-ride on the command line:
+
+.EX
+
+%hello.scm -v5
+Content-type: text/plain
+
+Welcome to SIOD, Scheme In One Defun, Version 3.1x 12-JUN-95
+(C) Copyright 1988-1994 Paradigm Associates Inc.
+10 heaps. size = 100000 cells, 2400000 bytes. 2048 inums. GC is mark and sweep
+loading hello.scm
+(define (main) (writes nil "Hello World
+"))
+done.
+Hello World
+EXIT
+.EE
+
+.SH RETURN VALUE
+Errors during non-interactive usage mode result in a non-zero exit
+status.
+
+.SH ALTERNATIVE SYNTAX
+Files which are loaded by the interpreter may contain the sequence
+of characters parser:XXXXX in a comment in the first line of the file.
+This will result in the automatic loading of the file parser_XXXXX.scm
+which must provide a procedure parser_XXXXX to return a procedure
+to read the forms from the file to be loaded. Useful values of XXXXX
+include read, pratt, and fasl.
+
+.SH FILES
+/usr/local/lib/siod/*
+/usr/local/lib/siod/siod.html
+/usr/local/lib/libsiod.so
+.PD
+.SH SEE ALSO
+command csiod
+
+.I Structure and Interpretation of Computer Programs
+, by Abelson and Sussman, MIT Press.
+
+.SH DIAGNOSTICS
+Error messages may also set the variable errobj to the offending object.
+.SH BUGS
+With -g1 it does not GC during EVAL, only before each READ/EVAL/PRINT cycle.
+It does GC during EVAL with -g0, but that code may not run without modification
+on all architectures.
+.SH VERSION
+Current version is 3.2, 12-MAR-96, by George Carrette. GJC\@world.std.com 

@@ -1,0 +1,48 @@
+.TH HTTP-GET 1C LOCAL 
+.SH NAME
+http-get \- simple http client and siod example program
+.SH SYNOPSIS
+.B http-get
+url [output-file] [:proxy=name] [:header=true] [:username=xx] [:password=xx] [:alarm=seconds] [:post=filename]
+.SH DESCRIPTION
+.I http-get
+is a simple http command-client which demonstrates the use of
+siod socket and regular expression capabilities.
+
+.RE
+.SS COMMAND LINE OPTIONS
+.TP 8
+.BI :proxy=XXXXX
+The
+.I XXXXX
+is the name of the proxy server followed by a colon and a port number.
+.TP
+.BI :header=XXXXX
+The 
+.I XXXXX
+should be the string true, and causes the http headers to be output
+along with the content.
+.TP
+.BI :username=XXXXX
+The
+.I XXXXXX
+is the plain text username to transmit using basic authentication.
+.TP
+.BI :password=XXXXX
+The
+.I XXXXX
+is the plaintext password.
+.TP
+.BI :post=filename
+The
+.I filename
+contains lines of the form keyword=value. Both the keywords
+and values are url encoded, and the result is transmitted
+to the web server as a POST of application/x-www-form-urlencoded
+content.
+.SH FILES
+http-get http-stress.scm
+.PD
+.SH SEE ALSO
+siod
+

@@ -1,0 +1,14 @@
+This is a reference implementation for MapReduce. It's a single thread
+on a single CPU, and it should be useful for putting together some
+tests that can be applied to multi-CPU implementations. I think I've
+made sure that orders are preserved everywhere they ought to be.
+
+My hope is to put some tests together and then try them on Amazon's
+Elastic MapReduce, to make sure I understand everything correctly, and
+then I can use those tests to verify my own cluster when I'm ready to
+build one.
+
+I should more systematically journal my adventures with MapReduce.
+Right now I have notes spread across Google Notebooks, OneNote, and
+emails to myself, these should all be consolidated, edited for
+clarity, and kept in one place.
