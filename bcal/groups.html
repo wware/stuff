@@ -1,0 +1,36 @@
+{% extends "calendar.html" %}
+
+{% block content %}
+<FORM method="POST" action="/editcounselor">
+  <table border="1">
+    <tr height="50px">
+      <th width="200px">Group name</th>
+      <th width="200px">Owner</th>
+      <th width="200px"></th>
+    </tr>
+    {% for group in groups %}
+    <tr height="28px">
+      <td>
+        {{ group.name }}
+      </td>
+      <td>
+        {{ group.owner }}
+      </td>
+      <td>
+        <input type="button"
+               onclick="openPopup('/editgroup?name={{ group.name }}');"
+               value="Edit" />
+        <input type="button"
+               onclick="openPopup('/deletegroup?name={{ group.name }}');"
+               value="Delete" />
+      </td>
+      {% endfor %}
+    </tr>
+  </table>
+  
+  <input type="button"
+         onclick="openPopup('/editgroup?name=');"
+         value="Add a new group" />
+</FORM>
+
+{% endblock %}

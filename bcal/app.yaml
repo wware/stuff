@@ -1,0 +1,16 @@
+application: bcal
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: bcal.py
+  login: admin
+  secure: always
+
+#- url: /.*
+#  script: tryauth.py

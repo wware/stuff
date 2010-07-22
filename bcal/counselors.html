@@ -1,0 +1,40 @@
+{% extends "calendar.html" %}
+
+{% block content %}
+<FORM method="POST" action="/editcounselor">
+  <table border="1">
+    <tr height="48px">
+      <th width="200px">First name</th>
+      <th width="200px">Last name</th>
+      <th width="200px">Username</th>
+      <th width="200px"></th>
+    </tr>
+    {% for counselor in counselors %}
+    <tr height="58px">
+      <td>
+        {{ counselor.first_name }}
+      </td>
+      <td>
+        {{ counselor.last_name }}
+      </td>
+      <td>
+        {{ counselor.name }}
+      </td>
+      <td>
+        <input type="button"
+               onclick="openPopup('/editcounselor?name={{ counselor.name }}');"
+               value="Edit" />
+        <input type="button"
+               onclick="openPopup('/deletecounselor?name={{ counselor.name }}');"
+               value="Delete" />
+      </td>
+      {% endfor %}
+    </tr>
+  </table>
+  
+  <input type="button"
+         onclick="openPopup('/editcounselor?name=');"
+         value="Add a new counselor" />
+</FORM>
+
+{% endblock %}

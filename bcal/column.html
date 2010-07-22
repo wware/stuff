@@ -1,0 +1,50 @@
+<td>
+  <div style="width: {{ spacerwidth }}px;">
+  </div>
+</td>
+
+{% for subcol in subcolumns %}
+<td>
+  <table cellspacing="0"
+         cellpadding="0"
+         border="0">
+
+    {% for slot in subcol %}
+    {% if slot.description %}
+
+    <tr
+       {% if slot.modifiable %}
+       onclick="openPopup('/editevent');"
+       {% endif %}
+       >
+      <td>
+        <table cellspacing="0"
+               cellpadding="0"
+               border="1">
+          <tr>
+            <td>
+              <div title="{{ slot.description }}"
+                   style="font-family: arial;
+                          height: {{ slot.height }}px;
+                          width: {{ width }}px;
+                          background-color: {{ slot.bgcolor }};
+                          overflow:hidden;">
+                {{ slot.description }}
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    {% else %}
+    <tr onclick="openPopup('/editevent');">
+      <td>
+        <div style="height: {{ slot.height }}px;">
+        </div>
+      </td>
+    </tr>
+      {% endif %}
+    {% endfor %}
+  </table>
+</td>
+{% endfor %}      

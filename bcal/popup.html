@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en_US" lang="en_US">
+  <head>
+    <title>University calendar app</title>
+    <script src="/static/jquery.js" type="text/javascript"></script>
+  </head>
+  <body scrolling="auto">
+    {% block popupcontent %}
+    <h1>Hello</h1>
+    Make some changes in a database entry or a calendar event.
+    <!--
+        The dev server log shows that the "/newevent" POST _did_ occur
+        AND the window that requested it disappeared. Sweet.
+      -->
+    <FORM method="POST" action="/newevent">
+      <INPUT type="submit"
+             value="Save"
+             onclick="window.opener.location.href=window.opener.location.href;
+                      window.close();">
+    </FORM>
+    
+    <table border="1">
+      {% for param in params %}
+      <tr>
+        <td>
+          {{ param.key }}
+        </td>
+        <td>
+          {{ param.value }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    {% if members %}
+    <FORM method="GET" action="/updatemembers">
+      <table>
+        {% for member in members %}
+        <tr>
+          <td>
+            <input type="checkbox"
+                   name="{{ member.first_name }} {{ member.last_name }}"
+                   {% if member.included %}checked
+                   {% endif %}
+                   />
+          </td>
+          <td>
+            {{ member.first_name }} {{ member.last_name }}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <INPUT type="submit"
+             value="Update"
+             onclick="window.opener.location.href=window.opener.location.href;
+                      window.close();">
+    </FORM>
+    {% endif %}
+    {% endblock %}
+    
+    <script type="text/javascript">
+
+      function updatePage() {
+          {% for col in columns %}
+          $.ajax({
+              type: 'GET',
+              url: '/column',
+              data: '{{ col.params }}&screenwidth=' + screen.availWidth,
+              processData: false,
+              success: function(response) {
+                  var r = JSON.parse(response);
+                  document.getElementById('{{ col.id }}').innerHTML
+                      = unescape(r['html']);
+                  $('.namecolwidth').css("width", r['width']+"px");
+                  if (false) {
+                      response=response.replace(/&/g, "&amp;");
+                      response=response.replace(/</g, "&lt;");
+                      response=response.replace(/>/g, "&gt;");
+                      $('.log').html("<pre>"+r['html']+"<br>"+r['width']+"</pre>");
+                      //$('.log').html("<pre>{{ col.params }}</pre>");
+                  }
+              }
+          });
+          {% endfor %}
+          // update the page periodically
+          var num_seconds = 10;
+          setTimeout('updatePage()', num_seconds * 1000);
+      }
+
+      function openPopup(href) {
+          var w = 600;
+          var h = 300;
+          var left = screen.availWidth/2 - w/2;
+          var top = screen.availHeight/2 - h/2;
+          window.open(
+              href,'',
+              'height='+h+',width='+w+','+'left='+left+',top='+top);
+      }
+
+      $(document).ready(updatePage);
+
+    </script>
+  </body>
+</html>

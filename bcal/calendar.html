@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en_US" lang="en_US">
+  <head>
+    <title>University calendar app</title>
+    <script src="/static/jquery.js" type="text/javascript"></script>
+  </head>
+  <body style="background-image: url('/static/bkgnd.png');">
+    {% block backtotop %}
+    <table>
+      <tr height="61px">
+        <td>
+          <a href="/">Back to top</a>
+        </td>
+      </tr>
+    </table>
+    {% endblock %}
+
+    {% block content %}
+    <table cellspacing="0"
+           cellpadding="0"
+           border="0"
+           valign="top">
+      <tr>
+        <td valign="top">
+          <!-- times along left side -->
+          <table cellspacing="0"
+                 cellpadding="0"
+                 border="0">
+            <tr height="39px" />
+            {% for time in times %}
+            <tr height="{{ height }}px">
+              <td width="150px">
+                {{ time }}
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </td>
+        <td valign="top">
+          <table cellspacing="0"
+                 cellpadding="0"
+                 border="0">
+            <tr>
+              {% for col in columns %}
+              <td id="name{{ col.id }}"
+                  class="namecolwidth"
+                  width="{{ col.width }}px">
+                <table>
+                  <tr>
+                    <td>
+                      <div style="width: {{ spacerwidth }}px;">
+                      </div>
+                    </td>
+                    <td>
+                      <div title="{{ col.first_name }} {{ col.last_name }} &mdash; {{ col.name }}"
+                           style="font-family: arial;
+                                  height: 41px;
+                                  width: {{ col.width }}px;
+                                  overflow: hidden;">
+                        {{ col.first_name }}<br/>
+                        {{ col.last_name }}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              {% endfor %}
+            </tr>
+
+            <tr>
+              {% for col in columns %}
+              <td id="{{ col.id }}">
+              </td>
+              {% endfor %}
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    {% endblock %}
+
+    <pre>
+      <div class="log">
+      </div>
+    </pre>
+
+    <script type="text/javascript">
+
+      function updatePage() {
+          {% for col in columns %}
+          $.ajax({
+              type: 'GET',
+              url: '/column',
+              data: '{{ col.params }}&screenwidth=' + screen.availWidth,
+              processData: false,
+              success: function(response) {
+                  var r = JSON.parse(response);
+                  document.getElementById('{{ col.id }}').innerHTML
+                      = unescape(r['html']);
+                  $('.namecolwidth').css("width", r['width']+"px");
+                  if (false) {
+                      response=response.replace(/&/g, "&amp;");
+                      response=response.replace(/</g, "&lt;");
+                      response=response.replace(/>/g, "&gt;");
+                      $('.log').html("<pre>"+r['html']+"<br>"+r['width']+"</pre>");
+                      //$('.log').html("<pre>{{ col.params }}</pre>");
+                  }
+              }
+          });
+          {% endfor %}
+          // update the page periodically
+          var num_seconds = 10;
+          setTimeout('updatePage()', num_seconds * 1000);
+      }
+
+      function openPopup(href) {
+          var w = 600;
+          var h = 300;
+          var left = screen.availWidth/2 - w/2;
+          var top = screen.availHeight/2 - h/2;
+          window.open(
+              href,'',
+              'height='+h+',width='+w+','+'left='+left+',top='+top+',scrollbars=1');
+      }
+
+      $(document).ready(updatePage);
+
+    </script>
+  </body>
+</html>

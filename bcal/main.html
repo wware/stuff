@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>
+    University Calendar Application
+  </title>
+<head>
+<body>
+  <p>
+    University Calendar Application
+  </p>
+  <p>
+    Group calendar views
+    <ul>
+      {% for group in groups %}
+      <li><a href="/calendar?groupname={{ group.name }}">{{ group.name }}</a>
+      {% endfor %}
+    </ul>
+  </p>
+  <p>
+    <a href="/groups">List of groups</a>
+  </p>
+  <p>
+    <a href="/counselors">List of counselors</a>
+  </p>
+</body>
+</html>

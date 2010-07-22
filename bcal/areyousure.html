@@ -1,0 +1,32 @@
+{% extends "popup.html" %}
+
+{% block popupcontent %}
+
+<p>
+  You are about to delete {{ type }} "{{ name }}" which is IRREVERSIBLE and
+  PERMANENT.
+</p>
+
+<p>
+  Are you QUITE CERTAIN you want to do that?
+</p>
+
+<FORM method="GET" action="/delete{{ type }}">
+  <INPUT type="submit"
+         value="Yes, REALLY DELETE"
+         onclick="window.opener.location.href=window.opener.location.href;
+                  window.close();">
+  <input type="hidden"
+         name="name"
+         value="{{ name }}"/>
+  <input type="hidden"
+         name="confirm"
+         value="1"/>
+</FORM>
+<FORM method="GET" action="/">
+  <INPUT type="submit"
+         value="OOPS! Don't do that"
+         onclick="window.opener.location.href=window.opener.location.href;
+                  window.close();">
+</FORM>
+{% endblock %}
