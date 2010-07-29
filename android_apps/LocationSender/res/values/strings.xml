@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Location Sender helps you share your location in real time.</string>
+    <string name="app_name">Location Sender</string>
+
+<string name="getfine">Precise</string>
+<string name="getcoarse">Imprecise</string>
+
+<string name="nolocyet">No location yet</string>
+
+<string name="instrucs">Copy this by pressing and holding. Paste it into your email, SMS, or Twitter the same way.\n\nThe <b>Precise</b> button uses GPS to get an accurate location.\n\n<b>Imprecise</b> gives a coarser location based on which cell towers your phone can hear.</string>
+
+<string name="messagefine">I am at </string>
+<string name="messagecoarse">I am near </string>
+</resources>
