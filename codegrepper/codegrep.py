@@ -18,7 +18,10 @@ def linuxChooser(f):
     return (f.endswith(".java") or
             f.endswith(".xml") or
             f.endswith(".html") or
+            f.endswith(".css") or
+            f.endswith(".js") or
             f.endswith(".txt") or
+            f.endswith(".py") or
             f.endswith(".h") or
             f.endswith(".c") or
             f.endswith(".cpp"))
@@ -62,8 +65,8 @@ I can solve that problem, this is a good approach. I can use reverse for that
 when I get around to it.
 """
 
-sourceDir = "s:\\src\\theseus_v1_main_green\\src\\Pink\\Client\\source"
-indexDir = "s:\\src\\theseus_v1_main_green\\codegrep.index"
+sourceDir = "OVERLOAD ME"
+indexDir = "OVERLOAD ME"
 
 def loadFileList(idir=None):
     global fileList
@@ -136,6 +139,7 @@ def _prehunt(triplet, idir):
 def hunt(query, idir=None):
     if idir is None:
         idir = indexDir
+    lst = [ ]
     for i in _prehunt(query[:3], idir):
         fname = fileList[i]
         inf = open(fname)
