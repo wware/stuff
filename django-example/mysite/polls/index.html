@@ -1,0 +1,40 @@
+<h1>Django example website</h1>
+
+To see this website actually do something, go <a href="/polls/">here</a>.<p>
+
+To see source code, look at
+<ul>
+<li><a href="http://github.com/wware/stuff/tree/master/django-example/mysite/">mysite directory on Github</a>
+<li><a href="http://github.com/wware/stuff/tree/master/django-example/mysite/polls/">mysite/polls directory on Github</a>
+<li><a href="/code/settings.py">settings.py</a>
+<li><a href="/code/urls.py">urls.py</a>
+<li><a href="/code/polls/models.py">polls/models.py</a>
+<li><a href="/code/polls/views.py">polls/views.py</a>
+<li><a href="/code/polls/admin.py">polls/admin.py</a>
+<li><a href="/code/polls/tests.py">polls/tests.py</a>
+</ul>
+
+Django documentation <a href="http://docs.djangoproject.com/en/1.2/">here</a>. Python
+documentation <a href="http://python.org/doc/">here</a>.
+
+<h2>URL shortener</h2>
+
+<form method="POST" action="/createShortUrl/">{% csrf_token %}
+  <label>Shorten a long URL:</label>
+  <input type="text" value="" name="url"/>
+  <input type="submit" value="Shorten!"/>
+</form>
+
+<form method="GET" action="/u/">
+  <label>Follow a shortened URL:</label>
+  <input type="text" value="" id="shorturl"/>
+  <input type=button onclick="return submitform();" value="Go!">
+</form>
+
+<script type="text/javascript">
+function submitform()
+{
+  window.location = document.getElementById("shorturl").value;
+}
+</script> 
+
