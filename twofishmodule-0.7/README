@@ -1,0 +1,122 @@
+Twofish cryptographic module for Python 
+
+Twofish is a block cipher with a 16-byte block length that accepts 128, 
+192, and 256-bit keys (16, 24, and 32 bytes in length). 
+
+Note that this software is copyright 1999 Enhanced Software Technologies
+Inc. It is released under an Open Source license -- see file LICENSE.ocotillo
+for licensing information.
+
+      -- Eric Lee Green, eric@estinc.com
+
+Installation:
+
+This currently has been tested only on Linux. However, it should work
+with minor mods to the install process on all Unix systems that meet the
+following criteria:
+ 
+  1) able to compile Python modules.
+  2) a /dev/urandom that provides a source of crytographically strong
+pseudo-random numbers. Note that the only known systems that have such
+a source "out of the box" are FreeBSD and Linux. However, the Ocotillo
+PRNG (distributed seperately) has the ability to create a named pipe
+'/dev/urandom'. 
+
+To install:
+  Edit the Makefile to reflect the proper destination directory 
+(/usr/lib/python1.5 under Red Hat Linux version 6.1). 
+  Type 'make'
+  Type 'make install'
+
+---------------------------------------------------
+To Encrypt and Decrypt files from the command line:
+
+python   cryptfile.py -i=[inputfilename] -o=[outputfilename] -k=[keyfilename]
+python decryptfile.py -i=[inputfilename] -o=[outputfilename] -k=[keyfilename]
+
+The key file must contain either 16, 24, or 32 bytes of random data, such as
+could be provided by:  
+   dd if=/dev/random of=keyfile bs=32 count=1
+
+This is totally unprotected, so don't do this if security is important
+unless the keyfile is /dev/floppy (i.e., some removable media that you
+can carry with you). If you leave off the -k, you are prompted for a
+pass phrase. This pass phrase is then hashed using the MD5 message
+digest algorithm, and the 128-bit result is used as the key for
+TwoFish. There is *NOT* a salt value hashed into this pass phrase hash.
+Thus do not use the passphrase feature to product anything of real value,
+though it is adequate for personal use. 
+
+----------------------------------------------
+To decrypt and encrypt data from within Python:
+
+	import twofish
+	cipher=twofish.twofish()
+	
+    Then set a key:
+	cipher.setkey(16, 24, or 32 bit key) OR
+	cipher.hashkey("string") (sets it to 128-bit MD5 hash of the string)
+	
+   Then to encrypt in ECB mode::
+      cipher.encrypt("string")
+   Note that the string is broken into 16-byte chunks and each chunk is
+    encrypted separately. If the last chunk is not 16 bytes in length, it
+    is padded to 16 bytes in length with random garbage -- your higher
+    level routines will have to keep track of the length of the string
+    separately.
+  
+   TO decrypt in ECB mode: :
+      cipher.decrypt("string")
+   Note that the string MUST be a multiple of 16 bytes in length, since
+    otherwise the last block of 16 characters will be utter gibberish.
+    If the original string was not a multiple of 16 bytes in length, you
+    must keep track of the original length elsewhere.
+
+
+  To encrypt in CBC mode (the preferred block mode):
+     cipher.encrypt_cbc("string")
+
+  To decrypt in CBC mode:
+      cipher.decrypt_cbc("string")
+
+    In CBC mode, the encrypted data is preceded by a 128-bit (16 byte)
+"salt" value. Any blocks that don't fill to a 128-bit (16 byte)
+boundary are padded with random garbage -- your higher level routines
+will have to keep track of the string seperately.
+
+  To encrypt/decrypt in CFB128 (stream) mode:
+
+     s=cipher.salt()   # to create & save a random salt. 
+     cipher.encrypt_cfb128("string")
+
+  To decrypt the result, you must first initialize the cipher with the
+  same salt string you used at create time:
+     cipher.salt(s)
+     cipher.decrypt_cfb128("string")
+  
+
+  To encrypt and decrypt files from within Python, open a couple of file
+  handles (one for input, one for output), and:
+    cipher.encrypt_cfb_file(infile,outfile)
+    cipher.decrypt_cfb_file(infile,outfile)    
+  Note that the output file will have a random 16-byte salt prepended to it.
+  That is used by decrypt_cfb_file to set the cfb salt string.
+
+          
+
+
+TODO
+   General: Make portable to other platforms.
+            Check against test vectors on Bruce Schneir's site 
+   twofish.py:
+            Add stubs for interface to OFB/Counter mode. 
+           Clean out that old 8-bit CFB stuff. 
+   twofishmodule.c: Add OFB/Counter mode
+                    General cleanup, parameter checking,
+                         add exception class. 
+           Clean out that old 8-bit CFB stuff. 
+
+   cryptrand.py:
+           Set it up to use MD5 and the base block-mode TwoFish cipher to
+     implement a PRNG based upon various sources of initial entropy in the
+     case that /dev/urandom is not available. 

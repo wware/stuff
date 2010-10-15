@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# note -- this assumes 'bash' shell, GNU tar, 'gzip'. It will only
+# work on platforms that implement the [] synonym for 'test' and
+# that implement the -s option for detecting symbolic links (i.e., don't
+# try this on brain-dead systems like SCO Unix, folks! And change 'tar' to
+# 'gtar' for BSD). 
+
+# pass a version number e.g. 1.4.3 as 1st parameter...
+ME=`pwd`
+cd ..
+if [ ! -s twofishmodule-${1} ]
+then
+   ln -s "${ME}" "twofishmodule-${1}"
+fi
+tar --exclude CVS -czvhf twofishmodule-${1}.tar.gz twofishmodule-${1}
+

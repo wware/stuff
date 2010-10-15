@@ -1,0 +1,92 @@
+# Makefile for 2fishmodule
+# Copyright 2000 Enhanced Software Technologies Inc.
+# All Rights Reserved
+#
+# Released for public use under the BSD license.
+# see file LICENSE for details.
+#
+# RCS CHANGE LOG
+# $Log: Makefile.in,v $
+# Revision 1.4  2001/12/06 17:32:29  elgreen
+# Updated CHANGES file, fixed 'make dist' in Makefile.in
+#
+# Revision 1.3  2001/12/06 17:18:40  elgreen
+# Bump the version number prior to release
+#
+# Revision 1.2  2001/08/03 07:40:47  jluster
+# Cleanup work, added getpass functions for Passphrases and automatic lib/lib-dynload recognition
+#
+# Revision 1.1.1.1  2001/05/22 23:39:10  elgreen
+# Initial checkin
+#
+# Revision 1.2  2000/05/25 23:56:23  eric
+# Daily checkin.
+#
+# Revision 1.1  2000/05/18 00:11:25  eric
+# Use different Twofish routines...
+#
+# Revision 1.4  2000/05/05 20:56:49  eric
+# Modifications for getting 'kk=' string out of the server config files.
+#
+# Revision 1.3  2000/04/24 20:01:54  eric
+# Fixed install prefix :-(
+#
+# Revision 1.2  2000/04/24 19:46:57  eric
+# More autoconf tweaks. Changed to using Counterpane's TwoFish rather than
+# Dr. Gladman's TwoFish in an attempt to fix the big endian/little endian
+# problems once and for all.
+#
+# Revision 1.2  2000/04/05 22:09:19  eric
+# Daily checkin...
+#
+# Revision 1.1  2000/03/28 23:54:28  eric
+# Initial checkin -- aescrypt/aesget
+#
+#
+# $Date: 2001/12/06 17:32:29 $
+#
+
+VERSION=0.7
+
+CC=@CC@        # set the C compiler to gcc for most platforms. This is
+               # set to pgcc for Mandrake 6.1 due to irritating colorgcc. 
+
+# WARNING: THIS MAY FAIL IF PYTHON IS IN A STRANGE PLACE! It works with
+# both the BRU Professional Python installation and the Red Hat 6.2
+# Python installation (see configure.in for the hairy piece of autoconf
+# code that derives this from --prefix -- note that --prefix should point
+# at the Python LIB directory, not at the Python 'root). It may not work on
+# other installations of Python.
+INCLUDES=-I@PYTHON_INCLUDE@
+
+LIBS=
+
+#CFLAGS=-g -O2
+
+CFLAGS=-g $(INCLUDES)
+
+all: _twofish.so
+
+_twofish.so: twofishmodule.o _twofish.o
+	ld -E -shared -o _twofish.so twofishmodule.o _twofish.o
+
+clean:
+	@rm -f *.pyc
+	@rm -f *.o *~ *.so
+
+dist:	clean
+	@rm -f config.h config.cache config.guess config.log config.status Makefile 
+	./makedist $(VERSION)
+
+install:
+	@cp _twofish.so @PYTHON_LIB@/_twofish.so
+	@cp *.py  @PYTHON_PREFIX@/
+
+# I'm keeping track of dependencies from the start, sigh. 
+
+_twofish.o: _twofish.c aes.h table.h debug.h
+	$(CC) -c $(CFLAGS) _twofish.c
+
+twofishmodule.o: aes.h twofishmodule.c
+	$(CC) -c $(CFLAGS) twofishmodule.c
+

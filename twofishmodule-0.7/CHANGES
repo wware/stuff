@@ -1,0 +1,35 @@
+twofishmodule-0.6:
+  * Fixed a bad problem with key schedule. 
+  * Jonas fixed the autoconf, made it install right on more systems.  
+  * Jonas added getpass functions to cryptfile/decryptfile
+  * Cleaned up the makedist process somewhat. 
+
+twofishmodule-0.5:
+
+   Wasn't producing the correct test vector values. Wasn't working on
+big-endian machines. Switched to Counterpane 'twofish' implementation
+instead of fiddling with Dr. Gladman's. Also now uses GNU autoconf mechanism
+to set up & configure stuff. Somebody needs to add a test for the $PYTHONHOME
+though because right now that's hard coded to its location on Red Hat 6.2
+(though you can use --prefix to manually change it). A test for Python.h
+location is also needed in the configure.in. 
+
+Changes, twofishmodule-0.3 to twofishmodule-0.4:
+  Changed README to reflect that Ocotillo will now
+produce a /dev/urandom for systems without one. 
+
+Changes, twofishmodule-0.2 to twofishmodule-0.3:
+
+Changed README.ocotillo to make sure it reflected Dr. Gladman's
+contribution.
+Whoops, forgot cryptrand.py!
+
+Changes, twofishmodule-0.1 to twofishmodule-0.2:
+
+Replaced CFB8 with CFB128 as recommended stream mode.
+Implemented "C" version of CFB128
+Implemented routines to encrypt and decrypt files with CFB128 mode.
+Wrote two wrapper routines (cryptfile and decryptfile) to use said
+   API to encrypt and decrypt files on disk.
+Deprecated CFB8 mode -- it will be removed from the code ASAP, due to the
+  fact that CFB128 performs so much better. 
