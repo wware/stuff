@@ -1,0 +1,33 @@
+# put X windows programs that you want started here.
+# Be sure to add at the end of each command the &
+
+KEYTABLE="$(getknoppixparam.lua KEYTABLE)"
+DESKTOP="$(getoption.lua $HOME/.desktop wm)"
+ICONS="$(getoption.lua $HOME/.desktop icons)"
+
+umix -lf .umix 2>/dev/null
+
+[ -f .mouse_config ] && sh .mouse_config &
+
+# For non-US Keyboards
+if [ ${KEYTABLE:0:2} != "us" ]; then
+  xmodmap -e "clear Mod4" -e "add Mod5 = Mode_switch" &
+fi
+
+if [ "$ICONS" == "xtdesk" ]; then
+  for x in `ls -1 .xtdesktop/*.hide 2>/dev/null`; do rm -f ${x%.*}; done
+  iconsnap.lua &>/dev/null &
+  xtdesk.sh
+elif [ "$ICONS" == "dfm" ]; then 
+  /usr/bin/dfm &
+else
+  [ "$DESKTOP" == "jwm" ] && echo '<?xml version="1.0"?><JWM></JWM>' > .jwmrc-icons
+fi
+
+if egrep -qv lowram /proc/cmdline 2>/dev/null; then
+  aterm -geometry 200x60+0+0 -e /bin/hello.sh &
+  torsmo 2>/dev/null &
+fi
+
+[ -f ".$DESKTOP.inc" ] && ~/".$DESKTOP.inc"
+exec "${DESKTOP:=jwm}" 2>/dev/null
