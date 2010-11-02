@@ -1,0 +1,13 @@
+Package: foo-bar
+Version: 1.0
+Architecture: i386
+Depends: libc6 (>= 2.11), bash (>= 4.1), python (>=2.6), python-dev (>=2.6)
+Section: devel
+Priority: optional
+Installed-Size: 8
+Maintainer: Will Ware <wware@litl.com>
+Description: This is an example of how to make a debian file. It
+ should really be tested with lintian, a "lint" program for debian
+ files, but it's good enough to install as it stands.
+ .
+ This is the second paragraph of the package information.

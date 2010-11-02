@@ -1,0 +1,10 @@
+Old Changelog:
+commit 5c160615fbcb4b87edb594f0f80b55286f91a431
+Author: Will Ware <wware@alum.mit.edu>
+Date:   Tue Nov 2 22:39:40 2010 -0400
+simplifications, more control info
+
+commit ee3066619d82b156f53dc6474d1e11859c58588b
+Author: Will Ware <wware@litl.com>
+Date:   Tue Nov 2 18:01:43 2010 -0400
+how to build a debian package
