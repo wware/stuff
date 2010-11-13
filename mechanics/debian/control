@@ -1,0 +1,14 @@
+Package: wware-mechanics
+Version: 0.01
+Architecture: all
+Depends: povray, povray-includes, libode1, libode-dev, python-pyode,
+ python-pyode-doc, guile-1.8, guile-1.8-dev, python-pygame
+Section: devel
+Priority: optional
+Installed-Size: 33
+Maintainer: Will Ware <wware@alum.mit.edu>
+Description: Mechanical part models for ODE and Pov-RAY
+ A library of gears, bearings, shafts, etc., suitable
+ for placement in 3D, simulation, and animation. The idea
+ is to be able to whip up Youtube videos that demonstrate
+ working mechanical designs.
