@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
+"http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+ 
+<ncx version="2005-1" xml:lang="en" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+ 
+  <head>
+<!-- The following four metadata items are required for all NCX documents,
+including those conforming to the relaxed constraints of OPS 2.0 -->
+ 
+    <meta name="dtb:uid" content="123456789X"/> <!-- same as in .opf -->
+    <meta name="dtb:depth" content="1"/> <!-- 1 or higher -->
+    <meta name="dtb:totalPageCount" content="0"/> <!-- must be 0 -->
+    <meta name="dtb:maxPageNumber" content="0"/> <!-- must be 0 -->
+  </head>
+ 
+  <docTitle>
+    <text>Will's Blog</text>
+  </docTitle>
+ 
+  <docAuthor>
+    <text>Ware, Will</text>
+  </docAuthor>
+ 
+  <navMap>
+    <navPoint class="chapter" id="entry-1" playOrder="1">
+      <navLabel><text>Remastering Ubuntu Mini Remix</text></navLabel>
+      <content src="wills-blog.xhtml#entry-1">
+    </navPoint>
+    <navPoint class="chapter" id="entry-2" playOrder="2">
+      <navLabel><text>Making a debian release package</text></navLabel>
+      <content src="wills-blog.xhtml#entry-2">
+    </navPoint>
+    <navPoint class="chapter" id="entry-3" playOrder="3">
+      <navLabel><text>Customized Ubuntu distributions part three</text></navLabel>
+      <content src="wills-blog.xhtml#entry-3">
+    </navPoint>
+    <navPoint class="chapter" id="entry-4" playOrder="4">
+      <navLabel><text>Customized Ubuntu distributions part two</text></navLabel>
+      <content src="wills-blog.xhtml#entry-4">
+    </navPoint>
+    <navPoint class="chapter" id="entry-5" playOrder="5">
+      <navLabel><text>Fun with customized Ubuntu distributions</text></navLabel>
+      <content src="wills-blog.xhtml#entry-5">
+    </navPoint>
+    <navPoint class="chapter" id="entry-6" playOrder="6">
+      <navLabel><text>Preliminary things from the Life Extesion Conference</text></navLabel>
+      <content src="wills-blog.xhtml#entry-6">
+    </navPoint>
+    <navPoint class="chapter" id="entry-7" playOrder="7">
+      <navLabel><text>Tim BL's talk on Linked Data</text></navLabel>
+      <content src="wills-blog.xhtml#entry-7">
+    </navPoint>
+    <navPoint class="chapter" id="entry-8" playOrder="8">
+      <navLabel><text>Set theory, OWL, and the Semantic Web</text></navLabel>
+      <content src="wills-blog.xhtml#entry-8">
+    </navPoint>
+    <navPoint class="chapter" id="entry-9" playOrder="9">
+      <navLabel><text>Setting up a small electronics lab</text></navLabel>
+      <content src="wills-blog.xhtml#entry-9">
+    </navPoint>
+    <navPoint class="chapter" id="entry-10" playOrder="10">
+      <navLabel><text>In Taiwan next week</text></navLabel>
+      <content src="wills-blog.xhtml#entry-10">
+    </navPoint>
+    <navPoint class="chapter" id="entry-11" playOrder="11">
+      <navLabel><text>This Google-Verizon deal and Net Neutrality and all that...</text></navLabel>
+      <content src="wills-blog.xhtml#entry-11">
+    </navPoint>
+    <navPoint class="chapter" id="entry-12" playOrder="12">
+      <navLabel><text>Evolution and randomness</text></navLabel>
+      <content src="wills-blog.xhtml#entry-12">
+    </navPoint>
+    <navPoint class="chapter" id="entry-13" playOrder="13">
+      <navLabel><text>Android app: share your location</text></navLabel>
+      <content src="wills-blog.xhtml#entry-13">
+    </navPoint>
+    <navPoint class="chapter" id="entry-14" playOrder="14">
+      <navLabel><text>Website design, lessons learned, part 1</text></navLabel>
+      <content src="wills-blog.xhtml#entry-14">
+    </navPoint>
+    <navPoint class="chapter" id="entry-15" playOrder="15">
+      <navLabel><text>Saint-Saëns' Symphony No. 3 in C minor</text></navLabel>
+      <content src="wills-blog.xhtml#entry-15">
+    </navPoint>
+    <navPoint class="chapter" id="entry-16" playOrder="16">
+      <navLabel><text>Enjoyed a Steampunk Festival, later got an idea of my own</text></navLabel>
+      <content src="wills-blog.xhtml#entry-16">
+    </navPoint>
+    <navPoint class="chapter" id="entry-17" playOrder="17">
+      <navLabel><text>Autosci talk at Bar Camp Boston</text></navLabel>
+      <content src="wills-blog.xhtml#entry-17">
+    </navPoint>
+    <navPoint class="chapter" id="entry-18" playOrder="18">
+      <navLabel><text>A Formal System For Euclid's Elements</text></navLabel>
+      <content src="wills-blog.xhtml#entry-18">
+    </navPoint>
+    <navPoint class="chapter" id="entry-19" playOrder="19">
+      <navLabel><text>Learning to live with software specifications</text></navLabel>
+      <content src="wills-blog.xhtml#entry-19">
+    </navPoint>
+    <navPoint class="chapter" id="entry-20" playOrder="20">
+      <navLabel><text>Don't covet Apple's new iPad</text></navLabel>
+      <content src="wills-blog.xhtml#entry-20">
+    </navPoint>
+    <navPoint class="chapter" id="entry-21" playOrder="21">
+      <navLabel><text>All web app frameworks lead to Rome</text></navLabel>
+      <content src="wills-blog.xhtml#entry-21">
+    </navPoint>
+    <navPoint class="chapter" id="entry-22" playOrder="22">
+      <navLabel><text>A new FPGA board to play with</text></navLabel>
+      <content src="wills-blog.xhtml#entry-22">
+    </navPoint>
+    <navPoint class="chapter" id="entry-23" playOrder="23">
+      <navLabel><text>TA-65 safety claims</text></navLabel>
+      <content src="wills-blog.xhtml#entry-23">
+    </navPoint>
+    <navPoint class="chapter" id="entry-24" playOrder="24">
+      <navLabel><text>Learning Ruby on Rails</text></navLabel>
+      <content src="wills-blog.xhtml#entry-24">
+    </navPoint>
+    <navPoint class="chapter" id="entry-25" playOrder="25">
+      <navLabel><text>Jena: Node versus RDFNode</text></navLabel>
+      <content src="wills-blog.xhtml#entry-25">
+    </navPoint>
+  </navMap>
+ 
+</ncx>
+
