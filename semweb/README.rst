@@ -1,3 +1,6 @@
+Semantic web hacking
+====================
+
 This is some Java hacking I did, mostly in October and November of
 2003, to get better acquainted with Hewlett Packard's open-source
 Jena package, a Java library for doing semantic web stuff. The basic
