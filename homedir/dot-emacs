@@ -3,13 +3,17 @@
 (setq initial-major-mode 'fundamental-mode)
 
 ; (setq set-fill-column 78)
+; (setq-default fill-column 78)
 (setq set-fill-column 100)
+(setq-default fill-column 100)
 
 (setq inferior-lisp-program "guile")
 
 (setq sentence-end-double-space nil)
 
 (setq make-backup-files nil)
+
+(setq inhibit-startup-screen t)
 
 (defun f8-function ()
   (list-buffers)
@@ -36,31 +40,28 @@
 (add-hook 'text-mode-hook
   '(lambda () (auto-fill-mode 1)))
 
-(setq-default fill-column 70)
-
 ;; C color coding
 (defun my-c-mode-hook ()
   (turn-on-font-lock)
-  (setq c-basic-offset 8)
+  (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0) ; this is the one you care about
   (c-set-offset 'statement-case-open 0)
-  (c-set-offset 'case-label '+)
-  (setq tab-width 8)
-  (setq indent-tabs-mode t)
+  (c-set-offset 'case-label 0)
+  (setq indent-tabs-mode nil)
   (message "my-c-mode-hook function executed"))
-(add-hook 'c-mode-hook 'turn-on-font-lock)
+;;(add-hook 'c-mode-hook 'turn-on-font-lock)
+(add-hook 'c-mode-hook 'my-c-mode-hook)
 (setq line-number-mode 1)
-
-(defun j4 ()
-  (setq c-basic-offset 4))
+(setq auto-mode-alist
+       (cons '("\\.c$" . c-mode)
+       (cons '("\\.h$" . c-mode) auto-mode-alist)))
 
 (defun my-java-mode-hook ()
-  (setq c-basic-offset 8)
+  (setq c-basic-offset 4)
   (c-set-offset 'substatement-open 0) ; this is the one you care about
   (c-set-offset 'statement-case-open 0)
   (c-set-offset 'case-label '+)
-  (setq tab-width 8)
-  (setq indent-tabs-mode t)
+  (setq indent-tabs-mode nil)
   (message "my-java-mode-hook function executed"))
 
 (add-hook 'java-mode-hook 'my-java-mode-hook)
@@ -74,8 +75,6 @@
 ;      (cons '("\\.py$" . python-mode) auto-mode-alist))
 (setq auto-mode-alist
        (cons '("\\.pyx$" . python-mode) auto-mode-alist))
-
-(autoload 'cscope-bind-keys "cscope" nil t)
 
 
 (defun linux-c-mode ()
@@ -91,14 +90,14 @@
   (setq indent-tabs-mode nil)
   (setq tab-width 8))
 
-(require 'mmm-mode)
-(setq mmm-global-mode 'maybe)
-(mmm-add-mode-ext-class nil "\\.php3?\\'" 'html-php)
-(mmm-add-classes
- '((html-php
-    :submode php-mode
-    :front "<\\?\\(php\\)?"
-    :back "\\?>")))
+;; (require 'mmm-mode)
+;; (setq mmm-global-mode 'maybe)
+;; (mmm-add-mode-ext-class nil "\\.php3?\\'" 'html-php)
+;; (mmm-add-classes
+;;  '((html-php
+;;     :submode php-mode
+;;     :front "<\\?\\(php\\)?"
+;;     :back "\\?>")))
 (autoload 'php-mode "php-mode" "PHP editing mode" t)
 (add-to-list 'auto-mode-alist '("\\.php3?\\'" . sgml-html-mode))
 
@@ -176,5 +175,3 @@
   ;; custom-set-faces was added by Custom -- don't edit or cut/paste it!
   ;; Your init file should contain only one such instance.
  )
-
-

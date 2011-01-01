@@ -1,0 +1,15 @@
+export EDITOR=/usr/bin/vim
+export LANG=C
+
+alias hi='history | less'
+alias ls='/bin/ls --color -F '
+
+# some more ls aliases
+alias ll='/bin/ls -l'
+alias la='/bin/ls -A'
+
+export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.07
+export PATH=$JAVA_HOME/bin:$PATH:/usr/local/arm7/bin
+
+export CUDA_HOME=/usr/local/cuda
+export PATH=$PATH:$CUDA_HOME/bin

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import math, sys, os, random, types, Numeric
+import math, sys, os, random, types, numpy
 
 os.system('make zbuf.so')
 import zbuf
@@ -79,17 +79,17 @@ class Sphere:
         d = (2 * random.random() - 1,
              2 * random.random() - 1,
              2 * random.random() - 1)
-        d = Numeric.multiply((1. / radius) /
-                             math.sqrt(Numeric.dot(d, d)),
-                             d)
+        d = numpy.multiply((1. / radius) /
+                           math.sqrt(numpy.dot(d, d)),
+                           d)
         while 1:
             dcolor=(256 * random.random() - 128,
                     256 * random.random() - 128,
                     256 * random.random() - 128)
-            if math.sqrt(Numeric.dot(dcolor, dcolor)) > 200:
+            if math.sqrt(numpy.dot(dcolor, dcolor)) > 200:
                 break
         def coloredVertex(center, color, direction=d, dcolor=dcolor):
-            dotproduct = Numeric.dot(center, direction)
+            dotproduct = numpy.dot(center, direction)
             return (center +
                     (min(max(color[0] + dotproduct * dcolor[0], 0), 255),
                      min(max(color[1] + dotproduct * dcolor[1], 0), 255),
@@ -120,15 +120,15 @@ class Sphere:
         for i in range(2):
             z = 2 * math.pi * random.random()
             c, s = math.cos(z), math.sin(z)
-            m = Numeric.matrixmultiply([[c,s,0],[-s,c,0],[0,0,1]], m)
+            m = numpy.dot([[c,s,0],[-s,c,0],[0,0,1]], m)
             z = 2 * math.pi * random.random()
             c, s = math.cos(z), math.sin(z)
-            m = Numeric.matrixmultiply([[c,0,s],[0,1,0],[-s,0,c]], m)
+            m = numpy.dot([[c,0,s],[0,1,0],[-s,0,c]], m)
             z = 2 * math.pi * random.random()
             c, s = math.cos(z), math.sin(z)
-            m = Numeric.matrixmultiply([[1,0,0],[0,c,s],[0,-s,c]], m)
+            m = numpy.dot([[1,0,0],[0,c,s],[0,-s,c]], m)
         for i in range(len(vertices)):
-            xyz = Numeric.matrixmultiply(m, vertices[i][:3])
+            xyz = numpy.dot(m, vertices[i][:3])
             color = list(vertices[i][3:])
             for j in range(3):
                 color[j] = lambda t,x=max(10, color[j]): x

@@ -1,9 +1,26 @@
-I was reading the Blondie24 book. It was an interesting approach to a checkers-playing program. The idea is that you come up with a neural net that looks at the layout of checkers on the board and comes up with a figure of merit. You use the figure of merit to select the most favorable move from the possible next moves. This simple approach should be applicable to any game with finitely many next moves, and is probably suitable for stock picking.
+I was reading the Blondie24 book. It was an interesting approach to a
+checkers-playing program. The idea is that you come up with a neural net that
+looks at the layout of checkers on the board and comes up with a figure of
+merit. You use the figure of merit to select the most favorable move from the
+possible next moves. This simple approach should be applicable to any game with
+finitely many next moves, and is probably suitable for stock picking.
 
-Anyway the next trick is, where do you get this magically insightful neural net? You set up a big competition among a bunch of initially random neural nets, and you breed the most successful ones to produce offspring. You do this over many generations and after a few hundred generations, you have a very good checkers player that can defeat skilled human checkers players.
+Anyway the next trick is, where do you get this magically insightful neural
+net? You set up a big competition among a bunch of initially random neural
+nets, and you breed the most successful ones to produce offspring. You do this
+over many generations and after a few hundred generations, you have a very good
+checkers player that can defeat skilled human checkers players.
 
-It's an interesting idea, with a few limitations. Once it leaves the evolutionary competition, the neural net never changes, so it never learns from later experience. Because it's a neural net, it can't explain its reasoning process. If the rules to checkers were ever to change, it would immediately become useless.
+It's an interesting idea, with a few limitations. Once it leaves the
+evolutionary competition, the neural net never changes, so it never learns from
+later experience. Because it's a neural net, it can't explain its reasoning
+process. If the rules to checkers were ever to change, it would immediately
+become useless.
 
-Some good things: The idea has been tested and it really does give you a very capable checkers player. Since the neural net is static, it can be compiled for optimal efficiency and you don't need any machinery for updating its weights.
+Some good things: The idea has been tested and it really does give you a very
+capable checkers player. Since the neural net is static, it can be compiled for
+optimal efficiency and you don't need any machinery for updating its weights.
 
-I'm too lazy to do this for checkers, so I'm taking a feeble stab at a tic-tac-toe equivalent. I haven't quite figured out how to do a crossover of two neural networks, but the basic framework is in place.
+I'm too lazy to do this for checkers, so I'm taking a feeble stab at a
+tic-tac-toe equivalent. I haven't quite figured out how to do a crossover of
+two neural networks, but the basic framework is in place.
