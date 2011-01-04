@@ -2,14 +2,18 @@ Math library for Guile Scheme
 =============================
 
 I want to do some stuff:
+
 - z-buffering with transparency
 - generating POV-Ray output
 - mechanical simulation
+
   - rigid bodies
   - linear and non-linear springs
   - "jigs" as Mark Sims used to say
   - ultimately, molecular modeling
+
     - http://chemistry.gsu.edu/Glactone/modeling/MMintro.html
+
 - posting mechanical simulation videos on Youtube
 
 A lot of this stuff involves math, so I'm putting together a little math
@@ -20,6 +24,7 @@ How Guile modules work
 ----------------------
 
 Modules appear in /usr/share/guile/1.8, for example::
+
  ;; /usr/share/guile/1.8/ice-9/slib.scm
  (use-modules (ice-9 slib))
  (require 'primes)
