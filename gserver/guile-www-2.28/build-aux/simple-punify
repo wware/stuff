@@ -1,0 +1,89 @@
+;;; simple-punify --- Display -*-scheme-*- code in a small way
+
+;; Copyright (C) 2010 Thien-Thi Nguyen
+;;
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this software; see the file COPYING.  If not, write to
+;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Author: Thien-Thi Nguyen <ttn@gnuvola.org>
+
+;;; Commentary:
+
+;; This is a stripped-down version of (scripts punify) from Guile 1.4.x.
+;; It reads stdin and writes stdout, ignoring args, one form per line.
+
+;;; Code:
+
+(define (write-punily form)
+  (define (list-is-quote? ls)
+    (and (= 2 (length ls)) (eq? 'quote (car ls))))
+  (cond ((vector? form)
+         (display #\#)
+         (write-punily (vector->list form)))
+        ((and (list? form) (list-is-quote? form))
+         (display " '")
+         (write-punily (cadr form)))
+        ((and (list? form) (not (null? form)))
+         (let ((first (car form)))
+           (display "(")
+           (write-punily first)
+           (let loop ((ls (cdr form)) (last-was-list? (list? first)))
+             (if (null? ls)
+                 (display ")")
+                 (let* ((new-first (car ls))
+                        (this-is-list? (and (list? new-first)
+                                            (or (not (list-is-quote? new-first))
+                                                (list? (cadr new-first))))))
+                   (and (not last-was-list?)
+                        (not this-is-list?)
+                        (display #\space))
+                   (write-punily new-first)
+                   (loop (cdr ls) this-is-list?))))))
+        ((string? form)
+         (display #\")
+         (let loop ((ls (string->list form)))
+           (or (null? ls)
+               (let ((c (car ls)))
+                 (display (case c
+                            ((#\bel)     "\\a")
+                            ((#\np)      "\\f")
+                            ((#\newline) "\\n")
+                            ((#\cr)      "\\r")
+                            ((#\ht)      "\\t")
+                            ((#\vt)      "\\v")
+                            ((#\")      "\\\"")
+                            ((#\\)      "\\\\")
+                            (else c)))
+                 (loop (cdr ls)))))
+         (display #\"))
+        ((and (symbol? form)
+              (let ((ls (string->list (symbol->string form))))
+                (and (char=? (car ls) #\:)
+                     (not (memq #\space ls))
+                     (list->string (cdr ls)))))
+         => (lambda (symbol-name-after-colon)
+              (display #\:)
+              (display symbol-name-after-colon)))
+        (else (write form))))
+
+;; main
+(let ((p (current-input-port)))
+  (let loop ((form (read p)))
+    (or (eof-object? form)
+        (begin (write-punily form)
+               (newline)
+               (loop (read p))))))
+
+;;; simple-punify ends here

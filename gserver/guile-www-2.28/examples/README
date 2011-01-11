@@ -1,0 +1,10 @@
+This directory contains some examples using Guile-WWW modules.
+
+To use the modules before installing them, try ‘wily-guile’ in this directory
+instead of plain old ‘guile’.  For some examples, it is enough to set and
+export env var GUILE=$(pwd)/wily-guile.  For others, try something like:
+
+ sed s,/usr/local/bin/guile,$(pwd)/wily-guile, PROGRAM > TMP
+ mv TMP PROGRAM
+
+This is not done automatically for you because the maintainer is lazy.

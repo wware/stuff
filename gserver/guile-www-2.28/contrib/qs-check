@@ -1,0 +1,134 @@
+#!/bin/sh
+exec ${GUILE-guile} --debug -s $0 "$@" # -*-scheme-*-
+!#
+;;; Author: Alan Grover <awgrover@mail.msen.com>
+;;;         (slightly modified by ttn)
+;;;
+;;; Usage: ./qs-check
+;;;
+;;; Check QUERY_STRING handling by module (www cgi).
+;;; If all goes well, display:
+;;;
+;;;  (#t ((qstring "") (wanted "") (rebuilt "")))
+;;;  (#t ((qstring "noval") (wanted "noval") (rebuilt "noval")))
+;;;   :
+;;;   ---Fails:
+;;;
+;;; Otherwise, display fewer lines above "Fails" and more below it.
+
+(load-from-path "../url-coding.scm")
+(load-from-path "../cgi.scm")
+
+(use-modules (www cgi))
+(use-modules (srfi srfi-1))
+
+; Various query-string test values
+; After parsing, the test will reassemble the query-string and see if it matches
+; Does not round-trip a "+" correctly: comes back as a %20 encoded value
+(define test-values
+  (list
+   ""
+   "noval"
+   (cons "noval2=" "noval2")
+   "val=1"
+   (cons "noval&" "noval")
+   (cons "val=a&val=" "val=a&val")
+   (cons "val=1&" "val=1")
+   (cons "val=a=b" "val=a%3db")
+   (cons "val=a&=b" "val=a&=b")
+   "noval&noval2"
+   "val=1&noval2"
+   "val=1&val2=2"
+   "val=a&val"
+   (cons "val=a%20b" "val=a%20b")
+   (cons "val=a+b" "val=a%20b")
+   (cons "=bad-term"  "=bad-term")
+   (cons "noval1&&noval2"  "noval1&noval2")
+   "val=a&val=b"
+   "val&val"
+   "with%26amper=with%3dequal"
+   "with%3damper"
+   (cons "val=a&val2=c&val=b" "val=a&val=b&val2=c")
+   "a=1&b=2&c=3"
+   "a%3d=withequal"
+   ))
+
+(define (join binder str-list)
+  "join binder list => appends the list together with binder between"
+  (fold-right
+   (lambda (head done)
+     (if (eq? done '())
+         head
+         (string-append head binder done)))
+   '()
+   str-list))
+
+(define (do-test)
+
+  (define (print-if bool test-results)
+    "print if bool eq t-or-f"
+    (for-each (lambda (res)
+                (and (eq? bool (car res))
+                     (simple-format #t "~S\n" res)))
+              test-results))
+
+  (define (comparer qstring-or-pair)
+    "parse via cgi:init, reassemble, test for equal?"
+    (let* ((qstring (if (pair? qstring-or-pair)
+                        (car qstring-or-pair)
+                        qstring-or-pair))
+           (explicit-wanted (if (pair? qstring-or-pair)
+                                (cdr qstring-or-pair)
+                                #f))
+           (qstring-names
+            (begin (environ (list (string-append "QUERY_STRING=" qstring)))
+                   (cgi:init)
+                   (cgi:names)))
+           (other-url-encode-bad (string->list "+%=&")))
+
+      (define (encode s)
+        (url-coding:encode s other-url-encode-bad))
+
+      (define (assemble-key-value name)
+        (if (not name)
+            "<no-name>"
+            (let* ((enc-key (or (and=> name encode)
+                                "<no-enc-name>"))
+                   (raw-values (or (and=> name cgi:values)
+                                   "<no-values>")))
+              (if (not raw-values)
+                  enc-key
+                  ;; no "="
+                  (join "&" (map (lambda (v)
+                                   (string-append
+                                    enc-key (if (or (not v)
+                                                    (equal? v ""))
+                                                ""
+                                                (string-append
+                                                 "=" (encode v)))))
+                                 raw-values))))))
+
+      (define (rebuild-key-values)
+        (if (or (not qstring-names)
+                (eq? qstring-names '()) )
+            (list "")
+            (map assemble-key-value qstring-names)))
+
+      (let ((rebuilt-qstring (join "&" (rebuild-key-values)))
+            ;; + and %20 are the same, so normalize
+            (normalized-qstring (or explicit-wanted qstring)))
+        (list (equal? normalized-qstring rebuilt-qstring)
+              (list (list 'qstring qstring)
+                    (list 'wanted normalized-qstring)
+                    (list 'rebuilt rebuilt-qstring))))))
+
+  (let ((results (map comparer test-values)))
+
+    ;; Print 'em
+    (print-if #t results)
+    (display " ---Fails:") (newline)
+    (print-if #f results)))
+
+(do-test)
+
+;;; qs-check ends here

@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+<title>url-coding - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="main.html#main" title="main">
+<link rel="next" href="utcsec.html#utcsec" title="utcsec">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="url-coding"></a>
+<a name="url_002dcoding"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="utcsec.html#utcsec">utcsec</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="main.html#main">main</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">5 (www url-coding)</h2>
+
+<p>The <code>(www url-coding)</code> module provides two procedures for decoding
+and encoding URL strings for safe transmission according to RFC 1738.
+
+<!-- @twerpdoc (url-coding:decode) -->
+<!-- ../source/url-coding.doc -->
+<div class="defun">
+&mdash; Procedure: <b>url-coding:decode</b><var> str<a name="index-url_002dcoding_003adecode-45"></a></var><br>
+<blockquote><p>Return a new string made from url-decoding <var>str</var>.  Specifically,
+turn <code>+</code> into space, and hex-encoded <code>%XX</code> strings into
+their eight-bit characters. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url-coding:encode) -->
+<!-- ../source/url-coding.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url-coding:encode</b><var> str reserved-chars<a name="index-url_002dcoding_003aencode-46"></a></var><br>
+<blockquote><p>Return a new string made from url-encoding <var>str</var>,
+unconditionally transforming those in <var>reserved-chars</var>, a list
+of characters, in addition to those in the standard (internal) set. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

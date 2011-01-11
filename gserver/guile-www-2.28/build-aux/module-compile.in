@@ -1,0 +1,61 @@
+#!/bin/sh
+# module-compile
+#
+# Copyright (C) 2007, 2009, 2010 Thien-Thi Nguyen
+#
+# This file is part of Guile-WWW.
+#
+# Guile-WWW is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 3, or
+# (at your option) any later version.
+#
+# Guile-WWW is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public
+# License along with Guile-WWW; see the file COPYING.  If not,
+# write to the Free Software Foundation, Inc., 51 Franklin Street,
+# Fifth Floor, Boston, MA  02110-1301  USA
+##
+# Usage: module-compile -o OUTFILE INFILE
+#
+# "Compile" (har har) INFILE (a .scm source file) to OUTFILE.
+# In the process, do various target-system-specific customziations.
+# For version 1.x, OUTFILE is also source code (text).
+##
+
+version="1.1"
+
+usage ()
+{
+    # $1: exit value
+    # $2: "--version" (omit help message), or omit
+    echo `basename $0` $version | sed 's/[.]sh,v//'
+    if [ x"$2" = x--version ] ; then : ; else
+	echo
+	sed '/^##/,/^##/!d;/##/d;s/^. *//' $0
+    fi
+    exit $1
+}
+
+checkhv ()
+{
+    # $1: script's $1
+    if [ x"$1" = x--version ] ; then usage 0 $1 ; fi
+    if [ x"$1" = x--help ]    ; then usage 0    ; fi
+}
+
+checkhv $1
+test x"$1" = x-o || usage 1
+test x"$3" = x && usage 1
+
+cust="/^$$/d"
+test @optargs_kw@ = yes && cust="$cust;s/ice-9.optargs/&-kw/"
+
+set -e
+sed "$cust" "$3" | @GUILE@ -s "@abs_top_srcdir@/build-aux/simple-punify" > "$2"
+
+# module-compile ends here

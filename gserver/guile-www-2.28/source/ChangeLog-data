@@ -1,0 +1,56 @@
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.25
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www data http-status) proc: http-status-string
+
+	* http-status.scm (http-status-string): New proc, exported.
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New module: (www data mime-types)
+
+	* mime-types.scm: New file.
+	* Makefile.am (www_DATA): Add mime-types.
+
+2009-01-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Recognize extension .svg as image/svg+xml.
+
+	* content-type.scm (*content-type-by-filename-extension*):
+	Add entry mapping `svg' to "image/svg+xml".
+
+2009-01-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Recognize extension .css as text/css.
+
+	* content-type.scm (*content-type-by-filename-extension*):
+	Add entry mapping `css' to "text/css".
+
+2008-04-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Recognize extension .xml as application/xml.
+
+	* content-type.scm (*content-type-by-filename-extension*):
+	Add entry mapping `xml' to "application/xml".
+
+2008-04-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move scheme files under source/.
+
+	Here, $(prev)/foo stands for ../../data/foo.
+	* Makefile.am: Rename from $(prev)/Makefile.am.
+	* content-type.scm: Rename from $(prev)/content-type.scm.
+	* http-status.scm: Rename from $(prev)/http-status.scm.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am: New file.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http-status.scm: New file.
+	* content-type.scm: Likewise.
+

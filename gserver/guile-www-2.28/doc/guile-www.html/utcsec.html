@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>utcsec - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="url_002dcoding.html#url_002dcoding" title="url-coding">
+<link rel="next" href="big_002ddishing_002dloop.html#big_002ddishing_002dloop" title="big-dishing-loop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="utcsec"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="big_002ddishing_002dloop.html#big_002ddishing_002dloop">big-dishing-loop</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="url_002dcoding.html#url_002dcoding">url-coding</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">6 (www utcsec)</h2>
+
+<p>The <code>(www utcsec)</code> module provides procedures to work with the
+<dfn>utc-seconds</dfn> of an object, that is, the number of seconds after
+epoch, in the GMT time zone (also known as UTC).
+
+<!-- @twerpdoc (format-utcsec) -->
+<!-- ../source/utcsec.doc -->
+<div class="defun">
+&mdash; Procedure: <b>format-utcsec</b><var> port format utc-seconds<a name="index-format_002dutcsec-47"></a></var><br>
+<blockquote><p>Write to output port <var>port</var> the <var>utc-seconds</var>
+formatted according to <var>format</var> (a string). 
+If <var>port</var> is <code>#f</code>, return the output string, instead. 
+This uses <code>strftime</code>, q.v. 
+</p></blockquote></div>
+   <!-- @twerpdoc (rfc1123-date<-) -->
+<!-- ../source/utcsec.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>rfc1123-date&lt;-</b><var> port utc-seconds<a name="index-rfc1123_002ddate_003c_002d-48"></a></var><br>
+<blockquote><p>Write to output port <var>port</var> the <var>utc-seconds</var>
+formatted according to RFC1123.  If <var>port</var> is <code>#f</code>,
+return the output string, instead.
+
+        <p>For example:
+
+     <pre class="example">          (rfc1123-date&lt;- #f 1167791441)
+          &rArr; "Wed, 03 Jan 2007 02:30:41 GMT"
+</pre>
+        </blockquote></div>
+   <!-- @twerpdoc (<-rfc1123-date) -->
+<!-- ../source/utcsec.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>&lt;-rfc1123-date</b><var> s<a name="index-g_t_003c_002drfc1123_002ddate-49"></a></var><br>
+<blockquote><p>Parse the RFC1123-compliant date string <var>s</var>, and
+return the utc-seconds it represents.
+
+        <p>For example:
+
+     <pre class="example">          (&lt;-rfc1123-date "Wed, 03 Jan 2007 02:30:41 GMT")
+          &rArr; 1167791441
+</pre>
+        </blockquote></div>
+   <!-- @twerpdoc (<-mtime) -->
+<!-- ../source/utcsec.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>&lt;-mtime</b><var> filespec<a name="index-g_t_003c_002dmtime-50"></a></var><br>
+<blockquote><p>Return the utc-seconds of the modification time of <var>filespec</var>. 
+<var>filespec</var> can be a filename (string), a port opened on a
+<code>stat</code>able file, or the object resulting from a <code>stat</code>
+on one of these.
+
+        <p>For example:
+
+     <pre class="example">          (= (&lt;-mtime "COPYING")
+             (&lt;-mtime (open-input-file "COPYING"))
+             (&lt;-mtime (stat "COPYING")))
+          &rArr; #t
+</pre>
+        </blockquote></div>
+   <!-- @twerpdoc (<-ctime) -->
+<!-- ../source/utcsec.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>&lt;-ctime</b><var> filespec<a name="index-g_t_003c_002dctime-51"></a></var><br>
+<blockquote><p>Return the utc-seconds of the creation time of <var>filespec</var>. 
+<var>filespec</var> can be a filename (string), a port opened on a
+<code>stat</code>able file, or the object resulting from a <code>stat</code>
+on one of these. 
+</p></blockquote></div>
+   <!-- @twerpdoc (rfc1123-now) -->
+<!-- ../source/utcsec.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>rfc1123-now</b><var><a name="index-rfc1123_002dnow-52"></a></var><br>
+<blockquote><p>The "current time" formatted according to RFC1123. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

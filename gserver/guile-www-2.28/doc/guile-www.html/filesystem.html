@@ -1,0 +1,270 @@
+<html lang="en">
+<head>
+<title>filesystem - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="form_002d2_002dform.html#form_002d2_002dform" title="form-2-form">
+<link rel="next" href="cgi_002dprep.html#cgi_002dprep" title="cgi-prep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="filesystem"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="cgi_002dprep.html#cgi_002dprep">cgi-prep</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="form_002d2_002dform.html#form_002d2_002dform">form-2-form</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">10 (www server-utils filesystem)</h2>
+
+<p>The <code>(www server-utils filesystem)</code> module provides procedures for
+cleaning filenames, checking filesystem access, and mapping from a URL path to
+a filename.
+
+<!-- @twerpdoc (cleanup-filename) -->
+<!-- ../source/server-utils/filesystem.doc -->
+<div class="defun">
+&mdash; Procedure: <b>cleanup-filename</b><var> name<a name="index-cleanup_002dfilename-76"></a></var><br>
+<blockquote><p>Return a new filename made from cleaning up filename <var>name</var>. 
+Cleaning up is a transform that collapses each of these, in order:
+
+          <ul>
+<li>&lsquo;<samp><span class="samp">//</span></samp>&rsquo;
+<li>&lsquo;<samp><span class="samp">/./</span></samp>&rsquo;
+<li>&lsquo;<samp><span class="samp">/</span><var>foo</var><span class="samp">/../</span></samp>&rsquo;
+</ul>
+
+        <p>into a single slash (&lsquo;<samp><span class="samp">/</span></samp>&rsquo;), everywhere in <var>name</var>, plus some
+fixups.  The transform normally preserves the trailing slash (if any)
+in <var>name</var>, and does not change any leading &lsquo;<samp><span class="samp">..</span></samp>&rsquo; components
+if <var>name</var> is relative, i.e., does not begin with slash.  Due to
+proper &lsquo;<samp><span class="samp">/</span><var>foo</var><span class="samp">/../</span></samp>&rsquo; cancellation for relative <var>name</var>,
+however, the result may be the empty string.  (Here, <dfn>proper</dfn>
+means that <var>foo</var> is not &lsquo;<samp><span class="samp">..</span></samp>&rsquo;, but a normal filename
+component.) 
+</p></blockquote></div>
+
+<p class="noindent">Following is a fairly comprehensive list of the <code>cleanup-filename</code>
+edge cases, paired by <var>name</var> and result.  The numbers represent
+string lengths.
+
+<pre class="example">       0                     ;; <span class="roman">empty string</span>
+       0                     ;; <span class="roman">result is empty string</span>
+     
+       1  /
+       1  /
+     
+       2  ok
+       2  ok
+     
+       3  ok/
+       3  ok/
+     
+       3  /ok
+       3  /ok
+     
+       4  /ok/
+       4  /ok/
+     
+       1  .                  ;; <span class="roman">relative name</span>
+       0                     ;; <span class="roman">result is empty string</span>
+     
+       2  ./                 ;; <span class="roman">likewise</span>
+       0                     ;; <span class="roman">note, end-slash </span><strong>not</strong><span class="roman"> preserved</span>
+     
+       2  /.
+       1  /
+     
+       3  /./
+       1  /
+     
+       2  ..                 ;; <span class="roman">relative, with leading double-dot</span>
+       2  ..                 ;; <span class="roman">unchanged</span>
+     
+       3  ../                ;; <span class="roman">likewise</span>
+       3  ../
+     
+       3  /..                ;; <span class="roman">absolute</span>
+       1  /                  ;; <span class="roman">can't go higher than root</span>
+     
+       4  /../
+       1  /
+     
+       4  ./..               ;; <span class="roman">next 8 are like the previous 4;</span>
+       2  ..                 ;;  <span class="roman">they show that</span> . <span class="roman">makes no difference</span>
+     
+       5  ./../
+       3  ../
+     
+       5  /./..
+       1  /
+     
+       6  /./../
+       1  /
+     
+       4  ../.
+       2  ..
+     
+       5  .././
+       3  ../
+     
+       5  /../.
+       1  /
+     
+       6  /.././
+       1  /
+     
+       5  ../..              ;; <span class="roman">relative</span>
+       5  ../..              ;; <span class="roman">leading</span> .. <span class="roman">sequences unchanged</span>
+     
+       6  ../../
+       6  ../../
+     
+       6  /../..             ;; <span class="roman">absolute</span>
+       1  /                  ;; <span class="roman">can't go higher than root</span>
+     
+       7  /../../
+       1  /
+     
+       4  z/..               ;; <span class="roman">relative</span>
+       0                     ;; <span class="roman">only dir cancelled</span> &rArr; <span class="roman">empty string</span>
+     
+       5  z/../              ;; <span class="roman">likewise</span>
+       0
+     
+       5  /z/..              ;; <span class="roman">absolute</span>
+       1  /
+     
+       6  /z/../
+       1  /
+     
+       6  z/../o             ;; <span class="roman">next 4 like previous 4, with trailing component</span>
+       1  o
+     
+       7  z/../o/
+       2  o/
+     
+       7  /z/../o
+       2  /o
+     
+       8  /z/../o/
+       3  /o/
+     
+       8  z/./../o           ;; <span class="roman">next 4 like previous 4;</span>
+       1  o                  ;;  <span class="roman">they show that</span> . <span class="roman">makes no difference</span>
+     
+       9  z/./../o/
+       2  o/
+     
+       9  /z/./../o
+       2  /o
+     
+      10  /z/./../o/
+       3  /o/
+     
+       9  z/../../o          ;; <span class="roman">relative, more double-dot than parents</span>
+       4  ../o               ;; <span class="roman">leftover double-dot preserved</span>
+     
+      10  z/../../o/
+       5  ../o/
+     
+      10  /z/../../o         ;; <span class="roman">absolute, more double-dot than parents</span>
+       2  /o                 ;; <span class="roman">all cancelled</span>
+     
+      11  /z/../../o/
+       3  /o/
+     
+      43  ../../abc/././bye0/./../def/bye1/bye2/../..        ;; bye bye-bye
+      14  ../../abc/def/
+     
+      44  ../../abc/././bye0/./../def/bye1/bye2/../../
+      14  ../../abc/def/
+     
+      44  /../../abc/././bye0/./../def/bye1/bye2/../..
+       9  /abc/def/
+     
+      45  /../../abc/././bye0/./../def/bye1/bye2/../../
+       9  /abc/def/
+</pre>
+   <!-- @twerpdoc (access-forbidden?-proc) -->
+<!-- ../source/server-utils/filesystem.doc -->
+<div class="defun">
+&mdash; Procedure: <b>access-forbidden?-proc</b><var> docroot forbid-rx<a name="index-access_002dforbidden_003f_002dproc-77"></a></var><br>
+<blockquote><p>Create and return a filesystem-access procedure based on
+<var>docroot</var> and <var>forbid-rx</var>.  The returned procedure <var>p</var>
+takes a <var>filename</var> and returns <code>#t</code> if access to that file
+should be denied for any of the following reasons:
+
+          <ul>
+<li><var>filename</var> does not begin with <var>docroot</var>
+<li><var>filename</var> matches regular expression <var>forbid-rx</var>
+</ul>
+
+        <p>If <var>forbid-rx</var> is <code>#f</code>, the regular expression check is
+skipped.  <var>p</var> returns <code>#f</code> if access should be granted. 
+</p></blockquote></div>
+   <!-- @twerpdoc (upath->filename-proc) -->
+<!-- ../source/server-utils/filesystem.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>upath-&gt;filename-proc</b><var> docroot </var>[<var>dir-indexes</var>]<var><a name="index-upath_002d_003efilename_002dproc-78"></a></var><br>
+<blockquote><p>Create and return a url-path-to-filename mapping procedure based on
+<var>docroot</var>.  The returned procedure <var>p</var> takes a (string)
+<var>upath</var> and returns a valid local filename path for the requested
+resource, or <code>#f</code> if that file cannot be found.  Optional arg
+<var>dir-indexes</var> specifies an ordered list of filenames to try if
+the resolved filename path turns out to be a directory.
+
+        <p>If no such files exist, return the directory name.  As a special
+case, when <var>p</var> encounters a value of <code>#f</code> during iteration
+over <var>dir-indexes</var>, it returns <code>#f</code> immediately.
+
+        <p>For example, presuming files <samp><span class="file">/a/b/c.txt</span></samp> and
+<samp><span class="file">/a/b/index.html</span></samp> both exist and are readable:
+
+     <pre class="example">          (define resolve (upath-&gt;filename-proc
+                             "/a/b/"
+                             '("index.shtml" "index.html")))
+          
+          (resolve "/random") &rArr; #f
+          (resolve "/c.txt") &rArr; "/a/b/c.txt"
+          (resolve "/") &rArr; "/a/b/index.html"
+</pre>
+        <p>Directory names are always returned with a trailing slash. 
+</p></blockquote></div>
+   <!-- @twerpdoc (filename->content-type) -->
+<!-- ../source/server-utils/filesystem.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>filename-&gt;content-type</b><var> filename </var>[<var>default</var>]<var><a name="index-filename_002d_003econtent_002dtype-79"></a></var><br>
+<blockquote><p>Return a valid Content-Type string which matches <var>filename</var> best. 
+Matching is done by comparing the extension (part of <var>filename</var> after
+the last "." if available) against a table.  If none match, return
+"application/octet-stream".  Optional arg <var>default</var> specifies another
+value to use instead of "application/octet-stream".
+
+        <p>If there are multiple MIME types associated with the extension,
+return the first one.
+
+        <p>See <a href="mime_002dtypes.html#mime_002dtypes">mime-types</a>, proc <code>put-mime-types!</code>, for more info. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

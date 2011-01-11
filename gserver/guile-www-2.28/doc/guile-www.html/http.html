@@ -1,0 +1,228 @@
+<html lang="en">
+<head>
+<title>http - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="index.html#Top" title="Top">
+<link rel="next" href="url.html#url" title="url">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="http"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="url.html#url">url</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="index.html#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">1 (www http)</h2>
+
+<p>The <code>(www http)</code> module includes procedures for high-level HTTP
+operation, low-level HTTP message object access, and common messages.
+
+<h3 class="section">1.1 High-Level HTTP Operation</h3>
+
+<!-- @twerpdoc (http:connect) -->
+<!-- ../source/http.doc -->
+<div class="defun">
+&mdash; Procedure: <b>http:connect</b><var> proto addrfam address </var>[<var>address-rest...</var>]<var><a name="index-http_003aconnect-1"></a></var><br>
+<blockquote><p>Return a TCP stream socket connected to the location specified by
+protocol <var>proto</var>, <var>addrfam</var> and <var>address</var>.  <var>proto</var>
+is <code>PF_INET</code> or <code>PF_UNIX</code>, and the other args take
+corresponding forms:
+
+          <dl>
+<dt><code>PF_INET</code><dd><code>(AF_INET </code><var>ipaddr</var> <var>portno</var><code>)</code>, where <var>ipaddr</var> is
+an integer.  Use <code>(car (hostent:addr-list (gethost </code><var>host</var><code>)))</code>
+to compute the ipaddr of <var>host</var> (a string).
+
+          <br><dt><code>PF_UNIX</code><dd><code>(AF_UNIX </code><var>filename</var><code>)</code>, made, for example, by<br>
+<code>(list AF_UNIX "/tmp/foo-control")</code>. 
+</dl>
+
+        <p>Note that <code>PF_foo</code> and <code>AF_foo</code> are names of variables
+that have constant values, not symbols. 
+</p></blockquote></div>
+<!-- @twerpdoc (http:open) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:open</b><var> host </var>[<var>port</var>]<var><a name="index-http_003aopen-2"></a></var><br>
+<blockquote><p>Return an HTTP connection (a socket) to <var>host</var> (a string) on TCP
+port <var>port</var> (default 80 if unspecified). 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:request) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:request</b><var> method url </var>[<var>headers </var>[<var>body</var>]]<var><a name="index-http_003arequest-3"></a></var><br>
+<blockquote><p>Submit an HTTP request using <var>method</var> and <var>url</var>, wait
+for a response, and return the response as an HTTP message object.
+
+        <p><var>method</var> is the name of some HTTP method, e.g. "GET" or "POST". 
+<var>url</var> is a url object returned by <code>url:parse</code>.  Optional
+args <var>headers</var> and <var>body</var> are lists of strings that comprise
+the lines of an HTTP message.  The strings should not end with
+&lsquo;<samp><span class="samp">CR</span></samp>&rsquo; or &lsquo;<samp><span class="samp">LF</span></samp>&rsquo; or &lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo;; <code>http:request</code> handles
+that.  Also, the Content-Length header and Host header are calculated
+automatically and should not be supplied.  Here are two examples:
+
+     <pre class="example">          (http:request "get" parsed-url
+            (list "User-Agent: Anonymous/0.1"
+                  "Content-Type: text/plain"))
+          
+          (http:request "post" parsed-url
+            (list "User-Agent: Fred/0.1"
+                  "Content-Type: application/x-www-form-urlencoded")
+            (list (string-append "search=Gosper"
+                                 "&amp;case=no"
+                                 "&amp;max_hits=50")))
+</pre>
+        <p>As a special case (demonstrated in the second example above), when
+Content-Type is <code>application/x-www-form-urlencoded</code> and there is
+only one line in the body, the final &lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; is omitted and the
+Content-Length is adjusted accordingly. 
+</p></blockquote></div>
+
+<h3 class="section">1.2 Low-Level HTTP Message Object Access</h3>
+
+<!-- @twerpdoc (http:message-version) -->
+<!-- ../source/http.doc -->
+<div class="defun">
+&mdash; Procedure: <b>http:message-version</b><var> msg<a name="index-http_003amessage_002dversion-4"></a></var><br>
+<blockquote><p>Return the HTTP version in use in HTTP message <var>msg</var>. 
+</p></blockquote></div>
+<!-- @twerpdoc (http:message-status-code) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:message-status-code</b><var> msg<a name="index-http_003amessage_002dstatus_002dcode-5"></a></var><br>
+<blockquote><p>Return the status code returned in HTTP message <var>msg</var>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:message-status-text) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:message-status-text</b><var> msg<a name="index-http_003amessage_002dstatus_002dtext-6"></a></var><br>
+<blockquote><p>Return the text of the status line from HTTP message <var>msg</var>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:message-status-ok?) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:message-status-ok?</b><var> msg<a name="index-http_003amessage_002dstatus_002dok_003f-7"></a></var><br>
+<blockquote><p>Return <code>#t</code> iff status code of <var>msg</var>
+indicates a successful request. 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:status-ok?) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:status-ok?</b><var> status<a name="index-http_003astatus_002dok_003f-8"></a></var><br>
+<blockquote><p>Return <code>#t</code> iff <var>status</var> (a string) begins with "2". 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:message-body) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:message-body</b><var> msg<a name="index-http_003amessage_002dbody-9"></a></var><br>
+<blockquote><p>Return the body of the HTTP message <var>msg</var>. 
+</p></blockquote></div>
+
+   <p>An HTTP message header is represented by a pair.  The <span class="sc">car</span> is a
+symbol representing the header name, and the <span class="sc">cdr</span> is a string containing
+the header text.  E.g.:
+
+<pre class="example">     '((date . "Thu, 29 May 1997 23:48:27 GMT")
+       (server . "NCSA/1.5.1")
+       (last-modified . "Tue, 06 May 1997 18:32:03 GMT")
+       (content-type . "text/html")
+       (content-length . "8097"))
+</pre>
+   <p class="noindent">Note: these symbols are all lowercase, although the original headers may be
+mixed-case.  Clients using this library should keep this in mind, since Guile
+symbols are case-sensitive.
+
+<!-- @twerpdoc (http:message-headers) -->
+<!-- ../source/http.doc -->
+<div class="defun">
+&mdash; Procedure: <b>http:message-headers</b><var> msg<a name="index-http_003amessage_002dheaders-10"></a></var><br>
+<blockquote><p>Return a list of the headers from HTTP message <var>msg</var>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:message-header) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:message-header</b><var> header msg<a name="index-http_003amessage_002dheader-11"></a></var><br>
+<blockquote><p>Return the header field named <var>header</var> from HTTP message <var>msg</var>,
+or <code>#f</code> if no such header is present in the message. 
+</p></blockquote></div>
+
+<h3 class="section">1.3 Common Messages</h3>
+
+<!-- @twerpdoc (http:head) -->
+<!-- ../source/http.doc -->
+<div class="defun">
+&mdash; Procedure: <b>http:head</b><var> url<a name="index-http_003ahead-12"></a></var><br>
+<blockquote><p>Submit an http request using the <code>HEAD</code> method on the <var>url</var>. 
+The <code>Host</code> header is automatically included. 
+</p></blockquote></div>
+<!-- @twerpdoc (http:get) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:get</b><var> url<a name="index-http_003aget-13"></a></var><br>
+<blockquote><p>Submit an http request using the <code>GET</code> method on the <var>url</var>. 
+The <code>Host</code> header is automatically included. 
+</p></blockquote></div>
+   <!-- @twerpdoc (http:post-form) -->
+<!-- ../source/http.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>http:post-form</b><var> url extra-headers fields<a name="index-http_003apost_002dform-14"></a></var><br>
+<blockquote><p>Submit an http request using the <code>POST</code> method on the <var>url</var>. 
+<var>extra-headers</var> is a list of extra headers, each a string of form
+"<var>name</var>: <var>value</var> <small class="dots">...</small>".
+
+        <p>The "Content-Type" and "Host" headers are sent automatically and do
+not need to be specified.  <var>fields</var> is a list of elements of the
+form <code>(</code><var>fkey</var><code> . </code><var>fvalue</var><code>)</code>, where <var>fkey</var> is a symbol
+and <var>fvalue</var> is normally a string.
+
+        <p><var>fvalue</var> can also be a list of file-upload specifications, each
+of which has the form <code>(</code><var>source</var> <var>name</var> <var>mime-type</var>
+<var>transfer-encoding</var><code>)</code>.  <var>source</var> can be a string or a thunk
+that returns a string.
+
+        <p>The rest of the elements are strings or symbols: <var>name</var> is the
+filename (only the non-directory part is used); <var>mime-type</var> is a
+type/subtype pair such as "image/jpeg", or <code>#f</code> to mean
+"text/plain".  <var>transfer-encoding</var> is one of the tokens specified
+by RFC 1521, or <code>#f</code> to mean "binary".  File-upload spec
+elements with invalid types result in a "bad upload spec" error prior
+to the http request.
+
+        <p>Note that <var>source</var> is used directly without further processing;
+it is the caller's responsibility to ensure that the MIME type and
+transfer encoding specified describe <var>source</var> accurately. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

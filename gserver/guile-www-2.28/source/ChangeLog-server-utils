@@ -1,0 +1,356 @@
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.25
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Re-implement some (www server-utils parse-request) procs.
+
+	* parse-request.scm: Use module (ice-9 rdelim).
+	(read-line/CRLF): New proc.
+	(read-first-line, read-headers, skip-headers): Rewrite.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New module: (www server-utils form-2-form)
+
+	* form-2-form.scm: New file.
+	* Makefile.am (www_DATA): Add form-2-form.
+
+2009-05-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils parse-request) proc: read-body
+
+	* parse-request.scm (read-body): New proc, exported.
+
+2009-05-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils parse-request) procs: hqf<-upath, alist<-query
+
+	* parse-request.scm (hqf<-upath): New proc, exported.
+	(alist<-query): Likewise.
+
+2009-05-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils cookies) proc: simple-parse-cookies
+
+	* cookies.scm: Use module (ice-9 regex).
+	(simple-parse-cookies): New proc, exported.
+
+2009-05-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `(ice-9 and-let-star) and-let*'.
+
+	* filesystem.scm: Use module (ice-9 and-let-star).
+	(filename->content-type): Use `and-let*'.
+	* parse-request.scm: Use module (ice-9 and-let-star).
+	(read-first-line): Use `and-let*'.
+
+2009-05-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `zero?'.
+
+	* answer.scm (mouthpiece rechunk-content): Use `zero?'.
+	* big-dishing-loop.scm (make-big-dishing-loop): Likewise.
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Init `filename->content-type' internal table on first call.
+
+	* filesystem.scm: Autoload
+	module (www data mime-types) on trigger `put-mime-types!'.
+	(TABLE-OK?): New var.
+	(filename->content-type): Do one-shot init of mime-types
+	database from static table the first time called.
+
+2008-05-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Arrange to index `mouthpiece' and `big-dishing-loop' messages.
+
+	* answer.scm: Add @findex entries for `mouthpiece' messages.
+	* big-dishing-loop.scm: Likewise for `big-dishing-loop'.
+
+2008-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Handle unix-domain sockets in `make-big-dishing-loop' returned proc.
+
+	* big-dishing-loop.scm
+	(make-big-dishing-loop handle-request): When logging, for PF_INET,
+	include the port as well; also, add handling for PF_UNIX.
+	(make-big-dishing-loop): In returned proc, rename arg to `ear'
+	from `inet-port'.  If a list, delegate duties to `named-socket'.
+
+2008-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils big-dishing-loop) proc: named-socket
+
+	* big-dishing-loop.scm (named-socket): New proc, exported.
+	(make-big-dishing-loop named-socket): Move proc to module top-level.
+
+2008-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add `make-big-dishing-loop #:method-handlers'.
+
+	* big-dishing-loop.scm
+	(make-big-dishing-loop ferv): Delete internal proc.
+	(make-big-dishing-loop named-socket): New internal proc.
+	(make-big-dishing-loop bdlcore): New internal proc.
+	(make-big-dishing-loop handle-request): Rewrite.
+	(make-big-dishing-loop): Take keyword option #:method-handlers;
+	use it in preference to #:GET-upath if it has a `GET' entry.
+
+2008-04-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Remove unhygienic macros in (www server-utils big-dishing-loop).
+
+	* big-dishing-loop.scm (GET-simple, GET-return): Delete macros.
+	(make-big-dishing-loop handle-request): Compute args to pass
+	to `GET-upath' here; use `call-with-current-continuation'.
+
+2008-04-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add `mouthpiece' command: `#:inhibit-content! BOOL'.
+
+	* answer.scm (mouthpiece): Keep state: inhibit content?
+	Also, add command `#:inhibit-content!' to update this state.
+	(mouthpiece reset-protocol!): Reset `inhibit-content?'.
+	(mouthpiece inhibit-content!): New internal proc.
+	(mouthpiece send-reply): If `inhibit-content?', don't
+	send content and set the status content-length to zero.
+
+2008-04-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	For `echo-upath', shut down transmission and reception when done.
+
+	* big-dishing-loop.scm (echo-upath): Use `#:send-reply 2'.
+
+2008-04-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make mouthpiece command #:send-reply handle optional arg CLOSE.
+
+	* answer.scm (mouthpiece send-reply): Take optional arg CLOSE;
+	if `out-port' is a socket, do `shutdown' on the socket w/ a `how'
+	value computed from CLOSE, then forget `out-port' regardless of
+	`out-port' type.
+
+2008-04-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move scheme files under source/.
+
+	Here, $(prev)/foo stands for ../../server-utils/foo.
+	* Makefile.am: Rename from $(prev)/Makefile.am.
+	* answer.scm: Rename from $(prev)/answer.scm.
+	* big-dishing-loop.scm: Rename from $(prev)/big-dishing-loop.scm.
+	* cgi-prep.scm: Rename from $(prev)/cgi-prep.scm.
+	* cookies.scm: Rename from $(prev)/cookies.scm.
+	* filesystem.scm: Rename from $(prev)/filesystem.scm.
+	* log.scm: Rename from $(prev)/log.scm.
+	* parse-request.scm: Rename from $(prev)/parse-request.scm.
+
+2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace CVS-isms w/ Git-isms.
+
+	* .cvsignore: Delete file.
+
+2007-10-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* answer.scm (mouthpiece): Move earlier the computation
+	of conditions and procs required to save status number and
+	content-length.  Define dynamically procs `status-number!'
+	and `status-content-length!'.
+	(mouthpiece set-reply-status): Use `status-number!'.
+	(mouthpiece set-reply-status:success): Likewise.
+	(mouthpiece send-reply): Use `status-content-length!'.
+
+2007-10-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* answer.scm (mouthpiece set-reply-status):
+	Fix omission bug: Set (caar status-box), if possible.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am: New file.
+
+2007-05-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* cookies.scm (*OLD-attribute-names*):
+	Remove spurious data structure.
+
+2007-02-15  Thien-Thi Nguyen  <ttn@ambire>
+
+	* answer.scm (mouthpiece add-direct-writer): New internal proc.
+	(mouthpiece rechunk-content): Count direct-writer bytes.
+	Also, signal error if any direct-writers for non-counting operations.
+	(mouthpiece send-reply): Accomodate direct writers.
+	(mouthpiece): Handle #:add-direct-writer.
+
+2007-02-15  Thien-Thi Nguyen  <ttn@ambire>
+
+	* answer.scm (mouthpiece add-content): Use `append!'.
+
+2007-01-31  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop child): When done,
+	shutdown the socket in both directions, unless `need-input-port'.
+
+2007-01-30  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (echo-upath): Return #t.
+
+2007-01-30  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop): New keyword
+	arg `parent-finish' specifies a procedure that parent, when
+	operating concurrently, applies to the port after the split.
+
+2007-01-30  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (echo-upath): New proc, exported.
+	(make-big-dishing-loop): Specify `echo-upath' as #:GET-upath default.
+
+2007-01-30  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop child):
+	No longer close port when done.
+
+2007-01-28  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop): When no concurrency,
+	don't have "parent" close the port; `child' already did it.
+
+2007-01-27  Thien-Thi Nguyen  <ttn@ambire>
+
+	* answer.scm (mouthpiece send-reply out!): New internal proc.
+
+2007-01-26  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop): Fix typo.
+
+2007-01-26  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop child): Use `return-it'.
+
+2007-01-11  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop child):
+	Close port when done.
+
+2007-01-03  Thien-Thi Nguyen  <ttn@ambire>
+
+	* log.scm (log-http-response-proc):
+	Set PORT's buffering mode to line-buffered.
+
+2006-11-21  Thien-Thi Nguyen  <ttn@ambire>
+
+	* big-dishing-loop.scm (make-big-dishing-loop): Doc fix; nfc.
+
+2006-07-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* big-dishing-loop.scm (make-big-dishing-loop):
+	Handle #:concurrency value #:new-process/nowait.
+
+2006-07-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* big-dishing-loop.scm (make-big-dishing-loop):
+	Handle keyword #:concurrency.  If its value
+	is unrecognized, operate w/o any concurrency.
+
+2006-02-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cookies.scm: New file.
+
+2006-02-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (walk-tree): New proc, exported.
+	(length/tree<-header-components): New proc.
+	(string<-header-components): New proc, exported.
+	(mouthpiece walk-tree): Move internal proc to top; fix ()-handling.
+	(mouthpiece): Coalesce accumulation and send of reply status and
+	headers; accept trees for header value; hardcode success status
+	constants.
+
+2006-02-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (+!): New macro.  Use it throughout.
+
+2006-02-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (CRLF): New string, exported.
+	(fs): New proc, exported.
+	(mouthpiece set-reply-status): Use `fs'.
+	(mouthpiece add-header): Use `CRLF' and `fs'.
+	(mouthpiece add-formatted): Use `fs'.
+	(mouthpiece send-reply): Use `CRLF'.
+
+2006-02-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm: Use module (ice-9 rw).
+	(mouthpiece send-reply >OUT): Use `write-string/partial'.
+
+2006-02-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi-prep.scm (cgi-environment-manager add!): Remove debugging `pk'.
+
+2006-02-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (mouthpiece): Fix doc omission bug:
+	For #:add-header, describe operation when given boolean NAME.
+
+2006-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (mouthpiece): Specify "HTTP 1.0" in documentation.
+
+2005-04-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* big-dishing-loop.scm (GET-simple, GET-return): New macros.
+	(make-big-dishing-loop): Use `GET-simple' and `GET-return'.
+	Suggested by Scott W. Dunlop.
+
+2005-04-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* filesystem.scm (subs): New alias.
+	(filename->content-type): Use `subs'.
+
+2005-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi-prep.scm: New file.
+
+2004-03-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* filesystem.scm: Typofix; nfc.
+
+2004-03-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* big-dishing-loop.scm: New file.
+
+2004-03-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* parse-request.scm (skip-headers): New proc, exported.
+
+2004-03-10  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (mouthpiece): Add command `add-formatted'.
+	Also, silently normalize `status-box'.
+
+2004-03-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (mouthpiece): For internal proc `send-reply', if
+	status box has a second position, set it to the content-length.
+
+2004-03-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* log.scm: New file.
+
+2004-03-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* answer.scm (mouthpiece): Fix bug: For internal proc
+	`rechunk-content', do not bother setting `dest' and
+	`dlen' if `nw' is null.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* parse-request.scm: New file.
+	* filesystem.scm: Likewise.
+	* answer.scm: Likewise.
+

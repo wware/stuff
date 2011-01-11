@@ -1,0 +1,11 @@
+-*- text -*- 
+
+Guile-Web is written and maintained by Clinton Ebadi
+<clinton@unknownlamer.org>.
+
+Please send bug reports, patches, etc. to him.
+
+All files under SSAX/ are from Oleg's SSAX library
+(http://ssax.sf.net) and are in the public domain.
+
+hash-dash.scm uses SSAX/lib/input-parse.scm to parse its input.

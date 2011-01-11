@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+<title>`Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="#Top">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<h1 class="settitle">`Guile-WWW' Modules Reference</h1>
+   <div class="contents">
+<h2>Table of Contents</h2>
+<ul>
+<li><a name="toc_Top" href="index.html#Top">The (www *) Modules</a>
+<li><a name="toc_http" href="http.html#http">1 (www http)</a>
+<ul>
+<li><a href="http.html#http">1.1 High-Level HTTP Operation</a>
+<li><a href="http.html#http">1.2 Low-Level HTTP Message Object Access</a>
+<li><a href="http.html#http">1.3 Common Messages</a>
+</li></ul>
+<li><a name="toc_url" href="url.html#url">2 (www url)</a>
+<ul>
+<li><a href="url.html#url">2.1 High-Level URL Object Conversion</a>
+<li><a href="url.html#url">2.2 Low-Level URL Object Construction</a>
+<li><a href="url.html#url">2.3 Low-Level URL Object Access</a>
+<li><a href="url.html#url">2.4 Character Decoding/Encoding</a>
+</li></ul>
+<li><a name="toc_cgi" href="cgi.html#cgi">3 (www cgi)</a>
+<ul>
+<li><a href="cgi.html#cgi">3.1 Initialization and Discovery</a>
+<li><a href="cgi.html#cgi">3.2 Data Transfer In</a>
+<li><a href="cgi.html#cgi">3.3 Uncollated Form Data</a>
+</li></ul>
+<li><a name="toc_main" href="main.html#main">4 (www main)</a>
+<li><a name="toc_url_002dcoding" href="url_002dcoding.html#url_002dcoding">5 (www url-coding)</a>
+<li><a name="toc_utcsec" href="utcsec.html#utcsec">6 (www utcsec)</a>
+<li><a name="toc_big_002ddishing_002dloop" href="big_002ddishing_002dloop.html#big_002ddishing_002dloop">7 (www server-utils big-dishing-loop)</a>
+<li><a name="toc_parse_002drequest" href="parse_002drequest.html#parse_002drequest">8 (www server-utils parse-request)</a>
+<li><a name="toc_form_002d2_002dform" href="form_002d2_002dform.html#form_002d2_002dform">9 (www server-utils form-2-form)</a>
+<li><a name="toc_filesystem" href="filesystem.html#filesystem">10 (www server-utils filesystem)</a>
+<li><a name="toc_cgi_002dprep" href="cgi_002dprep.html#cgi_002dprep">11 (www server-utils cgi-prep)</a>
+<li><a name="toc_cookies" href="cookies.html#cookies">12 (www server-utils cookies)</a>
+<li><a name="toc_answer" href="answer.html#answer">13 (www server-utils answer)</a>
+<li><a name="toc_log" href="log.html#log">14 (www server-utils log)</a>
+<li><a name="toc_modlisp" href="modlisp.html#modlisp">15 (www server-utils modlisp)</a>
+<li><a name="toc_http_002dstatus" href="http_002dstatus.html#http_002dstatus">16 (www data http-status)</a>
+<li><a name="toc_mime_002dtypes" href="mime_002dtypes.html#mime_002dtypes">17 (www data mime-types)</a>
+<li><a name="toc_Procedure-Index" href="Procedure-Index.html#Procedure-Index">Procedure Index</a>
+</li></ul>
+</div>
+
+
+
+<!--  -->
+<div class="node">
+<a name="Top"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="http.html#http">http</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="../index.html#dir">(dir)</a>
+<hr>
+</div>
+
+<h2 class="unnumbered">The (www *) Modules</h2>
+
+<p>Guile-WWW is a set of Guile Scheme modules providing support for navigating
+HTTP connections, parsing URLs, handling CGI operations, and fetching WWW
+resources.  This document corresponds to Guile-WWW 2.28.
+
+<p>Basic -- (www *)
+<ul class="menu">
+<li><a accesskey="1" href="http.html#http">http</a>:                 Navigate HTTP connections. 
+<li><a accesskey="2" href="url.html#url">url</a>:                  Parse URLs, including decoding. 
+<li><a accesskey="3" href="cgi.html#cgi">cgi</a>:                  Write CGI scripts painlessly. 
+<li><a accesskey="4" href="main.html#main">main</a>:                 Fetch world-wide-web resources. 
+<li><a accesskey="5" href="url_002dcoding.html#url_002dcoding">url-coding</a>:           URL decode and encode, only. 
+<li><a accesskey="6" href="utcsec.html#utcsec">utcsec</a>:               Seconds after epoch, UTC.
+
+</li></ul>
+<p>Server Utilities -- (www server-utils *)
+</p>
+<ul class="menu">
+<li><a accesskey="7" href="big_002ddishing_002dloop.html#big_002ddishing_002dloop">big-dishing-loop</a>:     Customizable listener and dispatch. 
+<li><a accesskey="8" href="parse_002drequest.html#parse_002drequest">parse-request</a>:        Read HTTP first line and headers. 
+<li><a accesskey="9" href="form_002d2_002dform.html#form_002d2_002dform">form-2-form</a>:          Unflatten POSTed form data. 
+<li><a href="filesystem.html#filesystem">filesystem</a>:           Work with the local filesystem. 
+<li><a href="cgi_002dprep.html#cgi_002dprep">cgi-prep</a>:             Prepare environment for CGI handoff. 
+<li><a href="cookies.html#cookies">cookies</a>:              Handling bits of client-side state. 
+<li><a href="answer.html#answer">answer</a>:               HTTP connection handling and responses. 
+<li><a href="log.html#log">log</a>:                  Love notes to other programs.
+
+<li><a href="modlisp.html#modlisp">modlisp</a>:              Hiding behind Apache.
+
+</li></ul>
+<p>Data -- (www data *)
+</p>
+<ul class="menu">
+<li><a href="http_002dstatus.html#http_002dstatus">http-status</a>:          The dreaded 404 lives here. 
+<li><a href="mime_002dtypes.html#mime_002dtypes">mime-types</a>:           Map filename extension to MIME type(s).
+
+<li><a href="Procedure-Index.html#Procedure-Index">Procedure Index</a>
+</ul>
+
+<!--  -->
+<!--  -->
+   </body></html>
+

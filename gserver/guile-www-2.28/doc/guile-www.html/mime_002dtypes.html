@@ -1,0 +1,208 @@
+<html lang="en">
+<head>
+<title>mime-types - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="http_002dstatus.html#http_002dstatus" title="http-status">
+<link rel="next" href="Procedure-Index.html#Procedure-Index" title="Procedure Index">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="mime-types"></a>
+<a name="mime_002dtypes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Procedure-Index.html#Procedure-Index">Procedure Index</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="http_002dstatus.html#http_002dstatus">http-status</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">17 (www data mime-types)</h2>
+
+<p>The <code>(www data mime-types)</code> module maintains an internal hash table
+mapping filename extensions to one or more <dfn>mime-types</dfn>.
+
+   <p>The exported procedures provide convenience abstractions over the
+underlying hash-table manipulation operations, including extension
+and mime-type validation, init from a file in a &ldquo;standard&rdquo; format
+(i.e., that of <samp><span class="file">/etc/mime.types</span></samp> or <samp><span class="file">~/.mime.types</span></samp>), and
+support for straightforward incremental init (aka <dfn>merging</dfn>). 
+There are two predefined entries in the hash table:
+
+<pre class="example">     text =&gt; text/plain
+     html =&gt; text/html
+</pre>
+   <p class="noindent">To support merging, the <code>put-FOO</code> procedures both take a
+symbol <var>resolve</var> as the first arg, which specifies how
+<dfn>conflicts</dfn> should be handled.  This happens when the hash
+table already contains an entry for <var>extension</var> and
+<var>new-mime-type</var> differs from <var>old-mime-type</var>.
+
+     <dl>
+<dt><code>error</code><dd>Throw an error with key <code>mime-type-conflict</code>,
+displaying a message describing the <var>extension</var>,
+<var>old-mime-type</var> and <var>new-mime-type</var>.
+
+     <br><dt><code>prefix</code><dd>Make the mime-type of <var>extension</var> a list (unless already one),
+with <var>new-mime-type</var> at the beginning.
+
+     <br><dt><code>suffix</code><dd>Make the mime-type of <var>extension</var> a list (unless already one),
+with <var>new-mime-type</var> at the end.
+
+     <br><dt><code>stomp</code><dd>Use <var>new-mime-type</var> directly, discarding <var>old-mime-type</var>.
+
+     <br><dt><code>quail</code><dd>Discard <var>new-mime-type</var>, keeping <var>old-mime-type</var>. 
+</dl>
+
+<p class="noindent">For any other method, the operation throws an error, with key
+<code>invalid-resolve</code>.
+
+   <p>Validation happens on all &ldquo;put&rdquo; operations.  The extension must
+be a symbol, such as <code>txt</code>.  The mime-type must be a symbol
+with exactly one &lsquo;<samp><span class="samp">/</span></samp>&rsquo; (slash) in its name, such as
+<code>text/plain</code>, or a proper list of such symbols. 
+The mime-type may also be <code>#f</code>, which means to remove
+<var>extension</var> from the hash table.
+
+   <p>If an entry does not validate, the operation throws an error,
+with key <code>invalid-extension</code> or <code>invalid-mime-type</code>.
+
+<!-- @twerpdoc (reset-mime-types!) -->
+<!-- ../source/data/mime-types.doc -->
+<div class="defun">
+&mdash; Procedure: <b>reset-mime-types!</b><var> size<a name="index-reset_002dmime_002dtypes_0021-110"></a></var><br>
+<blockquote><p>Clear all entries from the mime-types hash table,
+and prepare it for <var>size</var> (approximately) entries. 
+This procedure must be called before any others in this module. 
+</p></blockquote></div>
+   <!-- @twerpdoc (put-mime-types-from-file!) -->
+<!-- ../source/data/mime-types.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>put-mime-types-from-file!</b><var> resolve filename<a name="index-put_002dmime_002dtypes_002dfrom_002dfile_0021-111"></a></var><br>
+<blockquote><p>Open <var>filename</var> and parse its contents as &ldquo;mime-types&rdquo; format. 
+This line-oriented file format is briefly described as follows:
+
+          <ul>
+<li>Blank lines and lines beginning with &lsquo;<samp><span class="samp">#</span></samp>&rsquo; are ignored. 
+<li>Lines of the format <var>mime-type</var> (only one symbol) are ignored. 
+<li>Otherwise, the line is expected to be in the format
+<var>mime-type</var> <var>extension</var> <var>extension</var><code>...</code>,
+that is, at least one <var>extension</var> must be present.  Each
+<var>extension</var> results in an entry in the hash table. 
+</ul>
+
+        <p>Put those those entries that specify an extension into the hash
+table, validating both extension and mime-type first. 
+<var>resolve</var> specifies how to resolve extension conflicts. 
+</p></blockquote></div>
+   <!-- @twerpdoc (put-mime-types!) -->
+<!-- ../source/data/mime-types.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>put-mime-types!</b><var> resolve </var>[<var>extension1 mime-type1 ...</var>]<var><a name="index-put_002dmime_002dtypes_0021-112"></a></var><br>
+<blockquote><p>Put <var>extension1</var>/<var>mime-type1</var><small class="dots">...</small> into the hash table,
+validating both extension and mime-type first. 
+<var>resolve</var> specifies how to resolve extension conflicts.
+
+        <p>If an extension is given but there is no mime-type
+(i.e., the list has an odd length), throw an error
+with key <code>missing-mime-type</code>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (mime-types<-extension) -->
+<!-- ../source/data/mime-types.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>mime-types&lt;-extension</b><var> ext<a name="index-mime_002dtypes_003c_002dextension-113"></a></var><br>
+<blockquote><p>Return the mime-type(s) associated with <var>ext</var> (a symbol or
+string), or <code>#f</code> if none are found.  Note that generally the
+value may be a single mime-type or a list of them. 
+</p></blockquote></div>
+   <!-- @twerpdoc (select-extensions) -->
+<!-- ../source/data/mime-types.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>select-extensions</b><var> sel<a name="index-select_002dextensions-114"></a></var><br>
+<blockquote><p>Return a list of extensions in the hash table that match the
+<var>sel</var> criteria (a symbol).  If <var>sel</var> is <code>#t</code>, return all
+the extensions; if <code>single</code>, only those who have a single
+mime-type associated; if <code>multiple</code>, only those who have more
+than one mime-type associated. 
+</p></blockquote></div>
+
+<h3 class="heading">why <code>select-extensions</code>?</h3>
+
+<p>The last procedure is intended to ease non-generalizable merging,
+without providing too much exposure to implementation internals. 
+Suppose you want to maintain a local policy of having only one mime-type
+associated per extension (to keep things simple).  In that case, after
+populating the hash, you can fix up those entries, like so:
+
+<pre class="example">     (reset-mime-types! 491)
+     (put-mime-types-from-file! 'prefix "/etc/mime.types")
+     (define AMBIGUOUS (select-extensions 'multiple))
+     
+     (use-modules (ice-9 format))
+     (define (display-ext ext)
+       (format #t "~7,@A  ~A~%" ext (mime-types&lt;-extension ext)))
+     
+     (for-each display-ext AMBIGUOUS)
+         ent  (chemical/x-ncbi-asn1-ascii chemical/x-pdb)
+         sdf  (application/vnd.stardivision.math chemical/x-mdl-sdfile)
+          sh  (application/x-sh text/x-sh)
+         csh  (application/x-csh text/x-csh)
+         cpt  (application/mac-compactpro image/x-corelphotopaint)
+         asn  (chemical/x-ncbi-asn1 chemical/x-ncbi-asn1-spec)
+         wrl  (model/vrml x-world/x-vrml)
+         tcl  (application/x-tcl text/x-tcl)
+          ra  (audio/x-pn-realaudio audio/x-realaudio)
+         spl  (application/futuresplash application/x-futuresplash)
+         m3u  (audio/mpegurl audio/x-mpegurl)
+     
+     ;; Local policy: For foo.wrl, we want the last variant,
+     ;; but everything else we'll settle for the first.
+     (define ((keep! yes) ext)
+       (put-mime-types!
+        'stomp ext
+        (yes (mime-types&lt;-extension ext))))
+     
+     ((keep! reverse) 'wrl)
+     (for-each (keep! car) AMBIGUOUS)
+     
+     (for-each display-ext AMBIGUOUS)
+         asn  chemical/x-ncbi-asn1
+         wrl  x-world/x-vrml
+         tcl  application/x-tcl
+          ra  audio/x-pn-realaudio
+         spl  application/futuresplash
+         m3u  audio/mpegurl
+         ent  chemical/x-ncbi-asn1-ascii
+         sdf  application/vnd.stardivision.math
+          sh  application/x-sh
+         csh  application/x-csh
+         cpt  application/mac-compactpro
+</pre>
+   <p class="noindent">Seasoned schemers will note that the same result could have been
+achieved if <var>resolve</var> were allowed to be a general resolution
+procedure instead of simply a method specifier.  Perhaps that feature
+will be added in the future, and <code>select-extensions</code> replaced by
+<code>map-mime-types</code>.  We'll see<small class="dots">...</small>
+
+<!--  -->
+   </body></html>
+

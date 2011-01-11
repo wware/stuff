@@ -1,0 +1,75 @@
+#!/bin/sh
+exec ${GUILE-guile} -s $0 "$@" # -*- scheme -*-
+!#
+;;; you-are-here --- play with the big dishing loop
+
+;; Copyright (C) 2008 Thien-Thi Nguyen
+;; Copyright (C) 2004 Free Software Foundation, Inc.
+;;
+;; This file is part of Guile-WWW.
+;;
+;; Guile-WWW is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3, or
+;; (at your option) any later version.
+;;
+;; Guile-WWW is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public
+;; License along with Guile-WWW; see the file COPYING.  If not,
+;; write to the Free Software Foundation, Inc., 51 Franklin Street,
+;; Fifth Floor, Boston, MA  02110-1301  USA
+
+;;; Commentary:
+
+;; Usage: ./you-are-here [--twice]
+;;
+;; This is an example of using the (www server-utils big-dishing-loop) module.
+
+;;; Code:
+
+(define blurb "you asked for: ")
+(define state (map (lambda (n)
+                     (cons (number->string n) (* n n n)))
+                   (iota 1000)))
+
+(use-modules (www server-utils big-dishing-loop))
+
+(define (you-are-here M upath return)
+  (M #:set-reply-status:success)
+  (M #:add-header #:Server "you-are-here")
+  (M #:add-header #:Connection "close")
+  (M #:add-header #:Content-Type "text/plain")
+  (M #:add-content blurb upath "\n(and still you remain here)\n")
+  (M #:add-content "here's some state, btw: ")
+  (M #:add-formatted #f (assoc (substring upath 1) state))
+  (M #:add-content "\n" (if (string=? "/quit" upath) "bye!" "try again?"))
+  (M #:send-reply)
+  (and (string=? "/quit" upath) (return #f)))
+
+(define dish (make-big-dishing-loop
+              #:GET-upath you-are-here
+              #:explicit-return #t))
+
+(format #t "try visiting: http://localhost:9999${UPATH} ")
+(format #t "with UPATH /0 through /999 or /quit\n")
+
+(cond
+
+ ;; dish takes a port
+ ((= 1 (length (command-line)))
+  (dish 9999))
+
+ ;; dish takes a socket (re-usable)
+ (else
+  (let ((sock (socket PF_INET SOCK_STREAM 0)))
+    (bind sock AF_INET INADDR_ANY 9999)
+    (dish sock)
+    (set! blurb "you asked (again perhaps?) for: ")
+    (for-each (lambda (p) (set-cdr! p (* (cdr p) (cdr p)))) state)
+    (dish sock))))
+
+;;; you-are-here ends here

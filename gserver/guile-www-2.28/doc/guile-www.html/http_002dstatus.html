@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>http-status - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="modlisp.html#modlisp" title="modlisp">
+<link rel="next" href="mime_002dtypes.html#mime_002dtypes" title="mime-types">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="http-status"></a>
+<a name="http_002dstatus"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="mime_002dtypes.html#mime_002dtypes">mime-types</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="modlisp.html#modlisp">modlisp</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">16 (www data http-status)</h2>
+
+<p>The <code>(www data http-status)</code> module exports a single procedure:
+
+<!-- @twerpdoc (http-status-string) -->
+<!-- ../source/data/http-status.doc -->
+<div class="defun">
+&mdash; Procedure: <b>http-status-string</b><var> number<a name="index-http_002dstatus_002dstring-109"></a></var><br>
+<blockquote><p>Return the string associated with HTTP status <var>number</var>. 
+</p></blockquote></div>
+
+<h3 class="heading">example</h3>
+
+<p>Here is a simple example using this module:
+
+<pre class="example">     (use-modules ((www data http-status)
+                   #:select (http-status-string)))
+     
+     (define (h2 n)
+       (format #f "&lt;H2&gt;~A ~A&lt;/H2&gt;"
+               n (http-status-string n)))
+     
+     (h2 404) &rArr; "&lt;H2&gt;404 Not Found&lt;/H2&gt;"
+     (h2 307) &rArr; "&lt;H2&gt;307 Temporary Redirect&lt;/H2&gt;"
+</pre>
+   <!--  -->
+   </body></html>
+

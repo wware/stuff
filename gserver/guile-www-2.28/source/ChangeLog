@@ -1,0 +1,289 @@
+2010-06-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.28
+
+2010-06-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add EXPERIMENTAL modlisp support.
+
+	* server-utils/answer.scm: Use module (ice-9 optargs);
+	don't use module (ice-9 q).
+	(ish-ref, ish-status, ish-h-k-end, ish-h-v-end, ish-neck): New procs.
+	(http-ish): New vector.
+	(tree<-header-proc): New proc.
+	(tree<-header-components): Delete proc.
+	(string<-headers): Take optional arg ‘style’; use ‘tree<-header-proc’.
+	(string<-header-components): Use ‘string<-headers’.
+	(mouthpiece): Take optional arg ‘style’; coerce #f ‘status-box’ to '();
+	use ‘tree<-header-proc’ to compute local ‘tree<-header’ proc.
+	(mouthpiece set-reply-status): Use ‘ish-status’.
+	(mouthpiece add-header): Use ‘tree<-header’.
+	(mouthpiece send-reply): Use ‘ish-neck’.
+	* server-utils/big-dishing-loop.scm (http-hgrok): New vector.
+	(make-big-dishing-loop): Take keyword arg #:style;
+	use it to compute local procs ‘hgrok-first-line’, ‘hgrok’.
+	(make-big-dishing-loop bdlcore): Use ‘hgrok-first-line’.
+	(make-big-dishing-loop handle-request): Use ‘hgrok’.
+	* server-utils/modlisp.scm: New file.
+	* server-utils/Makefile.am (www_DATA): Add modlisp.
+	Suggested by Neil Jerram.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Mark ‘(... answer) string<-header-components’ for removal.
+
+	* server-utils/answer.scm (string<-header-components):
+	Add "will be removed" notice to pre-form doc-comment.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (... answer) procs: string<-tree, string<-headers
+
+	* server-utils/answer.scm (string<-tree): New proc, exported.
+	(string<-headers): Likewise.
+	(string<-header-components): Use ‘string<-tree’.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Use (ice-9 optargs); invert sense of ‘optargs-kw’ kludge.
+
+	* server-utils/big-dishing-loop.scm:
+	Use (ice-9 optargs); don't use (ice-9 optargs-kw).
+	* server-utils/cookies.scm: Likewise.
+
+2010-06-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (... answer) procs: flat-length, tree-flat-length!
+
+	* server-utils/answer.scm: Use module (ice-9 q).
+	(flat-length): New object property, exported.
+	(tree-flat-length!): New proc, exported.
+	(length/tree<-header-components): Delete proc.
+	(tree<-header-components): New proc.
+	(string<-header-components): Use ‘tree<-header-components’.
+	(mouthpiece add-header): Likewise; use ‘tree-flat-length!’.
+	(mouthpiece add-content): Use ‘tree-flat-length!’.
+
+2010-06-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Use internal abstraction more.
+
+	* server-utils/answer.scm (mouthpiece set-reply-status:success):
+	Use internal proc ‘set-reply-status!’ directly.
+
+2010-02-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.27
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Drop `make-big-dishing-loop' keyword arg `#:GET-upath'.
+
+	* server-utils/big-dishing-loop.scm
+	(make-big-dishing-loop): No longer take #:GET-upath.
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Drop (www data http-status) exports `*http-status*', `*http-status*-META'.
+
+	* data/http-status.scm (*http-status*-META): Delete.
+	(*http-status*): No longer export.
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Drop module (www data content-type).
+
+	* server-utils/filesystem.scm: Update autoload trigger
+	for module (www data mime-types) to be `mime-types<-extension'.
+	(filename->content-type): No longer seed table on first call.
+	(TABLE-OK?): Delete boolean.
+	* data/Makefile.am (www_DATA): Remove content-type.
+	(install-data-hook): New target.
+	* data/content-type.scm: Delete file.
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Don't use `return-it'.
+
+	* server-utils/big-dishing-loop.scm
+	(make-big-dishing-loop child): Don't use `return-it'.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.26
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Specify Automake options in configure.in, not Makefile.am.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Delete var.
+	* data/Makefile.am (AUTOMAKE_OPTIONS): Likewise.
+	* server-utils/Makefile.am (AUTOMAKE_OPTIONS): Likewise.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use SRFI-13 `substring/shared', not `make-shared-substring'.
+
+	* http.scm: Use module (srfi srfi-13).
+	(subs): Delete proc alias.
+	* server-utils/cookies.scm: Likewise.
+	* server-utils/filesystem.scm: From module (srfi srfi-13),
+	select also `substring/shared', renaming to `subs'.
+	(subs): Delete proc alias.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make `cleanup-filename' handle edge cases more consistently.
+
+	* server-utils/filesystem.scm: Don't use module (ice-9 regex);
+	from module (srifi srfi-13), also select `string=', `string-suffix?',
+	`string-tokenize', `string-join'; use module (srfi srfi-14).
+	(clean-parent-rx): Delete regexp.
+	(clean-dot-rx, clean-double-slash-rx): Likewise.
+	(+not-slash+): New data structure (charset).
+	(cleanup-filename): Rewrite.
+
+2009-06-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: Make `access-forbidden?-proc' allow "filename is docroot".
+
+	* server-utils/filesystem.scm: Use module (srfi srfi-13).
+	(access-forbidden?-proc): Fix OBOE: Don't fail
+	if the filename is exactly the same as the docroot.
+
+2009-06-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Consolidate some ChangeLog files.
+
+	* ChangeLog-data: Rename from data/ChangeLog.
+	* ChangeLog-server-utils: Rename from server-utils/ChangeLog.
+	* Makefile.am (EXTRA_DIST): Also distribute the ChangeLog-foo files.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.25
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Use (srfi srf-13) more.
+
+	* cgi.scm (subs): Delete proc alias.
+	(env-extraction-methods): Use `substring/shared' directly.
+	(make-ccc): Likewise.  Also, use `string-ci='.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make `cgi:init' handle optional arg for specifying `uploads-lazy'.
+
+	* cgi.scm: Don't use module (ice-9 regex);
+	autoload module (www server-utils form-2-form).
+	(fs, updated-alist, parse-form-multipart): Delete procs.
+	(make-ccc init!): Keep track of "pre-squeezed" upload file contents
+	option; if pre-squeezed, construct backward compatible string w/
+	object properties for the uploads collation.
+	(make-ccc): For #:init pass args to `init!'.
+	(cgi:init): Accept rest-arg `opt'; pass it to `ONE #:init!'.
+	(cgi:uploads): Update pre-form doc comment; nfc.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Make (www cgi) use (www server-utils parse-request).
+
+	* cgi.scm: Autoload module (www server-utils parse-request);
+	don't use modules (www url-coding), (ice-9 rw).
+	(collate, ws/comma-split): New procs.
+	(read-n-bytes, split): Delete procs.
+	(env-extraction-methods): Use `ws/comma-split'.
+	(parse-form): Delete proc.
+	(make-ccc init!): Use `read-body', `alist<-query', `collate'.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: For (www cgi), don't mix query string and form data.
+
+	This regression was introduced in Guile-WWW 2.1.
+
+	* cgi.scm (make-ccc init!): Ignore query-string.
+
+2009-05-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils cookies) proc: simple-parse-cookies
+
+	* cgi.scm: Autoload (www server-utils cookies).
+	(get-cookies): Delete proc.
+	(make-ccc init!): Use `simple-parse-cookies'.
+
+2009-05-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www cgi) proc: cgi:cookie-names
+
+	* cgi.scm (cgi:cookie-names): New proc, exported.
+
+2009-05-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `(ice-9 and-let-star) and-let*'.
+
+	* cgi.scm: Use module (ice-9 and-let-star).
+	(updated-alist): Use `and-let*'.
+	(env-extraction-methods server-sw-info): Likewise.
+	(env-extraction-methods server-pr-info): Likewise.
+	(parse-form-multipart get-pair): Likewise.
+	(make-ccc init!): Likewise.
+	(make-ccc uploads): Likewise.
+
+2009-05-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `string-null?'.
+
+	* http.scm (http:request): Use `string-null?'.
+
+2009-05-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `zero?'.
+
+	* cgi.scm (make-ccc init!): Use `zero?'.
+	* http.scm (http:request): Likewise.
+
+2008-05-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www http) proc: http:connect.
+
+	* http.scm (connection-table): Delete data structure.
+	(add-open-connection!, get-open-connection): Delete procs.
+	(http:connect): New proc, exported.
+	(http:open): Use `http:connect'.
+
+2008-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up `socket' calls.
+
+	* http.scm (http:open): Use `protoent:proto',
+	`hostent:addr-list' and `PF_INET'.
+
+2008-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug introduced in 2.22, change:
+	Move scheme files under source/:
+	For doc extraction, don't search for module commentary.
+
+	* utcsec.scm: Move commentary to ../doc/guile-info.twerp.
+
+2008-04-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move scheme files under source/.
+
+	Here, $(prev)/foo stands for ../foo.
+	* Makefile.am: New file.
+	* cgi.scm: Rename from $(prev)/cgi.scm.
+	* http.scm: Rename from $(prev)/http.scm.
+	* https.scm: Rename from $(prev)/https.scm.
+	* main.scm: Rename from $(prev)/main.scm.
+	* url-coding.scm: Rename from $(prev)/url-coding.scm.
+	* url.scm: Rename from $(prev)/url.scm.
+	* utcsec.scm: Rename from $(prev)/utcsec.scm.
+
+
+Copyright (C) 2010 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.

@@ -1,0 +1,19 @@
+New Modules:
+* (web rss) for grabbing RSS feeds (e.g. /. headlines)
+* (web memcache) interface to memcached
+* shtml->tag-tree converter
+
+Serializer:
+* Make the serializer run faster
+* Make the serializer output be more compact (represent immediates as
+  immediates, etc.)
+* Serialization of entire environments so that complex objects
+  (e.g. GOOPS objects and procedures) can be more correctly reconstructed
+
+Session:
+* Thread-safe acccess of *session-hash-table*
+
+Done:
+* Rewrite db code to be more efficient (don't use hash tables)
+* Replace existing serializer with the new unreleased version
+* Rewrite session support to use new serializer

@@ -1,0 +1,207 @@
+<html lang="en">
+<head>
+<title>cookies - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="cgi_002dprep.html#cgi_002dprep" title="cgi-prep">
+<link rel="next" href="answer.html#answer" title="answer">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="cookies"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="answer.html#answer">answer</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="cgi_002dprep.html#cgi_002dprep">cgi-prep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">12 (www server-utils cookies)</h2>
+
+<p>Cookies are bits of client-side state the server can maintain through
+designated HTTP response headers.  At this time (2009), there are two
+specifications,
+RFC2109<a rel="footnote" href="#fn-1" name="fnd-1"><sup>1</sup></a>
+and
+RFC2965<a rel="footnote" href="#fn-2" name="fnd-2"><sup>2</sup></a>,
+the latter obsoleting the former.
+
+   <p>This chapter describes the <code>(www server-utils cookies)</code> module,
+which provides facilities for creating such headers, and parsing those
+sent by the client.  Procedures that return trees are meant to be used with
+the <code>mouthpiece</code> command <code>#:add-header</code> (see <a href="answer.html#answer">answer</a>).
+
+<!-- @twerpdoc (simple-parse-cookies) -->
+<!-- ../source/server-utils/cookies.doc -->
+<div class="defun">
+&mdash; Procedure: <b>simple-parse-cookies</b><var> string<a name="index-simple_002dparse_002dcookies-81"></a></var><br>
+<blockquote><p>Parse <var>string</var> for cookie-like fragments using the simple regexp:
+     <pre class="example">          (,[ \t]*)*([^=]+)=([^,]+)
+</pre>
+        <p>Return a list of elements <code>(</code><var>name</var><code> . </code><var>value</var><code>)</code>,
+where both <var>name</var> and <var>value</var> are strings.  For example:
+
+     <pre class="example">          (simple-parse-cookies "abc=def; z=z, ans=\"42\", abc=xyz")
+          &rArr; (("abc" . "def; z=z") ("ans" . "\"42\"") ("abc" . "xyz"))
+</pre>
+        </blockquote></div>
+   <!-- @twerpdoc (rfc2109-set-cookie-string) -->
+<!-- ../source/server-utils/cookies.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>rfc2109-set-cookie-string</b><var> name value </var>[<var>keyword arg...</var>]<var><a name="index-rfc2109_002dset_002dcookie_002dstring-82"></a></var><br>
+<blockquote><p>Return a string suitable for inclusion into an HTTP response header
+as a cookie with <var>name</var> and <var>value</var>.  Both args may be strings,
+symbols or keywords.  Also, recognize and format appropriately the
+optional keyword parameters <code>#:path</code>, <code>#:domain</code>,
+<code>#:expires</code> (strings); and <code>#:secure</code> (boolean). 
+</p></blockquote></div>
+   <!-- @twerpdoc (rfc2965-set-cookie2-tree) -->
+<!-- ../source/server-utils/cookies.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>rfc2965-set-cookie2-tree</b><var> M </var>[<var>cookie-specs...</var>]<var><a name="index-rfc2965_002dset_002dcookie2_002dtree-83"></a></var><br>
+<blockquote><p>Compute a list suitable for inclusion in an HTTP response header,
+composed by formatting <var>cookie-specs</var>, each a list of the form
+<code>(</code><var>name</var> <var>value</var> <var>a1</var> <var>v1<small class="dots">...</small></var><code>)</code>.  Each
+<var>name</var> may be a string, symbol or keyword.  Each <var>value</var> may
+be a string or symbol.  Each <var>a</var> must be a keyword, precisely one
+of:
+
+     <pre class="example">          #:Comment  #:CommentURL  #:Discard  #:Domain
+          #:Max-Age  #:Path  #:Port  #:Secure
+</pre>
+        <p>The #:Version attribute is automatically included as the last one;
+it cannot be specified (or de-specified).
+
+        <p>Possible values for <var>v</var> depend on <var>a</var>.  If <var>a</var> is
+<code>#:Discard</code> or <code>#:Secure</code>, then there is no <var>v</var> (it must
+be omitted).  If <var>a</var> is <code>#:Port</code>, then <var>v</var> must be either
+a number; a list of numbers, for instance <code>(8001 8002 8003)</code>; or
+omitted entirely.  If <var>a</var> is <code>#:Max-Age</code>, then <var>v</var> must
+be a number.  For all other <var>a</var>, <var>v</var> can be a string or symbol.
+
+        <p>If <var>M</var> is <code>#f</code>, return a list.  The <span class="sc">car</span> of the list is
+the keyword <code>#:Set-Cookie2</code>, and the <span class="sc">cdr</span> is a tree of
+strings.  Otherwise <var>M</var> should be a <code>mouthpiece</code>
+(see <a href="answer.html#answer">answer</a>) in which case it is applied with the
+<code>#:add-header</code> command to the list. 
+</p></blockquote></div>
+
+<h3 class="heading">example</h3>
+
+<p>Here is an example that demonstates both RFC2109 and RFC2965 formatting. 
+Notable differences: the keyword to specify the path is now capitalized; the
+representation of the cookie's value is now double-quoted.
+
+<pre class="example">     ;; RFC2109
+     (rfc2109-set-cookie-string 'war 'lose #:path "/ignorance/suffering")
+     &rArr; "Set-Cookie: war=lose; path=/ignorance/suffering"
+     
+     ;; RFC2965
+     (use-modules ((www server-utils answer) #:select (walk-tree)))
+     
+     (define TREE (rfc2965-set-cookie2-tree
+                   '(war lose #:Path "/ignorance/suffering" #:Discard)))
+     
+     (car TREE)
+     &rArr; #:Set-Cookie2
+     
+     (walk-tree display (cdr TREE))
+     -| war="lose";Path="/ignorance/suffering";Discard;Version=1
+</pre>
+   <p class="noindent">To generate a cookie spec from the <code>Cookie</code> http response header sent by
+a client, you can use <code>rfc2965-parse-cookie-header-value</code>.
+
+<!-- @twerpdoc (rfc2965-parse-cookie-header-value) -->
+<!-- ../source/server-utils/cookies.doc -->
+<div class="defun">
+&mdash; Procedure: <b>rfc2965-parse-cookie-header-value</b><var> s </var>[<var>flags...</var>]<var><a name="index-rfc2965_002dparse_002dcookie_002dheader_002dvalue-84"></a></var><br>
+<blockquote><p>Parse the <code>Cookie</code> HTTP response header string <var>s</var>. 
+Return a list of the form <code>(</code><var>vers</var> <var>n</var><code>
+[</code><var>cookie-spec</var><code>...])</code>, where <var>vers</var> is the version number
+of the cookie specification, 0 (zero) for RFC2109 compliance and 1
+(one) for RFC2965 compliance; and <var>n</var> is the number of
+cookie-specs the <span class="sc">cdr</span> of the form.
+
+        <p>Each <var>cookie-spec</var> has the form: <code>(</code><var>name</var> <var>value</var> <var>a1</var>
+<var>v1</var><code>...)</code>. 
+<var>name</var>, <var>value</var> are strings.  Each <var>a</var> is a keyword,
+one of <code>#:Path</code>, <code>#:Domain</code> or <code>#:Port</code>.  Each <var>v</var>
+is a string, except for that associated with <code>#:Port</code>, which
+is can be either a single number or a list of numbers.
+
+        <p>Optional <var>flags</var> configure the parsing and/or return value.
+
+          <dl>
+<dt><code>#:keep-attribute-dollarsign-prefix</code><dd>Prevent conversion of, for example, <code>#:$Port</code> to <code>#:Port</code>.
+
+          <br><dt><code>#:strict-comma-separator</code><dd>Disable support for older clients that use a semicolon to separate
+cookies instead of a comma.  Normally, parsing copes (heuristically)
+with this by reparsing an unrecognized attribute as the beginning of a
+new cookie.  With this flag, an unrecognized attribute signals an error.
+
+          <br><dt><code>#:canonicalize-NAME-as-keyword</code><dd>Convert the <var>name</var> in each cookie-spec into a keyword whose
+first character and characters following a hyphen are upcased. 
+For example, "session-id-no" would become <code>#:Session-Id-No</code>. 
+</dl>
+
+        <p>Parsing may signal an error and display an error message in the form:
+&ldquo;<var>situation</var> while <var>context</var>&rdquo;, where <var>situation</var> is one of
+&ldquo;unexpected end&rdquo;, &ldquo;missing equal-sign&rdquo;, &ldquo;bad attribute&rdquo;, or
+&ldquo;missing semicolon&rdquo;; and <var>context</var> is one of: &ldquo;reading string&rdquo;,
+&ldquo;reading token&rdquo;, &ldquo;reading pair&rdquo;, &ldquo;reading one cookie&rdquo; or
+&ldquo;parsing&rdquo;.  The error message also displays string <var>s</var> on a line
+by itself and on the next line a caret by itself indented to be at
+(or near) the site of the error. 
+</p></blockquote></div>
+
+<p class="noindent">RFC2965 also specifies some other small algorithms, some of which are codified
+as procedures available in this module.
+
+<!-- @twerpdoc (reach) -->
+<!-- ../source/server-utils/cookies.doc -->
+<div class="defun">
+&mdash; Procedure: <b>reach</b><var> h<a name="index-reach-85"></a></var><br>
+<blockquote><p>Return the <dfn>reach</dfn> (a string) of host name <var>h</var>. 
+Quoting from RFC2965 section 1 (Terminology):
+
+     <pre class="format">The reach R of a host name H is defined as follows:
+     If
+       - H is the host domain name of a host; and,
+       - H has the form A.B; and
+       - A has no embedded (that is, interior) dots; and
+       - B has at least one embedded dot, or B is the string "local".
+     then the reach of H is .B.
+     Otherwise, the reach of H is H.
+</pre>
+        <p>Note that comparison with "local" uses <code>string=?</code>,
+i.e., case-sensitively. 
+</p></blockquote></div>
+
+<!--  -->
+   <div class="footnote">
+<hr>
+<h4>Footnotes</h4><p class="footnote"><small>[<a name="fn-1" href="#fnd-1">1</a>]</small> <a href="http://www.faqs.org/rfcs/rfc2109.html">RFC2109</a></p>
+
+   <p class="footnote"><small>[<a name="fn-2" href="#fnd-2">2</a>]</small> <a href="http://www.faqs.org/rfcs/rfc2965.html">RFC2965</a></p>
+
+   <hr></div>
+
+   </body></html>
+

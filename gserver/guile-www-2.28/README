@@ -1,0 +1,52 @@
+Welcome!
+========
+
+	This is the Guile WWW library, a set of Guile Scheme
+	modules to facilitate HTTP, URL and CGI programming.
+
+	  COPYING	-- license
+	  AUTHORS	-- who did what
+	  NEWS		-- list of user visible changes
+	  ChangeLog	-- detailed list of changes
+	  source/	-- the Guile Scheme modules
+	  doc/		-- guile-www.info and texinfo source
+	  contrib/	-- contributions
+	  examples/	-- using the modules
+
+
+Installation
+============
+(See file INSTALL for generic installation instructions.)
+
+	Briefly, you need to issue these standard commands:
+
+	  ./configure [options]
+	  make
+	  make install
+
+	On "make install", these files are copied to these directories
+	(creating them first if necessary), renaming each FOO.scm to
+	simply FOO, and compressing them somewhat:
+
+	  source/*            -- $(GUILE_SITE)/www (and subdirs)
+	  doc/guile-www.info  -- $(prefix)/info
+
+	Normally $(GUILE_SITE) is $(prefix)/share/guile/site
+	     and $(prefix)     is /usr/local
+
+	For guile to resolve these module names as (www FOO), make sure
+	that $(GUILE_SITE) is in the ‘%load-path’.  To see the value of
+	this variable use the command:
+
+	  guile -c '(display %load-path)'
+
+	For systems which have the "guile-tools make-module-catalog"
+	program, "make install" also updates the module catalog in
+	$(GUILE_SITE).
+
+
+Maintenance
+===========
+
+	Guile-WWW is maintained by Thien-Thi Nguyen.
+	Please send bug reports to <ttn@gnuvola.org>.

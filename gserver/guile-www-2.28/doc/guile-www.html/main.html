@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>main - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="cgi.html#cgi" title="cgi">
+<link rel="next" href="url_002dcoding.html#url_002dcoding" title="url-coding">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="main"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="url_002dcoding.html#url_002dcoding">url-coding</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="cgi.html#cgi">cgi</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">4 (www main)</h2>
+
+<p>The <code>(www main)</code> module provides a generic interface useful for
+retriving data named by any URL.  The URL scheme <code>http</code> is pre-registered.
+
+<!-- @twerpdoc (www:set-protocol-handler!) -->
+<!-- ../source/main.doc -->
+<div class="defun">
+&mdash; Procedure: <b>www:set-protocol-handler!</b><var> proto handler<a name="index-www_003aset_002dprotocol_002dhandler_0021-42"></a></var><br>
+<blockquote><p>Associate for scheme <var>proto</var> the procedure <var>handler</var>. 
+<var>proto</var> is a symbol, while <var>handler</var> is a procedure that
+takes three strings: the host, port and path portions, respectively
+of a url object.  Its return value is the return value of
+<code>www:get</code> (for <var>proto</var>), and need not be a string. 
+</p></blockquote></div>
+   <!-- @twerpdoc (www:get) -->
+<!-- ../source/main.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>www:get</b><var> url-string<a name="index-www_003aget-43"></a></var><br>
+<blockquote><p>Parse <var>url-string</var> into portions.  For HTTP, open a connection,
+retrieve and return the specified document.  Otherwise, consult the
+handler procedure registered for the particular scheme and apply it
+to the host, port and path portions of <var>url-string</var>.  If no such
+handler exists, signal "unknown URL scheme" error. 
+</p></blockquote></div>
+
+<p class="noindent">There is also the convenience proc <code>www:http-head-get</code>.
+
+<!-- @twerpdoc (www:http-head-get) -->
+<!-- ../source/main.doc -->
+<div class="defun">
+&mdash; Procedure: <b>www:http-head-get</b><var> url-string </var>[<var>alist?</var>]<var><a name="index-www_003ahttp_002dhead_002dget-44"></a></var><br>
+<blockquote><p>Parse <var>url-string</var> into portions; issue an "HTTP HEAD" request. 
+Signal error if the scheme for <var>url-string</var> is not <code>http</code>. 
+Optional second arg <code>alist?</code> non-<code>#f</code> means return only the
+alist portion of the HTTP response object. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

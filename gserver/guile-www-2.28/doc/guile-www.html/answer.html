@@ -1,0 +1,278 @@
+<html lang="en">
+<head>
+<title>answer - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="cookies.html#cookies" title="cookies">
+<link rel="next" href="log.html#log" title="log">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="answer"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="log.html#log">log</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="cookies.html#cookies">cookies</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">13 (www server-utils answer)</h2>
+
+<p>The <code>(www server-utils answer)</code> module provides a simple wrapper
+around the formatting/accounting requirements of a standard HTTP
+response.  Additionally, the <code>#:rechunk-content</code> facility allows
+some degree of performance tuning; a server may be able to achieve
+better throughput with certain chunk sizes than with others.
+
+   <p>The output from <code>mouthpiece</code> and <code>string&lt;-headers</code>
+is formatted according to their optional <code>style</code> argument. 
+By default, headers have the form:
+
+<pre class="example">     NAME #\: #\space VALUE #\cr #\lf
+</pre>
+   <p class="noindent">Additionally, for <code>mouthpiece</code>, the first line, preceding all the
+headers, has the form:
+
+<pre class="example">     HTTP/1.0 <var>nnn</var> <var>msg</var>
+</pre>
+   <p class="noindent">and a single <code>#\cr #\lf</code> pair separates the headers from the body. 
+The <code>style</code> support is <strong>experimental</strong> (see <a href="modlisp.html#modlisp">modlisp</a>).
+
+<!-- @twerpdoc (mouthpiece) -->
+<!-- ../source/server-utils/answer.doc -->
+<div class="defun">
+&mdash; Procedure: <b>mouthpiece</b><var> out-port </var>[<var>status-box </var>[<var>style</var>]]<var><a name="index-mouthpiece-86"></a></var><br>
+<blockquote><p>Return a command-delegating closure capable of writing a properly formatted
+HTTP 1.0 response to <var>out-port</var>.  Optional arg <var>status-box</var> is a
+list whose <span class="sc">car</span> is set to the numeric status code given to a
+<code>#:set-reply-status</code> command.  If <var>status-box</var> has length of two
+or more, its <span class="sc">cadr</span> is set to the content-length on <code>#:send-reply</code>. 
+A content-length value of <code>#f</code> means there have been no calls to
+<code>#:add-content</code>.  The commands and their args are:
+
+          
+<a name="index-reset_002dprotocol_0021-87"></a>
+<dl><dt><code>#:reset-protocol!</code><dd>Reset internal state, including reply status, headers and content. 
+This is called automatically by <code>#:send-reply</code>.
+
+          <p><a name="index-set_002dreply_002dstatus-88"></a><br><dt><code>#:set-reply-status </code><var>number</var> <var>message</var><dd>Set the reply status.  <var>message</var> is a short string.
+
+          <p><a name="index-set_002dreply_002dstatus_003asuccess-89"></a><br><dt><code>#:set-reply-status:success</code><dd>This is equivalent to <code>#:set-reply-status 200 "OK"</code>.
+
+          <p><a name="index-add_002dheader-90"></a><br><dt><code>#:add-header </code><var>name</var> <var>value</var><dd><var>name</var> may be <code>#f</code>, <code>#t</code>, a string, symbol or keyword. 
+<var>value</var> is a string.  If <var>name</var> is <code>#f</code> or <code>#t</code>,
+<var>value</var> is taken to be a pre-formatted string, "A: B" or "A:
+B\r\n", respectively.  If <var>name</var> is not a boolean, <var>value</var>
+may also be a tree of strings or a number.
+
+          <p><a name="index-add_002dcontent-91"></a><br><dt><code>#:add-content [</code><var>tree</var><code> ...]</code><dd><var>tree</var> may be a string, a nested list of strings, or a series of such. 
+Subsequent calls to <code>#:add-content</code> append their trees to the
+collected content tree thus far.
+
+          <p><a name="index-add_002dformatted-92"></a><br><dt><code>#:add-formatted </code><var>format-string</var><code> [</code><var>args</var><code> ...]</code><dd><var>format-string</var> may be <code>#f</code> to mean <code>~S</code>, <code>#t</code> to
+mean <code>~A</code>, or a normal format string.  It is used to format
+<var>args</var>, and the result passed to <code>#:add-content</code>.
+
+          <p><a name="index-add_002ddirect_002dwriter-93"></a><br><dt><code>#:add-direct-writer </code><var>len</var> <var>write</var><dd><var>len</var> is the number of bytes that procedure <var>write</var> will
+output to its arg, <var>out-port</var> (passed back), when called during
+<code>#:send-reply</code>.  This is to allow sendfile(2) and related
+hackery.
+
+          <p><a name="index-content_002dlength-94"></a><br><dt><code>#:content-length</code><dd>Return the total number of bytes in the content added thus far.
+
+          <p><a name="index-rechunk_002dcontent-95"></a><br><dt><code>#:rechunk-content </code><var>chunk</var><dd><var>chunk</var> may be <code>#f</code>, in which case a list of the string
+lengths collected thus far is returned; <code>#t</code> which means to use
+the content length as the chunk size (effectively producing one
+chunk); or a number specifying the maximum size of a chunk.  The
+return value is a list of the chunk sizes.
+
+          <p>It is an error to use <code>#:rechunk-content</code> with a non-<code>#f</code>
+<var>chunk</var> in the presence of a previous <code>#:add-direct-writer</code>.
+
+          <p><a name="index-inhibit_002dcontent_0021-96"></a><br><dt><code>#:inhibit-content! </code><var>bool</var><dd>Non-<code>#f</code> <var>bool</var> arranges for <code>#:send-reply</code> (below) to
+compute content length and add the appropriate header, as usual, but
+no content is actually sent.  This is useful, e.g., when answering a
+<code>HEAD</code> request.  If <var>bool</var> is <code>#f</code>, <code>#:send-reply</code>
+acts normally (i.e., sends both headers and content).
+
+          <p><a name="index-send_002dreply-97"></a><br><dt><code>#:send-reply [close]</code><dd>Send the properly formatted response to <var>out-port</var>, and reset
+all internal state (status reset, content discarded, etc).  It is
+an error to invoke <code>#:send-reply</code> without having first set
+the reply status.
+
+          <p>Optional arg <var>close</var> means do a <code>shutdown</code> on <var>out-port</var>
+using <var>close</var> &mdash; directly, if an integer, or called with no
+arguments, if a thunk &mdash; as the shutdown <code>how</code> argument. 
+(Note: If <var>out-port</var> is not a socket, this does nothing silently.) 
+See <a href="../guile/Network-Sockets-and-Communication.html#Network-Sockets-and-Communication">Network Sockets and Communication</a>.
+
+          <p>If <var>close</var> is specified, the closure forgets about <var>out-port</var>
+internally; it is an error to call other mouthpiece commands,
+subsequently. 
+</dl>
+        </p></blockquote></div>
+
+<h3 class="heading">example</h3>
+
+<p>Here is an example that uses most of the <code>mouthpiece</code> commands:
+
+<pre class="example">     (use-modules (www server-utils filesystem) (scripts slurp))
+     
+     (define SERVER-NAME "Guile-WWW-example-server")
+     (define SERVER-VERSION "1.0")
+     (define STATUS (list #f #f))
+     (define M (mouthpiece (open-output-file "fake") STATUS))
+     
+     (define (transmit-file filename)
+       (M #:set-reply-status:success)
+       (M #:add-header #:Server (string-append SERVER-NAME " "
+                                               SERVER-VERSION))
+       (M #:add-header #:Connection "close")
+       (M #:add-header #:Content-Type (filename-&gt;content-type
+                                       filename "text/plain"))
+       (M #:add-content (slurp filename))
+       (simple-format #t "rechunked: ~A\n"
+                      (M #:rechunk-content (* 8 1024)))
+       ;; We don't shutdown because this is a file port;
+       ;; if it were a socket, we might specify 2 to
+       ;; stop both reception and transmission.
+       (M #:send-reply))
+     
+     (transmit-file "COPYING")
+     -| rechunked: (8192 8192 1605)
+     STATUS
+     &rArr; (200 17989)
+</pre>
+   <p class="noindent">For higher performance, you can preformat parts of the response, using
+<code>CRLF</code>, and some lower-level convenience procedures. 
+If preformatting is not possible (or desirable), you can still
+declare a nested list of strings (aka <dfn>tree</dfn>) to have a
+<dfn>flat length</dfn>, i.e., the size in bytes a tree would occupy
+once flattened, thus enabling internal optimizations. 
+(The flat length of a string is its <code>string-length</code>.)
+
+<div class="defun">
+&mdash; Scheme String: <b>CRLF</b><var><a name="index-CRLF-98"></a></var><br>
+<blockquote><p>The string &ldquo;\r\n&rdquo;. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Object Property: <b>flat-length</b><var><a name="index-flat_002dlength-99"></a></var><br>
+<blockquote><p>The value is a non-negative integer, or <code>#f</code> if not yet computed. 
+</p></blockquote></div>
+
+<!-- @twerpdoc (fs) -->
+<!-- ../source/server-utils/answer.doc -->
+<div class="defun">
+&mdash; Procedure: <b>fs</b><var> s </var>[<var>args...</var>]<var><a name="index-fs-100"></a></var><br>
+<blockquote><p>Return a new string made by using format string <var>s</var> on <var>args</var>. 
+As in <code>simple-format</code> (which this procedure uses), <code>~A</code> expands
+as with <code>display</code>, while <code>~S</code> expands as with <code>write</code>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (walk-tree) -->
+<!-- ../source/server-utils/answer.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>walk-tree</b><var> proc tree<a name="index-walk_002dtree-101"></a></var><br>
+<blockquote><p>Call <var>proc</var> for each recursively-visited leaf in <var>tree</var>, excluding
+empty lists.  It is an error for <var>tree</var> to contain improper lists. 
+</p></blockquote></div>
+   <!-- @twerpdoc (tree-flat-length!) -->
+<!-- ../source/server-utils/answer.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>tree-flat-length!</b><var> tree<a name="index-tree_002dflat_002dlength_0021-102"></a></var><br>
+<blockquote><p>If <var>tree</var> is a string, return its <code>string-length</code>. 
+If <var>tree</var> already has a <code>flat-length</code>, return that. 
+Otherwise, recursively compute, set, and return the
+<code>flat-length</code> of <var>tree</var>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (string<-tree) -->
+<!-- ../source/server-utils/answer.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>string&lt;-tree</b><var> tree<a name="index-string_003c_002dtree-103"></a></var><br>
+<blockquote><p>Return a new string made from flattening <var>tree</var>. 
+Set the <code>flat-length</code> (using <code>tree-flat-length!</code>)
+of <var>tree</var> by side effect. 
+</p></blockquote></div>
+   <!-- @twerpdoc (string<-headers) -->
+<!-- ../source/server-utils/answer.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>string&lt;-headers</b><var> alist </var>[<var>style</var>]<var><a name="index-string_003c_002dheaders-104"></a></var><br>
+<blockquote><p>Return a string made from formatting name/value pairs in <var>alist</var>,
+according to the optional <code>style</code> argument.  If unspecified or
+specified as <code>#f</code>, the default is to format headers like so:
+
+     <pre class="example">          NAME #\: #\space VALUE #\cr #\lf
+</pre>
+        <p>Each name may be a string, symbol or keyword.  Each value may be a
+string, number, symbol, or a tree. 
+</p></blockquote></div>
+   <!-- @twerpdoc (string<-header-components) -->
+<!-- ../source/server-utils/answer.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>string&lt;-header-components</b><var> n v </var>[<var>n1 v1...</var>]<var><a name="index-string_003c_002dheader_002dcomponents-105"></a></var><br>
+<blockquote><p>Return a string made from formatting header name <var>n</var> and value
+<var>v</var>.  Additional headers can be specified as alternating name and
+value args.  Each header is formatted like so: &ldquo;<var>name</var>:
+<var>value</var>\r\n&rdquo;.
+
+        <p>Each <var>n</var> may be a string, symbol or keyword.  Each <var>v</var> may be a
+string, number, symbol, or a tree.
+
+        <p><strong>NOTE</strong>: This proc <strong>will be removed</strong> after 2011-12-31. 
+Use <code>string&lt;-headers</code> instead. 
+</p></blockquote></div>
+
+<h3 class="heading">example</h3>
+
+<p>Here is <code>transmit-file</code> from the above example, slightly modified to use
+preformatted headers and <code>fs</code>:
+
+<pre class="example">     (define CONSTANT-HEADERS
+       (string&lt;-headers
+        `((#:Server     . ,(fs "~A ~A" SERVER-NAME SERVER-VERSION))
+          (#:Connection . "close"))))
+     
+     (define (transmit-file filename)
+       (M #:set-reply-status:success)
+       (M #:add-header #t CONSTANT-HEADERS)
+       (M #:add-header #:Content-Type (filename-&gt;content-type
+                                       filename "text/plain"))
+       (M #:add-content (slurp filename))
+       (display (fs "rechunked: ~A\n" (M #:rechunk-content (* 8 1024))))
+       (M #:send-reply))
+</pre>
+   <p class="noindent">Note that <code>mouthpiece</code> accepts trees for both <code>#:add-header</code> and
+<code>#:add-content</code> commands.  Thus, the following two fragments give the
+same result, although the latter is both more elegant and more efficient:
+
+<pre class="example">     ;; Doing things "manually".
+     (walk-tree (lambda (string)
+                  (M #:add-content string))
+                tree)
+     
+     ;; Letting the mouthpiece handle things.
+     (M #:add-content tree)
+</pre>
+   <!--  -->
+   </body></html>
+

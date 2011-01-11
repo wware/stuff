@@ -1,0 +1,285 @@
+2005-05-14  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* xhtml.scm (display): Fixed a bug (not passing port to display of
+	tag tree)
+
+2005-05-10  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (XHTML Generation): Updated manual to reflect
+	new module name [(web xhtml) instead of (web html)]
+
+2005-05-09  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* README: Reworked the README to make it more useful and readable
+
+	* session.c: reformatted file to make it more readable
+
+2005-05-07  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Session Management): Added hint to add
+	session:save to exit-hook
+	Updated copyrights (2003,2004,2005)
+
+	* Makefile.am (guileweb_DATA): s/html.scm/xhtml.scm/
+
+	* xhtml.scm: renamed html.scm to xhtml.scm
+
+	* html.scm: Renamed module to (web xhtml)
+
+2005-02-19  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Top): Removed SSAX chapter
+	(Top): Updated copyright
+
+	* Makefile.am: Removed all references to SSAX
+
+2005-01-05  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* html.scm (merge-atts): copy-tree tag-defaults (this fixes BUG #3)
+
+	* html/gen-html.scm (define-tag!): define-tag! actually really
+	works now. It's a bit hairer now and probably slower at compile
+	time but seems faster at runtime.
+
+2004-12-17  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* html/gen-html.scm (define-tag!): Guile 1.7's macroexpander (if
+	syncase is in use) doesn't like the way the macro was defined (it
+	was out of spec with Scheme, whoops). Fixed.
+
+	* session.c: libcgi now uses libcgi/HEADER, changed includes to
+	use this
+
+2004-08-26  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* template.scm (handle-command): Make sure command-fun is actually
+	a procedure
+
+2004-07-14  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* README: Updated a few things
+
+	* html.scm (xhtml:dtd): Uses merge-atts to create attlist and
+	ensure that the encoding is present
+
+	* guile-web.texinfo (XHTML Generation): Documented xhtml:tag-tree->shtml
+
+	* html.scm (xhtml:dtd): (make <xhtml-tag-top> instead of
+	<xhtml-tag> for the HtmlPrag converter (the DTD being present will
+	result in *TOP* going into the HtmlPrag list)
+	(<xhtml-tag>): Added three new slots (name, atts, and start-or-close)
+	(display): Converted methods to use new slots and types and added a special
+	method for <xhtml-top-tag> (prints the DTD)
+	(empty-tag): make a <xhtml-tag-empty> object
+	(non-empty-tag-start): make <xhtml-tag>
+	(<xhtml-tag-list>): New class
+	(<xhtml-tag-empty>): New class
+	(<xhtml-tag-top>): New class
+	(xhtml:tags): make <xhtml-tag-list> instead of <xhtml-tag>
+	(htmlpragize): New private generic
+	(xhtml:tag-tree->shtml): New public procedure; converts
+	<xhtml:tag> to shtml as used by HtmlPrag
+
+2004-07-11  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* memcache.scm: New file (memcached interface)
+
+2004-07-10  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Top): Updated the copyright notice
+
+2004-07-02  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (XHTML Generation): Fixed a type (generation
+	=> generate)
+
+2004-06-16  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* configure.ac: 0.4.3
+
+	* guile-web.texinfo (Top): Updated version from 0.4.0 to 0.4.3 (oops)
+
+	* html.scm (non-empty-tag): Installed a hack to work around the
+	broken lambda* of Guile 1.6.4/CVS at the moment
+
+2004-05-24  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Page Templates): Added documentation for
+	template:set-error-handler
+
+	* template.scm (template:set-error-handler): Added procedure
+	(handle-command): Changed tmpl:error to template:error
+
+2004-02-27  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Session Management): Changed session:end to
+	session:save and expanded the blurb
+
+	* session.scm (session:save): Renamed session:end to session:save
+	(the session may continue to be used after the call; the name was
+	misleading)
+	(session:end): Defined as an alias for session:save that issues a
+	deprecation warning. The alias will be removed some time later; it
+	will already be gone if your Guile has deprecated features disabled.
+
+	* configure.ac: Updated version
+
+	* README: Updated the README
+
+	* html.scm: define-tag! removed and html-defined.scm is now loaded
+	with all of the forms needed to define the tags.
+
+	* html/gen-html.scm (define-tag!): New file, this creates the
+	defines and exports for all of the tags in (web html)
+
+2004-02-24  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (XHTML Generation): Added a blurb on
+	xhtml:tags
+
+2003-12-27  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (Session Management): session:register-var now
+	only works with a symbol for `name'
+
+2003-09-18  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* serialize.scm (unserial-table): Made into a vector of alists
+	instead of a hash table (see comments for *session-hash-table*)
+	(serialize): Made serial-table a vector of alists
+
+	* session.scm (*session-hash-table*): Made into a vector of alists
+	instead of a hash table (a hash table really is a vector of
+	alists, but cannot be printed in a readable form)
+
+2003-09-17  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* session.scm (session:start): Wraps around session:_start to use
+	a global hash table of key value pairs contained within the session
+	(session:end): This must be called at the end of a script that
+	uses session management now (at least until I do a huge rewrite of
+	serialize v2)
+
+	* session.c (scgi_session_init): Register a few procedures with a
+	preceding _ in their names
+
+2003-09-13  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* template.scm (tmpl:error): New procedure; returns a string
+	indicating that an error occured
+	(template:parse): Changed one instance of error to tmpl:error so
+	that leaving a template call unclosed will return the error to the
+	caller at the end of the page list instead of giving control to
+	the nearest catch clause for misc-error
+
+2003-09-09  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* db.scm: Rewrote misc db utils to not use hash tables
+
+	* guile-web.texinfo (Page Templates): Added Page Templates chapter
+
+2003-07-11  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* configure.ac: Updated version number
+
+	* Makefile.am (EXTRA_DIST): Added ghtml_DATA
+
+	* html-doc.scm: New file, generates documentation for (web html) module
+
+	* html.scm: Removed define-tag! calls
+
+	* html-defines.scm: Moved all define-tag!s into html-define.scm
+
+	* guile-web.texinfo: Updated copyright
+
+	* Makefile.am: Removed gweb_DATA
+
+	* guile-web.texinfo (GNU Free Documentation License): Added FDL section
+
+2003-06-24  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* session.scm: Started work on native Scheme implementation of sessions
+
+	* new-serialize.scm: Merged in my heavily modified serializer from
+	my school project
+
+2003-06-18  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* html.scm (xhtml:tags): Added new procedure for returning a
+	sequence of tags
+
+2003-06-17  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* template.scm: Added new template parser
+
+2003-04-24  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* html.scm (non-empty-tag-start): Removed '#:rest elements' from
+	function because the tag start procedure shouldn't have any
+	arguments other than the attributes (it was unused and could have
+	led to subtle bugs I suppose).
+
+2003-04-03  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* guile-web.texinfo (XHTML Generation): Fixed a typo on the
+	example (missing a paren at the end)
+
+2003-02-19  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* hash-dash.scm (hash-dash): Removed support for <?guile ?> blocks
+
+2002-12-11  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* serialize.scm (serialize): for <list>s now serializes
+	each member of the list
+	(serialize): for <pair>s the car and cdr are now serialized
+	(serialize): for <vector>s now serializes each member of the vector
+	(<list>): New unseralizer for lists
+	(<vector>): New unseralizer for vectors
+	(<pair>): New unserializer for pairs
+	(serialize-list): Added a new function so that serialize for pairs
+	can call this if the pair it was passed was really a list and not
+	a pair (since lists are also pairs). serialize for lists also uses
+	this now. This makes the output of serializing a list /much/
+	smaller
+	(serialize): Added serializer for boolean values
+
+2002-12-10  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* serialize.scm (serialize): Added serialize method for <object>
+	(serialize): added quote to class names in default serializers
+	(<object>): Added an unserializer for types of <object>
+	(unserialize): Return #f instead of *unspecified* if
+	serialize-objected isn't really a serialized object
+
+2002-09-07  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* hash-dash.scm: Redefined skip-while from input-parse.scm to
+	return a pair with the first non-skipped char and a list of all
+	the skipped characters
+
+2002-09-01  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* form.scm: Added (web form) module
+
+2002-08-30  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* hash-dash.scm: Fixed a bug in #- -# where a <?guile ?> block
+	with a quote mark next to the ending ?> would make everything die
+	horribly. The solution makes #- -# even slower...(now I have to
+	call my-escape-string on each string that checks if each element
+	is char=? to #\" and then returns a new string that is properly
+	escaped).
+
+2002-08-15  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* hash-dash.scm (hash-dash): Works now. Wooo. Time to make the
+	0.1.1 release.
+	You must now use <?guile instead of <?g
+
+2002-07-25  Clinton Ebadi  <clinton@unknownlamer.org>
+
+	* hash-dash.scm (chunk-str): Fixed a few bugs
+	Rewrote hash-dash to use Oleg's string tokenizer. The new code is
+	much nicer.
+

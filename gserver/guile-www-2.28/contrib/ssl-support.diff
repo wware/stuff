@@ -1,0 +1,97 @@
+From: Eric Hanchrow <offby1@blarg.net>
+Subject: Gross hack to add https support to guile-www
+Date: 15 Aug 2001 10:52:54 -0700
+To: twp@tezcat.com, guile-sources@gnu.org
+
+
+This code works for me, but is pretty ugly because
+
+* it assumes you've got SSL-enabled lynx on your PATH, and
+
+* it exports a function that really should be local to its module.
+
+These patches are against recent CVS sources of guile/guile-www.  That
+directory doesn't seem to have been touched since February.
+
+--- /dev/null	Fri Mar 23 20:37:44 2001
++++ https.scm	Wed Aug 15 10:35:19 2001
+@@ -0,0 +1,29 @@
++(define-module (www https))
++(use-modules (ice-9 format))
++(use-modules (ice-9 popen))
++
++(define-public https:version "HTTP/1.0")  ; bump up to 1.1 when ready
++(define-public https:user-agent "GuileHTTP 0.1")
++
++;; BUG -- I don't really want this function to be public; I want
++;; people to use `www:get' instead.  But if I use `define' here,
++;; instead of `define-public', then when main.scm calls
++;; www:set-protocol-handler!, https-via-lynx isn't defined.  This
++;; means that I don't understand Guile's module system.
++
++(define-public (https-via-lynx host ip-port path)
++  (let ((p (open-pipe 
++            (format
++             ;; We set TERM to prevent lynx from complaining about an
++             ;; unknown terminal type.
++             "TERM=vt100 lynx -source https://~a~a/~a" 
++             host 
++             (if ip-port (format ":~a" ip-port) "") 
++             path) 
++            OPEN_READ)))
++    (let loop ((one-line (read-line p 'concat))
++               (lines '()))
++      (if (eof-object? one-line)
++          (apply string-append (reverse lines))
++        (loop (read-line p 'concat)
++              (cons one-line lines))))))
+--- url.scm.~1.3.~	Mon Oct 20 15:17:56 1997
++++ url.scm	Tue Aug 14 17:59:03 2001
+@@ -43,12 +43,15 @@
+   (apply vector scheme args))
+ (define-public (url:make-http host port path)
+   (vector 'http #f host port path))
++(define-public (url:make-https host port path)
++  (vector 'https #f host port path))
+ (define-public (url:make-ftp user host port path)
+   (vector 'ftp user host port path))
+ (define-public (url:make-mailto address)
+   (vector 'mailto address))
+ 
+ (define http-regexp (make-regexp "^http://([^:/]+)(:([0-9]+))?(/(.*))?$"))
++(define https-regexp (make-regexp "^https://([^:/]+)(:([0-9]+))?(/(.*))?$"))
+ (define ftp-regexp
+   (make-regexp "^ftp://(([^@:/]+)@)?([^:/]+)(:([0-9]+))?(/(.*))?$"))
+ (define mailto-regexp (make-regexp "^mailto:(.*)$"))
+@@ -61,6 +64,13 @@
+ 			(cond ((match:substring m 3) => string->number)
+ 			      (else #f))
+ 			(match:substring m 5))))
++
++   ((regexp-exec https-regexp url)
++    => (lambda (m)
++	 (url:make-https (match:substring m 1)
++                         (cond ((match:substring m 3) => string->number)
++                               (else #f))
++                         (match:substring m 5))))
+ 
+    ((regexp-exec ftp-regexp url)
+     => (lambda (m)
+--- Makefile.am.~1.1.~	Mon Jun 16 16:17:20 1997
++++ Makefile.am	Wed Aug 15 10:05:10 2001
+@@ -3,5 +3,5 @@
+ AUTOMAKE_OPTIONS = foreign
+ 
+ gwwwdir = $(datadir)/guile/www
+-gwww_DATA = cgi.scm http.scm main.scm url.scm wwwcat
++gwww_DATA = cgi.scm http.scm https.scm main.scm url.scm wwwcat
+
+
+-- 
+PGP Fingerprint: 3E7B A3F3 96CA 8958 ACC5  C8BD 6337 0041 C01C 5276
+
+_______________________________________________
+Guile-sources mailing list
+Guile-sources@gnu.org
+http://mail.gnu.org/mailman/listinfo/guile-sources
+

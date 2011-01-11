@@ -1,0 +1,32 @@
+Tim Pierce wrote:
+	examples/wwwcat
+	source/cgi.scm
+	source/http.scm
+	source/main.scm
+	source/url-coding.scm
+	source/url.scm
+
+Aaron VanDevender wrote:
+	examples/cookie.cgi
+
+Aaron VanDevender modified:
+	source/cgi.scm
+
+Martin Grabmueller wrote:
+	source/data/content-type.scm
+	source/server-utils/answer.scm
+	source/server-utils/filesystem.scm
+
+Thien-Thi Nguyen wrote:
+	doc/guile-www.twerp
+	source/data/http-status.scm
+	source/data/mime-types.scm
+	source/server-utils/big-dishing-loop.scm
+	source/server-utils/cgi-prep.scm
+	source/server-utils/cookies.scm
+	source/server-utils/form-2-form.scm
+	source/server-utils/log.scm
+	source/server-utils/parse-request.scm
+	source/utcsec.scm
+
+Thien-Thi Nguyen modified: everything else, as well.

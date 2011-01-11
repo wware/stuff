@@ -1,0 +1,1592 @@
+This is guile-web.info, produced by makeinfo version 4.7 from
+guile-web.texinfo.
+
+   This file documents Guile-Web by Clinton Ebadi
+
+   Copyright 2003,2004,2005 Clinton Ebadi
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.
+
+
+File: guile-web.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+
+   This document describes Guile-Web by Clinton Ebadi
+
+   This document applies to version 0.5.0 of the library named Guile-Web
+
+   Copyright 2003,2004,2005 Clinton Ebadi
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.
+
+* Menu:
+
+* Introduction::
+* hash-dash reader extension::
+* Session Management::
+* Object Serialization::
+* Misc DB Utils::
+* XHTML Generation::
+* Page Templates::
+* GNU Free Documentation License::
+
+
+File: guile-web.info,  Node: Introduction,  Next: hash-dash reader extension,  Prev: Top,  Up: Top
+
+1 Introduction
+**************
+
+Guile-web is a set of modules for Guile Scheme intended to make
+programming web applications in Guile easier. Guile-web is not intended
+to be used alone; rather as a supplement to guile-www (see *Note
+Guile-WWW Manual: (guile-www)Top.). Guile-web adds higher level
+concepts like session management to Scheme web programming.
+
+
+File: guile-web.info,  Node: hash-dash reader extension,  Next: Session Management,  Prev: Introduction,  Up: Top
+
+2 Hash-Dash reader extension
+****************************
+
+`(web hash-dash)' Module
+
+   Scripts often time need to echo large amounts of static html. Doing
+this with Scheme `display' is extremely tedious, so guile-web provides
+the `#-' reader extension to do this. To use it you put a `#-' followed
+by as many lines of text as you want with a `-#' at the end of the text
+block. This reader extension will return the text block as a string.
+For example:
+
+     ;;; output page header
+     (define (header title)
+     (for-each display
+       (list
+         #-
+         <?xml version="1.0" encoding="utf-8"?>
+         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+           <head>
+             <title>-# title #-</title>
+           </head>
+         -#))
+     )
+     (header "foobar")
+
+   That will create a xhtml 1.0 header.
+
+
+File: guile-web.info,  Node: Session Management,  Next: Object Serialization,  Prev: hash-dash reader extension,  Up: Top
+
+3 Session Management
+********************
+
+`(web session)' Module
+
+   Session Management is a powerful tool that makes web programming much
+easier if you are doing authentication. I won't go into the details of
+what a session is here, look on Google for that (or send me an email
+telling me to put a blurb on it here if you really want it in the
+manual). *You must call `session:start' before you output _any_ other
+headers*. You also _must_ call `session:save' before you exit your
+script or else *_ALL_ changes to the session will be _LOST_*.
+
+   * `session:start'
+     Call this _before_ you make _any_ output to start the session. If
+     a previous session exists for the user, it will be restored,
+     otherwise a new session is created. This returns `#t' if a new
+     session is successfully created or the old one is restored and
+     `#f' if something fails (e.g. headers have already been sent).
+
+   * `session:save'
+     Call this when you are finished with the session or when you wish
+     to save the current session data. This will cause the current
+     session data to be written out to disk. It can possibly be very
+     time consuming (due to the design of the serializer)
+
+   * `session:destroy'
+     Call this when you want to destroy the session (e.g. the user logs
+     out). All of the variables associated with the current session are
+     destroyed. This returns `#t' if the session is successfuly
+     destroyed and `#f' if something fails (e.g. a session doesn't
+     currently exist).
+
+   * `session:set-save-path! path'
+     This sets the path where session data is saved. The default path is
+     `/tmp/'. If you require secured sessions, you may want to run your
+     scripts setuid as a special user and create a directory that only
+     that user can read from to store your session data. This must be
+     called _before_ `session:start'.
+
+   * `session:set-cookie-name! name'
+     This sets the name of the cookie sent to the user to manage their
+     session. You should only have to change this if you want to use
+     more than one session cookie for a domain (e.g. you have multiple
+     users using your domain for hosting). Of course, it is probably
+     good to just set this to a more descriptive name than the default
+     libcgi name anyway.  _before_ `session:start'.
+
+   * `session:register-var name value'
+     This registers `name' (which must be a symbol) with the current
+     session and sets it's value to `value'. `value' is serialized
+     using `serialize' from the object serialization module, *Note
+     Object Serialization: Object Serialization. Not all data types can
+     be serialized; if a type is not supported you will have to write a
+     serializer and deserializer for it. This returns `#t' if `name' is
+     succesfully registered and `#f' on failure (e.g. `name' has
+     already been registered).
+
+   * `session:unregister-var name'
+     This unregisters the session variable `name'. Returns `#t' if
+     `name' is succesfully unregistered; `#f' otherwise (e.g. `name' is
+     not a valid session variable).
+
+   * `session:alter-var! name new-value'
+     The session variable `name' is set to `new-value'. This return
+     `#t' if `name' is succesfully set to `new-value'.
+
+   * `session:get-value name'
+     This gets and returns the value of the session variable `name'.
+     This returns the value of `name' on success and `""' on failure.
+
+   * `session:var-exists? name'
+     This checks if the session variable `name' exists. If it does,
+     `#t' is returned; otherwise `#f' is returned.
+
+
+   An easy way to to ensure that the session is saved if you are using
+scripts that execute and exit is to add `session:save' to the
+`exit-hook' hook.
+
+     (add-hook! exit-hook session:save)
+
+
+File: guile-web.info,  Node: Object Serialization,  Next: Misc DB Utils,  Prev: Session Management,  Up: Top
+
+4 Object Serialization
+**********************
+
+`(web serialize)' Module
+
+   When you serialize an object you transform the object into a
+representation suitable for storing in a file (usually). The serialize
+module exports several functions for serializing and unserializing
+GOOPS objects. Note that every SMOB has a GOOPS class associated with
+it once GOOPS is loaded (?).
+
+   Note that this module is really meant for internal usage by the
+session mananger, but since you have to add your own serializers for
+user defined types, I figured I may as well may the entire API public
+(someone might find it useful).
+
+   * Generic `%serialize (item <type>) serial-table'
+     You should write a version of `%serialize' for every type you want
+     to serialize, except for the built in types which already have
+     serializers or any GOOPS class. Simply `(define-method (%serialize
+     (item <type>)))' to create your new serializer. The serialize must
+     produce a dotted pair in the form `(type . value)'. E.g. a
+     `<number>' is serialized as `(<number> . value)'. `type' is the
+     _symbolic representation_ of the type. `%serialize' must return
+     the serialized object as an sobject to the caller. This can be
+     done by using `object->sobject' (e.g. `(object->sobject (cons
+     'type value))'). Note that the default GOOPS %serialize method may
+     not do what you want it too. You can customize your object
+     serialization like you would with any part of the standard GOOPS
+     MOP. `serial-table' is used interally by other procedures that you
+     may have to use.
+
+   * `@serialize item serial-table'
+     If your object is a container object, you _must_ call `@serialize'
+     on the items contained within your container. Simple call
+     `@serialize' on each item, passing along the `serial-table' given
+     to `%serialize'.
+
+   * `unserialize'
+     This will unserialize the serialized object `serialized-data' and
+     return it.
+
+   * `add-unserializer type unserializer'
+     This adds an unserialize for `type'. The function `unserializer'
+     takes two arguments which are the `value' member of the serialized
+     data and the `serial-table'. E.g. take the serialized data
+     `"(<number> . 45)"'; `unserializer' will be passed `45' and a hash
+     table containing partially unserialized data as its argument.
+     `unserializer' must return the unserialized object.
+
+   * `@unserialize item serial-table'
+     If your object is a container, just as you called `@serialize' on
+     each member of the container during serialization, you must call
+     `@unserialize' on each item.
+
+
+
+File: guile-web.info,  Node: Misc DB Utils,  Next: XHTML Generation,  Prev: Object Serialization,  Up: Top
+
+5 Miscellaneous Database Tools
+******************************
+
+`(web db)' Module
+
+   These are only useful if you are using SimpleSQL, available from
+`http://guile-simplesql.sourceforge.net/'. (Maybe this module will be
+merged into it). The problem with simplesql is that it returns a list
+of vectors that is very difficult to use. This module defines a set of
+procedures that converts the result of a `simplesql-query' into a much
+nicer form. We will call this data type an "assoc".
+
+   * `db:res->assoc result'
+     This converts the result of a `simplesql-query' into the form used
+     by the module. This returns the new assoc.
+
+   * `db:numrows? assoc'
+     This returns the number of rows in assoc.
+
+   * `db:fetch-row assoc row-num'
+     This fetches the hash table at `row-num' in `assoc'.
+
+   * `db:get hash-table key'
+     This returns the data associated with the key `key' in the hash
+     table `hash-table'. `key' is a symbol that is the name of the row
+     in the query (e.g. the row named `"foo"' becomes the key `'foo').
+
+
+   If you would like to iterate over the result you can use
+`array-for-each' and `array-map' (or any of the other array functions)
+because a vector is simply an array of rank 1. I decided to use a
+vector instead of a list for this because it is more efficient for this
+(e.g. the result is constant, the number of rows may be very large and
+accessing a large numbered row is constant time for the vector and O(N)
+time for a list, etc.).
+
+
+File: guile-web.info,  Node: XHTML Generation,  Next: Page Templates,  Prev: Misc DB Utils,  Up: Top
+
+6 XHtml Generation
+******************
+
+`(web xhtml)' Module
+
+   Being able to generate correct HTML is a useful thing, so I have
+written a set of procedures for generating xhtml 1.0 documents. Note
+that correctness isn't entirely forced; you can, for example, put an
+inline element in a place where only a block level element is valid;
+but it does make generating a xhtml document somewhat easier.
+
+   There are two ways to use the html module: with the global instance
+or by specifying your own instance. If you use your own object, you must
+`make' a `<html-document>', which takes these keyword arguments:
+
+   * `#:port' The port to display output to
+
+   * `#:attributes' Default attribute values for all tags
+
+   `#:attributes' is a list of lists that specify the default values
+for all tag attributes, e.g. `((style "special style") (class
+"magic"))'.
+
+   * `xhtml:print <DOCUMENT> EXPRESSION ...'
+
+   To display data generated by the various tag procedures, you use
+`xhtml:print'. If the first argument is a `<html-document>' all of the
+tags will output using the default port for that object and use the
+default attribute values for that object as well. If the first argument
+is not a `<html-document>', then the expressions will be printed to the
+output port of the global `<html-document>' which is the
+`(current-output-port)' of the dynamic root you are in (there is also
+one global `<html-document>' per dynamic root).
+
+   * `xhtml:tags TAGS ...' If you need to use more than one tag where
+     normally only one can be used, simply pass them all to xhtml:tags.
+     This is useful if you wish to `xhtml:print' multiple tags which
+     are on the same level in the document heirarchy as the others.
+
+   * `xhtml:TAGNAME <#:atts attributes> <contained tags>'
+
+   * `xhtml:TAGNAME-start <#:atts attributes>'
+
+   * `xhtml:TAGNAME-end'
+
+   All tags have a producedure named `xhtml:TAGNAME'. If the tag is
+non-empty, this may tag any number of forms to be printed inside of the
+tag as arguments, including other tags. Also is the tag is non-empty,
+there are -start and -end procedures defined to spit out the start and
+end tags of the tag. If a tag is empty, it may not contain any other
+data. All tags take an optinal `#:atts' keyword argument that contains
+a list of lists that specify the attributes for the tag in the form
+`((attribute-name-as-a-symbol "attribute value in a string") ...)'. The
+start tag also supports this, the end tag doesn't. You must print the
+output of all the tag function with `xhtml:print'.
+
+   All documents should begin with a call to `xhtml:dtd' which returns
+the DTD for the document. Its `#:atts' argument takes one member:
+`encoding' which is the encoding of the document. This defaults to
+`"iso-8859-1"'.
+
+   Available tags:
+
+   * Tag: `a'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `abbr'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `acroynym'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `address'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `area'
+
+
+        - Atts:
+
+
+             * Name: `alt' Default Value: `"AREA"'
+
+
+        - Empty Tag
+
+   * Tag: `base'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `bdo'
+
+
+        - Atts:
+
+
+             * Name: `dir' Default Value: `"ltr"'
+
+
+
+   * Tag: `big'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `blockquote'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `body'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `br'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `button'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `caption'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `center'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `cite'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `code'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `col'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `colgroup'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `dd'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `del'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `dfn'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `div'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `dl'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `dt'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `em'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `fieldset'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `form'
+
+
+        - Atts:
+
+
+             * Name: `action' Default Value: `"!!unset!!"'
+
+
+
+   * Tag: `frame'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `frameset'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h1'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h2'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h3'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h4'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h5'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `h6'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `head'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `hr'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `html'
+
+
+        - Atts:
+
+
+             * Name: `xml:lang' Default Value: `"en"'
+
+             * Name: `lang' Default Value: `"en"'
+
+
+
+   * Tag: `i'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `iframe'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `img'
+
+
+        - Atts:
+
+
+             * Name: `src' Default Value: `""'
+
+             * Name: `alt' Default Value: `"[unset alt text]"'
+
+
+        - Empty Tag
+
+   * Tag: `input'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `ins'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `kbd'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `label'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `legend'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `li'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `link'
+
+
+        - Atts:
+
+
+
+        - Empty Tag
+
+   * Tag: `map'
+
+
+        - Atts:
+
+
+             * Name: `name' Default Value: `"name unset"'
+
+
+
+   * Tag: `meta'
+
+
+        - Atts:
+
+
+             * Name: `content' Default Value: `"content unset"'
+
+
+        - Empty Tag
+
+   * Tag: `noframes'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `noscript'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `object'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `ol'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `optgroup'
+
+
+        - Atts:
+
+
+             * Name: `label' Default Value: `"label unset"'
+
+
+
+   * Tag: `option'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `p'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `param'
+
+
+        - Atts:
+
+
+             * Name: `name' Default Value: `"unset name"'
+
+
+        - Empty Tag
+
+   * Tag: `pre'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `q'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `samp'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `script'
+
+
+        - Atts:
+
+
+             * Name: `type' Default Value: `"text/javascript"'
+
+
+
+   * Tag: `select'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `small'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `span'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `strong'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `style'
+
+
+        - Atts:
+
+
+             * Name: `type' Default Value: `"text/css"'
+
+
+
+   * Tag: `sub'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `sup'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `table'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `tbody'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `td'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `textarea'
+
+
+        - Atts:
+
+
+             * Name: `rows' Default Value: `"20"'
+
+             * Name: `cols' Default Value: `"20"'
+
+
+
+   * Tag: `tfoot'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `th'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `thead'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `title'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `tr'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `tt'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `ul'
+
+
+        - Atts:
+
+
+
+
+   * Tag: `var'
+
+
+        - Atts:
+
+
+
+
+   An example:
+
+     (use-modules (web html)
+     	     (web hash-dash))
+
+     (display "Content-Type: text/html\r\n\r\n")
+     (force-output (current-output-port))
+
+
+     (xhtml:print
+      (xhtml:dtd
+       (xhtml:html-start)))
+
+     (xhtml:print
+      (xhtml:head
+       (xhtml:title "MOO")))
+
+     (xhtml:print
+      (xhtml:body-start)
+      (xhtml:h1 "tra la la!")
+      (xhtml:p
+       #- Moo moo moooooooooo. I am so cool.
+          Multiple lines are so great.
+          All will fear my elite! -#
+          (xhtml:br)
+          #- This is where the second line begins. -#)
+      (xhtml:body-end)
+      (xhtml:html-end))
+
+   There is another procedure, `xhtml:tag-tree->shtml TAG' which
+accepts a tag as its argument and return the tag tree in shtml (a
+subset of SXML used by HtmlPrag).
+
+
+File: guile-web.info,  Node: Page Templates,  Next: GNU Free Documentation License,  Prev: XHTML Generation,  Up: Top
+
+7 Page Templates
+****************
+
+`(web template)' Module
+
+   Languages like PHP allow one to embed code within a document. The
+solution used by PHP isn't really optimal; guile-web uses a slightly
+better method of page templates. A page template is just a document
+with a bit of special formatting to make calls to various template
+procedures. This is somewhat similar to Perl's Mason module but is
+currently much more limited.
+
+   Scheme procedures:
+
+   * `template:parse COMMAND-TABLE PORT', reads from PORT and looks for
+     template procedure calls. Procedures are supplied in COMMAND-TABLE
+     which is a hash table of symbol and procedure pairs.
+     `template:parse' returns a list of strings that represent
+     non-template portions of the port along with any data returned by
+     template calls. The list can then be processed however one chooses
+     (e.g. a simple parse-and-display script could `(for-each display
+     (template:parse ...))'). This will call `template:error' when an
+     error occurs.
+
+   * `template:error FMT . ARGS', Whenever an error occurs,
+     `template:parse' calls this procedure with a format string (FMT)
+     usable by `simple-format' along with the ARGS to `simple-format'.
+     Anything returned by this procedure will end up in the list
+     returned by `template:parse'. By default this throws an error with
+     the key `'web:format:error'.
+
+   * `template:set-error-handler ERROR-HANDLER', use this to override
+     the default `template:error' procedure. This returns the current
+     error handling procedure.
+
+
+   To make a template call from a template, you encase the call in
+square brackets ([ and ]). The call is merely a procedure call that is
+expected to return some data that is substituted into the page at that
+point. If a double [[ is found it will be inserted into the output
+stream as a single [; a double ]] can be used inside of a template call
+to pass a literal ] to the procedure.
+
+   An example script that parses a page:
+
+     ;;; page.scm
+     (use-modules (web template))
+
+     (let
+       (
+        ;; open template
+        (my-file (open-input-file "page.tmpl"))
+
+        ;; Create a command table
+        (my-procs (make-hash-table 10))
+        ;; Output port
+        (page-out (open-output-file "page.out")))
+
+       ;; Initialize command table
+       (hash-set! my-procs 'comment
+                  (lambda args ""))
+
+       (hash-set! my-procs 'cool
+                  (lambda (who)
+                          (string-append who "is cool")))
+
+       (hash-set! my-procs 'add +)
+
+       ;; Parse page and write it to page.out
+       (for-each (lambda (x) (display x page-out))
+                 (template:parse my-procs my-file))
+
+       (close-port page-out))
+
+   The page used by the script:
+
+     [comment page.tmpl]
+     Tra la la!
+     [[This will be inside of square brackets]
+     2 + 2 = [add 2 2]. I think that [cool Clinton]! He has a Camaro and
+     wrote Guile-Web so he deserves mad props.
+
+     Only he's not a hip-hop kid so he doesn't think that 2 + 2 = [add 2 3]
+     or anything. Yeah. Also, this example really isn't that great.
+     [comment Since comment is a multi-argument procedure, I can put
+     whatever I want in here as long as it is a valid piece of Scheme data.]
+
+
+File: guile-web.info,  Node: GNU Free Documentation License,  Prev: Page Templates,  Up: Top
+
+Appendix A GNU Free Documentation License
+*****************************************
+
+                      Version 1.2, November 2002
+
+     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.
+
+A.0.1 ADDENDUM: How to use this License for your documents
+----------------------------------------------------------
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.2
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+
+
+Tag Table:
+Node: Top466
+Node: Introduction1210
+Node: hash-dash reader extension1669
+Node: Session Management2755
+Node: Object Serialization6645
+Node: Misc DB Utils9378
+Node: XHTML Generation10967
+Node: Page Templates18870
+Node: GNU Free Documentation License22263
+
+End Tag Table

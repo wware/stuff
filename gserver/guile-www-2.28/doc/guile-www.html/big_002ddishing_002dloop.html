@@ -1,0 +1,217 @@
+<html lang="en">
+<head>
+<title>big-dishing-loop - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="utcsec.html#utcsec" title="utcsec">
+<link rel="next" href="parse_002drequest.html#parse_002drequest" title="parse-request">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="big-dishing-loop"></a>
+<a name="big_002ddishing_002dloop"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="parse_002drequest.html#parse_002drequest">parse-request</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="utcsec.html#utcsec">utcsec</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">7 (www server-utils big-dishing-loop)</h2>
+
+<p>The <code>(www server-utils big-dishing-loop)</code> module provides procedures
+that facilitate generation of a customized listener/dispatch proc.
+
+<!-- @twerpdoc (named-socket) -->
+<!-- ../source/server-utils/big-dishing-loop.doc -->
+<div class="defun">
+&mdash; Procedure: <b>named-socket</b><var> family name </var>[[<var>keyword value</var>]<var> ...</var>]<var><a name="index-named_002dsocket-53"></a></var><br>
+<blockquote><p>Return a new socket in protocol <var>family</var> with address <var>name</var>. 
+Keywords are: <code>#:socket-setup</code>.
+
+        <p>First, evaluate <code>(socket </code><var>family</var><code> SOCK_STREAM 0)</code> to create
+a new socket <var>sock</var>.  Next, handle <code>#:socket-setup</code>, with
+value <var>setup</var>, like so:
+
+          <dl>
+<dt><code>#f</code><dd>Do nothing.  This is the default.
+
+          <br><dt><var>procedure</var><dd>Call <var>procedure</var> on <var>sock</var>.
+
+          <br><dt><code>((</code><var>opt</var><code> . </code><var>val</var><code>) ...)</code><dd>For each pair in this alist, call <code>setsockopt</code>
+on <var>sock</var> with the pair's <var>opt</var> and <var>val</var>. 
+</dl>
+
+        <p>Lastly, <code>bind</code> <var>sock</var> to <var>name</var>, which should be in a
+form that is appopriate for <var>family</var>.  Two common cases are:
+
+          <dl>
+<dt><code>PF_INET</code><dd><code>(AF_INET </code><var>ipaddr</var> <var>portno</var><code>)</code>, made, for example, by<br>
+<code>(list AF_INET INADDR_ANY 4242)</code>.
+
+          <br><dt><code>PF_UNIX</code><dd><code>(AF_UNIX </code><var>filename</var><code>)</code>, made, for example, by<br>
+<code>(list AF_UNIX "/tmp/foo-control")</code>. 
+</dl>
+
+        <p>Note that <code>PF_foo</code>, <code>AF_foo</code>, and <code>INADDR_foo</code> are
+names of variables that have constant values, not symbols. 
+</p></blockquote></div>
+
+<!-- @twerpdoc (echo-upath) -->
+<!-- ../source/server-utils/big-dishing-loop.doc -->
+<div class="defun">
+&mdash; Procedure: <b>echo-upath</b><var> M upath </var>[<var>extra-args...</var>]<var><a name="index-echo_002dupath-54"></a></var><br>
+<blockquote><p>Use mouthpiece <var>M</var> (see <a href="answer.html#answer">answer</a>) to compose and send a
+"text/plain" response which has the given <var>upath</var> (a string)
+and any <var>extra-args</var> as its content.  Shut down the socket
+for both transmission and reception, then return <code>#t</code>.
+
+        <p>This proc can be used to
+ensure basic network connectivity (i.e., aliveness testing). 
+</p></blockquote></div>
+
+<!-- @twerpdoc (make-big-dishing-loop) -->
+<!-- ../source/server-utils/big-dishing-loop.doc -->
+<div class="defun">
+&mdash; Procedure: <b>make-big-dishing-loop</b> [<var>keyword value ...</var>]<var><a name="index-make_002dbig_002ddishing_002dloop-55"></a></var><br>
+<blockquote><p>Return a proc <var>dish</var> that loops serving http requests from a socket. 
+<var>dish</var> takes one arg <var>ear</var>, which may be a pre-configured socket,
+a TCP port number, or a list of the form:
+<code>(</code><var>family</var> <var>address</var><code> ...)</code>. 
+When <var>ear</var> is a TCP port number, it is taken
+to be the list <code>(PF_INET AF_INET INADDR_ANY </code><var>ear</var><code>)</code>.
+
+        <p>In the latter two cases, the socket is realized by calling
+<code>named-socket</code> with parameters <var>family</var> and <var>name</var> taken
+from the <span class="sc">car</span> and <span class="sc">cdr</span>, respectively, of the list, with the
+<code>#:socket-setup</code> paramater (see below) passed along unchanged.
+
+        <p><var>dish</var> behavior is controlled by the keyword arguments given
+to <code>make-big-dishing-loop</code>.  The following table is presented roughly
+in order of the steps involved in processing a request, with default values
+shown next to the keyword.
+
+          
+<a name="index-socket_002dsetup-56"></a>
+<dl><dt><code>#:socket-setup #f</code><dd>This may be a proc that takes a socket, or a list of opt/val pairs which
+are passed to <code>setsockopt</code>.  Socket setup is done for newly created
+sockets (when <var>dish</var> is passed a TCP port number), prior to the
+<code>bind</code> call.
+
+          <p><a name="index-queue_002dlength-57"></a><br><dt><code>#:queue-length 0</code><dd>The number of clients to queue, as set by the <code>listen</code> system call. 
+Setting the queue length is done for both new and pre-configured sockets.
+
+          <p><a name="index-concurrency-58"></a><br><dt><code>#:concurrency #:new-process</code><dd>The type of concurrency (or none if the value is not recognized). 
+Here are the recognized values:
+
+               <dl>
+<dt><code>#:new-process</code><dt><code>#:new-process/nowait</code><dd>Fork a new process for each request.  The latter does not wait for the
+child process to terminate before continuing the listen loop.
+
+               <br><dt><code>#f</code><dd>Handle everything in the current in process (no concurrency). 
+Unrecognized values are treated the same as <code>#f</code>. 
+</dl>
+
+          <p><a name="index-bad_002drequest_002dhandler-59"></a><br><dt><code>#:bad-request-handler #f</code><dd>If the first line of an HTTP message is not in the proper form, this
+specifies a proc that takes a mouthpiece <var>m</var>.  Its return value should
+be the opposite boston value of the <code>#:loop-break-bool</code> value, below. 
+See <a href="answer.html#answer">answer</a>.
+
+          <p><a name="index-method_002dhandlers-60"></a><br><dt><code>#:method-handlers ()</code><dd>This alist describes how to handle the (valid) HTTP methods. 
+Each element has the form <code>(</code><var>method</var><code> . </code><var>handler</var><code>)</code>. 
+<var>method</var> is a symbol, such as <code>GET</code>; and <var>handler</var> is
+a procedure that handles the request for <var>method</var>.
+
+          <p><var>handler</var> normally takes two arguments, the mouthpiece <var>m</var>
+and the <var>upath</var> (string), composes and sends a response, and
+returns non-<code>#f</code> to indicate that the big dishing loop should
+continue.
+
+          <p>The proc's argument list is configured by <code>#:need-headers</code>,
+<code>#:need-input-port</code> and <code>#:explicit-return</code>. 
+Interpretation of the proc's return value is configured by
+<code>#:explicit-return</code> and <code>#:loop-break-bool</code>.  See below.
+
+          <p><a name="index-need_002dheaders-61"></a><br><dt><code>#:need-headers #f</code><dt><code>#:need-input-port #f</code><dd>If non-<code>#f</code>, these cause additional arguments to be supplied to the
+handler proc.  If present, the headers arg precedes the input
+port arg.  See <a href="parse_002drequest.html#parse_002drequest">parse-request</a>.  The input port is always positioned at
+the beginning of the HTTP message body.
+
+          <p>If <code>#:need-input-port</code> is <code>#f</code>, after the handler
+proc returns, the port is <code>shutdown</code> in both (r/w) directions.  When
+operating concurrently, this is done on the child side of the split. 
+See <a href="../guile/Network-Sockets-and-Communication.html#Network-Sockets-and-Communication">Network Sockets and Communication</a>.
+
+          <p><a name="index-explicit_002dreturn-62"></a><br><dt><code>#:explicit-return #f</code><dd>If non-<code>#f</code>, this arranges for a continuation to be passed (as
+the last argument) to the handler proc, and ignores that
+proc's normal return value in favor of one explicitly passed through
+the continuation.  If the continuation is not used, the
+<dfn>effective return value</dfn> is computed as <code>(not
+#:loop-break-bool)</code>.
+
+          <p><a name="index-loop_002dbreak_002dbool-63"></a><br><dt><code>#:loop-break-bool #f</code><dd>Looping stops if the effective return value of the handler is
+<code>eq?</code> to this value.
+
+          <p><a name="index-unknown_002dhttp_002dmethod_002dhandler-64"></a><br><dt><code>#:unknown-http-method-handler #f</code><dd>If <code>#f</code>, silently ignore unknown HTTP methods, i.e., those not
+specified in <code>#:method-handlers</code>. 
+The value may also be a procedure that takes three
+arguments: a mouthpiece <var>m</var>, the <var>method</var> (symbol) and the
+<var>upath</var> (string).  Its return value should be the opposite boolean
+value of the <code>#:loop-break-bool</code> value, below. 
+See <a href="answer.html#answer">answer</a>.
+
+          <p><a name="index-parent_002dfinish-65"></a><br><dt><code>#:parent-finish close-port</code><dd>When operating concurrently (<code>#:concurrency</code> non-<code>#f</code>), the
+&ldquo;parent&rdquo; applies this proc to the port after the split.
+
+          <p><a name="index-log-66"></a><br><dt><code>#:log #f</code><dd>This proc is called after the handler proc returns. 
+Note that if <var>ear</var> is a unix-domain socket, the <var>client</var>
+parameter will be simply "localhost". 
+See <a href="log.html#log">log</a>.
+
+          <p><a name="index-status_002dbox_002dsize-67"></a><br><dt><code>#:status-box-size #f</code><dd>This may be a non-negative integer, typically 0, 1 or 2.  It is used
+by <code>#:log</code> (has no meaning if <code>#:log</code> is <code>#f</code>). 
+See <a href="log.html#log">log</a>.
+
+          <p><a name="index-style-68"></a><br><dt><code>#:style #f</code><dd>An object specifying the syntax of the first-line and headers. 
+The default specifies a normal HTTP message (see <a href="http.html#http">http</a>). 
+</dl>
+        </p></blockquote></div>
+
+   <p>The combination of <code>#:need-headers</code>, <code>#:need-input-port</code> and
+<code>#:explicit-return</code> mean that the <code>#:GET-upath</code> proc can receive
+anywhere from two to five arguments.  Here is a table of all the possible
+combinations (1 means non-<code>#f</code> and 0 means <code>#f</code>):
+
+<pre class="example">     +----- #:explicit-return
+     | +--- #:need-input-port
+     | | +- #:need-headers
+     | | |
+     | | |  args to #:GET-upath proc
+     =====  ==============================
+     0 0 0  M upath
+     0 0 1  M upath headers
+     0 1 0  M upath in-port
+     0 1 1  M upath headers in-port
+     1 0 0  M upath return
+     1 0 1  M upath headers return
+     1 1 0  M upath in-port return
+     1 1 1  M upath headers in-port return
+</pre>
+   <!--  -->
+   </body></html>
+

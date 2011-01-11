@@ -1,0 +1,222 @@
+<html lang="en">
+<head>
+<title>cgi - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="url.html#url" title="url">
+<link rel="next" href="main.html#main" title="main">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="cgi"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="main.html#main">main</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="url.html#url">url</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">3 (www cgi)</h2>
+
+<p>The <code>(www cgi)</code> module provides procedures to support painlessly
+writing Common Gateway Interface scripts to process interactive forms. 
+These scripts typically follow the following steps: initialization and
+discovery, data transfer in, data transfer out.
+
+<h3 class="section">3.1 Initialization and Discovery</h3>
+
+<!-- @twerpdoc (cgi:init) -->
+<!-- ../source/cgi.doc -->
+<div class="defun">
+&mdash; Procedure: <b>cgi:init</b> [<var>opts...</var>]<var><a name="index-cgi_003ainit-30"></a></var><br>
+<blockquote><p>(Re-)initialize internal data structures.  This must be called before
+calling any other &lsquo;<samp><span class="samp">cgi:foo</span></samp>&rsquo; procedure.  For FastCGI, call this
+&ldquo;inside the loop&rdquo; (that is, for each CGI invocation).
+
+        <p><var>opts</var> are zero or more symbols that configure the module.
+
+          <dl>
+<dt><code>uploads-lazy</code><dd>This controls how uploaded files, as per <code>cgi:uploads</code>
+and <code>cgi:upload</code>, are represented. 
+</dl>
+
+        <p>Unrecognized options are ignored. 
+</p></blockquote></div>
+<!-- @twerpdoc (cgi:form-data?) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:form-data?</b><var><a name="index-cgi_003aform_002ddata_003f-31"></a></var><br>
+<blockquote><p>Return <code>#t</code> iff there is form data available. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:names) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:names</b><var><a name="index-cgi_003anames-32"></a></var><br>
+<blockquote><p>Return a list of variable names in the form.  The order of the
+list is the same as that found in the form for the first occurance
+of each variable and each variable appears at most once.  For example,
+if the form has variables ordered <code>a b a c d b e</code>, then the
+returned list would have order <code>a b c d e</code>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:cookie-names) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:cookie-names</b><var><a name="index-cgi_003acookie_002dnames-33"></a></var><br>
+<blockquote><p>Return a list of cookie names. 
+</p></blockquote></div>
+
+<h3 class="section">3.2 Data Transfer In</h3>
+
+<!-- @twerpdoc (cgi:getenv) -->
+<!-- ../source/cgi.doc -->
+<div class="defun">
+&mdash; Procedure: <b>cgi:getenv</b><var> key<a name="index-cgi_003agetenv-34"></a></var><br>
+<blockquote><p>Return the value of the environment variable associated with <var>key</var>, a
+symbol.  Unless otherwise specified below, the return value is a (possibly
+massaged, possibly empty) string.  The following keys are recognized:
+
+          <ul>
+<li>server-software-type
+<li>server-software-version
+<li>server-hostname
+<li>gateway-interface
+<li>server-protocol-name
+<li>server-protocol-version
+<li>server-port (integer)
+<li>request-method
+<li>path-info
+<li>path-translated
+<li>script-name
+<li>query-string
+<li>remote-host
+<li>remote-addr
+<li>authentication-type
+<li>remote-user
+<li>remote-ident
+<li>content-type
+<li>content-length (integer, possibly 0)
+<li>http-accept-types (list, possibly empty, of strings)
+<li>http-user-agent
+<li>http-cookie
+</ul>
+
+        <p>Keys not listed above result in an "unrecognized key" error. 
+</p></blockquote></div>
+<!-- @twerpdoc (cgi:values) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:values</b><var> name<a name="index-cgi_003avalues-35"></a></var><br>
+<blockquote><p>Fetch any values associated with <var>name</var> found in the form data. 
+Return a list, even if it contains only one element.  A value is
+either a string, or <code>#f</code>.  When there are multiple values, the
+order is the same as that found in the form. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:value) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:value</b><var> name<a name="index-cgi_003avalue-36"></a></var><br>
+<blockquote><p>Fetch only the <span class="sc">car</span> from <code>(cgi:values </code><var>name</var><code>)</code>. 
+Convenient for when you are certain that <var>name</var> is associated
+with only one value. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:uploads) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:uploads</b><var> name<a name="index-cgi_003auploads-37"></a></var><br>
+<blockquote><p>Return a list of file contents associated with <var>name</var>,
+or <code>#f</code> if no files are available.
+
+        <p>Uploaded files are parsed by <code>parse-form</code> (see <a href="form_002d2_002dform.html#form_002d2_002dform">form-2-form</a>). 
+If the <code>uploads-lazy</code> option is specified to <code>cgi:init</code>, then
+the file contents are those directly returned by <code>form-2-form</code>. 
+If unspecified, the file contents are strings with the object property
+<code>#:guile-www-cgi</code> whose value is an alist with the following keys:
+
+          <dl>
+<dt><code>#:name</code><dd>identical to <var>name</var> (sanity check)
+
+          <br><dt><code>#:filename</code><dd>original/suggested filename for this bunch of bits
+
+          <br><dt><code>#:mime-type</code><dd>something like "image/jpeg"
+
+          <br><dt><code>#:raw-mime-headers</code><dd>the MIME headers before parsing
+</dl>
+
+        <p>Note that the string's object property and the keys are all keywords. 
+The associated values are strings.
+
+        <p>Unless <code>uploads-lazy</code> is specified (to <code>cgi:init</code>),
+<code>cgi:uploads</code> can only be called once per particular <var>name</var>. 
+Subsequent calls return <code>#f</code>.  Caller had better hang onto the
+information, lest the garbage man whisk it away for good.  This is
+done to minimize the amount of time the file is resident in memory. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:upload) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:upload</b><var> name<a name="index-cgi_003aupload-38"></a></var><br>
+<blockquote><p>Fetch the first file associated with form var <var>name</var>.  Can only be
+called once per <var>name</var>, so the caller had better be sure that
+there is only one file associated with <var>name</var>.  Use <code>cgi:uploads</code>
+if you are unsure. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:cookies) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:cookies</b><var> name<a name="index-cgi_003acookies-39"></a></var><br>
+<blockquote><p>Fetch any cookie values associated with <var>name</var>.  Return a list of
+values in the order they were found in the HTTP header, which should
+be the order of most specific to least specific path associated with
+the cookie.  If no cookies are associated with <var>name</var>, return
+<code>#f</code>. 
+</p></blockquote></div>
+   <!-- @twerpdoc (cgi:cookie) -->
+<!-- ../source/cgi.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>cgi:cookie</b><var> name<a name="index-cgi_003acookie-40"></a></var><br>
+<blockquote><p>Fetch the first cookie value associated with <var>name</var>. 
+</p></blockquote></div>
+
+<h3 class="section">3.3 Uncollated Form Data</h3>
+
+<p>With <code>cgi:values</code>, when a name occurs more than once, its associated
+values are collated, thus losing information about the relative order of
+different and intermingled names.  For this, you can use <code>cgi:nv-pairs</code>
+to access the uncollated (albeit ordered) form data.
+
+<!-- @twerpdoc (cgi:nv-pairs) -->
+<!-- ../source/cgi.doc -->
+<div class="defun">
+&mdash; Procedure: <b>cgi:nv-pairs</b><var><a name="index-cgi_003anv_002dpairs-41"></a></var><br>
+<blockquote><p>Fetch the list of <code>(name . value)</code>, in the same order as found
+in the form data.  A name may appear more than once.  A value is
+either a string, or <code>#f</code>. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

@@ -1,0 +1,82 @@
+-*- text -*-
+
+See the ChangeLog for a detailed list of changes.
+
+0.5.0:
+- Removed SSAX (Guile-Lib has a working set of modules for it)
+- (web xhtml): Renamed (web html) to (web xhtml)
+- (web xhtml): Fixed a bug with the xhtml-tag output code (it wasn't
+  passing the port to the display of the tag-tree for a non-empty tag)
+- Reworked the README to make it more useful and readable
+
+0.4.3:
+- Fixed a few typos in the manual
+- (web html): Converted to a new internal format
+- (web html): New procedure, xhtml:tag-tree->shtml, converts a tag
+  tree to shtml (as used by HtmlPrag)
+- (web html): now works with Guile 1.7.1+ (again)
+- (web html): it turns out that lambda* wasn't broken and the
+  behaviour I was seeing is part of the spec. Oops. Work around still
+  in place but it is now permanent.
+- session.c compiles with newer versions of libcgi
+- (web html) Fixed html tag sharing problems
+
+0.4.2:
+- (web template): Added template:set-error-handler to allow the error
+  handler to be overriden
+- (web template): This was broken in 0.4.1, whoops. It works now.
+- (web html): This should work now; lambda* is currently broken (Guile
+  1.6.4/CVS HEAD as of 2004-06-16) and I have written a work around
+  (in the meantime non-empty tags will be slightly slower).
+
+0.4.1:
+- Updated documentation
+- (web html) The definitions for the tags defined in this module are
+  now generated at compile time instead of load time, speeding up the
+  loading of this module by a fair amount.
+- (web session) session:end is now named session:save (you do not have
+  to stop using the session after the call so the new name makes more
+  sense). session:end is provided using Guile's built in deprecation
+  features; if used it will issue a warning (or be disabled entirely
+  if deprecated features have been disabled in your copy of Guile)
+
+0.4.0:
+- (web template) now throws an exception with the key
+  'web:template:error when a parse error occurs.
+- (web session):
+       * session:end must now be called at the end of a session;
+         however, access to variables in the session should now be
+         faster and now things should be properly serialized
+       * Session support was rewritten around the new serializer
+- (web serialize): The old serializer was replaced with a completely
+  new one which is incompatible with the old one. This one works much
+  better but still needs quite a bit of work.
+- Documentation: Updated to reflect the changes to the serializer
+
+
+0.3.0:
+- (web db): Rewrote to have much less space/time overhead
+- (web template): documented
+- New module: (web template). Provides a simple page template
+  language.
+- (web html): New Procedure: (xhtml:tags . tags), returns a sequence
+  of tags as a single tag tree.
+- The FDL is now included in the manual
+- (web html) is now documented (yay for automatically generating stuff)
+
+0.2.0:
+
+- Added support for serializing any GOOPS object
+- Serialization of lists, pairs, and vectors now works properly by
+  serializing each member of the container
+- hash-dash: Support for <?guile ?> blocks has been removed for
+  speed (there was really no point to it anyway)
+- New module: (web html) that generates xhtml 1.0
+
+0.1.1:
+- Rewrote hash-dash extension and it now works! (oops)
+- <?g in #- -# block is now <?guile (yes, it is longer, but it is a
+  better name for a processing instruction).
+
+0.1:
+- Initial Release

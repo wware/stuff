@@ -1,0 +1,978 @@
+\input texinfo  @c -*-texinfo-*-
+@c %**start of header
+@setfilename guile-www.info
+@settitle @code{Guile-WWW} Modules Reference
+@ifinfo
+@paragraphindent 0
+@end ifinfo
+@c %**end of header
+@c @setchapternewpage odd
+
+@syncodeindex vr fn
+
+@c ---------------------------------------------------------------------------
+@dircategory Guile modules
+@direntry
+* Guile-WWW: (guile-www).         Scheme modules for WWW interaction.
+@end direntry
+
+@c ---------------------------------------------------------------------------
+@include version.texi
+
+@c ---------------------------------------------------------------------------
+@ifinfo
+This file is the Guile-WWW Modules Reference
+
+Copyright @copyright{} 2007, 2008, 2009, 2010 Thien-Thi Nguyen
+
+Copyright @copyright{} 2001, 2002, 2003, 2004, 2005,
+   2006, 2007 Free Software Foundation, Inc.
+
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX and
+print the results, provided the printed document carries a copying
+permission notice identical to this one except for the removal of this
+paragraph (this paragraph not being relevant to the printed manual).
+
+@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided also that the
+sections entitled ``Copying'' and ``GNU General Public License'' are
+included exactly as in the original, and provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the Free Software Foundation.
+
+@end ifinfo
+@titlepage
+@sp 10
+@comment The title is printed in a large font.
+@center @titlefont{Guile-WWW Modules Reference}
+
+@c ---------------------------------------------------------------------------
+@c The following two commands start the copyright page.
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2007, 2008, 2009, 2010 Thien-Thi Nguyen
+
+Copyright @copyright{} 2001, 2002, 2003, 2004, 2005,
+   2006, 2007 Free Software Foundation, Inc.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided also
+that the sections entitled ``Copying'' and ``GNU General Public
+License'' are included exactly as in the original, and provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this
+manual into another language, under the above conditions for modified
+versions, except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+
+@end titlepage
+
+@contents
+
+@c ---------------------------------------------------------------------------
+@node Top
+@top The (www *) Modules
+
+Guile-WWW is a set of Guile Scheme modules providing support for navigating
+HTTP connections, parsing URLs, handling CGI operations, and fetching WWW
+resources.  This document corresponds to Guile-WWW @value{VERSION}.
+
+@menu
+Basic -- (www *)
+* http::                Navigate HTTP connections.
+* url::                 Parse URLs, including decoding.
+* cgi::                 Write CGI scripts painlessly.
+* main::                Fetch world-wide-web resources.
+* url-coding::          URL decode and encode, only.
+* utcsec::              Seconds after epoch, UTC.
+
+Server Utilities -- (www server-utils *)
+* big-dishing-loop::    Customizable listener and dispatch.
+* parse-request::       Read HTTP first line and headers.
+* form-2-form::         Unflatten POSTed form data.
+* filesystem::          Work with the local filesystem.
+* cgi-prep::            Prepare environment for CGI handoff.
+* cookies::             Handling bits of client-side state.
+* answer::              HTTP connection handling and responses.
+* log::                 Love notes to other programs.
+
+* modlisp::             Hiding behind Apache.
+
+Data -- (www data *)
+* http-status::         The dreaded 404 lives here.
+* mime-types::          Map filename extension to MIME type(s).
+
+
+* Procedure Index::
+@end menu
+
+@c ---------------------------------------------------------------------------
+@c ---------------------------------------------------------------------------
+@node         http
+@chapter (www http)
+
+The @code{(www http)} module includes procedures for high-level HTTP
+operation, low-level HTTP message object access, and common messages.
+
+@section High-Level HTTP Operation
+
+@twerpdoc (http:connect)
+@twerpdoc (http:open)
+@twerpdoc (http:request)
+
+@section Low-Level HTTP Message Object Access
+
+@twerpdoc (http:message-version)
+@twerpdoc (http:message-status-code)
+@twerpdoc (http:message-status-text)
+@twerpdoc (http:message-status-ok?)
+@twerpdoc (http:status-ok?)
+@twerpdoc (http:message-body)
+
+An HTTP message header is represented by a pair.  The @sc{car} is a
+symbol representing the header name, and the @sc{cdr} is a string containing
+the header text.  E.g.:
+
+@example
+'((date . "Thu, 29 May 1997 23:48:27 GMT")
+  (server . "NCSA/1.5.1")
+  (last-modified . "Tue, 06 May 1997 18:32:03 GMT")
+  (content-type . "text/html")
+  (content-length . "8097"))
+@end example
+
+@noindent
+Note: these symbols are all lowercase, although the original headers may be
+mixed-case.  Clients using this library should keep this in mind, since Guile
+symbols are case-sensitive.
+
+@twerpdoc (http:message-headers)
+@twerpdoc (http:message-header)
+
+@section Common Messages
+
+@twerpdoc (http:head)
+@twerpdoc (http:get)
+@twerpdoc (http:post-form)
+
+@c ---------------------------------------------------------------------------
+@node         url
+@chapter (www url)
+
+The @code{(www url)} module provides procedures for high-level url
+object conversion, low-level url object construction and access,
+and character decoding/encoding.
+
+@section High-Level URL Object Conversion
+
+@twerpdoc (url:parse)
+@twerpdoc (url:unparse)
+
+@section Low-Level URL Object Construction
+
+@twerpdoc (url:make)
+@twerpdoc (url:make-http)
+@twerpdoc (url:make-ftp)
+@twerpdoc (url:make-mailto)
+
+@section Low-Level URL Object Access
+
+@twerpdoc (url:scheme)
+@twerpdoc (url:address)
+@twerpdoc (url:unknown)
+@twerpdoc (url:user)
+@twerpdoc (url:host)
+@twerpdoc (url:port)
+@twerpdoc (url:path)
+
+@section Character Decoding/Encoding
+
+@twerpdoc (url:decode)
+@twerpdoc (url:encode)
+
+@c ---------------------------------------------------------------------------
+@node         cgi
+@chapter (www cgi)
+
+The @code{(www cgi)} module provides procedures to support painlessly
+writing Common Gateway Interface scripts to process interactive forms.
+These scripts typically follow the following steps: initialization and
+discovery, data transfer in, data transfer out.
+
+@section Initialization and Discovery
+
+@twerpdoc (cgi:init)
+@twerpdoc (cgi:form-data?)
+@twerpdoc (cgi:names)
+@twerpdoc (cgi:cookie-names)
+
+@section Data Transfer In
+
+@twerpdoc (cgi:getenv)
+@twerpdoc (cgi:values)
+@twerpdoc (cgi:value)
+@twerpdoc (cgi:uploads)
+@twerpdoc (cgi:upload)
+@twerpdoc (cgi:cookies)
+@twerpdoc (cgi:cookie)
+
+@section Uncollated Form Data
+
+With @code{cgi:values}, when a name occurs more than once, its associated
+values are collated, thus losing information about the relative order of
+different and intermingled names.  For this, you can use @code{cgi:nv-pairs}
+to access the uncollated (albeit ordered) form data.
+
+@twerpdoc (cgi:nv-pairs)
+
+@c ---------------------------------------------------------------------------
+@node         main
+@chapter (www main)
+
+The @code{(www main)} module provides a generic interface useful for
+retriving data named by any URL.  The URL scheme @code{http} is pre-registered.
+
+@twerpdoc (www:set-protocol-handler!)
+@twerpdoc (www:get)
+
+@noindent
+There is also the convenience proc @code{www:http-head-get}.
+
+@twerpdoc (www:http-head-get)
+
+@c ---------------------------------------------------------------------------
+@node         url-coding
+@chapter (www url-coding)
+
+The @code{(www url-coding)} module provides two procedures for decoding
+and encoding URL strings for safe transmission according to RFC 1738.
+
+@twerpdoc (url-coding:decode)
+@twerpdoc (url-coding:encode)
+
+@c ---------------------------------------------------------------------------
+@node         utcsec
+@chapter (www utcsec)
+
+The @code{(www utcsec)} module provides procedures to work with the
+@dfn{utc-seconds} of an object, that is, the number of seconds after
+epoch, in the GMT time zone (also known as UTC).
+
+@twerpdoc (format-utcsec)
+@twerpdoc (rfc1123-date<-)
+@twerpdoc (<-rfc1123-date)
+@twerpdoc (<-mtime)
+@twerpdoc (<-ctime)
+@twerpdoc (rfc1123-now)
+
+@c ---------------------------------------------------------------------------
+@node                      big-dishing-loop
+@chapter (www server-utils big-dishing-loop)
+
+The @code{(www server-utils big-dishing-loop)} module provides procedures
+that facilitate generation of a customized listener/dispatch proc.
+
+@twerpdoc (named-socket)
+
+@twerpdoc (echo-upath)
+
+@twerpdoc (make-big-dishing-loop)
+
+The combination of @code{#:need-headers}, @code{#:need-input-port} and
+@code{#:explicit-return} mean that the @code{#:GET-upath} proc can receive
+anywhere from two to five arguments.  Here is a table of all the possible
+combinations (1 means non-@code{#f} and 0 means @code{#f}):
+
+@example
++----- #:explicit-return
+| +--- #:need-input-port
+| | +- #:need-headers
+| | |
+| | |  args to #:GET-upath proc
+=====  ==============================
+0 0 0  M upath
+0 0 1  M upath headers
+0 1 0  M upath in-port
+0 1 1  M upath headers in-port
+1 0 0  M upath return
+1 0 1  M upath headers return
+1 1 0  M upath in-port return
+1 1 1  M upath headers in-port return
+@end example
+
+@c ---------------------------------------------------------------------------
+@node                      parse-request
+@chapter (www server-utils parse-request)
+
+The @code{(www server-utils parse-request)} module provides procedures to
+read the first line, the headers and the body, of an HTTP message on the
+input port.
+
+@twerpdoc (read-first-line)
+@twerpdoc (hqf<-upath)
+@twerpdoc (alist<-query)
+@twerpdoc (read-headers)
+
+@noindent
+Sometimes you are interested in the body of the message but not the headers.
+In this case, you can use @code{skip-headers} to quickly position the port.
+
+@twerpdoc (skip-headers)
+@twerpdoc (read-body)
+
+@c ---------------------------------------------------------------------------
+@node                      form-2-form
+@chapter (www server-utils form-2-form)
+
+The @code{(www server-utils form-2-form)} module provides a procedure to
+parse a string in @samp{multipart/form-data} format.
+
+@twerpdoc (parse-form)
+
+@heading why @code{squeeze}?
+The @var{squeeze} interface can help reduce data motion.  Consider a common
+upload scenario: client uploads file(s) for local (server-side) storage.
+
+@example
+classic  squeeze
+   *        *       0. (current-input-port)
+   *        *       1. Guile-WWW string (for parsing purposes)
+   *                2. your substring (image/jpeg)
+   *        *       3. filesystem
+@end example
+
+@noindent
+You can achieve the same effect as the ``classic'' approach by specifying
+@code{substring} (or something like it) as the access-byte-range proc, but
+@strong{you don't have to}.  You could, instead, call @var{squeeze} with a
+procedure that writes the byte range directly to the filesystem.
+
+@c ---------------------------------------------------------------------------
+@node                      filesystem
+@chapter (www server-utils filesystem)
+
+The @code{(www server-utils filesystem)} module provides procedures for
+cleaning filenames, checking filesystem access, and mapping from a URL path to
+a filename.
+
+@twerpdoc (cleanup-filename)
+
+@noindent
+Following is a fairly comprehensive list of the @code{cleanup-filename}
+edge cases, paired by @var{name} and result.  The numbers represent
+string lengths.
+
+@example
+  0                     ;; @r{empty string}
+  0                     ;; @r{result is empty string}
+
+  1  /
+  1  /
+
+  2  ok
+  2  ok
+
+  3  ok/
+  3  ok/
+
+  3  /ok
+  3  /ok
+
+  4  /ok/
+  4  /ok/
+
+  1  .                  ;; @r{relative name}
+  0                     ;; @r{result is empty string}
+
+  2  ./                 ;; @r{likewise}
+  0                     ;; @r{note, end-slash @strong{not} preserved}
+
+  2  /.
+  1  /
+
+  3  /./
+  1  /
+
+  2  ..                 ;; @r{relative, with leading double-dot}
+  2  ..                 ;; @r{unchanged}
+
+  3  ../                ;; @r{likewise}
+  3  ../
+
+  3  /..                ;; @r{absolute}
+  1  /                  ;; @r{can't go higher than root}
+
+  4  /../
+  1  /
+
+  4  ./..               ;; @r{next 8 are like the previous 4;}
+  2  ..                 ;;  @r{they show that} . @r{makes no difference}
+
+  5  ./../
+  3  ../
+
+  5  /./..
+  1  /
+
+  6  /./../
+  1  /
+
+  4  ../.
+  2  ..
+
+  5  .././
+  3  ../
+
+  5  /../.
+  1  /
+
+  6  /.././
+  1  /
+
+  5  ../..              ;; @r{relative}
+  5  ../..              ;; @r{leading} .. @r{sequences unchanged}
+
+  6  ../../
+  6  ../../
+
+  6  /../..             ;; @r{absolute}
+  1  /                  ;; @r{can't go higher than root}
+
+  7  /../../
+  1  /
+
+  4  z/..               ;; @r{relative}
+  0                     ;; @r{only dir cancelled} @result{} @r{empty string}
+
+  5  z/../              ;; @r{likewise}
+  0
+
+  5  /z/..              ;; @r{absolute}
+  1  /
+
+  6  /z/../
+  1  /
+
+  6  z/../o             ;; @r{next 4 like previous 4, with trailing component}
+  1  o
+
+  7  z/../o/
+  2  o/
+
+  7  /z/../o
+  2  /o
+
+  8  /z/../o/
+  3  /o/
+
+  8  z/./../o           ;; @r{next 4 like previous 4;}
+  1  o                  ;;  @r{they show that} . @r{makes no difference}
+
+  9  z/./../o/
+  2  o/
+
+  9  /z/./../o
+  2  /o
+
+ 10  /z/./../o/
+  3  /o/
+
+  9  z/../../o          ;; @r{relative, more double-dot than parents}
+  4  ../o               ;; @r{leftover double-dot preserved}
+
+ 10  z/../../o/
+  5  ../o/
+
+ 10  /z/../../o         ;; @r{absolute, more double-dot than parents}
+  2  /o                 ;; @r{all cancelled}
+
+ 11  /z/../../o/
+  3  /o/
+
+ 43  ../../abc/././bye0/./../def/bye1/bye2/../..        ;; bye bye-bye
+ 14  ../../abc/def/
+
+ 44  ../../abc/././bye0/./../def/bye1/bye2/../../
+ 14  ../../abc/def/
+
+ 44  /../../abc/././bye0/./../def/bye1/bye2/../..
+  9  /abc/def/
+
+ 45  /../../abc/././bye0/./../def/bye1/bye2/../../
+  9  /abc/def/
+@end example
+
+@twerpdoc (access-forbidden?-proc)
+@twerpdoc (upath->filename-proc)
+@twerpdoc (filename->content-type)
+
+@c ---------------------------------------------------------------------------
+@node                      cgi-prep
+@chapter (www server-utils cgi-prep)
+
+Often the server cannot do everything by itself, and makes use of
+external programs invoked in a @dfn{common gateway interface} environment.
+These programs are also known as @dfn{CGI scripts}.
+
+The @code{(www server-utils cgi-prep)} module provide a procedure to set up
+such an environment.  Actually invoking the CGI script is not covered.
+
+@twerpdoc (cgi-environment-manager)
+
+@heading example
+Following is a simple example of how to use @code{cgi-environment-manager}.
+A more realistic example would include port and connection management,
+input validation, error handling, logging, etc.  First, we set up the
+manager with more-or-less constant bindings.
+
+@example
+(define M (cgi-environment-manager
+            '((server-software . "FooServe/24")
+              (server-protocol . "HTTP/1.0")
+              (server-port . 80))))
+@end example
+
+@noindent
+Later, we add connection-specific bindings.  We use @code{read-first-line}
+from the @ref{parse-request} module.
+
+@example
+(define PORT ...)
+(define UPATH (list-ref (read-first-line PORT) 1))
+(define QMARK (string-index UPATH #\?))
+(define CGI (substring UPATH 0 QMARK))
+
+(M 'script-name CGI)
+(M 'query-string (substring UPATH (1+ QMARK)))
+@end example
+
+@noindent
+Lastly, we spawn the child process, passing the constructed environment as
+the second arg to @code{execle}, and drop the connection-specific bindings
+afterwards.
+
+@example
+(let ((pid (primitive-fork)))
+  (if (zero? pid)
+      (execle CGI (M #:environ-list) (list CGI)) ; child
+      (waitpid pid)))                            ; parent
+
+(M #:clear!)
+@end example
+
+@noindent
+Now we can re-use @code{M} for another connection.
+
+@c ---------------------------------------------------------------------------
+@node                      cookies
+@chapter (www server-utils cookies)
+
+Cookies are bits of client-side state the server can maintain through
+designated HTTP response headers.  At this time (2009), there are two
+specifications,
+RFC2109@footnote{@uref{http://www.faqs.org/rfcs/rfc2109.html,RFC2109}}
+and
+RFC2965@footnote{@uref{http://www.faqs.org/rfcs/rfc2965.html,RFC2965}},
+the latter obsoleting the former.
+
+This chapter describes the @code{(www server-utils cookies)} module,
+which provides facilities for creating such headers, and parsing those
+sent by the client.  Procedures that return trees are meant to be used with
+the @code{mouthpiece} command @code{#:add-header} (@pxref{answer}).
+
+@twerpdoc (simple-parse-cookies)
+@twerpdoc (rfc2109-set-cookie-string)
+@twerpdoc (rfc2965-set-cookie2-tree)
+
+@heading example
+Here is an example that demonstates both RFC2109 and RFC2965 formatting.
+Notable differences: the keyword to specify the path is now capitalized; the
+representation of the cookie's value is now double-quoted.
+
+@example
+;; RFC2109
+(rfc2109-set-cookie-string 'war 'lose #:path "/ignorance/suffering")
+@result{} "Set-Cookie: war=lose; path=/ignorance/suffering"
+
+;; RFC2965
+(use-modules ((www server-utils answer) #:select (walk-tree)))
+
+(define TREE (rfc2965-set-cookie2-tree
+              '(war lose #:Path "/ignorance/suffering" #:Discard)))
+
+(car TREE)
+@result{} #:Set-Cookie2
+
+(walk-tree display (cdr TREE))
+@print{} war="lose";Path="/ignorance/suffering";Discard;Version=1
+@end example
+
+@noindent
+To generate a cookie spec from the @code{Cookie} http response header sent by
+a client, you can use @code{rfc2965-parse-cookie-header-value}.
+
+@twerpdoc (rfc2965-parse-cookie-header-value)
+
+@noindent
+RFC2965 also specifies some other small algorithms, some of which are codified
+as procedures available in this module.
+
+@twerpdoc (reach)
+
+@c ---------------------------------------------------------------------------
+@node                      answer
+@chapter (www server-utils answer)
+
+The @code{(www server-utils answer)} module provides a simple wrapper
+around the formatting/accounting requirements of a standard HTTP
+response.  Additionally, the @code{#:rechunk-content} facility allows
+some degree of performance tuning; a server may be able to achieve
+better throughput with certain chunk sizes than with others.
+
+The output from @code{mouthpiece} and @code{string<-headers}
+is formatted according to their optional @code{style} argument.
+By default, headers have the form:
+
+@example
+NAME #\: #\space VALUE #\cr #\lf
+@end example
+
+@noindent
+Additionally, for @code{mouthpiece}, the first line, preceding all the
+headers, has the form:
+
+@example
+HTTP/1.0 @var{nnn} @var{msg}
+@end example
+
+@noindent
+and a single @code{#\cr #\lf} pair separates the headers from the body.
+The @code{style} support is @strong{experimental} (@pxref{modlisp}).
+
+@twerpdoc (mouthpiece)
+
+@heading example
+Here is an example that uses most of the @code{mouthpiece} commands:
+
+@example
+(use-modules (www server-utils filesystem) (scripts slurp))
+
+(define SERVER-NAME "Guile-WWW-example-server")
+(define SERVER-VERSION "1.0")
+(define STATUS (list #f #f))
+(define M (mouthpiece (open-output-file "fake") STATUS))
+
+(define (transmit-file filename)
+  (M #:set-reply-status:success)
+  (M #:add-header #:Server (string-append SERVER-NAME " "
+                                          SERVER-VERSION))
+  (M #:add-header #:Connection "close")
+  (M #:add-header #:Content-Type (filename->content-type
+                                  filename "text/plain"))
+  (M #:add-content (slurp filename))
+  (simple-format #t "rechunked: ~A\n"
+                 (M #:rechunk-content (* 8 1024)))
+  ;; We don't shutdown because this is a file port;
+  ;; if it were a socket, we might specify 2 to
+  ;; stop both reception and transmission.
+  (M #:send-reply))
+
+(transmit-file "COPYING")
+@print{} rechunked: (8192 8192 1605)
+STATUS
+@result{} (200 17989)
+@end example
+
+@noindent
+For higher performance, you can preformat parts of the response, using
+@code{CRLF}, and some lower-level convenience procedures.
+If preformatting is not possible (or desirable), you can still
+declare a nested list of strings (aka @dfn{tree}) to have a
+@dfn{flat length}, i.e., the size in bytes a tree would occupy
+once flattened, thus enabling internal optimizations.
+(The flat length of a string is its @code{string-length}.)
+
+@defvr {Scheme String} CRLF
+The string ``\r\n''.
+@end defvr
+
+@deffn {Object Property} flat-length
+The value is a non-negative integer, or @code{#f} if not yet computed.
+@end deffn
+
+@twerpdoc (fs)
+@twerpdoc (walk-tree)
+@twerpdoc (tree-flat-length!)
+@twerpdoc (string<-tree)
+@twerpdoc (string<-headers)
+@twerpdoc (string<-header-components)
+
+@heading example
+Here is @code{transmit-file} from the above example, slightly modified to use
+preformatted headers and @code{fs}:
+
+@example
+(define CONSTANT-HEADERS
+  (string<-headers
+   `((#:Server     . ,(fs "~A ~A" SERVER-NAME SERVER-VERSION))
+     (#:Connection . "close"))))
+
+(define (transmit-file filename)
+  (M #:set-reply-status:success)
+  (M #:add-header #t CONSTANT-HEADERS)
+  (M #:add-header #:Content-Type (filename->content-type
+                                  filename "text/plain"))
+  (M #:add-content (slurp filename))
+  (display (fs "rechunked: ~A\n" (M #:rechunk-content (* 8 1024))))
+  (M #:send-reply))
+@end example
+
+@noindent
+Note that @code{mouthpiece} accepts trees for both @code{#:add-header} and
+@code{#:add-content} commands.  Thus, the following two fragments give the
+same result, although the latter is both more elegant and more efficient:
+
+@example
+;; Doing things "manually".
+(walk-tree (lambda (string)
+             (M #:add-content string))
+           tree)
+
+;; Letting the mouthpiece handle things.
+(M #:add-content tree)
+@end example
+
+@c ---------------------------------------------------------------------------
+@node                      log
+@chapter (www server-utils log)
+
+The @code{(www server-utils log)} module provides procedure generators for
+writing log information to an output port.  Each generator is conventionally
+named @code{log-SOMETHING-proc}.
+
+@twerpdoc (log-http-response-proc)
+
+@c ---------------------------------------------------------------------------
+@node                      modlisp
+@chapter (www server-utils modlisp)
+
+The @code{(www server-utils modlisp)} module provides @strong{experimental}
+support for the implementing the Lisp side of the Apache mod_lisp protocol,
+in the form of a header-grokking protocol object for the big dishing loop,
+and a style elements object for the mouthpiece.  When these objects are
+specified, the headers are read from (written to) the Apache front end in
+the form:
+
+@example
+@var{name} #\lf @var{value} #\lf
+@end example
+
+@noindent
+with a lone @samp{end\n} to separate the headers from the body.
+Furthermore, on input, the headers must include @code{method},
+@code{url} and @code{server-protocol}.  On output, the status
+information (always output first) has the form:
+
+@example
+"Status" #\lf @var{nnn} #\space @var{msg} #\lf
+@end example
+
+@noindent
+Note that this is in essense the same format as used for the headers,
+with @var{name} being @samp{Status}
+and @var{value} being @samp{@var{nnn} @var{msg}}.
+
+@defvr {Object} modlisp-hgrok
+An object suitable for the value of @code{make-big-dishing-loop}
+keyword argument @code{#:style}.
+@xref{big-dishing-loop}.
+@end defvr
+
+@defvr {Object} modlisp-ish
+An object suitable as the optional @code{style} argument for both
+@code{string<-headers} and @code{mouthpiece}.
+@xref{answer}.
+@end defvr
+
+Although these are separate objects, you should probably use or not use them
+in conjunction, lest the front-end (Apache) server become confused.
+
+@c ---------------------------------------------------------------------------
+@node              http-status
+@chapter (www data http-status)
+
+The @code{(www data http-status)} module exports a single procedure:
+
+@twerpdoc (http-status-string)
+
+@heading example
+Here is a simple example using this module:
+
+@example
+(use-modules ((www data http-status)
+              #:select (http-status-string)))
+
+(define (h2 n)
+  (format #f "<H2>~A ~A</H2>"
+          n (http-status-string n)))
+
+(h2 404) @result{} "<H2>404 Not Found</H2>"
+(h2 307) @result{} "<H2>307 Temporary Redirect</H2>"
+@end example
+
+@c ---------------------------------------------------------------------------
+@node              mime-types
+@chapter (www data mime-types)
+
+The @code{(www data mime-types)} module maintains an internal hash table
+mapping filename extensions to one or more @dfn{mime-types}.
+
+The exported procedures provide convenience abstractions over the
+underlying hash-table manipulation operations, including extension
+and mime-type validation, init from a file in a ``standard'' format
+(i.e., that of @file{/etc/mime.types} or @file{~/.mime.types}), and
+support for straightforward incremental init (aka @dfn{merging}).
+There are two predefined entries in the hash table:
+
+@example
+text => text/plain
+html => text/html
+@end example
+
+@noindent
+To support merging, the @code{put-FOO} procedures both take a
+symbol @var{resolve} as the first arg, which specifies how
+@dfn{conflicts} should be handled.  This happens when the hash
+table already contains an entry for @var{extension} and
+@var{new-mime-type} differs from @var{old-mime-type}.
+
+@table @code
+@item error
+Throw an error with key @code{mime-type-conflict},
+displaying a message describing the @var{extension},
+@var{old-mime-type} and @var{new-mime-type}.
+
+@item prefix
+Make the mime-type of @var{extension} a list (unless already one),
+with @var{new-mime-type} at the beginning.
+
+@item suffix
+Make the mime-type of @var{extension} a list (unless already one),
+with @var{new-mime-type} at the end.
+
+@item stomp
+Use @var{new-mime-type} directly, discarding @var{old-mime-type}.
+
+@item quail
+Discard @var{new-mime-type}, keeping @var{old-mime-type}.
+@end table
+
+@noindent
+For any other method, the operation throws an error, with key
+@code{invalid-resolve}.
+
+Validation happens on all ``put'' operations.  The extension must
+be a symbol, such as @code{txt}.  The mime-type must be a symbol
+with exactly one @samp{/} (slash) in its name, such as
+@code{text/plain}, or a proper list of such symbols.
+The mime-type may also be @code{#f}, which means to remove
+@var{extension} from the hash table.
+
+If an entry does not validate, the operation throws an error,
+with key @code{invalid-extension} or @code{invalid-mime-type}.
+
+@twerpdoc (reset-mime-types!)
+@twerpdoc (put-mime-types-from-file!)
+@twerpdoc (put-mime-types!)
+@twerpdoc (mime-types<-extension)
+@twerpdoc (select-extensions)
+
+@heading why @code{select-extensions}?
+The last procedure is intended to ease non-generalizable merging,
+without providing too much exposure to implementation internals.
+Suppose you want to maintain a local policy of having only one mime-type
+associated per extension (to keep things simple).  In that case, after
+populating the hash, you can fix up those entries, like so:
+
+@example
+(reset-mime-types! 491)
+(put-mime-types-from-file! 'prefix "/etc/mime.types")
+(define AMBIGUOUS (select-extensions 'multiple))
+
+(use-modules (ice-9 format))
+(define (display-ext ext)
+  (format #t "~7,@@A  ~A~%" ext (mime-types<-extension ext)))
+
+(for-each display-ext AMBIGUOUS)
+    ent  (chemical/x-ncbi-asn1-ascii chemical/x-pdb)
+    sdf  (application/vnd.stardivision.math chemical/x-mdl-sdfile)
+     sh  (application/x-sh text/x-sh)
+    csh  (application/x-csh text/x-csh)
+    cpt  (application/mac-compactpro image/x-corelphotopaint)
+    asn  (chemical/x-ncbi-asn1 chemical/x-ncbi-asn1-spec)
+    wrl  (model/vrml x-world/x-vrml)
+    tcl  (application/x-tcl text/x-tcl)
+     ra  (audio/x-pn-realaudio audio/x-realaudio)
+    spl  (application/futuresplash application/x-futuresplash)
+    m3u  (audio/mpegurl audio/x-mpegurl)
+
+;; Local policy: For foo.wrl, we want the last variant,
+;; but everything else we'll settle for the first.
+(define ((keep! yes) ext)
+  (put-mime-types!
+   'stomp ext
+   (yes (mime-types<-extension ext))))
+
+((keep! reverse) 'wrl)
+(for-each (keep! car) AMBIGUOUS)
+
+(for-each display-ext AMBIGUOUS)
+    asn  chemical/x-ncbi-asn1
+    wrl  x-world/x-vrml
+    tcl  application/x-tcl
+     ra  audio/x-pn-realaudio
+    spl  application/futuresplash
+    m3u  audio/mpegurl
+    ent  chemical/x-ncbi-asn1-ascii
+    sdf  application/vnd.stardivision.math
+     sh  application/x-sh
+    csh  application/x-csh
+    cpt  application/mac-compactpro
+@end example
+
+@noindent
+Seasoned schemers will note that the same result could have been
+achieved if @var{resolve} were allowed to be a general resolution
+procedure instead of simply a method specifier.  Perhaps that feature
+will be added in the future, and @code{select-extensions} replaced by
+@code{map-mime-types}.  We'll see@dots{}
+
+@c ---------------------------------------------------------------------------
+@node       Procedure Index
+@unnumbered Procedure Index
+
+@noindent
+This index references both procedures and messages for procedures (and/or
+closures) that take messages.
+
+@printindex fn
+
+@c ---------------------------------------------------------------------------
+@bye

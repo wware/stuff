@@ -1,0 +1,163 @@
+<html lang="en">
+<head>
+<title>url - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="http.html#http" title="http">
+<link rel="next" href="cgi.html#cgi" title="cgi">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="url"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="cgi.html#cgi">cgi</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="http.html#http">http</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">2 (www url)</h2>
+
+<p>The <code>(www url)</code> module provides procedures for high-level url
+object conversion, low-level url object construction and access,
+and character decoding/encoding.
+
+<h3 class="section">2.1 High-Level URL Object Conversion</h3>
+
+<!-- @twerpdoc (url:parse) -->
+<!-- ../source/url.doc -->
+<div class="defun">
+&mdash; Procedure: <b>url:parse</b><var> string<a name="index-url_003aparse-15"></a></var><br>
+<blockquote><p>Parse <var>string</var> and return a url object, with one of the
+following "schemes": HTTP, FTP, mailto, unknown. 
+</p></blockquote></div>
+<!-- @twerpdoc (url:unparse) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:unparse</b><var> url<a name="index-url_003aunparse-16"></a></var><br>
+<blockquote><p>Return the <var>url</var> object formatted as a string. 
+Note: The username portion is not included! 
+</p></blockquote></div>
+
+<h3 class="section">2.2 Low-Level URL Object Construction</h3>
+
+<!-- @twerpdoc (url:make) -->
+<!-- ../source/url.doc -->
+<div class="defun">
+&mdash; Procedure: <b>url:make</b><var> scheme </var>[<var>args...</var>]<var><a name="index-url_003amake-17"></a></var><br>
+<blockquote><p>Construct a url object with specific <var>scheme</var> and other <var>args</var>. 
+The number and meaning of <var>args</var> depends on the <var>scheme</var>. 
+</p></blockquote></div>
+<!-- @twerpdoc (url:make-http) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:make-http</b><var> host port path<a name="index-url_003amake_002dhttp-18"></a></var><br>
+<blockquote><p>Construct a HTTP-specific url object with
+<var>host</var>, <var>port</var> and <var>path</var> portions. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:make-ftp) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:make-ftp</b><var> user host port path<a name="index-url_003amake_002dftp-19"></a></var><br>
+<blockquote><p>Construct a FTP-specific url object with
+<var>user</var>, <var>host</var>, <var>port</var> and <var>path</var> portions. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:make-mailto) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:make-mailto</b><var> address<a name="index-url_003amake_002dmailto-20"></a></var><br>
+<blockquote><p>Construct a mailto-specific url object with
+an <var>address</var> portion. 
+</p></blockquote></div>
+
+<h3 class="section">2.3 Low-Level URL Object Access</h3>
+
+<!-- @twerpdoc (url:scheme) -->
+<!-- ../source/url.doc -->
+<div class="defun">
+&mdash; Procedure: <b>url:scheme</b><var> url<a name="index-url_003ascheme-21"></a></var><br>
+<blockquote><p>Extract and return the "scheme" portion of a <var>url</var> object. 
+<code>url:scheme</code> is an unfortunate term, but it is the technical
+name for that portion of the URL according to RFC 1738.  Sigh. 
+</p></blockquote></div>
+<!-- @twerpdoc (url:address) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:address</b><var> url<a name="index-url_003aaddress-22"></a></var><br>
+<blockquote><p>Extract and return the "address" portion of the <var>url</var> object. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:unknown) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:unknown</b><var> url<a name="index-url_003aunknown-23"></a></var><br>
+<blockquote><p>Extract and return the "unknown" portion of the <var>url</var> object. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:user) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:user</b><var> url<a name="index-url_003auser-24"></a></var><br>
+<blockquote><p>Extract and return the "user" portion of the <var>url</var> object. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:host) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:host</b><var> url<a name="index-url_003ahost-25"></a></var><br>
+<blockquote><p>Extract and return the "host" portion of the <var>url</var> object. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:port) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:port</b><var> url<a name="index-url_003aport-26"></a></var><br>
+<blockquote><p>Extract and return the "port" portion of the <var>url</var> object. 
+</p></blockquote></div>
+   <!-- @twerpdoc (url:path) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:path</b><var> url<a name="index-url_003apath-27"></a></var><br>
+<blockquote><p>Extract and return the "path" portion of the <var>url</var> object. 
+</p></blockquote></div>
+
+<h3 class="section">2.4 Character Decoding/Encoding</h3>
+
+<!-- @twerpdoc (url:decode) -->
+<!-- ../source/url.doc -->
+<div class="defun">
+&mdash; Procedure: <b>url:decode</b><var> str<a name="index-url_003adecode-28"></a></var><br>
+<blockquote><p>Re-export <code>url-coding:decode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>. 
+</p></blockquote></div>
+<!-- @twerpdoc (url:encode) -->
+<!-- ../source/url.doc -->
+
+<div class="defun">
+&mdash; Procedure: <b>url:encode</b><var> str reserved-chars<a name="index-url_003aencode-29"></a></var><br>
+<blockquote><p>Re-export <code>url-coding:encode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>. 
+</p></blockquote></div>
+
+<!--  -->
+   </body></html>
+

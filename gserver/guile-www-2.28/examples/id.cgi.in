@@ -1,0 +1,187 @@
+#!/bin/sh
+exec @GUILE@ -s $0 "$@" # -*- scheme -*-
+!#
+;;; id.cgi --- the "hello world" of CGI scripts
+
+;; Copyright (C) 2009 Thien-Thi Nguyen
+;; Copyright (C) 2005 Free Software Foundation, Inc.
+;;
+;; This file is part of Guile-WWW.
+;;
+;; Guile-WWW is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 3, or
+;; (at your option) any later version.
+;;
+;; Guile-WWW is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public
+;; License along with Guile-WWW; see the file COPYING.  If not,
+;; write to the Free Software Foundation, Inc., 51 Franklin Street,
+;; Fifth Floor, Boston, MA  02110-1301  USA
+
+;;; Commentary:
+
+;; This CGI script displays the environment
+;; discernable by module (www cgi).
+
+;;; Code:
+
+;; Load the module.  Normally, these explicit loads can be omitted --
+;; they ensure that Guile uses the proper (pre-installed) modules.
+
+(load-from-path "@abs_top_builddir@/source/url-coding.scm")
+(load-from-path "@abs_top_builddir@/source/server-utils/parse-request.scm")
+(load-from-path "@abs_top_builddir@/source/server-utils/form-2-form.scm")
+(load-from-path "@abs_top_builddir@/source/server-utils/cookies.scm")
+(load-from-path "@abs_top_builddir@/source/cgi.scm")
+(use-modules (www cgi) (www server-utils parse-request))
+
+;; Abstractions: formatted string output, sectioned output, collection.
+
+(define (fso s . args)
+  (apply simple-format #t s args))
+
+(define-macro (section title . body)
+  `(begin
+     (fso "\nSECTION: ~A\n" ,title)
+     ,@body
+     (newline)))
+
+(define (collect look save)
+  (let loop ((acc '()) (names (cgi:names)))
+    (if (null? names)
+        (reverse! acc)                  ; rv
+        (loop (cond ((look (car names))
+                     => (lambda (x) (cons (save (car names) x) acc)))
+                    (else acc))
+              (cdr names)))))
+
+;; Initialize the context.  For fastcgi environments, this should be
+;; called each time to reinitialize the context, and the rest of the
+;; file converted from multiple top-level forms into a thunk.
+
+(define +init-opt+ (and (even? (cdr (gettimeofday)))
+                        'uploads-lazy))
+
+(cgi:init +init-opt+)
+
+;; Output the headers.  Each header is followed by a CRLF pair, and the
+;; headers are separated from the body by another CRLF.  In this case,
+;; we have only one header.
+
+(fso "Content-Type: text/plain\r\n\r\n")
+
+;; Output the body.
+
+(fso "=== Output from ~S (@PACKAGE_NAME@ @PACKAGE_VERSION@) ===\n"
+     (command-line))
+
+(section
+ "Environment Variables (using ‘cgi:getenv’)"
+ (for-each (lambda (var)
+             (fso "\n~A:\n~S\n" var (cgi:getenv var)))
+           '(server-hostname
+             gateway-interface
+             server-port
+             request-method
+             path-info
+             path-translated
+             script-name
+             query-string
+             remote-host
+             remote-addr
+             authentication-type
+             remote-user
+             remote-ident
+             content-type
+             content-length
+             http-user-agent
+             http-cookie
+             server-software-type
+             server-software-version
+             server-protocol-name
+             server-protocol-version
+             http-accept-types)))
+
+(section
+ "Query String (using ‘(www server-utils parse-request) alist<-query’)"
+ (let ((qs (cgi:getenv 'query-string)))
+   (if (string-null? qs)
+       (fso "(none)\n")
+       (let ((ls (alist<-query qs)))
+         (fso "(~A pairs)\n" (length ls))
+         (for-each (lambda (k v)
+                     (fso "~A: ~S\n" k v))
+                   (map car ls)
+                   (map cdr ls))))))
+
+(section
+ "Form Data (using ‘cgi:form-data?’, ‘cgi:names’ and ‘cgi:values’)"
+ (if (cgi:form-data?)
+     (let ((ls (cgi:names)))
+       (fso "(~A names)\n" (length ls))
+       (for-each (lambda (name)
+                   (fso "\n~A:\n~S\n" name (cgi:values name)))
+                 ls))
+     (fso "(none)\n")))
+
+(section
+ "File Uploads (using ‘cgi:uploads’)"
+ (let* ((ls (append! (collect cgi:uploads (lambda (name u) u))))
+        (tot (length ls)))
+   (if (zero? tot)
+       (fso "(none)\n")
+       (let ((v? (eq? 'uploads-lazy +init-opt+)))
+
+         (define (v<-u u)
+           (let ((minfo (object-property u #:guile-www-cgi))
+                 (eov (string-length u)))
+             (define (m part)
+               (assq-ref minfo part))
+             (values (m #:filename) (m #:mime-type)
+                     (m #:raw-mime-headers)
+                     (lambda (abr)
+                       (and abr (abr u 0 eov))))))
+
+         (define (show u)
+           (call-with-values (lambda () (if v? u (v<-u u)))
+             (lambda (filename type headers squeeze)
+
+               (define (content-length)
+                 (squeeze (lambda (s b e)
+                            (- e b))))
+
+               (define (content)
+                 (if (string=? "text" (substring type 0 (string-index type #\/)))
+                     (squeeze substring)
+                     "[contents omitted -- not text]"))
+
+               (fso "\n~S (~A, ~A bytes)\n~A\n~A\n"
+                    filename type (content-length)
+                    headers (content)))))
+
+         (fso "(~A uploads (~A))\n" tot
+              (if v?
+                  "values"
+                  "strings with the object property #:guile-www-cgi"))
+         (for-each show (apply append ls))))))
+
+(section
+ "Cookies (using ‘cgi:cookie-names’ and ‘cgi:cookies’)"
+ (let ((k (cgi:cookie-names)))
+   (if (null? k)
+       (fso "(none)\n")
+       (let ((v (map cgi:cookies k)))
+         (fso "(~A names ~A values)\n" (length k) (apply + (map length v)))
+         (for-each (lambda (k v)
+                     (fso "\n~A: ~A\n" k (length v))
+                     (for-each (lambda (c)
+                                 (fso " ~A\n" c))
+                               v))
+                   k v)))))
+
+;;; id.cgi ends here

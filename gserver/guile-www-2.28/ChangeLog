@@ -1,0 +1,1521 @@
+2010-06-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.28
+
+	* configure.ac (AC_INIT): Bump version to "2.28" for release.
+
+2010-06-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Add EXPERIMENTAL modlisp support.
+
+	* doc/guile-www.twerp (Top): Add menu item "modlisp".
+	(answer): Describe default output style.
+	(modlisp): New node/chapter.
+
+2010-06-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Fix bug: Include variables in manual index.
+
+	* doc/guile-www.twerp: Add ‘@syncodeindex vr fn’.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (... answer) procs: string<-tree, string<-headers
+
+	* doc/guile-www.twerp (answer): Add @twerpdoc for ‘string<-tree’,
+	‘string<-headers’; update example to use ‘string<-headers’.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Inline build-aux/guile-www.m4; delete it.
+
+	* configure.ac: Incorporate build-aux/guile-www.m4.
+	* build-aux/guile-www.m4: Delete file.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Use (ice-9 optargs); invert sense of ‘optargs-kw’ kludge.
+
+	* configure.ac: Check if the system has (ice-9 optargs-kw).
+	(optargs_kw): New AC_SUBST var.
+	* build-aux/module-compile.in: If the system guile
+	has (ice-9 optargs-kw), textually replace (ice-9 optargs) with it.
+	* build-aux/guile-www.m4 (AC_GUILE_WWW_MODULES_AOK):
+	Don't call ‘GUILE_CHECK_ICE9_OPTARGS’.
+
+2010-06-21  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build] Replace external punify with simplified local variant.
+
+	* build-aux/simple-punify: New file.
+	* build-aux/module-compile.in (PUNIFY): Delete var.
+	Use ‘@GUILE@’ and ‘@abs_top_srcdir@/build-aux/simple-punify’ directly.
+	* build-aux/guile-www.m4 (AC_GUILE_WWW_PROG_PUNIFY): Delete AC_DEFUN.
+	(AC_GUILE_WWW_INST_METH_AOK): Don't call ‘AC_GUILE_WWW_PROG_PUNIFY’.
+	* Makefile.am (EXTRA_DIST): Add build-aux/simple-punify.
+
+2010-06-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (... answer) procs: flat-length, tree-flat-length!
+
+	* doc/guile-www.twerp (answer): Expand blurb on low-level procs;
+	add @deffn for ‘flat-length’; add @twerpdoc for ‘tree-flat-length!’.
+
+2010-06-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Rename configure.in to configure.ac.
+
+	* configure.ac: Rename from configure.in.
+	* autogen.sh: Update refs.
+
+2010-02-02  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.27
+
+	* configure.in (AC_INIT): Bump version to "2.27" for release.
+
+2010-01-19  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[maint] Move Guile-1.4.x doc-support inside "if MAINTAINER_MODE".
+
+	* doc/Makefile.am (twerp2texi, .twerp.texi): Move var and
+	pattern-rule, respectively, inside "if MAINTAINER_MODE" block.
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Drop (www data http-status) exports `*http-status*', `*http-status*-META'.
+
+	* doc/guile-www.twerp (http-status): Update.
+
+2010-01-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Drop module (www data content-type).
+
+	* doc/guile-www.twerp (Top): Delete menu item "content-type".
+	(answer): Fix bug: Use proper module in example.
+	(content-type): Delete node/chapter.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.26
+
+	* configure.in (AC_INIT): Bump version to "2.26" for release.
+	* build-aux/module-compile.in (version): Bump to "1.1" for release.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Distribute guile.m4.
+
+	* autogen.sh: Symlink installed guile.m4 into build-aux.
+	Update aclocal call to omit "-I `guile-config info datadir`/aclocal".
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] New abstraction: AC_GUILE_WWW_CONFIG_SCRIPT
+
+	* build-aux/guile-www.m4 (AC_GUILE_WWW_CONFIG_SCRIPT): New AC_DEFUN.
+	* configure.in: Use `AC_GUILE_WWW_CONFIG_SCRIPT'.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Move Guile-WWW m4 macros into build-aux.
+
+	* build-aux/guile-www.m4: Rename from ../acinclude.m4.
+	* autogen.sh: Specify "-I build-aux" to aclocal.
+	* Makefile.am (ACLOCAL_AMFLAGS): New var.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[build int] Specify Automake options in configure.in, not Makefile.am.
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Delete var.
+	* configure.in (AM_INIT_AUTOMAKE): Bump version to 1.11, add "gnu".
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[config] Update list of required modules.
+
+	* acinclude.m4 (AC_GUILE_WWW_MODULES_AOK):
+	Add (ice-9 and-let-star), (ice-9 rdelim), (ice-9 rw), (srfi srfi-14).
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use SRFI-13 `substring/shared', not `make-shared-substring'.
+
+	* acinclude.m4 (AC_GUILE_WWW_HAVE_MAKE_SHARED_SUBSTRING)
+	(AC_GUILE_WWW_DISABLE_SHARED_SUBSTRING): Delete AC_DEFUNs.
+	(AC_GUILE_WWW_CORE_AOK): Update.
+	* build-aux/module-compile.in (two): Delete var; no longer
+	construct sed script frag to neuter `make-shared-substring'.
+
+2009-06-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make `cleanup-filename' handle edge cases more consistently.
+
+	* doc/guile-www.twerp (filesystem):
+	Add list of `cleanup-filename' edge cases.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.25
+
+	* configure.in (AC_INIT): Bump version to "2.25" for release.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Use module names as chapter titles.
+
+	* doc/guile-www.twerp: Throughout, use module name for
+	chapter title, instead of last component of module name.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Consolidate examples/Makefile.am into top-level.
+
+	* Makefile.am (SUBDIRS): Delete examples.
+	(asisdirs): Delete var.
+	(EXTRA_DIST): Specify contrib directly; add examples/README,
+	examples/cookie.cgi, examples/wwwcat, examples/you-are-here.
+	* configure.in (AC_CONFIG_FILES): Delete examples/Makefile.
+	* examples/Makefile.am: Delete file.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Distribute PDF doc, as well.
+
+	* doc/Makefile.am (EXTRA_DIST): Add guile-www.pdf.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc int] Make texi-twerp dependency a MAINTAINER_MODE concern.
+
+	* doc/Makefile.am (guile-www.texi): Move dependency
+	on guile-www.twerp into "if MAINTAINER_MODE" block.
+
+2009-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc int] Delete .doc-index on "make clean".
+
+	* build-aux/common.mk (CLEANFILES): Add .doc-index.
+
+2009-05-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Update wily-guile symlink target.
+
+	* examples/wily-guile.in: Symlink to ../source.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Make `cgi:init' handle optional arg for specifying `uploads-lazy'.
+
+	* examples/id.cgi.in: Explicitly load form-2-form.scm.
+	(+init-opt+): New var; call `cgi:init' w/ it.
+	(File Uploads): Display contents for text/* uploads;
+	handle both cases of `+init-opt+' value; include description
+	of case (values vs strings w/ object property) in output.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[int] Make (www cgi) use (www server-utils parse-request).
+
+	* examples/id.cgi.in: Explicitly load parse-request.scm;
+	use module (www server-utils parse-request).
+	(Query String): New section.
+
+2009-05-26  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New module: (www server-utils form-2-form)
+
+	* doc/guile-www.twerp (Top): Add `form-2-form' to menu.
+	(form-2-form): New node/chapter.
+
+2009-05-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils parse-request) proc: read-body
+
+	* doc/guile-www.twerp (parse-request): Add @twerpdoc for `read-body'.
+
+2009-05-25  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils parse-request) procs: hqf<-upath, alist<-query
+
+	* doc/guile-www.twerp (parse-request):
+	Add @twerpdoc for `hqf<-upath', `alist<-query'.
+
+2009-05-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils cookies) proc: simple-parse-cookies
+
+	* doc/guile-www.twerp (cookies): Add @twerpdoc for `simple-parse-cookies'.
+	* examples/id.cgi.in: Explicitly load cookies.scm.
+
+2009-05-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www cgi) proc: cgi:cookie-names
+
+	* doc/guile-www.twerp (cgi): Add @twerpdoc for `cgi:cookie-names'.
+	* examples/id.cgi.in (Cookies): Use `cgi:cookie-names'.
+
+2009-05-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: Make examples/id.cgi display uploads correctly.
+
+	This regression was due to failure to track the 2005-04-17 change
+	to support fastcgi (introducing data structure `ONE' et al).
+
+	* examples/id.cgi.in (File Uploads): Process each named
+	upload as a list, not as an individual upload element.
+
+2009-05-22  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug: Use correct pre-installed filenames in examples/id.cgi.
+
+	* examples/id.cgi.in: Update `load-from-path' filenames.
+
+2009-05-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Use `zero?'.
+
+	* examples/id.cgi.in (File Uploads, Cookies): Use `zero?'.
+	* doc/guile-www.twerp (cgi-prep): Use `zero?' in example.
+
+2009-04-29  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	[doc] Move table of contents after the title page.
+
+	* doc/guile-www.twerp: Move @contents.
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.24
+
+	* configure.in (AC_INIT): Bump version to "2.24" for release.
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www data http-status) proc: http-status-string
+
+	* doc/guile-www.twerp (http-status): Give advance notice of
+	data structures removal; add @twerpdoc for `http-status-string'.
+
+2009-01-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New module: (www data mime-types)
+
+	* doc/guile-www.twerp (Top): Add menu item `mime-types'.
+	(mime-types): New node.
+
+2008-05-28  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.23
+
+	* configure.in (AC_INIT): Bump version to "2.23" for release.
+
+2008-05-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Do some small doc tweaks.
+
+	* doc/guile-www.twerp (Top): Don't explain module names;
+	instead, move their prototype into @menu, after each heading.
+	(Procedure Index): Add blurb explaining what is in the index.
+
+2008-05-27  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www http) proc: http:connect.
+
+	* doc/guile-www.twerp (http): Add @twerpdoc for `http:connect'.
+
+2008-04-24  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Clean up `socket' calls.
+
+	* examples/you-are-here: Use `PF_INET'.
+
+2008-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	New (www server-utils big-dishing-loop) proc: named-socket
+
+	* doc/guile-www.twerp (big-dishing-loop):
+	Add @twerpdoc for `named-socket'.
+
+2008-04-23  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Fix bug introduced in 2.22, change:
+	Move scheme files under source/:
+	For doc extraction, don't search for module commentary.
+
+	* doc/guile-www.twerp: No longer do @twerpsetsearchpath.
+	(utcsec): Delete @twerpcommentary; add text directly.
+
+2008-04-20  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Release: 2.22
+
+	* configure.in (AC_INIT): Bump version to "2.22" for release.
+
+2008-04-18  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Move scheme files under source/.
+
+	* build-aux/common.mk: Use ".scm:" for portability.
+	(CLEANFILES): New var.
+	(CLEANFILES) [MAINTAINER_MODE]: Move $(www_DATA) outside
+	conditional and convert from = to += (appending assignment).
+
+	* doc/Makefile.am (doc-index-prep): No longer make symlink.
+	Also, update location of source files.
+	(.twerp.texi): Update location of .doc-index files.
+
+	* Makefile.am: No longer include build-aux/common.mk.
+	(SUBDIRS): Remove server-utils and data; add source.
+	(wwwdir, www_DATA): Delete vars.
+	(install-data-hook): Arrange for "guile-tools
+	make-module-catalog" to trim $(DESTDIR), if any.
+	(EXTRA_DIST): Change from += to = (normal assignment).
+	(dist-hook): Delete target.
+
+	* configure.in (AC_CONFIG_FILES): Remove server-utils/Makefile
+	and data/Makefile; add source/server-utils/Makefile,
+	source/data/Makefile and source/Makefile.
+
+2008-03-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Expand documentation for `cgi:init'.
+
+	* cgi.scm (cgi:init): Rewrite pre-form doc comment.
+	Reported by Sebastian Tennant <sebyte@smolny.plus.com>.
+
+2008-02-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	Replace CVS-isms w/ Git-isms.
+
+	* .cvsignore: Delete file.
+	* doc/.cvsignore: Likewise.
+	* examples/.cvsignore: Likewise.
+	* Makefile.am (dist-hook): No longer worry about CVS subdirs.
+	* .gitignore: New file.
+
+2007-10-04  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_INIT): Bump version to "2.21" for release.
+
+2007-05-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_INIT): Bump version to "2.20" for release.
+
+2007-05-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* doc/Makefile.am (EXTRA_DIST): Add guile-www.html.
+	[MAINTAINER_MODE] (html): Delete target.
+
+2007-05-16  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* cgi.scm: No longer autoload (www server-utils cookies).
+	(cgi:make-cookie): Delete proc.
+
+	* doc/guile-www.twerp (cgi): Remove `cgi:make-cookie'
+	and its containing section "Data Transfer Out".
+
+2007-05-15  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* examples/wily-guile.in: Fix bug: Add cwd to `%load-path'.
+
+2007-05-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_INIT): Bump version to "2.19" for release.
+
+2007-05-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (cvs-state-summary): Also scan $(SUBDIRS).
+
+2007-05-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* build-aux/common.mk (EXTRA_DIST): New var.
+	* Makefile.am (EXTRA_DIST): Remove $(www_DATA:%=%.scm).
+	Convert assignment from "=" to "+=".
+
+2007-05-14  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* autogen.sh: For dummy guile-www.texi,
+	use configure.in as reference file for timestamp.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* examples/wily-guile.in: New file.
+	* configure.in (AC_CONFIG_FILES): Add examples/wily-guile,
+	and arrange to make it executable.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* examples/you-are-here: Throughout, use port 9999.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_INIT): Use three-arg form.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* module-install.in: Delete file.
+	* doc-snarf: Delete file.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (SUBDIRS): Add server-utils and data.
+	(basic, dw): Delete vars.
+	(www_DATA): New var.
+	(install-data-local): Delete target.
+	Instead, include $(top_srcdir)/build-aux/common.mk.
+	(install-data-local): Use `$(DESTDIR)$(wwwdir)' directly.
+	(SUFFIXES, DOT_DOC_FILES, CLEANFILES): Delete vars.
+	(.scm.doc): Delete pattern rule.
+	(.doc-index): Delete target.
+	(asisdirs): Remove server-utils and data.
+	(EXTRADIST): Add scm files, via $(www_DATA).
+	Remove doc-snarf and module-install.in.
+
+	* doc/Makefile.am (doc-index-prep): Make .doc-index
+	also in dirs ../server-utils and ../data.
+	(.twerp.texi): Include .doc-index
+	also from dirs ../server-utils and ../data.
+
+	* configure.in (AC_CONFIG_FILES): Remove module-install.
+	Add server-utils/Makefile and data/Makefile.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* build-aux/module-compile.in: New file.
+	* configure.in (AC_CONFIG_FILES): Add build-aux/module-compile,
+	and arrange to make it executable.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* build-aux/common.mk: New file.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* doc/guile-www.twerp: Add @twerpsetsearchpath.
+
+2007-05-13  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* configure.in (AC_CONFIG_AUX_DIR): New; specify subdir `build-aux'.
+
+2007-05-12  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* Makefile.am (install-data-hook): Remove (www METAINFO)
+	from inst dir.  Also, no longer generate it.
+	* module-install.in: No longer output METAINFO comment.
+
+2007-05-11  Thien-Thi Nguyen  <ttn@gnuvola.org>
+
+	* examples/you-are-here: Use `let' in `else' clause.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* configure.in (AC_INIT): Bump version to "2.18" for release.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* utcsec.scm: New file.
+
+	* Makefile.am (basic): Add utcsec.scm.
+	(DOT_DOC_FILES): Add utcsec.doc.
+
+	* doc/guile-www.twerp (Top): Add to menu "utcsec".
+	(utcsec): New node/chapter.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* doc/Makefile.am (.twerp.texi): Use option `--scheme-implied'.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* url-coding.scm (safe-chars): Use `append!'.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* http.scm (http:post-form aam): New internal proc.
+
+2007-02-16  Thien-Thi Nguyen  <ttn@ambire>
+
+	* http.scm (http:post-form): Use `cons'.
+
+2007-01-31  Thien-Thi Nguyen  <ttn@ambire>
+
+	* configure.in (AC_INIT): Bump version to "2.17" for release.
+
+2007-01-30  Thien-Thi Nguyen  <ttn@ambire>
+
+	* doc/guile-www.twerp (big-dishing-loop): Update intro.
+	Add @twerpdoc for `echo-upath'.
+
+2007-01-12  Thien-Thi Nguyen  <ttn@ambire>
+
+	* doc/guile-www.twerp (answer): Fix description of `CRLF'.
+
+2007-01-11  Thien-Thi Nguyen  <ttn@ambire>
+
+	* examples/Makefile.am: New file.
+	* configure.in: Specify examples/Makefile in AC_CONFIG_FILES.
+	* Makefile.am (SUBDIRS): Add "examples".
+	(asisdirs): Remove "examples".
+
+2006-07-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.16" for release.
+
+2006-04-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.15" for release.
+
+2006-04-26  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:head, http:get, http:post-form):
+	Fix bug: No longer specify `Host' header to `http:request'.
+	(http:request): Doc fix: Mention `Host' automatic inclusion.
+
+	* doc/guile-www.twerp (http):
+	Add explanation of headers representation.
+
+2006-04-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (fs): New proc.
+	(http:post-form, http:request): Use `fs'.
+
+	* url.scm (url:unparse fs): New internal proc.
+	(url:unparse): Use it.
+
+	* log.scm (log-http-response-proc): Use `simple-format'.
+
+2006-04-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:request): Doc fix: Mention return value.
+
+2006-04-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:message-status-ok?): Doc fix.
+
+2006-02-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.14" for release.
+
+2006-02-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (Top): Add to menu "cookies".
+	(cgi): Add warning about pending removal of `cgi:make-cookie'.
+	(cookies): New node/chapter.
+
+	* Makefile.am (DOT_DOC_FILES): Add server-utils/cookies.doc.
+
+	* cgi.scm: No longer use module (ice-9 optargs-kw).
+	Instead, autoload module (www server-utils cookies).
+	(cgi:make-cookie): Use `rfc2109-set-cookie-string'.
+
+2006-02-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (answer):
+	Include server name and version in example.
+	Also, use `simple-format' in example.
+	Also, add intro blurbs, examples, and @twerpdoc entries for
+	`CRLF', `fs', `walk-tree' and `string<-header-components'.
+
+2006-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_DISABLE_SHARED_SUBSTRING):
+	Rename from `AC_GUILE_WWW_DISABLE_SHARED_SUBTRING'.
+
+2006-02-07  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_GUILE_SITE_DIR): Delete macro.
+	(AC_GUILE_WWW_INST_METH_AOK): Use `GUILE_SITE_DIR' directly.
+
+2005-08-18  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (env-extraction-methods): For `http-accept-types',
+	handle case where env var HTTP_ACCEPT is not set.
+	(cgi:init): Mention `http-accept-types' value may be the empty list.
+
+2005-08-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.13" for release.
+
+2005-08-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: Use modules (srfi srfi-14) and (ice-9 rw).
+	(read-n-bytes): Use `read-string!/partial'.
+	(separate-fields-discarding-char): Delete proc.
+	(split): New proc.
+	(env-extraction-methods, parse-form): Use `split'.
+
+	* http.scm: Use module (ice-9 rw).
+	(read-n-chars): Use `read-string!/partial'.
+	(display-with-crlf): No longer take optional arg P.
+
+2005-06-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.12" for release.
+
+2005-06-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form): Return pair: uncollated and collated.
+	(make-ccc): Unpack `parse-form' rv.  Add command #:nv-pairs.
+	(cgi:nv-pairs): New proc, exported.
+	Suggested by Alan Grover.
+
+	* doc/guile-www.twerp (cgi): Add section "Uncollated Form Data"
+	and @twerpdoc for `cgi:nv-pairs'.
+
+	* contrib/qs-check (test-values): Add some test cases.
+	* contrib/qs-nv-check: New file.
+
+2005-05-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.11" for release.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Bump version to "2.10" for release.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (make-ccc): In subproc `init!', explicitly reset state.
+	(cgi:init): Only set `ONE' once.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (form-variables): Delete data structure.
+	(file-uploads, cookies): Likewise.
+	(make-ccc): New proc.
+	(ONE): New var.
+	(cgi:init, cgi:getenv, cgi:values, cgi:value): Rewrite.
+	(cgi:names, cgi:form-data?, cgi:uploads, cgi:upload): Likewise.
+	(cgi:cookies, cgi:cookie): Likewise.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (get-cookies): No longer set `cookies'.
+	Instead, simply return value to set.
+	(cgi:init): Set `cookies' from `get-cookies' rv.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (fs): New proc.
+	(parse-form-multipart, cgi:make-cookie): Use `fs'.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form-multipart): No longer set `form-variables' or
+	`file-uploads'.  Instead, simply return a cons of the values to set.
+	(cgi:init): Set `form-variables' and
+	`file-uploads' from `parse-form-multipart' rv.
+
+2005-04-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form): No longer set `form-variables'.
+	Instead, simply return value to set.
+	(cgi:init): Set `form-variables' from `parse-form' rv.
+
+2005-04-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (read-n-bytes): Rename from `read-n-chars'.
+	Also, no longer take optional arg PORT-ARG.
+	(read-raw-form-data): Delete proc.
+	(cgi:init): Use `read-n-bytes'.
+
+2005-04-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form-multipart): Promote internal proc ...
+	(updated-alist): ...to top-level.
+	(parse-form): Use `updated-alist'.
+
+2005-04-16  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: Convert `define-public' to `define' + #:export clause.
+	* url-coding.scm, url.scm, main.scm, https.scm, http.scm: Likewise.
+
+2005-04-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_GUILE_SITE_DIR): New macro.
+	(AC_GUILE_WWW_INST_METH_AOK): Use `AC_GUILE_WWW_GUILE_SITE_DIR'.
+
+2005-04-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_HAVE_MAKE_SHARED_SUBSTRING): New macro.
+	(AC_GUILE_WWW_DISABLE_SHARED_SUBTRING): Likewise.
+	(AC_GUILE_WWW_CORE_AOK): Likewise.
+	(AC_GUILE_WWW_INST_METH_AOK): Likewise.
+
+	* configure.in (GUILE_SITE_DIR): Delete.
+	(AC_GUILE_WWW_PROG_PUNIFY): Likewise.
+	(AC_GUILE_WWW_CORE_AOK): New.
+	(AC_GUILE_WWW_INST_METH_AOK): Likewise.
+
+	* module-install.in (use_shsub): New var.  If not "no",
+	arrange to substitute "make-shared-substring" with "substring".
+
+2005-04-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (subs): New alias.
+	(parse-status-line): Use `subs'.
+	(sans-trailing-whitespace): Likewise.
+
+2005-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (Top): Add to menu "cgi-prep".
+	(cgi-prep): New node/chapter.
+
+	* Makefile.am (DOT_DOC_FILES): Add server-utils/cgi-prep.doc.
+
+2005-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:values, cgi:names): Document ordering.
+
+2005-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* examples/id.cgi.in: Load url-coding.scm explicitly.
+
+2005-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:values): Document #f possibility; nfc.
+
+2005-04-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form): Fix omission bug: URL-decode those names
+	w/o values.  Also, maintain order for variables names as well as
+	for their values.
+
+2005-04-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* examples/id.cgi.in: New file.
+	* configure.in: Add AC_CONFIG_FILES for examples/id.cgi.
+
+2005-04-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:cookies): Document #f return value.
+
+2005-04-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (env-thunks): Delete data structure.
+	(env-extraction-methods): New proc.
+	(*env-hash*): Delete data structure.
+	(hash-environment!): Delete proc.
+	(*env-extraction*): New data structure.
+	(env-look): Use `*env-extraction*'.
+	(env-clear!): Delete proc.
+	(cgi:init): No longer call `hash-environment!'.  Also, no longer
+	write to environment; instead, avoid calling `parse-form' also
+	when `query-string' value is the empty string.
+
+2005-04-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (AC_INIT): Use modern two-arg form.
+	(AM_INIT_AUTOMAKE): Use zero-arg form.
+	(AC_CONFIG_FILES): Move AC_OUTPUT arg here.
+	(AC_OUTPUT): Use zero-arg form.
+
+	* Makefile.am (install-data-hook): Use $(PACKAGE_NAME),
+	$(PACKAGE_VERSION) and $(PACKAGE_TARNAME).
+
+2005-04-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (parse-form): Elide redundant `string-index' call.
+
+2005-04-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (*env-alist*): Delete.
+	(env-thunks): New data table.
+	(*env-hash*): New var.
+	(hash-environment!): New proc.
+	(env-look): Rewrite to use `*env-hash*'.
+	(env-set!): Delete proc.
+	(env-clear!): New proc.
+	(cgi:init): Call `hash-environment!'.
+	Also, use `env-clear!'.
+
+2005-04-12  Alan Grover  <awgrover@mail.msen.com>  (tiny change)
+
+	* cgi.scm (parse-form): Fix omission bug:
+	Also url-decode name in each name/value pair.
+
+2005-04-02  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/Makefile.am (html) [MAINTAINER_MODE]: New target.
+
+2005-02-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp: End direntry w/ period.
+
+2005-01-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.9" for release.
+
+2005-01-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc-snarf: Use `make-doc-snarfer' and `format-dot-doc'.
+
+2005-01-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* module-install.in: Update copyright year.
+
+2004-11-25  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* main.scm (www:http-head-get): Take optional second arg `alist?'.
+	If it is specified and non-#f, return only the header alist portion.
+
+2004-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.8" for release.
+
+2004-11-20  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* main.scm (www:http-head-get): New proc, exported.
+
+	* doc/guile-www.twerp (main):
+	Add intro and @twerpdoc for `www:http-head-get'.
+
+2004-10-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.7" for release.
+
+2004-10-21  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:head): New proc, exported.
+
+	* doc/guile-www.twerp (http): Add twerpdoc for `http:head'.
+	Also, add new section "Common Messages".
+
+2004-07-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.6" for release.
+
+2004-07-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* COPYING, INSTALL: Delete files.
+
+2004-07-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am [MAINTAINER_MODE] (cvs-state-summary): New target.
+
+2004-07-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_PROG_PUNIFY): New AC_DEFUN.
+
+	* configure.in: Call AC_GUILE_WWW_PROG_PUNIFY.
+
+	* module-install.in (infodir): Delete unused var.
+	(GUILE_TOOLS): Delete var.
+	(filter): Make into a (possibly degenerate) sed program.
+	(PUNIFY): New var. Use instead of "$GUILE_TOOLS punify".
+
+	* Makefile.am (dw): New var.
+	(install-data-local): Use $(dw).
+	Also, delete *.scm files under $(dw)
+	before doing `$(SHELL) module-install'.
+
+2004-07-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (parse-status-line): Fix bug: Use "" if TEXT is missing.
+	Reported by Robert Marlow.
+
+2004-07-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm: Refill; nfc.
+	* main.scm: Likewise.
+	* url.scm: Likewise.
+	* url-coding.scm: Likewise.
+
+2004-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp: Specify "@paragraphindent 0".
+
+2004-04-14  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:make-cookie): Also
+	accept keywords for `name' and `value'.
+	Add example to docstring.  Add sig hint.
+
+2004-03-17  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* module-install.in: New file.
+
+	* configure.in (AC_OUTPUT): Add module-install.
+
+	* Makefile.am (gwwwdir): Delete var.
+	(gwww_DATA): Delete directive.
+	(kludgefiles): Delete var.
+	(wwwdir, basic): New vars.
+	(install-data-local): New target.
+	(install-data-hook): No longer do optargs kludge.
+	No longer do module installation.
+	Add METAINFO installation.
+	(EXTRA_DIST): Add $(basic) and module-install.in.
+
+2004-03-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.5" for release.
+
+2004-03-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (Top): Add "big-dishing-loop" menu item.
+	(big-dishing-loop): New node/chapter.
+
+	* Makefile.am (kludgefiles): New var.
+	(install-data-hook): Use $(kludgefiles).
+	(DOT_DOC_FILES): Add server-utils/big-dishing-loop.doc.
+
+	* examples/you-are-here: New file.
+
+2004-03-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (parse-request):
+	Add @twerpdoc for `skip-headers'.
+
+2004-03-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.4" for release.
+
+2004-03-01  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (DOT_DOC_FILES): Add server-utils/log.doc.
+
+	* doc/guile-www.twerp (Top): Add menu item for `log'.
+	(answer): Update example to show content-length in STATUS.
+	(log): New node/chapter.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.3" for release.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (Top): Add menu items for new nodes.
+	Expand blurb on module naming convention.  Add categories.
+	(parse-request): New node/chapter.
+	(filesystem): Likewise.
+	(answer): Likewise.
+	(http-status): Likewise.
+	(content-type): Likewise.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (install-data-hook): Also handle
+	subdirs `server-utils' and `data'.
+	(DOT_DOC_FILES): Add server-utils/parse-request.doc,
+	server-utils/filesystem.doc and server-utils/answer.doc.
+	(asisdirs): New var.
+	(EXTRA_DIST): Remove contrib and examples. Add $(asisdirs).
+	(dist-hook): Iterate over $(asisdirs) instead of just
+	examples and contrib, removing CVS subdirs and *.doc files.
+
+2004-02-29  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* server-utils, data: New directories.
+
+2004-01-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to "2.2" for release.
+
+2004-01-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:post-form): Interpret #f for file-upload
+	spec element "mime-type" to mean "text/plain".
+	Also, document "bad upload spec" error.
+
+2004-01-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (install-data-hook): Also punify installed files.
+
+2004-01-24  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: Also use module (srfi srfi-13).
+	(subs): New alias for `make-shared-substring'.
+	(*env-alist*): Use `subs' instead of `substring'.
+	(cgi:init, parse-form, separate-fields-discarding-char): Use `subs'.
+	(parse-form-multipart): Rewrite to be able to recurse exactly once
+	for "multipart/mixed" content type, and also w/ fewer substring ops.
+	Also, save parsed metadata and raw MIME headers as an object property
+	of the string (file contents).
+	(cgi:uploads): Expand docstring; nfc.
+
+	* acinclude.m4 (AC_GUILE_WWW_MODULES_AOK): Also require (srfi srfi-13).
+
+2004-01-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:post-form): For internal proc `validate-upload-spec',
+	add check for name, and expand check for source in the case where it
+	is a procedure, to make sure it is indeed a thunk.
+	For internal proc `c-type', output quotes around the boundary value.
+
+2004-01-23  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:post-form): For arg `fields', also accept as
+	"fvalue" a file-upload specification in the form of (SOURCE NAME
+	MIME-TYPE TRANSFER-ENCODING).  In the presence of such a spec, use
+	content type "multipart/form-data" and format the headers and body
+	accordingly.  Per field, use content type "multipart/mixed" and
+	format components accordingly.
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:request): Document special handling for
+	content-type "application/x-www-form-urlencoded".
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (form-hack-regex): New var.
+	(http:request): Check for "application/x-www-form-urlencoded"
+	content type and one-line body, in which case arrange to omit
+	CRLF and adjust content-length accordingly.
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_MODULE_CHECK): Delete.
+	(AC_GUILE_WWW_CHECK_ICE9_OPTARGS): Delete.
+	(AC_GUILE_WWW_MODULES_AOK): Use GUILE_CHECK_ICE9_OPTARGS
+	instead of AC_GUILE_WWW_CHECK_ICE9_OPTARGS.
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* autogen.sh: Update tool versions; nfc.
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:value): Use `and=>'.
+	(cgi:cookie): Likewise.
+	(cgi:upload): Likewise.
+	(cgi:uploads): Likewise.
+	Also, fix omission bug: Delete cell as documented.
+
+2004-01-22  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (cgi:init): Fix doc omission bug: Describe
+	return value for key `http-accept-types'; nfc.
+
+2004-01-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to 2.1 for release.
+
+2004-01-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: No longer use module (www url).
+	Instead, use module (www url-coding).
+	(parse-form): Use `url-coding:decode'.
+
+2004-01-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* url-coding.scm: New file.
+
+	* url.scm: Use module (www url-coding).
+	(url:decode): Rewrite to delegate to `url-coding:decode'.
+	(url:encode): Rewrite to delegate to `url-coding:encode'.
+
+	* Makefile.am (gwww_DATA): Add url-coding.scm.
+	(DOT_DOC_FILES): Add url-coding.doc.
+
+	* doc/guile-www.twerp: Update direntry to use "Guile-WWW".
+	(Top): Add "url-coding" to menu.
+	(url-coding): New node/chapter.
+
+2004-01-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4 (AC_GUILE_WWW_TWERP_PREP): New AC_DEFUN.
+	* configure.in (AC_GUILE_WWW_TWERP_PREP): New macro call.
+	* doc/Makefile.am (.twerp.texi): Enable dependency tracking/update.
+
+2004-01-15  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm (*env-alist*): New var.
+	(env-look, env-set!): New procs.
+	(cgi-server-software-type cgi-server-software-type,
+	cgi-server-software-version, cgi-server-hostname,
+	cgi-gateway-interface, cgi-server-protocol-name,
+	cgi-server-protocol-version, cgi-server-port, cgi-request-method,
+	cgi-path-info, cgi-path-translated, cgi-script-name,
+	cgi-query-string, cgi-remote-host, cgi-remote-addr,
+	cgi-authentication-type, cgi-remote-user, cgi-remote-ident,
+	cgi-content-type, cgi-content-length, cgi-http-accept-types,
+	cgi-http-user-agent, cgi-http-cookie): Delete vars.  Update
+	references to either call `env-look' or `env-set!' as appropriate.
+	(init-environment): Delete; move functionality into `*env-alist*'.
+	(cgi:getenv): Use `env-look'.  Fix doc omission bug: Mention type
+	and possible values for `content-length' and `server-port'.  Also,
+	document "unrecognized key" error condition.
+	(read-raw-form-data): Take explicit arg `len'. Update callers.
+	(get-cookies): Take explicit arg `raw'. Update callers.
+
+2004-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (cgi):
+	Fix omission bug: Add @twerpdoc for `cgi:getenv'.
+
+2004-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* configure.in (VERSION): Bump to 2.0 for release.
+
+2004-01-13  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* acinclude.m4: New file.
+
+	* configure.in (AC_GUILE_WWW_MODULES_AOK): New macro call.
+
+	* Makefile.am (install-data-hook): Add conditional optargs kludge.
+
+2004-01-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp (Top):
+	Omit edition in intro; version is enough.
+	Remove @twerpsetsearchpath directive.
+	(http, url, cgi, main): Rewrite chapters using
+	@twerpdoc directives and w/o @twerpcommentary directives.
+
+2004-01-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: No longer use module (ice-9 optargs).
+	Instead, use module (ice-9 optargs-kw).
+	Adapt and/or write docs for all exported procs.
+	(cgi-server-software-type, cgi-server-software-version,
+	cgi-server-hostname, cgi-gateway-interface, cgi-server-protocol-name,
+	cgi-server-protocol-version, cgi-server-port, cgi-request-method,
+	cgi-path-info, cgi-path-translated, cgi-script-name,
+	cgi-query-string, cgi-remote-host, cgi-remote-addr,
+	cgi-authentication-type, cgi-remote-user, cgi-remote-ident,
+	cgi-content-type, cgi-content-length, cgi-http-accept-types,
+	cgi-http-user-agent, cgi-http-cookie): No longer export these vars.
+	(cgi:getenv): New proc, exported.
+	(cgi:make-cookie): Rewrite.
+
+	* http.scm: Adapt and/or write docs for all exported procs.
+	(http:version): No longer export var.
+	(http:user-agent): Delete var.
+
+	* main.scm, url.scm: Adapt and/or write docs for all exported procs.
+
+2004-01-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* autogen.sh: Also pass guile-specific "-I" args to aclocal.
+
+	* configure.in (GUILE_SITE_DIR): New macro call.
+
+	* Makefile.am (gwwwdir): Use $(GUILE_SITE) instead of $(datadir)/guile.
+	(install-data-hook): New target.
+
+	* INSTALL: Update *.scm install directory.
+	Mention $(GUILE_SITE)/.module-catalog update.
+
+2004-01-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* Makefile.am (EXTRA_DIST): Add doc-snarf.
+
+2004-01-12  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* autogen.sh: Add usage comment, w/ info on auto* tools versions.
+	Before calling automake, set up dummy doc/guile-www.texi file.
+	No longer pass "--verbose" to automake.
+
+2004-01-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp: Update copyright.
+	Remove RCS tag.
+	(Top): Change @top to "The (www *) Modules".
+	Remove Concept Index.
+	Add @twerpsetsearchpath directive.
+	(http): Spiff blurb.  Replace manual
+	commentary slice w/ @twerpcommentary directive.
+	(url, cgi, main): Likewise.
+	(Concept Index): Delete node.
+
+	* doc/Makefile.am: Update copyright.
+	(BUILT_SOURCES): New automake directive.
+	(doc-index-prep): New target.
+	(guile-www.texi): New dependency.
+	(twerp2texi): New var.
+	(.twerp.texi): New pattern rule.
+	(EXTRA_DIST): New automake directive.
+
+	* Makefile.am: Update copyright.
+	[MAINTAINER_MODE]
+	(SUFFIXES): New automake directive.
+	(.scm.doc): New pattern rule.
+	(DOT_DOC_FILES): New var.
+	(.doc-index): New target.
+	(CLEANFILES): New automake directive.
+
+	* configure.in: Update copyright.
+	(AM_MAINTAINER_MODE): New macro call.
+
+2004-01-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc/guile-www.twerp: Rename from doc/guile-www.texi.
+
+2004-01-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* doc-snarf: New file.
+
+2004-01-11  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* cgi.scm: Update copyright.
+	Use "#:" in `define-module' form.
+	* http.scm: Likewise.
+	* https.scm: Likewise.
+	* main.scm: Likewise.
+	* url.scm: Likewise.
+
+2003-10-19  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:request): Always include `Host' in header.
+	Thanks to a bug report by Jose Roberto B. de A. Monteiro.
+
+2003-10-09  Thien-Thi Nguyen  <ttn@surf.glug.org>
+
+	* http.scm (http:message-status-ok?): Use `http:message-status-code'
+	instead of non-existent `http:status-code'.  Thanks to Kevin Ryde.
+
+2003-02-15  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* configure.in (VERSION): Bump to 1.1.1ttn5 for release.
+
+2003-02-15  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* http.scm (http:request): Fix bug: Change first arg to
+	`http:fetch-header' call to a symbol.  Thanks to Paul Emsley.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* configure.in (VERSION): Bump to 1.1.1ttn4 for release.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* Makefile.am (dist-hook): Also clear out CVS dirs from examples/ subdir.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* url.scm (safe-chars): Use `string->list' for conciseness; nfc.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* examples/wwwcat: Fix buglet: No longer assume
+	`program-arguments' non-#f is significant; make check
+	more fine-grained.  Thanks to Paul Emsley.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* http.scm (http:user-agent): Use "NAME/VERSION" format.
+	(http:get): Fix omission bug: Include `Host' header in `http:request' call.
+	Thanks to Paul Emsley for the bug report.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* http.scm (http:post-form): New public proc.
+	* doc/guile-www.texi: Mention http:post-form.
+
+2003-02-12  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* cgi.scm (init-environment): Handle ", " as well as ","
+	as HTTP_ACCEPT element separator.  Also, handle
+	SERVER_SOFTWARE that omits "/version" information.
+
+2002-04-26  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* configure.in: Update copyright.
+	Bump version to 1.1.1 for release.
+
+	* README: Update version.
+	Mention examples/ subdir.
+
+2002-04-26  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* cgi.scm: Update copyright.
+	Also use modules (ice-9 regex) and (ice-9 optargs).
+
+	(file-uploads, cookies): New vars.
+	(cgi:init): Handle "application/x-www-form-urlencoded".
+	Handle "multipart/form-data".
+	Handle cookies init.
+	(cgi:uploads, cgi:upload, cgi:cookies, cgi:cookie,
+	cgi:make-cookie): New procs, exported.
+	(parse-form-multipart): New proc.
+	(init-environment): Also set var `cgi-http-cookie'.
+	(get-cookies): New proc.
+
+	Thanks to Aaron VanDevender.
+
+	* http.scm: Update copyright.
+	(http:request): Use `format' instead of `string-append'.
+
+	* main.scm: Comment munging; nfc.
+
+	* url.scm: Update copyright.
+	(url:unparse): Use `format' instead of `string-append'.
+
+2002-04-11  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* examples/wwwcat, examples/cookie.cgi, examples/README:
+	New files (wwwcat moved from ..).
+
+2001-11-21  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* wwwcat: Fix typo.  Thanks to Ralf Mattes.
+
+2001-11-18  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* configure.in: Bump to version 1.0.1 for release.
+
+	* README, NEWS: Update.
+
+	* doc/guile-www.texi (direntry): Fix syntax error.
+	Thanks to Eric Gillespie, Jr.
+
+2001-11-17  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* configure.in: Bump version to 1.0 for release.
+
+	* wwwcat, cgi.scm, http.scm, main.scm, url.scm:
+	Update copyright.
+
+	* configure.in: Add copyright.
+
+	(AC_OUTPUT): Add doc/Makefile.
+
+	* AUTHORS, NEWS:
+	Initial revision.
+
+	* Makefile.am: Add copyright.
+
+	(AUTOMAKE_OPTIONS): Set to "gnu".
+	(SUBDIRS, EXTRA_DIST): New vars.
+	(dist-hook): New target.
+
+	* README: Rewrite.
+
+	* autogen.sh: Pass "--verbose" to automake.
+
+	* doc/guile-www.texi, doc/Makefile.am:
+	New file.
+
+2001-11-16  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* cgi.scm, http.scm, main.scm, url.scm:
+	Add commentary; nfc.
+
+	* COPYING: New file.
+
+	* .cvsignore (Makefile.in, aclocal.m4, configure):
+	Add.
+
+	* configure: bye bye
+
+2001-11-15  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* contrib/ssl-support.diff: New file.
+	Thanks to Eric Hanchrow.
+
+2001-02-04  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* http.scm: Use (ice-9 rdelim) if `read-line' not defined.
+	Thanks to Thien-Thi Nguyen.
+
+2000-06-04  Mikael Djurfeldt  <mdj@mdj.nada.kth.se>
+
+	* main.scm (www:get): Pass url as single arg.
+	(Thanks to Dale	P. Smith.)
+
+1998-07-27  Jim Blandy  <jimb@red-bean.com>
+
+        * Test of EGCS repository access.
+
+1997-12-24  Tim Pierce  <twp@skepsis.com>
+
+	* cgi.scm (init-environment): Make server-software and
+	server-protocol optional.
+
+1997-12-22  Tim Pierce  <twp@skepsis.com>
+
+	* cgi.scm (read-raw-form-data): Add `cgi-' to content-length.
+	(parse-form): Change `url-decode' to `url:decode'.
+
+Mon Oct 20 18:06:10 1997  Jim Blandy  <jimb@totoro.red-bean.com>
+
+	* configure.in: Update version to 1.0b.
+	configure: Regenerated.
+
+	* Makefile.in, aclocal.m4, configure: Regenerated w/automake 1.2c.
+
+	* url.scm (url:scheme, url:host, url:port, url:path): Move
+	accessors up.
+	(url:address): New accessor for "mailto:" URLs.
+	(url:unknown): New accessor for unrecognized URL types.
+	(url:user): New accessor for "ftp" URLs.
+	(url:make, url:make-http, url:make-ftp, url:make-mailto): New
+	constructors for URL objects.
+	(url-regexp): Replaced by...
+	(http-regexp, ftp-regexp, mailto-regexp): Separate regular
+	expressions for different URL schemes.
+	(url:parse): Use the above to handle ftp and mailto URLs, and also
+	do something graceful with unrecognized garbage.
+	(url:unparse): New function, for turning a parsed url into a
+	string.
+
+	* http.scm (add-open-connection!, get-open-connection): Incomplete
+ 	code replaced with dummy definitions, so we can give it to Mikael
+	immediately.
+	(http:request): Close the socket after we're done reading the
+	body.
+
+	* http.scm (http:request): Reformatted for readability.
+
+	* http.scm (http:request): Don't expect a body in reply to a
+	"HEAD" request, even though we do get a "content-length" header.
+
+Tue Jun 17 17:27:04 1997  Tim Pierce  <twpierce@bio-5.bsd.uchicago.edu>
+
+	* http.scm: (http:request): Force "/" onto the beginning of the
+	"path" variable unconditionally.  We must do this because of a
+	stupid incompatibility between the URL RFC and HTTP RFC.
+
+	* http.scm: (parse-status-line): New function.
+	(http:request): Use parse-status-line instead of
+	separate-fields-discarding-char (which does not work when a status
+	line contains more than two spaces).
+	(separate-fields-discarding-char): Removed.
+
+Tue Jun 17 01:45:59 1997  Tim Pierce  <twp@twp.tezcat.com>
+
+	* http.scm (http:request): Change calling conventions to accept a
+ 	method and a URL rather than a port and request string.  Do some
+	sanity checking on arguments.
+  	(http:get): Pass a single URL argument to http:request.
+	(http:open): Permit port argument to be #f in addition to '().
+	(display-with-crlf): Make port argument optional.
+	(add-open-connection!): Braino fix (set! for setq).
+
+	* Makefile: New file. (Oops.)
+
+Mon Jun 16 17:49:20 1997  Tim Pierce  <twpierce@bio-5.bsd.uchicago.edu>
+
+	Release preparations.
+	* Makefile.am, configure.in, install-sh, mkinstalldirs, missing:
+	New files.
+	* Makefile.in, configure, aclocal.m4: Generated, not re.
+	* README: New file.
+
+Sun Jun 15 00:50:22 1997  Tim Pierce  <twp@twp.tezcat.com>
+
+	* http.scm: add some support for persistent connections.
+	(http:connect): check get-open-connection before creating a new
+	socket, and call add-open-connection! after creating one.
+	(add-open-connection!): New function.
+	(get-open-connection): New function.
+
+Mon Jun  9 23:42:32 1997  Tim Pierce  <twp@twp.tezcat.com>
+
+	New WWW module.
+	* cgi.scm: New file.
+	* http.scm: New file.
+	* main.scm: New file.
+	* url.scm: New file.
+	* wwwcat: New file.
+
+
+Copyright (C) 2010 Thien-Thi Nguyen
+
+Copying and distribution of this file, with or without modification,
+are permitted provided the copyright notice and this notice are preserved.

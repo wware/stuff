@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+<title>modlisp - `Guile-WWW' Modules Reference</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="`Guile-WWW' Modules Reference">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="log.html#log" title="log">
+<link rel="next" href="http_002dstatus.html#http_002dstatus" title="http-status">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="modlisp"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="http_002dstatus.html#http_002dstatus">http-status</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="log.html#log">log</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">15 (www server-utils modlisp)</h2>
+
+<p>The <code>(www server-utils modlisp)</code> module provides <strong>experimental</strong>
+support for the implementing the Lisp side of the Apache mod_lisp protocol,
+in the form of a header-grokking protocol object for the big dishing loop,
+and a style elements object for the mouthpiece.  When these objects are
+specified, the headers are read from (written to) the Apache front end in
+the form:
+
+<pre class="example">     <var>name</var> #\lf <var>value</var> #\lf
+</pre>
+   <p class="noindent">with a lone &lsquo;<samp><span class="samp">end\n</span></samp>&rsquo; to separate the headers from the body. 
+Furthermore, on input, the headers must include <code>method</code>,
+<code>url</code> and <code>server-protocol</code>.  On output, the status
+information (always output first) has the form:
+
+<pre class="example">     "Status" #\lf <var>nnn</var> #\space <var>msg</var> #\lf
+</pre>
+   <p class="noindent">Note that this is in essense the same format as used for the headers,
+with <var>name</var> being &lsquo;<samp><span class="samp">Status</span></samp>&rsquo;
+and <var>value</var> being &lsquo;<samp><var>nnn</var> <var>msg</var></samp>&rsquo;.
+
+<div class="defun">
+&mdash; Object: <b>modlisp-hgrok</b><var><a name="index-modlisp_002dhgrok-107"></a></var><br>
+<blockquote><p>An object suitable for the value of <code>make-big-dishing-loop</code>
+keyword argument <code>#:style</code>. 
+See <a href="big_002ddishing_002dloop.html#big_002ddishing_002dloop">big-dishing-loop</a>. 
+</p></blockquote></div>
+
+<div class="defun">
+&mdash; Object: <b>modlisp-ish</b><var><a name="index-modlisp_002dish-108"></a></var><br>
+<blockquote><p>An object suitable as the optional <code>style</code> argument for both
+<code>string&lt;-headers</code> and <code>mouthpiece</code>. 
+See <a href="answer.html#answer">answer</a>. 
+</p></blockquote></div>
+
+   <p>Although these are separate objects, you should probably use or not use them
+in conjunction, lest the front-end (Apache) server become confused.
+
+<!--  -->
+   </body></html>
+
