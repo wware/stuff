@@ -1,0 +1,50 @@
+<project basedir="." default="build-debug-swf" name="MyProject">
+  <property file="build.properties" />
+  <property name="FLEX_HOME" value="${flex.sdk.home}"/>
+  <property name="output.path" value="${basedir}/bin"/>
+  <property name="flex.source" value="${basedir}/src"/>
+  <property name="flex.libs" value="${basedir}/lib"/>
+  <property name="flex.output.swf" value="${output.path}/main.swf"/>
+  <property name="flex.main" value="${flex.source}/Tryit.mxml"/>
+  <taskdef name="mxmlc" classname="flex.ant.MxmlcTask"
+           classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+  <target name="clean">
+    <delete dir="${output.path}"/>
+  </target>
+
+  <target name="browse" description="Run GUI in browser"
+	  depends="build-swf">
+    <exec dir="." executable="/usr/bin/x-www-browser" os="Linux">
+      <arg line="bin/main.swf"/>
+    </exec>
+  </target>
+
+  <target name="build-swf" description="Build swf">
+    <echo>${FLEX_HOME}</echo>
+    <mxmlc file="${flex.main}"
+	   output="${flex.output.swf}"
+	   keep-generated-actionscript="false"
+	   incremental="true"
+	   as3="true"
+	   optimize="true"
+           fork="${fork_fb}"
+	   maxmemory="512m"
+	   debug="false"
+	   locale="en_US"
+	   strict="true"
+           default-frame-rate="${framesPerSecond}">
+      <!-- Get default compiler options. -->
+      <load-config filename="${flex.sdk.home}/frameworks/flex-config.xml"/>
+      <!-- List of path elements that form the roots of
+	   ActionScript class hierarchies. -->
+      <compiler.source-path path-element="${flex.source}"/>
+      <compiler.source-path path-element="${flex.sdk.home}/frameworks"/>
+      <compiler.library-path dir="${FLEX_HOME}/frameworks" append="true">
+        <include name="libs" />
+        <include name="../bundles/{locale}" />
+      </compiler.library-path>
+    </mxmlc>
+  </target>
+
+</project>

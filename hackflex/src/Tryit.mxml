@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+		backgroundColor="#FFFFFF" viewSourceURL="srcview/index.html">
+
+  <!-- The big deal here is that when I type "ant build-swf", Ant doesn't give
+       an error message, and when I visit bin/main.swf with a web browser, I
+       see a functioning GUI. If you then try to click the button, it tries to
+       use a non-existent RPC server, so that fails gracefully. -->
+
+  <!-- This is from http://didonatotennis.com/amfphp/services/tutorial.mxml.
+       If you go to http://didonatotennis.com/amfphp/browser/, you can see two
+       working Amfphp examples that communicate with a PHP server on the
+       didonatotennis website. -->
+
+  <!-- Amfphp (http://amfphp.sourceforge.net/) is a free open-source PHP
+       implementation of the Action Message Format(AMF). AMF allows for binary
+       serialization of Action Script (AS2, AS3) native types and objects to
+       be sent to server side services. AMFPHP is challenged with implementing
+       the entire AMF protocol to be an alternative to Flex Data Services
+       (AMF3) and Flash Remoting (AMF0). AMFPHP allows thin client
+       applications built in languages such as Flash, Flex, and AIR to
+       communicate directly with PHP class objects on the server. PHP
+       developers can leverage their PHP experience in server side code
+       development by connecting to data sources such as web-services,
+       databases, and business applications and return that data to the
+       client. Client applications can also offload cpu intensive methods to
+       PHP services and wait for the result set for presentation to the user.
+       AMF allows for native data types and complex object mapping between the
+       client and the server. Enabling ActionScript and PHP developers to not
+       worry about type casting between the two languages. AMFPHP is a great
+       solution for simple data requests such as a datagrid population from a
+       database to complex RIA's that use Cairngorm, ARP, and other MVC
+       frameworks. AMFPHP is one of the fastest client server communication
+       protocols available to Flash Player developers because communication is
+       serialized into this binary format, which is generally more compact
+       than other representations, such as XML. In addition AMF3 available in
+       ActionScript 3 also compresses the binary communication for increased
+       performance. -->
+
+  <mx:RemoteObject id="myservice"
+		   fault="faultHandler(event)"
+		   showBusyCursor="true"
+		   source="tutorials.HelloWorld"
+		   destination="amfphp">
+    <mx:method name="sayHello"
+	       result="resultHandler(event)" />
+  </mx:RemoteObject>
+
+  <mx:Label x="10" y="10"
+	    text="Result:"/>
+  <mx:TextArea x="10" y="36" width="319" height="113"
+	       id="result_text"/>
+  <mx:Button x="250" y="157" width="79"
+	     label="sayHello"
+	     click="myservice.getOperation('sayHello').send();"/>
+  <mx:Button x="250" y="187"
+	     label="test fault"
+	     click="myservice.getOperation('foo').send(); "/>
+
+  <mx:Script>
+    <![CDATA[
+      import mx.managers.CursorManager;
+      import mx.rpc.events.ResultEvent;
+      import mx.rpc.events.FaultEvent;
+      private function faultHandler(fault:FaultEvent):void
+      {
+        CursorManager.removeBusyCursor();
+        result_text.text = "code:\n" + fault.fault.faultCode + "\n\n" +
+            "Message:\n" + fault.fault.faultString + "\n\n" +
+            "Detail:\n" + fault.fault.faultDetail;
+      }
+      private function resultHandler(evt:ResultEvent):void
+      {
+        result_text.text = evt.message.body.toString();
+      }
+    ]]>
+  </mx:Script>
+
+</mx:Application>
