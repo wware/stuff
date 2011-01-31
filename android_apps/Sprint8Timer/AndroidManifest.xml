@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	  package="net.willware.Sprint8Timer"
+	  android:versionCode="2"
+	  android:versionName="1.00">
+
+  <application android:label="@string/app_name"
+	       android:icon="@drawable/icon">
+
+    <activity android:name="Sprint8Timer"
+              android:screenOrientation="portrait"
+              android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+
+    <activity android:name="DurationPicker"
+              android:screenOrientation="portrait"
+              android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.intent.action.PICK" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </activity>
+
+    <activity android:name="com.admob.android.ads.AdMobActivity" 
+              android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+              android:configChanges="orientation|keyboard|keyboardHidden" />
+
+
+    <!-- The application's publisher ID assigned by AdMob -->
+    <meta-data android:value="a14d51a4728ae6d" android:name="ADMOB_PUBLISHER_ID" />
+    <!-- use a separate publisher id here to aid in tracking intersitial statistics -->
+    <meta-data android:value="a14d51a4728ae6d" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+
+    <meta-data android:value="true" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS" />
+
+  </application>
+
+  <uses-sdk android:minSdkVersion="3" />
+</manifest>

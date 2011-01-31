@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/background"
+		android:padding="10px"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:background="#004080">
+
+  <Button android:id="@+id/sprint"
+	  android:layout_width="fill_parent"
+	  android:layout_height="120px"
+	  android:textSize="25sp"
+	  android:text="SPRINT"/>
+
+  <TextView android:id="@+id/sprintnum"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_below="@+id/sprint"
+	    android:text="Warm up"
+	    android:textSize="60sp"/>
+
+  <TextView android:id="@+id/showtime"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_below="@+id/sprintnum"
+            android:gravity="center"
+	    android:text="00:00"
+	    android:textSize="120sp"/>
+
+  <!-- Place an AdMob ad at the bottom of the screen. -->
+  <!-- It has white text on a black background. -->
+  <!-- The description of the surrounding context is 'Android game'. -->
+  <com.admob.android.ads.AdView  
+     android:id="@+id/ad" 
+     android:visibility="gone"
+     android:layout_width="fill_parent" 
+     android:layout_height="wrap_content"
+     android:layout_alignParentBottom="true" />
+     
+  <!-- app:backgroundColor="#000000"
+     app:primaryTextColor="#FFFFFF"
+     app:secondaryTextColor="#CCCCCC"
+     app:keywords="exercise health fitness" -->
+
+</RelativeLayout>

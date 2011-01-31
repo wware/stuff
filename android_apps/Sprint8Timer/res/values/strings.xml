@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sprint 8 Timer</string>
+
+    <string name="app_descrip">This is a timer for doing <i>Sprint 8</i>
+      exercise workouts, alleged to build muscle and burn fat efficiently.
+      Talk to your doctor before beginning any exercise program. This app was
+      written by Will Ware and is under the Apache license. The web link below
+      points to more info on my blog.</string>
+
+    <string name="app_instrucs">How to do a Sprint 8 workout: Do a few minutes
+      of light warm-up exercise. Press the "Sprint" button to begin a sprint.
+      Exercise hard for 30 seconds, avoiding injury. Then move to an easier
+      pace for 90 to 120 seconds and catch your breath. Repeat the hard/easy
+      cycle eight times. To change sprint duration, go into
+      Menu-&gt;Settings.</string>
+
+    <string name="blog_ref">http://bit.ly/fj672Z</string>
+
+    <string name="eula_phone">The author of this app has made every effort to
+      follow best practices, but the user assumes any risk of the app trashing
+      the phone.</string>
+
+    <string name="eula_health">The user assumes responsibility for his or her
+      health. The app is provided for entertainment purposes only. The user
+      understands that any exercise program should be undertaken only under the
+      supervision of a doctor.</string>
+</resources>
