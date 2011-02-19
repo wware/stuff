@@ -1,0 +1,13 @@
+{
+  "name": "Temporary Favorites",
+  "version": "1.0",
+  "description": "Save a list of local favorites",
+  "browser_action": {
+    "default_icon": "icon.png",
+    //"popup": "addedUrlList.html"
+    "popup": "launchTempFaves.html"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}

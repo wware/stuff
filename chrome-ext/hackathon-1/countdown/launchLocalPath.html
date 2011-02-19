@@ -1,0 +1,48 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Copse'
+      rel='stylesheet' type='text/css'>
+  <style>
+    body { margin: 0; padding: 0; font-family: 'Copse', arial;}
+    #durationEntry { background: #fef; margin: 20px;
+                     padding: 10px 20px; border-radius: 8px;}
+    #durationEntry, #durationEntry input { text-align: right;
+                                           font-family: 'Copse', arial;}
+    #secsRemaining { text-align: center; font-size: 200pt; margin: 0;}
+    #unitsMessage { margin: 10pt; text-align: center; display: none;}
+  </style>
+  <script>
+    window.onload = function() {
+      document.getElementById("schedule").onclick =
+        function() {
+          var durationSecs =
+            parseInt(document.getElementById("durationSecs").value);
+          if (durationSecs && durationSecs > 0) {
+            chrome.extension.sendRequest(
+              {durationSecs: durationSecs});
+          }
+        };
+    };
+    chrome.extension.onRequest.addListener(
+      function(request, sender, sendResponse) {
+        document.getElementById("secsRemaining").innerHTML =
+          request.secsRemaining;
+        if (request.secsRemaining <= 0) {
+          document.getElementById("secsRemaining").innerHTML =
+            "Done";
+        }
+      }
+    );
+  </script>
+</head>
+<body>
+  <h1>Here's my little countdown app
+  </h1>
+  <section id="durationEntry">
+    Countdown Duration (secs):
+    <input id="durationSecs" size="5" value="60" />
+    <button id="schedule">start</button>
+  </section>
+  <div id="secsRemaining"></div>
+</body>
+</html>

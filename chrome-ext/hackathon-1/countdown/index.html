@@ -1,0 +1,349 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Chrome Web Store Tutorial: A Countdown App</title>
+  <style>
+    html { background: white; margin: 30px; padding: 30px; font-size: 1.4em; text-align: justify; font-family: sans-serif; line-height: 1.2em; }
+    header p  { font-style: italic; }
+    section { background: #ccddff; margin: 30px 0; padding: 20px; border-radius: 10px; }
+    section h1 { font-size: 1.2em; line-height: 1.2em; margin: 0.5em 0; }
+    td { vertical-align: top; padding: 5px; }
+    td.name { font-weight: bold; text-align: right; width: 1px; }
+    td.detail { padding: 10px default; }
+    a,a:visited { color: #00b; }
+    @media print {
+      html { width: 1280px; }
+      section { padding: 0; border-radius: 0; }
+    }
+    pre { margin-top: -1em; }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Chrome Web Store Tutorial: A Countdown App</h1>
+    <p>Jan Kleinert<br/>
+       Chrome Developer Relations, Google<br/>
+       Email: <a href="mailto:jkleinert@google.com">jkleinert@google.com</a><br/>
+       Twitter: <a href="http://twitter.com/jankleinert">@jankleinert</a>
+    </p>
+  </header>
+
+  <section>
+
+    <header>
+      <h1>Introduction</h1>
+    </header>
+
+    <p><em>This tutorial and its components can be downloaded from <a href="http://goo.gl/Tqkwd">http://goo.gl/Tqkwd</a>.</em></p>
+
+    <p>
+      In this tutorial, we'll build a simple countdown app, with opportunities
+      for you to expand it afterwards. You'll learn about creating, testing,
+      and publishing Chrome apps. This is a packaged app (as opposed to a hosted app),
+      so it has sufficient privileges to perform extension behavior, and we'll be
+      making use of that.
+    </p>
+
+    <p>
+      You can install the finished app in Chrome. Download and install
+      countdown2.crx from <a
+      href="http://goo.gl/Tqkwd">http://goo.gl/Tqkwd</a>. It's a
+      countdown timer. The app itself lets you kick off the countdown and shows
+      a "big screen" rendering of the number of seconds remaining. The app will also
+      issue an HTML5 notification when the countdown is complete.
+    </p>
+
+  </section>
+
+  <section>
+
+    <header>
+      <h1>Up and Running: A Raw User Interface</h1>
+    </header>
+
+      <p>Starting with the visible portions of the app is a good way to get up and running, and give us confidence in the build-deploy-test cycle. <strong>To begin, create a new directory, "countdown", and add the following manifest file, <tt>manifest.json</tt></strong>:</p>
+
+<pre><code>
+{
+  "name": "Countdown",
+  "version": "1.0",
+  "app": {
+    "launch": {
+      "local_path": "launchLocalPath.html"
+    }
+  }
+}
+</code></pre>
+
+      <p>This manifest specifies the app's UI, contained in launchLocalPath.html.</p>
+
+      <p><strong>Create an HTML file, launchLocalPath.html with a dummy "Hello World" test message. Now visit <a href="chrome://extensions">chrome://extensions</a>, make sure Developer mode is showing, and click "Load unpacked extension". Select the "countdown" directory to add your app.</strong> You don't have icons yet, but try it now - open a new tab to open the app and you should see your "Hello World" message. Your app's up and running!</strong>
+
+  </section>
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Add the Icons</h3>
+    </header>
+
+      <p>We've created a package containing all the icons you need for this project in countdown.zip at <a href="http://goo.gl/Tqkwd">http://goo.gl/Tqkwd</a>. <strong>Download and unzip the icon package to a temporary directory, and copy the images (*.png) into your "countdown" directory. Then specify the icons in your manifest file, as shown below (we'll add some other things we need for later too):</strong></p>
+
+<pre><code>
+{
+  "name": "Countdown",
+  "version": "1.0",
+  "description": "A countdown app",
+  "icons": {
+    "16": "countdown16.png",
+    "128": "countdown128.png"
+  },
+  "permissions": [
+    "tabs", "notifications"
+  ],
+  "background_page": "background.html",
+  "app": {
+    "launch": {
+      "local_path": "launchLocalPath.html"
+    }
+  }
+}
+</code></pre>
+
+For now, create an empty HTML file named background.html. In the next section, we'll add some content to it. In <a href="chrome://extensions">chrome://extensions</a>, click on the Reload link where your app appears.</strong> You should now see an hourglass icon on the New Tab page. Your app just got more appy.</p>
+
+  </section>
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Send input to Background Page</h3>
+    </header>
+
+      <p>The app UI is the logical place for the user to kick off a new countdown, so <strong>create an input control in launchLocalPath.html</strong>:</p>
+
+<pre><code>
+  &lt;section id="durationEntry"&gt;
+    Countdown Duration (secs): &lt;input id="durationSecs" size="5" value="60" /&gt;
+    &lt;button id="schedule"&gt;start&lt;/button&gt;
+  &lt;/section&gt;
+</code></pre>
+
+  When the user hits the start button, the countdown begins. We could code the timing logic here if this were a standalone app, but in fact, we are taking advantage of Chrome's extension features, so that there are several components that need to stay in sync. For that reason, we're going to delegate the timing logic to the background page, so the user's input must be sent there. <strong>Still in launchLocalPath, make the button trigger a broadcast of the input details:</strong>
+
+<pre><code>
+  &lt;script&gt;
+  window.onload = function() {
+    document.getElementById("schedule").onclick = function() {
+      var durationSecs=parseInt(document.getElementById("durationSecs").value);
+      if (durationSecs && durationSecs>0) 
+        chrome.extension.sendRequest({durationSecs: durationSecs});
+    };
+  };
+  &lt;/script&gt;
+</code></pre>
+
+  To check this is being received, <strong>open background.html and code up an event receiver</strong>:
+<pre><code>
+  &lt;script&gt;
+    chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+      console.log("background received", arguments);
+    });
+  &lt;/script&gt;
+</code></pre>
+
+  <p>Note we've already declared the background page in our manifest file. <strong>In <a href="chrome://extensions">chrome://extensions</a>, reload your app and click on background.html, which will open up the background page's console page.</strong> When you open the app and submit a countdown value, the background page's console should show the log message. You can expand the first argument to see what was sent...hopefully the value you submitted.</p>
+
+  </section>
+
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Count It Down</h3>
+    </header>
+
+      <p>Now we'll get background to broadcast a message every second while the countdown is taking place. This is using the same message-passing API as we've used above, and we'll verify the app UI is receiving those messages. <strong>Replace the previous background.html with the following countdown procedure:</strong></p>
+
+<code><pre>
+  &lt;script&gt;
+    var timer;
+    chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+      clearTimeout(timer);
+      var endDate = +new Date + 1000*request.durationSecs;
+      (function() {
+        var remainingMillis = endDate-new Date;
+        chrome.extension.sendRequest({secsRemaining: Math.round(remainingMillis/1000)});
+        if (remainingMillis &gt; 0) timer = setTimeout(arguments.callee, 1000);
+      })();
+    });
+  &lt;/script&gt;
+</pre></code>
+
+  <p>The anonymous inner function will send a message (<tt>sendRequest</tt>) approximately once a second, until the timer is complete. To check it's being received, arrange for your app UI to show the countdown. To the existing launchLocalPath.html script, <strong>add the following message receiver</strong>:</p>
+
+<pre><code>
+  chrome.extension.onRequest.addListener(
+    function(request, sender, sendResponse) {
+      console.log("launcher received", arguments);
+    }
+  );
+</pre></code>
+
+  <p>Open the app UI's console (Tools | Developer Tools in the Spanner Menu while the app tab is active), submit a duration, and verify the log message is shown once a second. Again, you can expand the first argument to see number of seconds remaining.</p>
+
+  <p>We have now set up one kind of message flowing from the launcher to the background page, and another flowing from the background page to the launcher. Note that message receivers don't receive messages sent from the same context, so we don't have to worry about handling those messages.</p>
+  
+</code></pre>
+
+  </section>
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Improve the App UI</h3>
+    </header>
+
+
+      <p>Our countdown app is almost functional. We just need to get launchLocalPath.html to show it, so <strong>create a placeholder following the input area</strong>:</p>
+
+<pre><code>
+  &lt;div id="secsRemaining"&gt;&lt;/div&gt;
+</code></pre>
+
+      <p><strong>And replace the previous message receiver script with the following:</strong></p>
+
+<pre><code>
+  chrome.extension.onRequest.addListener(
+    function(request, sender, sendResponse) {
+      document.getElementById("secsRemaining").innerHTML = request.secsRemaining;
+      if (request.secsRemaining&lt;=0) {
+        document.getElementById("secsRemaining").innerHTML = "Done";
+      }
+    }
+  );
+</code></pre>
+
+      <p>And after reloading, you should now see the countdown happening! Apps should look pretty too, so we should at least consider some styling here. <strong>Add the following to the HTML file.</strong></p>
+
+<pre><code>
+  &lt;link href='http://fonts.googleapis.com/css?family=Copse' rel='stylesheet' type='text/css'&gt;
+  &lt;style&gt;
+    body { margin: 0; padding: 0; font-family: 'Copse', arial;}
+    #durationEntry { background: #fef; margin: 20px; padding: 10px 20px; border-radius: 8px;}
+    #durationEntry, #durationEntry input { text-align: right; font-family: 'Copse', arial;}
+    #secsRemaining { text-align: center; font-size: 200pt; margin: 0;}
+    #unitsMessage { margin: 10pt; text-align: center; display: none;}
+  &lt;/style&gt;
+</code></pre>
+
+  </section>
+
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Add Popup Notifictions</h3>
+    </header>
+
+
+      <p>We now have a working countdown app, but we could have done that in a single file. The reason we did all that message passing was to centralise countdown logic in the background page, where it can affect several components at once. First, we'll add an HTML5 popup notification. <strong>Refactor the countdown logic in background.html to show a notification when the countdown is complete</strong>:</p>
+
+<pre><code>
+    if (remainingMillis > 0) {
+      timer = setTimeout(arguments.callee, 1000);
+    } else {
+      window.webkitNotifications.createNotification
+        ("countdown128.png","Countdown App", "Countdown has completed").show();
+    }
+</code></pre>
+
+    <p>Now run the countdown and watch the notification popup. There are a few cool things about notifications. First, it's a one-liner, and we like those. There would be a couple of checks to do if this were a regular web app, but in this case we can assume the feature is present, because this is Chrome, and we can also assume notifications are enabled, because we specified that in the manifest. Second, notifications work when the app tab isn't active...in fact, they still show up when the user is in another application. Third, because this happens from the background page, which is always running, there's no requirement for the user to keep the app (or anything else) open - as long as the browser is running, the notification will show. Again, this is different to a regular website, which must be active in order to trigger notifications.</p>
+
+  <p>And we're done! Unless you decide we're not actually done ...</p>
+
+  </section>
+
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Extending the Example</h3>
+    </header>
+
+      <p>Having built this working example, you're now encouraged to bend and twist it how you see fit. Look at <a href="http://html5rocks.com">HTML5Rocks.com</a> for some inspiration on what's possible with web apps, and browse the Chrome extensions docs (<a href="http://code.google.com/chrome/extensions/overview.html">http://code.google.com/chrome/extensions/overview.html</a>) for some ideas on what's possible with Chrome extension functionality. Here are a few suggestions:</p>
+
+        <table>
+          <tr>
+            <td class="name">Time output</td>
+            <td class="detail">Show days/hours/minutes/seconds, rather than just seconds.</td>
+          </tr>
+          <tr>
+            <td class="name">Time input</td>
+            <td class="detail">Accept time in a variety of formats, perhaps using DateJS (<a href="http://www.datejs.com/">http://www.datejs.com</a>).</td>
+          </tr>
+          <tr>
+            <td class="name">Show&nbsp;Duration</td>
+            <td class="detail">You may have noticed that the app "forgets" the original duration set by the user. You could retain this value and show it in the various user interfaces.</td>
+          </tr>
+          <tr>
+            <td class="name">Idle Detection</td>
+            <td class="detail">Only count down if the user is active, making use of <a href="http://code.google.com/chrome/extensions/idle.htmlhttp://code.google.com/chrome/extensions/idle.html">idle detection</a>.</td>
+          </tr>
+          <tr>
+            <td class="name">Page&nbsp;Interaction</td>
+            <td class="detail">Introduce a <a href="http://code.google.com/chrome/extensions/content_scripts.html">content script</a> to shake or clear the page being viewed when the countdown completes. Bonus marks if you use <a href="http://box2d-js.sourceforge.net/">a physics engine</a> for effect :).</td>
+          </tr>
+          <tr>
+            <td class="name">Multiple&nbsp;Counters</td>
+            <td class="detail">Support multiple counters, counting down simultaneously. Showing them all at once would be a good use case for the app interface.</td>
+          </tr>
+          <tr>
+            <td class="name">Recent&nbsp;Counters</td>
+            <td class="detail">Many apps have a "favorite" or "recent" feature to help personalize the app.</td>
+          </tr>
+          <tr>
+            <td class="name">Graphics</td>
+            <td class="detail">Use a Canvas element to show an hourglass or similar item counting down.</td>
+          </tr>
+          <tr>
+            <td class="name">Audio&nbsp;Notification</td>
+            <td class="detail">Use an Audio element to alert the user when the countdown is complete.</td>
+          </tr>
+          <tr>
+            <td class="name">Hosted&nbsp;Version</td>
+            <td class="detail">Experiment with a hosted version of the app.</td>
+          </tr>
+        </table>
+
+  </section>
+
+<!-- *********************************************************************** -->
+
+  <section>
+
+    <header>
+      <h3>Publishing Your App in the Chrome Web Store</h3>
+    </header>
+
+      <p>Once you've finished your amazing app, why not share it with the world? You can follow the steps in <a href="http://code.google.com/chrome/webstore/docs/get_started_simple.html">this tutorial</a> to publish your app in the Chrome Web Store.</p>
+
+  </section>
+
+</body>
+</html>

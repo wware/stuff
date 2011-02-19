@@ -1,0 +1,26 @@
+<html>
+<head>
+<script>
+  var timer;
+  chrome.extension.onRequest.addListener(
+    function(request, sender, sendResponse) {
+      clearTimeout(timer);
+      var endDate = + new Date + 1000*request.durationSecs;
+      (function() {
+         var remainingMillis = endDate - new Date;
+         chrome.extension.sendRequest(
+           {secsRemaining:
+             Math.round(remainingMillis/1000)});
+         if (remainingMillis > 0) {
+           timer = setTimeout(arguments.callee, 1000);
+         } else {
+           window.webkitNotifications.createNotification(
+             "countdown128.png",
+             "Countdown App",
+             "Countdown has completed").show();
+         }
+      })();
+    });
+</script>
+</head>
+</html>

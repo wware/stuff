@@ -1,0 +1,58 @@
+<html>
+<head>
+<style>
+body {
+  min-width:357px;
+  overflow-x:hidden;
+}
+</style>
+<title>launchTempFaves.html</title>
+</head>
+<body>
+  Add current url?
+  <button id="saveButton">Yes</button>
+  <button id="clearButton">ClearList</button>
+  <hr>
+  <div id="urlListDiv">URLs go here</div>
+
+<script>
+var ourKey = "our-key";
+
+updateUrls();
+
+saveButton.addEventListener('click', function () {
+  chrome.tabs.getSelected(null, function (tab) {
+    var urlList = JSON.parse(window.localStorage.getItem(ourKey));
+    if (urlList === null) {
+      urlList = [ ];
+    }
+    urlList.push(tab.url);
+    window.localStorage.setItem(ourKey, JSON.stringify(urlList));
+    updateUrls();
+  });
+}, false);
+
+clearButton.addEventListener('click', function () {
+  window.localStorage.removeItem(ourKey);
+  updateUrls();
+}, false);
+
+function updateUrls() {
+  var i;
+  var urlList = JSON.parse(window.localStorage.getItem(ourKey));
+  if (urlList === null) {
+    urlListDiv.innerHTML = "";
+    return;
+  }
+  var str = "<ul>";
+  for (i in urlList) {
+    var url = urlList[i];
+    str += "<li>" + url;
+  }
+  str += "</ul>";
+  urlListDiv.innerHTML = str;
+}
+
+</script>
+</body>
+</html>
