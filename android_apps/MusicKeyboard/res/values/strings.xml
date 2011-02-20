@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Music Keyboard</string>
+
+    <string name="app_descrip">This will eventually be a music keyboard.</string>
+
+    <string name="app_instrucs">
+      Push buttons to play tones. This is very much a work in progress right now.
+    </string>
+
+</resources>
