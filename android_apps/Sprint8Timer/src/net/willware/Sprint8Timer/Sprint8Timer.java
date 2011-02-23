@@ -19,8 +19,6 @@ import android.net.Uri;
 import android.media.MediaPlayer;
 import android.media.AudioManager;
 
-import com.admob.android.ads.AdManager;
-
 public class Sprint8Timer extends Activity implements Runnable
 {
     private Button sprintButton;
@@ -36,10 +34,6 @@ public class Sprint8Timer extends Activity implements Runnable
 
     public static final int DEFAULT_DURATION = 30;
     private static volatile int sprintDuration = DEFAULT_DURATION;
-
-    public Sprint8Timer() {
-        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR });
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)

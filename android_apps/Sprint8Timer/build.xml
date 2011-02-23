@@ -41,10 +41,6 @@
         <pathelement path="${sdk.dir}/tools/lib/androidprefs.jar" />
     </path>
 
-    <path id="admob">
-        <pathelement path="./libs/admob-sdk-android.jar" />
-    </path>
-
     <taskdef name="setup"
         classname="com.android.ant.SetupTask"
         classpathref="android.antlibs" />

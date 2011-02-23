@@ -27,19 +27,4 @@
 	    android:text="00:00"
 	    android:textSize="120sp"/>
 
-  <!-- Place an AdMob ad at the bottom of the screen. -->
-  <!-- It has white text on a black background. -->
-  <!-- The description of the surrounding context is 'Android game'. -->
-  <com.admob.android.ads.AdView  
-     android:id="@+id/ad" 
-     android:visibility="gone"
-     android:layout_width="fill_parent" 
-     android:layout_height="wrap_content"
-     android:layout_alignParentBottom="true" />
-     
-  <!-- app:backgroundColor="#000000"
-     app:primaryTextColor="#FFFFFF"
-     app:secondaryTextColor="#CCCCCC"
-     app:keywords="exercise health fitness" -->
-
 </RelativeLayout>
