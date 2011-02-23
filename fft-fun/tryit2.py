@@ -9,9 +9,9 @@ import random
 # arithmetic.
 
 def assertVectorsNearlyEqual(x, y):
-    z = reduce(lambda u, v: u + v, x - y)
-    if z * z.conjugate() > 1.0e-20:
-        assert False
+    z = x - y
+    z = numpy.dot(z, z)
+    assert (z * z.conjugate()).real < 1.e-20
 
 def assertMatricesNearlyEqual(X, Y):
     for x, y in map(None, X, Y):
