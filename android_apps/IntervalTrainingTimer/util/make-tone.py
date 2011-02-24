@@ -1,13 +1,13 @@
 import wave
 from math import pi, sin, exp, log
 
-T = 1.5
+T = 3
 ATTACK = 0.05
-DECAY = 0.25
-FREQUENCY = 350
+DECAY = 0.5
+FREQUENCY = 1046.5  # C two octaves above middle C
 
 if 1:
-    SAMPFREQ = 2000
+    SAMPFREQ = 16000
     NCHANNELS = 1
     NBYTES = 1
 else:

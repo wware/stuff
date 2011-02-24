@@ -32,14 +32,6 @@
        />
 
     <TextView
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:paddingTop="10dip"
-       android:textSize="16sp"
-       android:text="@+string/app_instrucs"
-       />
-
-    <TextView
        android:id="@+id/blog_ref"
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
@@ -47,6 +39,14 @@
        android:textSize="16sp"
        android:text="@+string/blog_ref"
        android:autoLink="web" />
+
+    <TextView
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:paddingTop="10dip"
+       android:textSize="16sp"
+       android:text="@+string/app_instrucs"
+       />
 
   </LinearLayout>
 </ScrollView>

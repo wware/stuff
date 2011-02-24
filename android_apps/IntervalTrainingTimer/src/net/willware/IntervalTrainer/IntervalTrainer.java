@@ -1,11 +1,11 @@
-package net.willware.Sprint8Timer;
+package net.willware.IntervalTrainer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
@@ -19,43 +19,65 @@ import android.net.Uri;
 import android.media.MediaPlayer;
 import android.media.AudioManager;
 
-import com.admob.android.ads.AdManager;
-
-public class Sprint8Timer extends Activity implements Runnable
+public class IntervalTrainer extends Activity implements Runnable
 {
-    private Button sprintButton;
+    private Button startButton;
+    private Button resetButton;
     private TextView sprintNum;
     private TextView sprintTime;
     private long startTime;
     private int sprintIndex;
     private int sprintState;
     private Handler mHandler = new Handler();
-    private RelativeLayout background;
+    private LinearLayout background;
+    private final IntervalTrainer myself = this;
 
     static final int PICK_DURATION_REQUEST = 0;
 
-    public static final int DEFAULT_DURATION = 30;
-    private static volatile int sprintDuration = DEFAULT_DURATION;
+    public static final int DEFAULT_SPRINT_DURATION = 30;
+    private static volatile int sprintDuration = DEFAULT_SPRINT_DURATION;
 
-    public Sprint8Timer() {
-        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR });
-    }
+    public static final int DEFAULT_REST_DURATION = 90;
+    private static volatile int restDuration = DEFAULT_REST_DURATION;
+
+    public static final int DEFAULT_NUM_SPRINTS = 8;
+    private static volatile int numSprints = DEFAULT_NUM_SPRINTS;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        sprintButton = (Button)findViewById(R.id.sprint);
-        sprintButton.setOnClickListener(sprintButtonListener);
+
+        startButton = (Button)findViewById(R.id.start);
+        startButton.setOnClickListener(buttonListener);
+        resetButton = (Button)findViewById(R.id.reset);
+        resetButton.setOnClickListener(buttonListener);
+
         sprintNum = (TextView)findViewById(R.id.sprintnum);
         sprintTime = (TextView)findViewById(R.id.showtime);
-        background = (RelativeLayout)findViewById(R.id.background);
+        background = (LinearLayout)findViewById(R.id.background);
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        sprintDuration = settings.getInt("sprintDuration", DEFAULT_DURATION);
+        sprintDuration =
+            settings.getInt("sprintDuration", DEFAULT_SPRINT_DURATION);
+        restDuration =
+            settings.getInt("restDuration", DEFAULT_REST_DURATION);
+        numSprints =
+            settings.getInt("numSprints", DEFAULT_NUM_SPRINTS);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         resetSprint();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHandler.removeCallbacks(this);
     }
 
     @Override
@@ -64,8 +86,9 @@ public class Sprint8Timer extends Activity implements Runnable
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("sprintDuration", sprintDuration);
+        editor.putInt("restDuration", restDuration);
+        editor.putInt("numSprints", numSprints);
         editor.commit();
-        mHandler.removeCallbacks(this);
     }
 
     @Override
@@ -82,7 +105,9 @@ public class Sprint8Timer extends Activity implements Runnable
             case R.id.settings_menu_item:
                 intent = new Intent(this,
                                     DurationPicker.class);
-                intent.putExtra("duration", sprintDuration);
+                intent.putExtra("sprintDuration", sprintDuration);
+                intent.putExtra("restDuration", restDuration);
+                intent.putExtra("numSprints", numSprints);
                 startActivityForResult(intent, PICK_DURATION_REQUEST);
                 return true;
             case R.id.eula_menu_item:
@@ -127,19 +152,21 @@ public class Sprint8Timer extends Activity implements Runnable
                                     Intent data) {
         if (requestCode == PICK_DURATION_REQUEST) {
             if (resultCode == RESULT_OK) {
-                sprintDuration = data.getExtras().getInt("duration");
+                sprintDuration = data.getExtras().getInt("sprintDuration");
+                restDuration = data.getExtras().getInt("restDuration");
+                numSprints = data.getExtras().getInt("numSprints");
             }
         }
     }
 
-    private OnClickListener sprintButtonListener = new OnClickListener() {
+    private OnClickListener buttonListener = new OnClickListener() {
             public void onClick(View v) {
-                sprintIndex++;
-                if (sprintIndex <= 8)
+                if (v == startButton) {
                     sprintState = 1;
-                else
-                    sprintState = 3;
-                startTimer();
+                    startTimer();
+                } else if (v == resetButton) {
+                    resetSprint();
+                }
             }
         };
 
@@ -152,52 +179,84 @@ public class Sprint8Timer extends Activity implements Runnable
     private void resetSprint() {
         sprintIndex = 0;
         sprintState = 0;   // before first sprint
-        sprintNum.setText("Warm up");
+        sprintNum.setText("Ready");
         sprintTime.setText("00:00");
+        mHandler.removeCallbacks(myself);
         background.setBackgroundResource(R.color.restColor);
-        startTimer();
+    }
+
+    private void playTone() {
+        new Thread() {
+            public void run() {
+                MediaPlayer mp = MediaPlayer.create(myself, R.raw.tone);
+                mp.start();
+            }
+        }.start();
     }
 
     public void run() {
         mHandler.postDelayed(this, 1000);
-        final String message;
+        String message = "Ready";
         int bgcolor = R.color.restColor;
         int diff =
             ((int) (System.currentTimeMillis() - startTime)) / 1000;
         switch (sprintState) {
             case 0:
-                message = "Warm up";
+                message = "Ready";
+                bgcolor = R.color.restColor;
                 break;
             case 1:
-                if (diff >= sprintDuration) {
-                    // a sprint is ending, play a tone, restart the timer
-                    final Activity myself = this;
+                message = "Warm up";
+                bgcolor = R.color.restColor;
+                if (diff >= restDuration) {
+                    // the first sprint is beginning
+                    sprintIndex++;
+                    playTone();
                     startTime = System.currentTimeMillis();
-                    new Thread() {
-                        public void run() {
-                            MediaPlayer mp =
-                                MediaPlayer.create(myself, R.raw.tone);
-                            mp.start();
-                        }
-                    }.start();
-                    if (sprintIndex >= 8) {
-                        message = "Cool down";
-                        sprintState = 3;
-                    } else {
-                        message = "Rest %d";
-                        sprintState = 2;
-                    }
-                    diff = 0;
-                } else {
+                    sprintState = 2;
                     message = "Sprint %d";
                     bgcolor = R.color.sprintColor;
                 }
                 break;
             case 2:
-                message = "Rest %d";
+                message = "Sprint %d";
+                bgcolor = R.color.sprintColor;
+                if (diff >= sprintDuration) {
+                    // a sprint is ending, play a tone, restart the timer
+                    startTime = System.currentTimeMillis();
+                    diff = 0;
+                    playTone();
+                    if (sprintIndex >= numSprints) {
+                        message = "Cool down";
+                    } else {
+                        message = "Rest %d";
+                    }
+                    sprintState = 3;
+                    bgcolor = R.color.restColor;
+                }
                 break;
-            default:
-                message = "Cool down";
+            case 3:
+                if (sprintIndex < numSprints)
+                    message = "Rest %d";
+                else
+                    message = "Cool down";
+                bgcolor = R.color.restColor;
+                if (diff >= restDuration) {
+                    // a sprint is beginning, or we've finished cooldown
+                    startTime = System.currentTimeMillis();
+                    diff = 0;
+                    playTone();
+                    sprintIndex++;
+                    if (sprintIndex <= numSprints) {
+                        sprintState = 2;
+                        message = "Sprint %d";
+                        bgcolor = R.color.sprintColor;
+                    } else {
+                        message = "Done";
+                        bgcolor = R.color.restColor;
+                        mHandler.removeCallbacks(myself);
+                    }
+                }
                 break;
         }
         background.setBackgroundResource(bgcolor);

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+	      android:id="@+id/background"
+	      android:padding="10px"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:background="#004080">
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+    <Button android:id="@+id/start"
+	    android:layout_width="150px"
+	    android:layout_height="120px"
+	    android:textSize="25sp"
+	    android:text="Start"/>
+
+    <Button android:id="@+id/reset"
+	    android:layout_width="150px"
+	    android:layout_height="120px"
+	    android:textSize="25sp"
+	    android:text="Reset"/>
+
+  </LinearLayout>
+
+  <TextView android:id="@+id/sprintnum"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_below="@+id/sprint"
+	    android:text="Warm up"
+	    android:textSize="60sp"/>
+
+  <TextView android:id="@+id/showtime"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:layout_below="@+id/sprintnum"
+            android:gravity="center"
+	    android:text="00:00"
+	    android:textSize="120sp"/>
+
+</LinearLayout>

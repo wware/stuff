@@ -1,7 +1,6 @@
 Remaining TODO items
 
-- Make sure the AdView works right, check library path, but I think the issue is with
-  the fact that I'm not yet in the market.
+- Use Mobclix for advertising.
 
 Some URLs:
 
@@ -15,17 +14,18 @@ You don't need Eclipse to do all this stuff::
  
  # Create a Hello-World skeleton for an Android app.
  # Choose target from options shown by "android list targets".
- android create project --name Sprint8Timer --target 5 --path ./Sprint8Timer \
-   --package net.willware.Sprint8Timer --activity Sprint8Timer
- cd Sprint8Timer/
+ export APPNAME=IntervalTrainer
+ android create project --name ${APPNAME} --target 5 --path ./${APPNAME} \
+   --package net.willware.${APPNAME} --activity ${APPNAME}
+ cd ${APPNAME}/
  ant debug         # build a debug version of the app
 
 Next I used the GUI presented by the "android" tool to create an emulator and named it
-"HTC-Droid-Incredible". Now I can run the code, but I need to be in the Sprint8Timer
+"HTC-Droid-Incredible". Now I can run the code, but I need to be in the app's
 directory to do it::
 
  emulator -avd HTC-Droid-Incredible    # Run the emulator
- adb -s emulator-5554 install bin/Sprint8Timer-debug.apk   # run my app in the emulator
+ adb -s emulator-5554 install bin/${APPNAME}-debug.apk   # run my app in the emulator
 
 Signing the app is a big deal for getting into the market. Here's some stuff about
 dealing with keys, certificates, signatures, etc.
