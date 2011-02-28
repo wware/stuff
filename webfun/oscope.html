@@ -1,0 +1,59 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<!--meta http-equiv="refresh" content="2"-->
+<title>Oscilloscope display in HTML5</title>
+<script type="text/javascript">
+var sURL = unescape(window.location.pathname);
+var f1 = 3;
+var f2 = 5;
+function signal1(x) {
+    return Math.sin(2 * Math.PI * f1 * x / 300);
+}
+function signal2(x) {
+    return Math.sin(2 * Math.PI * f2 * x / 300);
+}
+function refresh()
+{
+    window.location.href = sURL;
+}
+function scopeDisplay() {
+    f1 += 0.1 * (2 * Math.random() - 1);
+    f2 += 0.1 * (2 * Math.random() - 1);
+    var myCanvas = document.getElementById("myCanvas");
+    var context = myCanvas.getContext("2d");
+    context.clearRect(0, 0, 300, 300);
+
+    context.strokeStyle = "#FF0000";
+    context.beginPath();
+    var value = signal1(0);
+    context.moveTo(0, 150 * (1 - value));
+    for (var i = 1; i < 300; i++) {
+        value = signal1(i);
+        context.lineTo(i, 150 * (1 - value));
+    }
+    context.stroke();
+
+    context.strokeStyle = "#00FF00";
+    context.beginPath();
+    var value = signal2(0);
+    context.moveTo(0, 150 * (1 - value));
+    for (var i = 1; i < 300; i++) {
+        value = signal2(i);
+        context.lineTo(i, 150 * (1 - value));
+    }
+    context.stroke();
+    setTimeout("scopeDisplay()", 100);
+}
+</script>
+</head>
+<body onload="scopeDisplay();">
+<h1>Oscilloscope display in HTML5</h1>
+<div id="blurb">
+<p>
+Canvas tag oscilloscope display, hoping it will be useful for using an Android
+phone as a scope display, with the acquisition gadgetry connected via Bluetooth.
+</p>
+</div>
+<p>
+<canvas id="myCanvas" height="300" width="300" style="border: 2px solid ; margin: 30px;"/>
+</body></html>
