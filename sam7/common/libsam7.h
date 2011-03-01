@@ -3042,4 +3042,24 @@ static inline void AT91F_AIC_CfgPIO (void)
                         ((unsigned int) AT91C_PA19_FIQ     )); // Peripheral B
 }
 
+/*
+ * grep '^[a-z]' libsam7.c | grep -v static | grep -v extern | sed 's/$/;/' | sed 's/^/extern /'
+ */
+
+typedef void (*voidfunc)(void);
+
+extern void LowLevelInit(void);
+extern void set_up_interrupts(voidfunc spurious_handler, voidfunc irq_handler, voidfunc fiq_handler);
+extern void usb_init(void);
+extern void led_init(void);
+extern void morse_code_hex(unsigned char digits, int number);
+extern void blink_number(unsigned char x, int y);
+extern void advance_leds(void);
+extern void uart0_init(int baud_rate);
+extern int uart0_txready(void) ;
+extern void uart0_putc(int ch) ;
+extern void uart0_puts (char* s);
+extern int uart0_kbhit(void);
+extern int uart0_getc(void);
+
 #endif // libsam7_h_included

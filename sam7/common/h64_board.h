@@ -7,16 +7,16 @@
 * fitness for any particular purpose, or against the infringements of
 * intellectual property rights of others.
 *----------------------------------------------------------------------------
-* File Name           : board.h
+* File Name           : h64_board.h
 * Object              : AT91SAM7S Evaluation Board Features Definition File.
 *
 * Creation            : JPP   16/Jun/2004
 *----------------------------------------------------------------------------
 */
-#ifndef board_h_included
-#define board_h_included
+#ifndef h64_board_h_included
+#define h64_board_h_included
 
-#include "AT91SAM7S256.h"
+#include "AT91SAM7S64.h"
 #include "libsam7.h"
 
 #define true	1
@@ -41,23 +41,11 @@
 #define USB_DM_PUP   (1<<8)
 
 /*-----------------*/
-/* Leds Definition */
+/* Led Definition  */
 /*-----------------*/
-/*                                 PIO   Flash    PA    PB   PIN */
-#define LED1            (1<<18)
-#define LED2            (1<<17)
-
+#define LED1            AT91C_PIO_PA8
+#define LED2            0  /* no second LED */
 #define LED_MASK        (LED1|LED2)
-
-/*-------------------------*/
-/* Push Buttons Definition */
-/*-------------------------*/
-#define SW1_MASK        (1<<19)	// PA19
-#define SW2_MASK        (1<<20)	// PA20
-#define SW_MASK         (SW1_MASK|SW2_MASK)
-
-#define SW1 	(1<<19)	// PA19
-#define SW2 	(1<<20)	// PA20
 
 /*------------------*/
 /* USART Definition */
@@ -77,7 +65,7 @@
 /*--------------*/
 
 #define EXT_OSC         18432000   // External oscillator MAINCK, not actually used
-#define MCK             48000000
+#define MCK             48054841
 #define MCKKHz          (MCK/1000)
 
-#endif /* board_h_included */
+#endif /* h64_board_h_included */

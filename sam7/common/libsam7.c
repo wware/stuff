@@ -1,4 +1,5 @@
 #include "board.h"
+#include "libsam7.h"
 
 //*----------------------------------------------------------------------------
 //* \fn    LowLevelInit
@@ -58,9 +59,7 @@ void LowLevelInit(void)
     AT91C_BASE_PMC->PMC_MCKR = AT91C_PMC_CSS_PLL_CLK | AT91C_PMC_PRES_CLK_2;
 }
 
-void set_up_interrupts(void (*spurious_handler)(void),
-                       void (*irq_handler)(void),
-                       void (*fiq_handler)(void))
+void set_up_interrupts(voidfunc spurious_handler, voidfunc irq_handler, voidfunc fiq_handler)
 {
     int i;
     // Set up the default interrupts handler vectors
@@ -170,4 +169,136 @@ void advance_leds(void)
         led_state = 0;
         break;
     }
+}
+
+/*************************************************************************
+ * Serial port stuff for SAM7
+ *
+ * Helpful info here, though the writing style grates on the retina:
+ * http://www.sparkfun.com/datasheets/DevTools/SAM7/at91sam7%20serial%20communications.pdf
+ */
+
+static volatile AT91S_USART *pUSART = AT91C_BASE_US0;
+
+#define USE_UART_INTERRUPTS 0
+
+#if USE_UART_INTERRUPTS
+// external global variables
+extern char Buffer[]; // holds received characters
+extern unsigned long nChars; // counts number of received chars
+extern char *pBuffer; // pointer into Buffer
+#endif
+
+void uart0_init(int baud_rate)
+{
+    volatile AT91PS_PIO pPIO = AT91C_BASE_PIOA;
+
+    int brd = (MCK / 16) / baud_rate;
+
+    /* enable USART0 peripheral clock */
+    AT91C_BASE_PMC->PMC_PCER = (1 << AT91C_ID_US0);
+
+    pPIO->PIO_PDR =
+        AT91C_PA5_RXD0 |          /* Enable RxD0 Pin */
+        AT91C_PA6_TXD0;           /* Enalbe TxD0 Pin */
+
+    pPIO->PIO_ASR =
+        AT91C_PIO_PA5 |
+        AT91C_PIO_PA6;
+
+    pUSART->US_CR =
+        AT91C_US_RSTRX |          /* Reset Receiver      */
+        AT91C_US_RSTTX |          /* Reset Transmitter   */
+        AT91C_US_RXDIS |          /* Receiver Disable    */
+        AT91C_US_TXDIS;           /* Transmitter Disable */
+
+    pUSART->US_MR =
+        AT91C_US_USMODE_NORMAL |  /* Normal Mode */
+        AT91C_US_CLKS_CLOCK    |  /* Clock = MCK */
+        AT91C_US_CHRL_8_BITS   |  /* 8-bit Data  */
+        AT91C_US_PAR_NONE      |  /* No Parity   */
+        AT91C_US_NBSTOP_1_BIT;    /* 1 Stop Bit  */
+
+    pUSART->US_IER = 0x0000;      /* no usart0 interrupts enabled */
+    pUSART->US_IDR = 0xFFFF;      /* all usart0 interrupts disabled */
+
+    pUSART->US_BRGR = brd;        /* Baud Rate Divisor */
+
+    pUSART->US_RTOR = 0;          /* receiver time-out (disabled) */
+    pUSART->US_TTGR = 0;          /* transmitter timeguard (disabled) */
+    pUSART->US_FIDI = 0;          /* FI over DI Ratio Value (disabled) */
+    pUSART->US_IF = 0;            /* IrDA Filter value (disabled) */
+
+#if USE_UART_INTERRUPTS
+    /* Set up the Advanced Interrupt Controller (AIC)  registers for USART0 */
+    void Usart0IrqHandler(void); /* function prototype for USART0 handler */
+  
+    volatile AT91PS_AIC  pAIC = AT91C_BASE_AIC;   /* pointer to AIC data structure */
+    pAIC->AIC_IDCR = (1<<AT91C_ID_US0);      /* Disable USART0 interrupt in AIC */
+    pAIC->AIC_SVR[AT91C_ID_US0] =
+        (unsigned int)Usart0IrqHandler; /* Set the USART0 IRQ handler address in AIC  */
+    /* Source Vector Register[6] */
+    pAIC->AIC_SMR[AT91C_ID_US0] =
+        (AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL | 0x4 ); /* Set the int source type and pri  */
+    /* in AIC Source Mode Register[6] */
+    pAIC->AIC_IECR = (1<<AT91C_ID_US0);  /* Enable the USART0 interrupt in AIC */
+#endif
+
+    pUSART->US_CR =
+        AT91C_US_RXEN  |          /* Receiver Enable     */
+        AT91C_US_TXEN;            /* Transmitter Enable  */
+
+#if USE_UART_INTERRUPTS
+    /* enable the USART0 receive interrupt */
+    pUSART0->US_IER = AT91C_US_RXRDY; /* enable RXRDY usart0 receive interrupt */
+    pUSART0->US_IDR = ~AT91C_US_RXRDY; /* disable all other interrupts except RXRDY */
+    /* set up buffer pointer and character counter */
+    pBuffer = &Buffer[0];
+    nChars = 0;
+    /* enable IRQ interrupts */
+    enableIRQ();
+#endif
+}
+
+int uart0_txready(void) 
+{
+    return (pUSART->US_CSR & AT91C_US_TXRDY);
+}	
+
+void uart0_putc(int ch) 
+{
+    while (!uart0_txready());
+    pUSART->US_THR = ch;                          /* Transmit Character */
+}	
+
+static void uart0_putchar (int ch)   /* Write Character to Serial Port */
+{
+
+    if (ch == '\n')  {                            /* Check for LF */
+        uart0_putc('\r');                         /* Output CR */
+    }
+    uart0_putc(ch);                               /* Transmit Character */
+}
+
+void uart0_puts (char* s)
+{
+    while (*s) uart0_putchar(*s++);
+}
+
+/* returns true if character in receive buffer */
+int uart0_kbhit(void)
+{
+    if (pUSART->US_CSR & AT91C_US_RXRDY) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+/* Read Character from Serial Port */
+int uart0_getc(void)
+{    
+    while (!(pUSART->US_CSR & AT91C_US_RXRDY));   /* Wait for Full Rx Buffer */
+    return pUSART->US_RHR;                        /* Read Character */
 }
