@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:orientation="vertical"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:background="#FF80FF66" >
+
+  <TextView android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/hello"
+	    android:paddingTop="5px"
+	    android:paddingLeft="10px"
+	    android:textColor="#FF000000"
+	    android:textSize="20sp" />
+
+  <TextView android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="@string/link"
+	    android:paddingLeft="10px"
+	    android:textSize="20sp"
+	    android:autoLink="web" />
+
+  <TextView android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:padding="20px"
+	    android:text="OUTPUTS"
+	    android:textColor="#FF000000" />
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/outputLayout"
+	        android:paddingLeft="20px"
+	        android:paddingRight="20px"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+
+  <Button android:id="@+id/pollInputs"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="POLL INPUTS" 
+          android:textSize="20sp" />
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/inputLayout"
+	        android:paddingLeft="20px"
+	        android:paddingRight="20px"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+
+</LinearLayout>

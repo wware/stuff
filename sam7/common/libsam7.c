@@ -280,6 +280,15 @@ static void uart0_putchar (int ch)   /* Write Character to Serial Port */
     uart0_putc(ch);                               /* Transmit Character */
 }
 
+void uart0_put_hex_digit(int x)
+{
+    x &= 0x0F;
+    if (x < 10)
+        uart0_putc(x + '0');
+    else
+        uart0_putc(x + 'A' - 10);
+}
+
 void uart0_puts (char* s)
 {
     while (*s) uart0_putchar(*s++);

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">BT Bit Bang</string>
+  <string name="hello">Use your Android phone\'s Bluetooth connection to write
+  and read GPIO lines. Details below.</string>
+  <string name="link">http://bit.ly/bluetoothbitbang</string>
+</resources>
