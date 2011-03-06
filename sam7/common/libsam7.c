@@ -7,54 +7,48 @@
 //*----------------------------------------------------------------------------
 void LowLevelInit(void)
 {
-    //* Set Flash Wait sate
-    //  Single Cycle Access at Up to 30 MHz, or 40
-    //  if MCK = 48MHz then 48 Cycles for 1 usecond
-    //  result: AT91C_MC_FMR = 0x00300100  (MC Flash Mode Register)
+    // Set Flash Wait sate
+    // Single Cycle Access at Up to 30 MHz, or 40
+    // if MCK = 48MHz then 48 Cycles for 1 usecond
+    // result: AT91C_MC_FMR = 0x00300100  (MC Flash Mode Register)
     AT91C_BASE_MC->MC_FMR = ((AT91C_MC_FMCN)&(48 <<16)) | AT91C_MC_FWS_1FWS;
 
-    //* Watchdog Disable
+    // Watchdog Disable
     AT91C_BASE_WDTC->WDTC_WDMR= 0x8000;
 
-    //* Startup time, see section 24.3.2 of the datasheet
-    // SCK = 1/32768 = 30.51 uSecond
-    // Start up time = 8 * 6 / SCK = 56 * 30.51 = 1,46484375 ms
+    // Startup time, see section 24.3.2 of the datasheet
+    // SCK = 32768 kHz
+    // Start up time = 8 * 6 / SCK = 48 / 32768 kHz = 1.464 msecs
     // result: AT91C_CKGR_MOR = 0x00000601  (Main Oscillator Register)
-    AT91C_BASE_PMC->PMC_MOR = (( AT91C_CKGR_OSCOUNT & (0x06 <<8) | AT91C_CKGR_MOSCEN ));
+    AT91C_BASE_PMC->PMC_MOR =
+        (AT91C_CKGR_OSCOUNT & (0x06 << 8)) | AT91C_CKGR_MOSCEN;
+
     // Wait the startup time
     while(!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MOSCS));
 
     // PMC Clock Generator PLL Register setup
-    //
-    // The following settings are used:  DIV = 14
-    //                                   MUL = 72
+    // The following settings are used:  DIV = 24
+    //                                   MUL = 124
     //                                   PLLCOUNT = 10
-    //
-    // Main Clock (MAINCK from crystal oscillator) = 18432000 hz (see AT91SAM7-EK schematic)
-    // MAINCK / DIV = 18432000/14 = 1316571 hz
-    // PLLCK = 1316571 * (MUL + 1) = 1316571 * (72 + 1) = 1316571 * 73 = 96109683 hz
-    //
+    // Main Clock (MAINCK from crystal oscillator) = 18432000 hz
+    // (true for all Sparkfun SAM7 boards)
+    // MAINCK / DIV = 18432000/24 = 768 kHz
+    // PLLCK = 768 kHz * (MUL + 1) = 768000 * (124 + 1) = 96 MHz
     // PLLCOUNT = number of slow clock cycles before the LOCK bit is set
     //            in PMC_SR after CKGR_PLLR is written.
-    //
     // PLLCOUNT = 10
-    //
     // OUT = 0 (not used)
-    // result: AT91C_CKGR_PLLR = 0x00000000480A0E   (PLL Register)
-    // writes to FFFFFC2C
-    AT91C_BASE_PMC->PMC_PLLR = ((AT91C_CKGR_DIV & 14) |
+    // AT91C_CKGR_PLLR = 0x000000007C0A18   (PLL Register)
+    AT91C_BASE_PMC->PMC_PLLR = ((AT91C_CKGR_DIV & 24) |
                       (AT91C_CKGR_PLLCOUNT & (10<<8)) |
-                      (AT91C_CKGR_MUL & (72<<16)));
+                      (AT91C_CKGR_MUL & (124<<16)));
     // Wait the startup time (until PMC Status register LOCK bit is set)
     while(!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_LOCK));
 
     // PMC Master Clock (MCK) Register setup
-    //
     // CSS  = 3  (PLLCK clock selected)
-    //
-    // PRES = 1  (MCK = PLLCK / 2) = 96109683/2 = 48054841 hz
-    //
-    // Note: Master Clock  MCK = 48054841 hz  (this is the CPU clock speed)
+    // PRES = 1  (MCK = PLLCK / 2) = 96/2 = 48 MHz
+    // Master Clock  MCK = 48 MHz  (this is the CPU clock speed)
     // result:  AT91C_PMC_MCKR = 0x00000007  (Master Clock Register)
     AT91C_BASE_PMC->PMC_MCKR = AT91C_PMC_CSS_PLL_CLK | AT91C_PMC_PRES_CLK_2;
 }
@@ -189,6 +183,12 @@ extern unsigned long nChars; // counts number of received chars
 extern char *pBuffer; // pointer into Buffer
 #endif
 
+#define JIM_LYNCH 0
+// I started by following Jim Lynch's work, which is confusing
+// Martin Thomas is much clearer:
+// http://gandalf.arubi.uni-kl.de/avr_projects/arm_projects/index_at91.html
+
+#if JIM_LYNCH
 void uart0_init(int baud_rate)
 {
     volatile AT91PS_PIO pPIO = AT91C_BASE_PIOA;
@@ -259,11 +259,40 @@ void uart0_init(int baud_rate)
     enableIRQ();
 #endif
 }
+#endif  // JIM_LYNCH
 
-int uart0_txready(void) 
+void uart0_init(int baud_rate)
+{
+    int brd = (MCK / 16) / baud_rate;
+
+    *AT91C_PIOA_PDR =
+        AT91C_PA5_RXD0 |          /* Enable RxD0 Pin */
+        AT91C_PA6_TXD0;           /* Enalbe TxD0 Pin */
+
+    pUSART->US_CR =
+        AT91C_US_RSTRX |          /* Reset Receiver      */
+        AT91C_US_RSTTX |          /* Reset Transmitter   */
+        AT91C_US_RXDIS |          /* Receiver Disable    */
+        AT91C_US_TXDIS;           /* Transmitter Disable */
+
+    pUSART->US_MR =
+        AT91C_US_USMODE_NORMAL |  /* Normal Mode */
+        AT91C_US_CLKS_CLOCK    |  /* Clock = MCK */
+        AT91C_US_CHRL_8_BITS   |  /* 8-bit Data  */
+        AT91C_US_PAR_NONE      |  /* No Parity   */
+        AT91C_US_NBSTOP_1_BIT;    /* 1 Stop Bit  */
+
+    pUSART->US_BRGR = brd;        /* Baud Rate Divisor */
+
+    pUSART->US_CR =
+        AT91C_US_RXEN  |          /* Receiver Enable     */
+        AT91C_US_TXEN;            /* Transmitter Enable  */
+}
+
+int uart0_txready(void)
 {
     return (pUSART->US_CSR & AT91C_US_TXRDY);
-}	
+}
 
 void uart0_putc(int ch) 
 {

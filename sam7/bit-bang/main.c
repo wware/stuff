@@ -78,6 +78,13 @@ static int get_number(char **p)
     }
 }
 
+void sleep(int seconds)
+{
+    long period = (long) seconds * 2000000L;
+    volatile long snooze;
+    for (snooze = 0; snooze < period; snooze++);
+}
+
 int main (void)
 {
     int inbptr = 0;
@@ -87,12 +94,14 @@ int main (void)
     uart0_init(115200);
     led_init();
 
-    // enable peripheral clock for PIOA
-    AT91C_BASE_PMC->PMC_PCER = 1 << AT91C_ID_PIOA;
-    // set up inputs (PA0 thru PA5) and outputs (PA6 thru PA11)
-    AT91C_BASE_PIOA->PIO_PER = 0xFFF;
-    AT91C_BASE_PIOA->PIO_ODR = 0x03F;
-    AT91C_BASE_PIOA->PIO_OER = 0xFC0;
+    // enable peripheral clock for PIOA and USART0
+    AT91C_BASE_PMC->PMC_PCER =
+        (1 << AT91C_ID_PIOA) | (1 << AT91C_ID_US0);
+    // set up inputs (PA0 thru PA5) and outputs (PA8 thru PA13)
+    // PA6 and PA7 are needed for the UART!!!
+    AT91C_BASE_PIOA->PIO_PER = 0x3F3F;
+    AT91C_BASE_PIOA->PIO_ODR = 0x003F;
+    AT91C_BASE_PIOA->PIO_OER = 0x3F00;
 
     while (1) {
         int c = uart0_getc();
@@ -111,7 +120,7 @@ int main (void)
             if (argp != NULL) {
                 x = get_number(&argp);
                 if (x >= 0 && x <= 6) {
-                    AT91C_BASE_PIOA->PIO_SODR = 1 << (x + 6);
+                    AT91C_BASE_PIOA->PIO_SODR = 1 << (x + 8);
                     uart0_puts("OK\n");
                 } else {
                     uart0_puts("ERROR\n");
@@ -123,7 +132,7 @@ int main (void)
             if (argp != NULL) {
                 x = get_number(&argp);
                 if (x >= 0 && x <= 6) {
-                    AT91C_BASE_PIOA->PIO_CODR = 1 << (x + 6);
+                    AT91C_BASE_PIOA->PIO_CODR = 1 << (x + 8);
                     uart0_puts("OK\n");
                 } else {
                     uart0_puts("ERROR\n");

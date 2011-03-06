@@ -330,6 +330,7 @@ public class BluetoothBitBang extends Activity {
     // doesn't care what thread it runs in
     private void scanInputs() {
         if (bbbSocket != null) {
+            String received = "";
             Log.i(TAG, "InputSignalScanner: sending READ command");
             sendString("READ");
             Log.i(TAG, "InputSignalScanner: getting response to READ command");
@@ -338,11 +339,13 @@ public class BluetoothBitBang extends Activity {
                     BufferedReader(new InputStreamReader(bbbSocket
                                                          .getInputStream()),
                                    80);
-                inputBits = Integer.parseInt(br.readLine(), 16);
+                br.readLine();  // the "READ" will be echoed, so throw it away
+                received = br.readLine();
+                inputBits = Integer.parseInt(received, 16);
             } catch (IOException e) {
                 Log.i(TAG, "InputSignalScanner: hit an IOException");
             } catch (NumberFormatException e2) {
-                Log.i(TAG, "InputSignalScanner: hit a NumberFormatException");
+                Log.i(TAG, "InputSignalScanner: hit a NumberFormatException: " + received);
             }
         }
     }
