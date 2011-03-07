@@ -85,6 +85,16 @@ void sleep(int seconds)
     for (snooze = 0; snooze < period; snooze++);
 }
 
+char hex_digit(int x)
+{
+    x &= 0x0F;
+    if (x < 10)
+        return x + '0';
+    else
+        return x + 'A' - 10;
+}
+
+
 int main (void)
 {
     int inbptr = 0;
@@ -99,9 +109,9 @@ int main (void)
         (1 << AT91C_ID_PIOA) | (1 << AT91C_ID_US0);
     // set up inputs (PA0 thru PA5) and outputs (PA8 thru PA13)
     // PA6 and PA7 are needed for the UART!!!
-    AT91C_BASE_PIOA->PIO_PER = 0x3F3F;
-    AT91C_BASE_PIOA->PIO_ODR = 0x003F;
-    AT91C_BASE_PIOA->PIO_OER = 0x3F00;
+    AT91C_BASE_PIOA->PIO_PER = 0xFFF00;
+    AT91C_BASE_PIOA->PIO_ODR = 0xFC000;
+    AT91C_BASE_PIOA->PIO_OER = 0x03F00;
 
     while (1) {
         int c = uart0_getc();
@@ -147,13 +157,19 @@ int main (void)
             argp = recognize_command("READ");
             if (argp != NULL) {
                 int i;
+                char outgoing[6];
                 x = 0;
+                // inputs start at PA14, go up to PA19
                 for (i = 0; i < 6; i++)
-                    if (AT91C_BASE_PIOA->PIO_PDSR & (1 << i))
+                    if (AT91C_BASE_PIOA->PIO_PDSR & (1 << (i + 14)))
                         x += (1 << i);
-                uart0_put_hex_digit(x >> 4);
-                uart0_put_hex_digit(x);
-                uart0_puts("\n");
+                outgoing[0] = '0';
+                outgoing[1] = 'x';
+                outgoing[2] = hex_digit(x >> 4);
+                outgoing[3] = hex_digit(x);
+                outgoing[4] = '\n';
+                outgoing[5] = '\0';
+                uart0_puts(outgoing);
                 goto cmd_done;
             }
 

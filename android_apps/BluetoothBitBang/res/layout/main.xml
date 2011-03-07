@@ -34,11 +34,11 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"/>
 
-  <Button android:id="@+id/pollInputs"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="POLL INPUTS" 
-          android:textSize="20sp" />
+  <TextView android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:padding="20px"
+	    android:text="INPUTS"
+	    android:textColor="#FF000000" />
 
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/inputLayout"
