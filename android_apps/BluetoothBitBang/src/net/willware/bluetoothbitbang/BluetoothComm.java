@@ -51,21 +51,7 @@ public class BluetoothComm {
         mUuid = uuid;
         mHandler = handler;
         adapter = BluetoothAdapter.getDefaultAdapter();
-
-        BluetoothDevice device = null;
-        Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            Log.i(TAG, "Found at least one paired Bluetooth device");
-            for (BluetoothDevice dvc : pairedDevices) {
-                if ("Serial Adaptor".equals(dvc.getName())) {
-                    device = dvc;
-                }
-            }
-        }
-        if (device == null)
-            connectionFailed();
-        else
-            connect(device);
+        start();
     }
 
     private synchronized void killThreads() {
@@ -84,6 +70,20 @@ public class BluetoothComm {
 
     public synchronized void start() {
         killThreads();
+        BluetoothDevice device = null;
+        Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
+        if (pairedDevices.size() > 0) {
+            Log.i(TAG, "Found at least one paired Bluetooth device");
+            for (BluetoothDevice dvc : pairedDevices) {
+                if ("Serial Adaptor".equals(dvc.getName())) {
+                    device = dvc;
+                }
+            }
+        }
+        if (device == null)
+            connectionFailed();
+        else
+            connect(device);
     }
 
     /**
@@ -184,8 +184,8 @@ public class BluetoothComm {
                 } catch (IOException e2) {
                     Log.e(TAG, "unable to close() socket during connection failure", e2);
                 }
-                // Try to connect again
-                BluetoothComm.this.start();
+                // Try to connect again? let's not, for now
+                // BluetoothComm.this.start();
                 return;
             }
 

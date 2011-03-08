@@ -58,6 +58,8 @@ public class BluetoothBitBang extends Activity {
     private BluetoothAdapter adapter;
     private InputPollingThread mInputPollingThread;
     private int inputBits;   // TODO: replace this with something better
+    private boolean gotFirstInputResponse = false;
+    private boolean wasConnected = false;
 
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -85,7 +87,7 @@ public class BluetoothBitBang extends Activity {
         int outputWidth = (screenWidth - totalPadding) / NUM_OUTPUTS;
         int inputWidth = (screenWidth - totalPadding) / NUM_INPUTS;
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate method");
+        Log.i(TAG, "++ ON CREATE ++");
         setContentView(R.layout.main);
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
         inputLayout = (LinearLayout) findViewById(R.id.inputLayout);
@@ -125,7 +127,6 @@ public class BluetoothBitBang extends Activity {
                 mComm = new BluetoothComm(MAGIC_SERIAL_UUID, mHandler);
             } else {
                 // User did not enable Bluetooth or an error occured
-                if (D) Log.d(TAG, "BT not enabled");
                 Toast.makeText(this, "Bluetooth is not enabled", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -135,7 +136,7 @@ public class BluetoothBitBang extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        if(D) Log.e(TAG, "++ ON START ++");
+        Log.i(TAG, "++ ON START ++");
 
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
@@ -157,11 +158,13 @@ public class BluetoothBitBang extends Activity {
         private boolean running = false;
         public void start() {
             running = true;
+            Log.i(TAG, "** START INPUT POLLING **");
             super.start();
         }
         public void run() {
-            while (running) {
+            while (running && !gotFirstInputResponse) {
                 if (mComm != null) {
+                    Log.i(TAG, "** POLL INPUTS **");
                     mComm.write("READ\n".getBytes());
                 }
                 try {
@@ -171,56 +174,62 @@ public class BluetoothBitBang extends Activity {
             }
         }
         public void cancel() {
+            Log.i(TAG, "** CANCEL INPUT POLLING **");
             running = false;
-            interrupt();
         }
     }
 
     @Override
     public void onResume() {
     	super.onResume();
-        SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        int outputLevels = settings.getInt("outputLevels", 0);
-        for (int i = 0; i < NUM_OUTPUTS; i++)
-            outputs[i].setLevel((outputLevels & (1 << i)) != 0);
-        mInputPollingThread = new InputPollingThread();
-        mInputPollingThread.start();
+        Log.i(TAG, "++ ON RESUME ++");
     }
 
     @Override
     public void onPause() {
     	super.onPause();
-        // Cancel the polling thread if it's running
-        if (mInputPollingThread != null) {
-            mInputPollingThread.cancel();
-            mInputPollingThread = null;
-        }
-        // save states of outputs
-        int outputLevels = 0;
-        for (int i = 0; i < NUM_OUTPUTS; i++)
-            if (outputs[i].getLevel())
-                outputLevels |= 1 << i;
-        SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("outputLevels", outputLevels);
-        editor.commit();
+        Log.i(TAG, "-- ON PAUSE --");
     }
 
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            SharedPreferences settings = getPreferences(MODE_PRIVATE);
+            int outputLevels;
             switch (msg.what) {
                 case MESSAGE_STATE_CHANGE:
-                    if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
                         case BluetoothComm.STATE_CONNECTED:
-                            // TODO
+                            Log.i(TAG, "BluetoothComm.STATE_CONNECTED");
+                            wasConnected = true;
+                            outputLevels = settings.getInt("outputLevels", 0);
+                            for (int i = 0; i < NUM_OUTPUTS; i++)
+                                outputs[i].setLevel((outputLevels & (1 << i)) != 0);
+                            mInputPollingThread = new InputPollingThread();
+                            mInputPollingThread.start();
                             break;
                         case BluetoothComm.STATE_CONNECTING:
-                            // TODO
+                            Log.i(TAG, "BluetoothComm.STATE_CONNECTING");
+                            // anything?
                             break;
                         case BluetoothComm.STATE_NONE:
-                            // TODO
+                            Log.i(TAG, "BluetoothComm.STATE_NONE");
+                            // connection lost, cancel input polling
+                            if (mInputPollingThread != null) {
+                                mInputPollingThread.cancel();
+                                mInputPollingThread = null;
+                            }
+                            if (wasConnected) {
+                                outputLevels = 0;
+                                for (int i = 0; i < NUM_OUTPUTS; i++)
+                                    if (outputs[i].getLevel())
+                                        outputLevels |= 1 << i;
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putInt("outputLevels", outputLevels);
+                                editor.commit();
+                                // TODO: try to reconnect here?
+                            }
+                            wasConnected = false;
                             break;
                     }
                     break;
@@ -241,6 +250,9 @@ public class BluetoothBitBang extends Activity {
                                 Integer.parseInt(readMessage.substring(2), 16);
                             for (int i = 0; i < 6; i++)
                                 inputs[i].setLevel((inputBits & (1 << i)) != 0);
+                            // once we've received the first input message, we can depend on the
+                            // hardware to update us if any inputs change
+                            gotFirstInputResponse = true;
                         } catch (NumberFormatException e) { }
                     }
                     break;
@@ -332,15 +344,14 @@ public class BluetoothBitBang extends Activity {
             return singleOutputLayout;
         }
         public boolean getLevel() {
-            //Log.i(TAG, "OutputBit.getLevel(" + index + ") = " + (level ? "1" : "0"));
             return level;
         }
         public void setLevel(boolean level) {
-            String bitstring = level ? "1" : "0";
-            //Log.i(TAG, "OutputBit.setLevel(" + index + ", " + bitstring + ")");
+            String scmd = (level ? "SET" : "CLEAR") + " " + index + "\n";
+            Log.i(TAG, scmd);
+            mComm.write(scmd.getBytes());
             this.level = level;
-            mComm.write(((level ? "SET" : "CLEAR") + " " + index + "\n").getBytes());
-            display.setText(bitstring);
+            display.setText(level ? "1" : "0");
         }
     }
 }

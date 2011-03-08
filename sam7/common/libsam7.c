@@ -317,17 +317,12 @@ void uart0_puts (char* s)
 /* returns true if character in receive buffer */
 int uart0_kbhit(void)
 {
-    if (pUSART->US_CSR & AT91C_US_RXRDY) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
+    return (pUSART->US_CSR & AT91C_US_RXRDY) != 0;
 }
 
 /* Read Character from Serial Port */
 int uart0_getc(void)
 {    
-    while (!(pUSART->US_CSR & AT91C_US_RXRDY));   /* Wait for Full Rx Buffer */
+    if (!uart0_kbhit()) return -1;                /* -1 if no char available to read */
     return pUSART->US_RHR;                        /* Read Character */
 }

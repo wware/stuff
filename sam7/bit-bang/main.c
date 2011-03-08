@@ -98,6 +98,7 @@ char hex_digit(int x)
 int main (void)
 {
     int inbptr = 0;
+    int previous_inputs;
     char *argp;
 
     LowLevelInit();
@@ -113,16 +114,35 @@ int main (void)
     AT91C_BASE_PIOA->PIO_ODR = 0xFC000;
     AT91C_BASE_PIOA->PIO_OER = 0x03F00;
 
+    previous_inputs = 0xFFFFFF;  // something that can't be the same
+
     while (1) {
-        int c = uart0_getc();
-        int x;
-        uart0_putc(c);
-        if (c == '\n') {
+        int c, x;
+        char outgoing[6];
+        c = uart0_getc();   // returns -1 if no char received
+
+        if (c == -1) {
+            // no character from the UART, so let's poll the inputs
+            // but only if there's been a change
+            x = (AT91C_BASE_PIOA->PIO_PDSR >> 14) & 0x3F;
+            if (x != previous_inputs) {
+                previous_inputs = x;
+                outgoing[0] = '0';
+                outgoing[1] = 'x';
+                outgoing[2] = hex_digit(x >> 4);
+                outgoing[3] = hex_digit(x);
+                outgoing[4] = '\n';
+                outgoing[5] = '\0';
+                uart0_puts(outgoing);
+            }
+        }
+        else if (c == '\n') {
+
+            uart0_putc(c);  // echo the received char
 
             argp = recognize_command("TEST");
             if (argp != NULL) {
                 uart0_puts("Happy happy joy joy\n");
-                uart0_puts("OK\n");
                 goto cmd_done;
             }
 
@@ -131,7 +151,6 @@ int main (void)
                 x = get_number(&argp);
                 if (x >= 0 && x <= 6) {
                     AT91C_BASE_PIOA->PIO_SODR = 1 << (x + 8);
-                    uart0_puts("OK\n");
                 } else {
                     uart0_puts("ERROR\n");
                 }
@@ -143,7 +162,6 @@ int main (void)
                 x = get_number(&argp);
                 if (x >= 0 && x <= 6) {
                     AT91C_BASE_PIOA->PIO_CODR = 1 << (x + 8);
-                    uart0_puts("OK\n");
                 } else {
                     uart0_puts("ERROR\n");
                 }
@@ -158,11 +176,9 @@ int main (void)
             if (argp != NULL) {
                 int i;
                 char outgoing[6];
-                x = 0;
                 // inputs start at PA14, go up to PA19
-                for (i = 0; i < 6; i++)
-                    if (AT91C_BASE_PIOA->PIO_PDSR & (1 << (i + 14)))
-                        x += (1 << i);
+                x = (AT91C_BASE_PIOA->PIO_PDSR >> 14) & 0x3F;
+                previous_inputs = x;
                 outgoing[0] = '0';
                 outgoing[1] = 'x';
                 outgoing[2] = hex_digit(x >> 4);
@@ -179,6 +195,7 @@ int main (void)
         cmd_done:
             inbptr = 0;
         } else {
+            uart0_putc(c);  // echo the received char
             inbuf[inbptr++] = c;
             inbuf[inbptr] = '\0';
         }
