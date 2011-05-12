@@ -1,3 +1,9 @@
+Fun with Android on Beagleboard
+===============================
+
+Here is some background about this stuff:
+http://en.wikipedia.org/wiki/User:WillWare/Angstrom_and_Beagleboard
+
 Go into your angstrom-setup-scripts directory and make symbolic links to
 make-clean.sh and write-sd-card.sh. Then run make-tarballs.sh in this
 directory, and it will make the two tarballs.
