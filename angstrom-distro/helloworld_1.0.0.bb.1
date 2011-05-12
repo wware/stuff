@@ -1,0 +1,16 @@
+DESCRIPTION = "Minimal statically compiled Hello world!"
+LICENSE = "GPL"
+PR = "r1"
+
+#S = "${WORKDIR}/${P}"
+S = "${WORKDIR}"
+
+SRC_URI = "http://127.0.0.1:8181/helloworld-1.0.0.tar.bz2 \
+          "
+
+do_install () {
+	install -d ${D}${bindir} ${D}${sysconfdir}/rc5.d
+	install -m 0755 helloworld ${D}${bindir}/
+	ln -s ../../${bindir}/helloworld ${D}${sysconfdir}/rc5.d/S52helloworld
+}
+

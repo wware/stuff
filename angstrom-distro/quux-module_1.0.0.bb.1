@@ -1,0 +1,29 @@
+LICENSE = "GPL"
+SECTION = "unknown"
+PR = "r1"
+PACKAGE_STRIP = "no"
+
+SRC_URI = " http://127.0.0.1:8181/quux-module-1.0.0.tar.bz2 "
+
+inherit module
+
+MODULEDIR=/lib/modules/${KERNEL_VERSION}/quux
+S = "${WORKDIR}"
+
+do_compile() {
+}
+
+do_install () {
+	install -d ${D}/${MODULEDIR}
+	install -m 0644 ${S}/quux.ko ${D}/${MODULEDIR}
+	install -d ${D}/home/root
+	install -m 0755 ${S}/tryit.sh ${D}/home/root
+}
+
+# let's be able to see what happened
+do_rm_work() {
+}
+
+# not totally sure this is necessary but it doesn't hurt
+FILES_${PN}  = " /lib /home "
+
