@@ -25,7 +25,7 @@
 	    xhtml:output-port xhtml:common-attributes
 	    xhtml:print xhtml:DOCUMENT xhtml:real-print xhtml:dtd
 	    xhtml:tags xhtml:tag-tree->shtml))
-		    
+
 (define-class <html-document> ()
   (output-port #:init-keyword #:port
 	       #:init-form (current-output-port)
@@ -97,7 +97,7 @@
 
 (define-method (display (tag <xhtml-tag-list>) (port <port>))
   (for-each (lambda (x) (display x port))(tag-tree tag)))
-       
+
 
 (define (non-empty-attributes attributes)
   "returns all non-empty (i.e. not string-null?) attributes from attributes"
@@ -122,7 +122,7 @@
 			   (assq-set! system-copy (car x) (list (cdr x)))))
 	      tag-values)
     system-copy))
-     
+
 (define (empty-tag name attributes)
   (lambda* (#:key (atts '()))
 	   (let ((new-attlist
@@ -158,7 +158,7 @@
 			 (del-next (set! del-next #f) #t)
 			 (else #f))))
 		    elements))
-	     
+
 	     (make <xhtml-tag>
 	       #:name name #:atts new-attlist
 	       #:start-or-close #f

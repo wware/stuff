@@ -231,7 +231,7 @@ class AdminSettingsService(gdata.apps.service.PropertyService):
       None
 
     Returns: binary image file"""
- 
+
     import urllib
     url = 'http://www.google.com/a/cpanel/'+self.domain+'/images/logo.gif'
     response = urllib.urlopen(url)

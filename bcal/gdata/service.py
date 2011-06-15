@@ -47,13 +47,13 @@
 
   GDataService: Encapsulates user credentials needed to perform insert, update
                 and delete operations with the GData API. An instance can
-                perform user authentication, query, insertion, deletion, and 
+                perform user authentication, query, insertion, deletion, and
                 update.
 
-  Query: Eases query URI creation by allowing URI parameters to be set as 
-         dictionary attributes. For example a query with a feed of 
-         '/base/feeds/snippets' and ['bq'] set to 'digital camera' will 
-         produce '/base/feeds/snippets?bq=digital+camera' when .ToUri() is 
+  Query: Eases query URI creation by allowing URI parameters to be set as
+         dictionary attributes. For example a query with a feed of
+         '/base/feeds/snippets' and ['bq'] set to 'digital camera' will
+         produce '/base/feeds/snippets?bq=digital+camera' when .ToUri() is
          called on it.
 """
 
@@ -86,7 +86,7 @@ AUTH_SERVER_HOST = 'https://www.google.com'
 
 
 # When requesting an AuthSub token, it is often helpful to track the scope
-# which is being requested. One way to accomplish this is to add a URL 
+# which is being requested. One way to accomplish this is to add a URL
 # parameter to the 'next' URL which contains the requested scope. This
 # constant is the default name (AKA key) for the URL parameter.
 SCOPE_URL_PARAM_NAME = 'authsub_token_scope'
@@ -116,7 +116,7 @@ def lookup_scopes(service_name):
 
 
 # Module level variable specifies which module should be used by GDataService
-# objects to make HttpRequests. This setting can be overridden on each 
+# objects to make HttpRequests. This setting can be overridden on each
 # instance of GDataService.
 # This module level variable is deprecated. Reassign the http_client member
 # of a GDataService object instead.
@@ -186,7 +186,7 @@ class RanOutOfTries(Error):
 class GDataService(atom.service.AtomService):
   """Contains elements needed for GData login and CRUD request headers.
 
-  Maintains additional headers (tokens for example) needed for the GData 
+  Maintains additional headers (tokens for example) needed for the GData
   services to allow a user to perform inserts, updates, and deletes.
   """
   # The hander member is deprecated, use http_client instead.
@@ -197,7 +197,7 @@ class GDataService(atom.service.AtomService):
   tokens = None
 
   def __init__(self, email=None, password=None, account_type='HOSTED_OR_GOOGLE',
-               service=None, auth_service_url=None, source=None, server=None, 
+               service=None, auth_service_url=None, source=None, server=None,
                additional_headers=None, handler=None, tokens=None,
                http_client=None, token_store=None):
     """Creates an object of type GDataService.
@@ -218,11 +218,11 @@ class GDataService(atom.service.AtomService):
       source: string (optional) The name of the user's application.
       server: string (optional) The name of the server to which a connection
           will be opened. Default value: 'base.google.com'.
-      additional_headers: dictionary (optional) Any additional headers which 
+      additional_headers: dictionary (optional) Any additional headers which
           should be included with CRUD operations.
       handler: module (optional) This parameter is deprecated and has been
           replaced by http_client.
-      tokens: This parameter is deprecated, calls should be made to 
+      tokens: This parameter is deprecated, calls should be made to
           token_store instead.
       http_client: An object responsible for making HTTP requests using a
           request method. If none is provided, a new instance of
@@ -232,7 +232,7 @@ class GDataService(atom.service.AtomService):
           find_token based on a URL (atom.url.Url or a string), add_token,
           and remove_token.
     """
-    atom.service.AtomService.__init__(self, http_client=http_client, 
+    atom.service.AtomService.__init__(self, http_client=http_client,
         token_store=token_store)
     self.email = email
     self.password = password
@@ -254,7 +254,7 @@ class GDataService(atom.service.AtomService):
   def _SetSessionId(self, session_id):
     """Used in unit tests to simulate a 302 which sets a gsessionid."""
     self.__gsessionid = session_id
- 
+
   # Define properties for GDataService
   def _SetAuthSubToken(self, auth_token, scopes=None):
     """Deprecated, use SetAuthSubToken instead."""
@@ -280,7 +280,7 @@ class GDataService(atom.service.AtomService):
   def _GetCaptchaToken(self):
     """Returns a captcha token if the most recent login attempt generated one.
 
-    The captcha token is only set if the Programmatic Login attempt failed 
+    The captcha token is only set if the Programmatic Login attempt failed
     because the Google service issued a captcha challenge.
 
     Returns:
@@ -311,7 +311,7 @@ class GDataService(atom.service.AtomService):
   captcha_url = property(__GetCaptchaURL,
       doc="""Get the captcha URL for a login request.""")
 
-  def GetGeneratorFromLinkFinder(self, link_finder, func, 
+  def GetGeneratorFromLinkFinder(self, link_finder, func,
                                  num_retries=DEFAULT_NUM_RETRIES,
                                  delay=DEFAULT_DELAY,
                                  backoff=DEFAULT_BACKOFF):
@@ -426,18 +426,18 @@ class GDataService(atom.service.AtomService):
         'reason': 'Non 200 response on fetch request token',
         'body': response.read()
         }
-    raise FetchingOAuthRequestTokenFailed(error)    
-  
+    raise FetchingOAuthRequestTokenFailed(error)
+
   def SetOAuthToken(self, oauth_token):
     """Attempts to set the current token and add it to the token store.
-    
+
     The oauth_token can be any OAuth token i.e. unauthorized request token,
     authorized request token or access token.
     This method also attempts to add the token to the token store.
     Use this method any time you want the current token to point to the
     oauth_token passed. For e.g. call this method with the request token
     you receive from FetchOAuthRequestToken.
-    
+
     Args:
       request_token: gdata.auth.OAuthToken OAuth request token.
     """
@@ -445,19 +445,19 @@ class GDataService(atom.service.AtomService):
       self.current_token = oauth_token
     if self.auto_store_tokens:
       self.token_store.add_token(oauth_token)
-    
+
   def GenerateOAuthAuthorizationURL(
       self, request_token=None, callback_url=None, extra_params=None,
       include_scopes_in_callback=False,
       scopes_param_prefix=OAUTH_SCOPE_URL_PARAM_NAME,
       request_url='%s/accounts/OAuthAuthorizeToken' % AUTH_SERVER_HOST):
     """Generates URL at which user will login to authorize the request token.
-    
+
     Args:
       request_token: gdata.auth.OAuthToken (optional) OAuth request token.
           If not specified, then the current token will be used if it is of
           type <gdata.auth.OAuthToken>, else it is found by looking in the
-          token_store by looking for a token for the current scope.    
+          token_store by looking for a token for the current scope.
       callback_url: string (optional) The URL user will be sent to after
           logging in and granting access.
       extra_params: dict (optional) Additional parameters to be sent.
@@ -477,7 +477,7 @@ class GDataService(atom.service.AtomService):
           'https://www.google.com/accounts/OAuthAuthorizeToken'.
     Returns:
       A string URL at which the user is required to login.
-    
+
     Raises:
       NonOAuthToken if the user's request token is not an OAuth token or if a
       request token was not available.
@@ -500,14 +500,14 @@ class GDataService(atom.service.AtomService):
         authorization_url=request_url,
         callback_url=callback_url, extra_params=extra_params,
         include_scopes_in_callback=include_scopes_in_callback,
-        scopes_param_prefix=scopes_param_prefix))   
-  
+        scopes_param_prefix=scopes_param_prefix))
+
   def UpgradeToOAuthAccessToken(self, authorized_request_token=None,
                                 request_url='%s/accounts/OAuthGetAccessToken' \
                                 % AUTH_SERVER_HOST, oauth_version='1.0',
                                 oauth_verifier=None):
     """Upgrades the authorized request token to an access token and returns it
-    
+
     Args:
       authorized_request_token: gdata.auth.OAuthToken (optional) OAuth request
           token. If not specified, then the current token will be used if it is
@@ -521,14 +521,14 @@ class GDataService(atom.service.AtomService):
       oauth_verifier: str (optional) If present, it is assumed that the client
         will use the OAuth v1.0a protocol which includes passing the
         oauth_verifier (as returned by the SP) in the access token step.
-    
+
     Returns:
       Access token
-          
+
     Raises:
       NonOAuthToken if the user's authorized request token is not an OAuth
       token or if an authorized request token was not available.
-      TokenUpgradeFailed if the server responded to the request with an 
+      TokenUpgradeFailed if the server responded to the request with an
       error.
     """
     if (authorized_request_token and
@@ -561,8 +561,8 @@ class GDataService(atom.service.AtomService):
     else:
       raise TokenUpgradeFailed({'status': response.status,
                                 'reason': 'Non 200 response on upgrade',
-                                'body': response.read()})      
-  
+                                'body': response.read()})
+
   def RevokeOAuthToken(self, request_url='%s/accounts/AuthSubRevokeToken' % \
                        AUTH_SERVER_HOST):
     """Revokes an existing OAuth token.
@@ -584,19 +584,19 @@ class GDataService(atom.service.AtomService):
       self.token_store.remove_token(token)
     else:
       raise RevokingOAuthTokenFailed
-  
+
   def GetAuthSubToken(self):
     """Returns the AuthSub token as a string.
-     
+
     If the token is an gdta.auth.AuthSubToken, the Authorization Label
     ("AuthSub token") is removed.
 
     This method examines the current_token to see if it is an AuthSubToken
     or SecureAuthSubToken. If not, it searches the token_store for a token
     which matches the current scope.
-    
+
     The current scope is determined by the service name string member.
-    
+
     Returns:
       If the current_token is set to an AuthSubToken/SecureAuthSubToken,
       return the token string. If there is no current_token, a token string
@@ -620,11 +620,11 @@ class GDataService(atom.service.AtomService):
     """Sets the token sent in requests to an AuthSub token.
 
     Sets the current_token and attempts to add the token to the token_store.
-    
+
     Only use this method if you have received a token from the AuthSub
     service. The auth token is set automatically when UpgradeToSessionToken()
     is used. See documentation for Google AuthSub here:
-    http://code.google.com/apis/accounts/AuthForWebApps.html 
+    http://code.google.com/apis/accounts/AuthForWebApps.html
 
     Args:
      token: gdata.auth.AuthSubToken or gdata.auth.SecureAuthSubToken or string
@@ -646,7 +646,7 @@ class GDataService(atom.service.AtomService):
         token = gdata.auth.AuthSubToken()
 
       token.set_token_string(token_string)
-        
+
     # If no scopes were set for the token, use the scopes passed in, or
     # try to determine the scopes based on the current service name. If
     # all else fails, set the token to match all requests.
@@ -662,12 +662,12 @@ class GDataService(atom.service.AtomService):
       self.token_store.add_token(token)
 
   def GetClientLoginToken(self):
-    """Returns the token string for the current token or a token matching the 
+    """Returns the token string for the current token or a token matching the
     service scope.
 
-    If the current_token is a ClientLoginToken, the token string for 
+    If the current_token is a ClientLoginToken, the token string for
     the current token is returned. If the current_token is not set, this method
-    searches for a token in the token_store which is valid for the service 
+    searches for a token in the token_store which is valid for the service
     object's current scope.
 
     The current scope is determined by the service name string member.
@@ -690,16 +690,16 @@ class GDataService(atom.service.AtomService):
   def SetClientLoginToken(self, token, scopes=None):
     """Sets the token sent in requests to a ClientLogin token.
 
-    This method sets the current_token to a new ClientLoginToken and it 
+    This method sets the current_token to a new ClientLoginToken and it
     also attempts to add the ClientLoginToken to the token_store.
-    
+
     Only use this method if you have received a token from the ClientLogin
     service. The auth_token is set automatically when ProgrammaticLogin()
     is used. See documentation for Google ClientLogin here:
     http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html
 
     Args:
-      token: string or instance of a ClientLoginToken. 
+      token: string or instance of a ClientLoginToken.
     """
     if not isinstance(token, gdata.auth.ClientLoginToken):
       token_string = token
@@ -727,8 +727,8 @@ class GDataService(atom.service.AtomService):
     self.additional_headers['User-Agent'] = atom.http_interface.USER_AGENT % (
         self.__source,)
 
-  source = property(__GetSource, __SetSource, 
-      doc="""The source is the name of the application making the request. 
+  source = property(__GetSource, __SetSource,
+      doc="""The source is the name of the application making the request.
              It should be in the form company_id-app_name-app_version""")
 
   # Authentication operations
@@ -747,7 +747,7 @@ class GDataService(atom.service.AtomService):
     Args:
       captcha_token: string (optional) The identifier for the captcha challenge
                      which was presented to the user.
-      captcha_response: string (optional) The user's answer to the captch 
+      captcha_response: string (optional) The user's answer to the captch
                         challenge.
 
     Raises:
@@ -759,15 +759,15 @@ class GDataService(atom.service.AtomService):
         self.password, self.service, self.source, self.account_type,
         captcha_token, captcha_response)
 
-    # If the user has defined their own authentication service URL, 
+    # If the user has defined their own authentication service URL,
     # send the ClientLogin requests to this URL:
     if not self.auth_service_url:
-        auth_request_url = AUTH_SERVER_HOST + '/accounts/ClientLogin' 
+        auth_request_url = AUTH_SERVER_HOST + '/accounts/ClientLogin'
     else:
         auth_request_url = self.auth_service_url
 
     auth_response = self.http_client.request('POST', auth_request_url,
-        data=request_body, 
+        data=request_body,
         headers={'Content-Type':'application/x-www-form-urlencoded'})
     response_body = auth_response.read()
 
@@ -798,16 +798,16 @@ class GDataService(atom.service.AtomService):
     elif auth_response.status == 302:
       self.__captcha_token = None
       self.__captcha_url = None
-      # Google tries to redirect all bad URLs back to 
+      # Google tries to redirect all bad URLs back to
       # http://www.google.<locale>. If a redirect
       # attempt is made, assume the user has supplied an incorrect authentication URL
       raise BadAuthenticationServiceURL, 'Server responded with a 302 code.'
 
   def ClientLogin(self, username, password, account_type=None, service=None,
-      auth_service_url=None, source=None, captcha_token=None, 
+      auth_service_url=None, source=None, captcha_token=None,
       captcha_response=None):
-    """Convenience method for authenticating using ProgrammaticLogin. 
-    
+    """Convenience method for authenticating using ProgrammaticLogin.
+
     Sets values for email, password, and other optional members.
 
     Args:
@@ -833,7 +833,7 @@ class GDataService(atom.service.AtomService):
 
     self.ProgrammaticLogin(captcha_token, captcha_response)
 
-  def GenerateAuthSubURL(self, next, scope, secure=False, session=True, 
+  def GenerateAuthSubURL(self, next, scope, secure=False, session=True,
       domain='default'):
     """Generate a URL at which the user will login and be redirected back.
 
@@ -843,7 +843,7 @@ class GDataService(atom.service.AtomService):
 
     Args:
       next: string The URL user will be sent to after logging in.
-      scope: string or list of strings. The URLs of the services to be 
+      scope: string or list of strings. The URLs of the services to be
              accessed.
       secure: boolean (optional) Determines whether or not the issued token
               is a secure token.
@@ -852,9 +852,9 @@ class GDataService(atom.service.AtomService):
     """
     if not isinstance(scope, (list, tuple)):
       scope = (scope,)
-    return gdata.auth.generate_auth_sub_url(next, scope, secure=secure, 
-        session=session, 
-        request_url='%s/accounts/AuthSubRequest' % AUTH_SERVER_HOST, 
+    return gdata.auth.generate_auth_sub_url(next, scope, secure=secure,
+        session=session,
+        request_url='%s/accounts/AuthSubRequest' % AUTH_SERVER_HOST,
         domain=domain)
 
   def UpgradeToSessionToken(self, token=None):
@@ -869,7 +869,7 @@ class GDataService(atom.service.AtomService):
 
     Raises:
       NonAuthSubToken if the user's auth token is not an AuthSub token
-      TokenUpgradeFailed if the server responded to the request with an 
+      TokenUpgradeFailed if the server responded to the request with an
       error.
     """
     if token is None:
@@ -895,11 +895,11 @@ class GDataService(atom.service.AtomService):
       The upgraded token as a gdata.auth.AuthSubToken object.
 
     Raises:
-      TokenUpgradeFailed if the server responded to the request with an 
+      TokenUpgradeFailed if the server responded to the request with an
       error.
     """
-    response = token.perform_request(self.http_client, 'GET', 
-        AUTH_SERVER_HOST + '/accounts/AuthSubSessionToken', 
+    response = token.perform_request(self.http_client, 'GET',
+        AUTH_SERVER_HOST + '/accounts/AuthSubSessionToken',
         headers={'Content-Type':'application/x-www-form-urlencoded'})
     response_body = response.read()
     if response.status == 200:
@@ -922,8 +922,8 @@ class GDataService(atom.service.AtomService):
     if not isinstance(token, gdata.auth.AuthSubToken):
       raise NonAuthSubToken
 
-    response = token.perform_request(self.http_client, 'GET', 
-        AUTH_SERVER_HOST + '/accounts/AuthSubRevokeToken', 
+    response = token.perform_request(self.http_client, 'GET',
+        AUTH_SERVER_HOST + '/accounts/AuthSubRevokeToken',
         headers={'Content-Type':'application/x-www-form-urlencoded'})
     if response.status == 200:
       self.token_store.remove_token(token)
@@ -939,8 +939,8 @@ class GDataService(atom.service.AtomService):
     if not isinstance(token, gdata.auth.AuthSubToken):
       raise NonAuthSubToken
 
-    response = token.perform_request(self.http_client, 'GET', 
-        AUTH_SERVER_HOST + '/accounts/AuthSubTokenInfo', 
+    response = token.perform_request(self.http_client, 'GET',
+        AUTH_SERVER_HOST + '/accounts/AuthSubTokenInfo',
         headers={'Content-Type':'application/x-www-form-urlencoded'})
     result_body = response.read()
     if response.status == 200:
@@ -949,7 +949,7 @@ class GDataService(atom.service.AtomService):
       raise RequestError, {'status': response.status,
           'body': result_body}
 
-  def GetWithRetries(self, uri, extra_headers=None, redirects_remaining=4, 
+  def GetWithRetries(self, uri, extra_headers=None, redirects_remaining=4,
       encoding='UTF-8', converter=None, num_retries=DEFAULT_NUM_RETRIES,
       delay=DEFAULT_DELAY, backoff=DEFAULT_BACKOFF, logger=None):
     """This is a wrapper method for Get with retrying capability.
@@ -1016,42 +1016,42 @@ class GDataService(atom.service.AtomService):
     raise RanOutOfTries('Ran out of tries.')
 
   # CRUD operations
-  def Get(self, uri, extra_headers=None, redirects_remaining=4, 
+  def Get(self, uri, extra_headers=None, redirects_remaining=4,
       encoding='UTF-8', converter=None):
     """Query the GData API with the given URI
 
-    The uri is the portion of the URI after the server value 
+    The uri is the portion of the URI after the server value
     (ex: www.google.com).
 
-    To perform a query against Google Base, set the server to 
-    'base.google.com' and set the uri to '/base/feeds/...', where ... is 
-    your query. For example, to find snippets for all digital cameras uri 
+    To perform a query against Google Base, set the server to
+    'base.google.com' and set the uri to '/base/feeds/...', where ... is
+    your query. For example, to find snippets for all digital cameras uri
     should be set to: '/base/feeds/snippets?bq=digital+camera'
 
     Args:
       uri: string The query in the form of a URI. Example:
            '/base/feeds/snippets?bq=digital+camera'.
       extra_headers: dictionary (optional) Extra HTTP headers to be included
-                     in the GET request. These headers are in addition to 
+                     in the GET request. These headers are in addition to
                      those stored in the client's additional_headers property.
-                     The client automatically sets the Content-Type and 
+                     The client automatically sets the Content-Type and
                      Authorization headers.
       redirects_remaining: int (optional) Tracks the number of additional
           redirects this method will allow. If the service object receives
-          a redirect and remaining is 0, it will not follow the redirect. 
+          a redirect and remaining is 0, it will not follow the redirect.
           This was added to avoid infinite redirect loops.
       encoding: string (optional) The character encoding for the server's
           response. Default is UTF-8
       converter: func (optional) A function which will transform
-          the server's results before it is returned. Example: use 
+          the server's results before it is returned. Example: use
           GDataFeedFromString to parse the server response as if it
           were a GDataFeed.
 
     Returns:
-      If there is no ResultsTransformer specified in the call, a GDataFeed 
-      or GDataEntry depending on which is sent from the server. If the 
+      If there is no ResultsTransformer specified in the call, a GDataFeed
+      or GDataEntry depending on which is sent from the server. If the
       response is niether a feed or entry and there is no ResultsTransformer,
-      return a string. If there is a ResultsTransformer, the returned value 
+      return a string. If there is a ResultsTransformer, the returned value
       will be that of the ResultsTransformer function.
     """
 
@@ -1065,7 +1065,7 @@ class GDataService(atom.service.AtomService):
         else:
           uri += '?gsessionid=%s' % (self.__gsessionid,)
 
-    server_response = self.request('GET', uri, 
+    server_response = self.request('GET', uri,
         headers=extra_headers)
     result_body = server_response.read()
 
@@ -1093,7 +1093,7 @@ class GDataService(atom.service.AtomService):
           m = re.compile('[\?\&]gsessionid=(\w*)').search(location)
           if m is not None:
             self.__gsessionid = m.group(1)
-          return GDataService.Get(self, location, extra_headers, redirects_remaining - 1, 
+          return GDataService.Get(self, location, extra_headers, redirects_remaining - 1,
               encoding=encoding, converter=converter)
         else:
           raise RequestError, {'status': server_response.status,
@@ -1119,7 +1119,7 @@ class GDataService(atom.service.AtomService):
 
   def GetEntry(self, uri, extra_headers=None):
     """Query the GData API with the given URI and receive an Entry.
-    
+
     See also documentation for gdata.service.Get
 
     Args:
@@ -1135,14 +1135,14 @@ class GDataService(atom.service.AtomService):
       A GDataEntry built from the XML in the server's response.
     """
 
-    result = GDataService.Get(self, uri, extra_headers, 
+    result = GDataService.Get(self, uri, extra_headers,
         converter=atom.EntryFromString)
     if isinstance(result, atom.Entry):
       return result
     else:
-      raise UnexpectedReturnType, 'Server did not send an entry' 
+      raise UnexpectedReturnType, 'Server did not send an entry'
 
-  def GetFeed(self, uri, extra_headers=None, 
+  def GetFeed(self, uri, extra_headers=None,
               converter=gdata.GDataFeedFromString):
     """Query the GData API with the given URI and receive a Feed.
 
@@ -1165,17 +1165,17 @@ class GDataService(atom.service.AtomService):
     if isinstance(result, atom.Feed):
       return result
     else:
-      raise UnexpectedReturnType, 'Server did not send a feed'  
+      raise UnexpectedReturnType, 'Server did not send a feed'
 
   def GetNext(self, feed):
     """Requests the next 'page' of results in the feed.
-    
+
     This method uses the feed's next link to request an additional feed
     and uses the class of the feed to convert the results of the GET request.
 
     Args:
       feed: atom.Feed or a subclass. The feed should contain a next link and
-          the type of the feed will be applied to the results from the 
+          the type of the feed will be applied to the results from the
           server. The new feed which is returned will be of the same class
           as this feed which was passed in.
 
@@ -1191,7 +1191,7 @@ class GDataService(atom.service.AtomService):
     # Make a GET request on the next link and use the above closure for the
     # converted which processes the XML string from the server.
     if next_link and next_link.href:
-      return GDataService.Get(self, next_link.href, 
+      return GDataService.Get(self, next_link.href,
           converter=ConvertToFeedClass)
     else:
       return None
@@ -1230,23 +1230,23 @@ class GDataService(atom.service.AtomService):
       or the results of running converter on the server's result body (if
       converter was specified).
     """
-    return GDataService.PostOrPut(self, 'POST', data, uri, 
-        extra_headers=extra_headers, url_params=url_params, 
+    return GDataService.PostOrPut(self, 'POST', data, uri,
+        extra_headers=extra_headers, url_params=url_params,
         escape_params=escape_params, redirects_remaining=redirects_remaining,
         media_source=media_source, converter=converter)
 
-  def PostOrPut(self, verb, data, uri, extra_headers=None, url_params=None, 
-           escape_params=True, redirects_remaining=4, media_source=None, 
+  def PostOrPut(self, verb, data, uri, extra_headers=None, url_params=None,
+           escape_params=True, redirects_remaining=4, media_source=None,
            converter=None):
     """Insert data into a GData service at the given URI.
 
     Args:
       verb: string, either 'POST' or 'PUT'
       data: string, ElementTree._Element, atom.Entry, or gdata.GDataEntry The
-            XML to be sent to the uri. 
-      uri: string The location (feed) to which the data should be inserted. 
-           Example: '/base/feeds/items'. 
-      extra_headers: dict (optional) HTTP headers which are to be included. 
+            XML to be sent to the uri.
+      uri: string The location (feed) to which the data should be inserted.
+           Example: '/base/feeds/items'.
+      extra_headers: dict (optional) HTTP headers which are to be included.
                      The client automatically sets the Content-Type,
                      Authorization, and Content-Length headers.
       url_params: dict (optional) Additional URL parameters to be included
@@ -1260,9 +1260,9 @@ class GDataService(atom.service.AtomService):
                      provided.
       media_source: MediaSource (optional) Container for the media to be sent
           along with the entry, if provided.
-      converter: func (optional) A function which will be executed on the 
-          server's response. Often this is a function like 
-          GDataEntryFromString which will parse the body of the server's 
+      converter: func (optional) A function which will be executed on the
+          server's response. Often this is a function like
+          GDataEntryFromString which will parse the body of the server's
           response and return a GDataEntry.
 
     Returns:
@@ -1284,31 +1284,31 @@ class GDataService(atom.service.AtomService):
         data_str = ElementTree.tostring(data)
       else:
         data_str = str(data)
-        
+
       multipart = []
       multipart.append('Media multipart posting\r\n--END_OF_PART\r\n' + \
           'Content-Type: application/atom+xml\r\n\r\n')
       multipart.append('\r\n--END_OF_PART\r\nContent-Type: ' + \
           media_source.content_type+'\r\n\r\n')
       multipart.append('\r\n--END_OF_PART--\r\n')
-        
+
       extra_headers['MIME-version'] = '1.0'
       extra_headers['Content-Length'] = str(len(multipart[0]) +
           len(multipart[1]) + len(multipart[2]) +
           len(data_str) + media_source.content_length)
 
       extra_headers['Content-Type'] = 'multipart/related; boundary=END_OF_PART'
-      server_response = self.request(verb, uri, 
+      server_response = self.request(verb, uri,
           data=[multipart[0], data_str, multipart[1], media_source.file_handle,
               multipart[2]], headers=extra_headers, url_params=url_params)
       result_body = server_response.read()
-      
+
     elif media_source or isinstance(data, gdata.MediaSource):
       if isinstance(data, gdata.MediaSource):
         media_source = data
       extra_headers['Content-Length'] = str(media_source.content_length)
       extra_headers['Content-Type'] = media_source.content_type
-      server_response = self.request(verb, uri, 
+      server_response = self.request(verb, uri,
           data=media_source.file_handle, headers=extra_headers,
           url_params=url_params)
       result_body = server_response.read()
@@ -1340,9 +1340,9 @@ class GDataService(atom.service.AtomService):
         if location is not None:
           m = re.compile('[\?\&]gsessionid=(\w*)').search(location)
           if m is not None:
-            self.__gsessionid = m.group(1) 
-          return GDataService.PostOrPut(self, verb, data, location, 
-              extra_headers, url_params, escape_params, 
+            self.__gsessionid = m.group(1)
+          return GDataService.PostOrPut(self, verb, data, location,
+              extra_headers, url_params, escape_params,
               redirects_remaining - 1, media_source, converter=converter)
         else:
           raise RequestError, {'status': server_response.status,
@@ -1356,13 +1356,13 @@ class GDataService(atom.service.AtomService):
       raise RequestError, {'status': server_response.status,
           'reason': server_response.reason, 'body': result_body}
 
-  def Put(self, data, uri, extra_headers=None, url_params=None, 
+  def Put(self, data, uri, extra_headers=None, url_params=None,
           escape_params=True, redirects_remaining=3, media_source=None,
           converter=None):
     """Updates an entry at the given URI.
-     
+
     Args:
-      data: string, ElementTree._Element, or xml_wrapper.ElementWrapper The 
+      data: string, ElementTree._Element, or xml_wrapper.ElementWrapper The
             XML containing the updated data.
       uri: string A URI indicating entry to which the update will be applied.
            Example: '/base/feeds/items/ITEM-ID'
@@ -1378,9 +1378,9 @@ class GDataService(atom.service.AtomService):
                      reserved characters have been escaped). If true, this
                      method will escape the query and any URL parameters
                      provided.
-      converter: func (optional) A function which will be executed on the 
-          server's response. Often this is a function like 
-          GDataEntryFromString which will parse the body of the server's 
+      converter: func (optional) A function which will be executed on the
+          server's response. Often this is a function like
+          GDataEntryFromString which will parse the body of the server's
           response and return a GDataEntry.
 
     Returns:
@@ -1388,17 +1388,17 @@ class GDataService(atom.service.AtomService):
       or the results of running converter on the server's result body (if
       converter was specified).
     """
-    return GDataService.PostOrPut(self, 'PUT', data, uri, 
-        extra_headers=extra_headers, url_params=url_params, 
+    return GDataService.PostOrPut(self, 'PUT', data, uri,
+        extra_headers=extra_headers, url_params=url_params,
         escape_params=escape_params, redirects_remaining=redirects_remaining,
         media_source=media_source, converter=converter)
 
-  def Delete(self, uri, extra_headers=None, url_params=None, 
+  def Delete(self, uri, extra_headers=None, url_params=None,
              escape_params=True, redirects_remaining=4):
     """Deletes the entry at the given URI.
 
     Args:
-      uri: string The URI of the entry to be deleted. Example: 
+      uri: string The URI of the entry to be deleted. Example:
            '/base/feeds/items/ITEM-ID'
       extra_headers: dict (optional) HTTP headers which are to be included.
                      The client automatically sets the Content-Type and
@@ -1424,8 +1424,8 @@ class GDataService(atom.service.AtomService):
         if url_params is None:
           url_params = {}
         url_params['gsessionid'] = self.__gsessionid
- 
-    server_response = self.request('DELETE', uri, 
+
+    server_response = self.request('DELETE', uri,
         headers=extra_headers, url_params=url_params)
     result_body = server_response.read()
 
@@ -1438,8 +1438,8 @@ class GDataService(atom.service.AtomService):
         if location is not None:
           m = re.compile('[\?\&]gsessionid=(\w*)').search(location)
           if m is not None:
-            self.__gsessionid = m.group(1) 
-          return GDataService.Delete(self, location, extra_headers, 
+            self.__gsessionid = m.group(1)
+          return GDataService.Delete(self, location, extra_headers,
               url_params, escape_params, redirects_remaining - 1)
         else:
           raise RequestError, {'status': server_response.status,
@@ -1536,26 +1536,26 @@ def GenerateAuthSubRequestUrl(next, scopes, hd='default', secure=False,
 
 class Query(dict):
   """Constructs a query URL to be used in GET requests
-  
-  Url parameters are created by adding key-value pairs to this object as a 
+
+  Url parameters are created by adding key-value pairs to this object as a
   dict. For example, to add &max-results=25 to the URL do
   my_query['max-results'] = 25
 
   Category queries are created by adding category strings to the categories
   member. All items in the categories list will be concatenated with the /
   symbol (symbolizing a category x AND y restriction). If you would like to OR
-  2 categories, append them as one string with a | between the categories. 
+  2 categories, append them as one string with a | between the categories.
   For example, do query.categories.append('Fritz|Laurie') to create a query
   like this feed/-/Fritz%7CLaurie . This query will look for results in both
   categories.
   """
 
-  def __init__(self, feed=None, text_query=None, params=None, 
+  def __init__(self, feed=None, text_query=None, params=None,
       categories=None):
     """Constructor for Query
-    
+
     Args:
-      feed: str (optional) The path for the feed (Examples: 
+      feed: str (optional) The path for the feed (Examples:
           '/base/feeds/snippets' or 'calendar/feeds/jo@gmail.com/private/full'
       text_query: str (optional) The contents of the q query parameter. The
           contents of the text_query are URL escaped upon conversion to a URI.
@@ -1563,12 +1563,12 @@ class Query(dict):
           params when translated to a URI. These parameters are added to the
           query's items (key-value pairs).
       categories: list (optional) List of category strings which should be
-          included as query categories. See 
-          http://code.google.com/apis/gdata/reference.html#Queries for 
-          details. If you want to get results from category A or B (both 
-          categories), specify a single list item 'A|B'. 
+          included as query categories. See
+          http://code.google.com/apis/gdata/reference.html#Queries for
+          details. If you want to get results from category A or B (both
+          categories), specify a single list item 'A|B'.
     """
-    
+
     self.feed = feed
     self.categories = []
     if text_query:
@@ -1589,7 +1589,7 @@ class Query(dict):
   def _SetTextQuery(self, query):
     self['q'] = query
 
-  text_query = property(_GetTextQuery, _SetTextQuery, 
+  text_query = property(_GetTextQuery, _SetTextQuery,
       doc="""The feed query's q parameter""")
 
   def _GetAuthor(self):
@@ -1697,11 +1697,11 @@ class Query(dict):
       return self['orderby']
     else:
       return None
- 
+
   def _SetOrderBy(self, query):
     self['orderby'] = query
-  
-  orderby = property(_GetOrderBy, _SetOrderBy, 
+
+  orderby = property(_GetOrderBy, _SetOrderBy,
       doc="""The feed query's orderby parameter""")
 
   def ToUri(self):

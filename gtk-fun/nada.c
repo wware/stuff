@@ -5,13 +5,13 @@
 
 #include <gtk/gtk.h>
 
-void 
+void
 on_window1_destroy(GtkObject *object, gpointer user_data)
 {
     gtk_main_quit();
 }
 
-void 
+void
 on_button3_click(GtkObject *object, gpointer user_data)
 {
     gtk_main_quit();
@@ -20,7 +20,7 @@ on_button3_click(GtkObject *object, gpointer user_data)
 int
 main(int argc, char *argv[])
 {
-    GtkBuilder      *builder; 
+    GtkBuilder      *builder;
     GtkWidget       *window;
 
     gtk_init (&argc, &argv);
@@ -31,8 +31,8 @@ main(int argc, char *argv[])
     gtk_builder_connect_signals(builder, NULL);
 
     g_object_unref(G_OBJECT(builder));
-        
-    gtk_widget_show(window);                
+
+    gtk_widget_show(window);
     gtk_main ();
 
     return 0;

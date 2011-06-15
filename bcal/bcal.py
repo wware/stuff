@@ -669,7 +669,7 @@ class ColumnAjax(AjaxBaseClass):
 
     def post(self):
         assert False
-        
+
 class CounselorInfoPost(AjaxBaseClass):
     pass
 

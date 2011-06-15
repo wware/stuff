@@ -45,7 +45,7 @@ struct twofish_context {
     void set_key(struct twofish_context *ctx,const u1byte in_key[], const u4byte key_len);
     void encrypt(struct twofish_context *ctx,const u1byte in_blk[16], u1byte out_blk[16]);
     void decrypt(struct twofish_context *ctx,const u1byte in_blk[16], u1byte out_blk[16]);
-  struct twofish_context *init_ctx(void); /* return a new context. */ 
+  struct twofish_context *init_ctx(void); /* return a new context. */
 #ifdef  __cplusplus
     };
 #endif
@@ -72,7 +72,7 @@ struct twofish_context {
 
 #define bswap(x)    (rotl(x, 8) & 0x00ff00ff | rotr(x, 8) & 0xff00ff00)
 
-/* Extract byte from a 32 bit quantity (little endian notation)     */ 
+/* Extract byte from a 32 bit quantity (little endian notation)     */
 
 #define byte(x,n)   ((u1byte)((x) >> (8 * n)))
 
@@ -81,12 +81,12 @@ struct twofish_context {
 #ifdef	LITTLE_ENDIAN
 
 #define	u4byte_in(x)		(*(u4byte*)(x))
-#define	u4byte_out(x, v)	(*(u4byte*)(x) = (v)) 
+#define	u4byte_out(x, v)	(*(u4byte*)(x) = (v))
 
 #else
 
 #define	u4byte_in(x)		bswap(*(u4byte)(x))
-#define	u4byte_out(x, v)	(*(u4byte*)(x) = bswap(v)) 
+#define	u4byte_out(x, v)	(*(u4byte*)(x) = bswap(v))
 
 #endif
 

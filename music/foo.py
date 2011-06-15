@@ -70,7 +70,7 @@ score = [Note(C, 0.0),
 
 
 class FourierSeriesInstrument(Instrument):
-    
+
     "Based on a Fourier series of coefficient generator functions"
 
     def __init__(self, numHarmonics):

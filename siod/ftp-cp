@@ -4,7 +4,7 @@
 ;; purpose:  ftp client to connect to two servers at the same time
 ;;           and cause a transfer from one server to another
 ;;           via a direct data connection between the two servers.
-;; author:   George J. Carrette. 
+;; author:   George J. Carrette.
 ;; date:     31-JAN-1996.
 ;;
 ;; usage:    ftp.cp host1 host2 <transfer-script> [:debug=true]
@@ -33,7 +33,7 @@
 			    ((equal? debug "false") nil)
 			    ('else
 			     (error "invalid debug option" debug))))
-    
+
     (ftp.cp (or (larg-default (cdddr *args*) 0)
 		(error "no host1 specified"))
 	    (or (larg-default (cdddr *args*) 1)
@@ -54,6 +54,4 @@
 	    ((pair? (set! exp (eval exp)))
 	     (set! result (nconc (reverse exp) result)))))
     (nreverse result)))
-
-
 

@@ -1,7 +1,7 @@
 /**
  * tterm.java - MM2-style torsion energy term
  * Copyright (c) 1997,1998 Will Ware, all rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and other materials provided with the distribution.
- * 
+ *
  * This software is provided "as is" and any express or implied warranties,
  * including, but not limited to, the implied warranties of merchantability
  * or fitness for any particular purpose are disclaimed. In no event shall
@@ -303,7 +303,7 @@ public class tterm extends term {
 						      dcosdB[1] -
 						      r34[1] * dcosdB[0]);
 				} else {
-					//  This angle is closer to 0 or 180 than it is to 
+					//  This angle is closer to 0 or 180 than it is to
 					//  90, so use the cos version to avoid 1/sin terms
 					K1 = -K1 / cos_phi;
 

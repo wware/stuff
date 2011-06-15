@@ -103,7 +103,7 @@ class Example2(StateMachine):
     states = ( s0, s1, s2 )
 
     transitions = {
-        
+
         s0: [ Edge(s1) ],
 
         s1: [ Edge(s2) ],
@@ -141,7 +141,7 @@ class Example3(StateMachine):
         self.allResults.append(x)
 
     transitions = {
-        
+
         s0: [ Edge(s1,
                    action=lambda self: self.record_result(self.s0)) ],
 

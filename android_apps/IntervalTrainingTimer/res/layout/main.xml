@@ -27,15 +27,15 @@
   </LinearLayout>
 
   <TextView android:id="@+id/sprintnum"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/sprint"
 	    android:text="Warm up"
 	    android:textSize="60sp"/>
 
   <TextView android:id="@+id/showtime"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/sprintnum"
             android:gravity="center"
 	    android:text="00:00"

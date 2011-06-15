@@ -11,7 +11,7 @@ You don't need Eclipse to do all this stuff::
 
  # Set up a path to make tools easily reachable.
  export PATH=$PATH:/opt/android-sdk-linux_86/tools:/opt/android-sdk-linux_86/platform-tools
- 
+
  # Create a Hello-World skeleton for an Android app.
  # Choose target from options shown by "android list targets".
  export APPNAME=IntervalTrainer

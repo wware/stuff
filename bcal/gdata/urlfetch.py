@@ -24,14 +24,14 @@ AppEngineHttpClient: Provides an HTTP request method which uses App Engine's
 
 run_on_appengine: Function which will modify an existing GDataService object
    to allow it to run on App Engine. It works by creating a new instance of
-   the AppEngineHttpClient and replacing the GDataService object's 
+   the AppEngineHttpClient and replacing the GDataService object's
    http_client.
 
-HttpRequest: Function that wraps google.appengine.api.urlfetch.Fetch in a 
-    common interface which is used by gdata.service.GDataService. In other 
-    words, this module can be used as the gdata service request handler so 
+HttpRequest: Function that wraps google.appengine.api.urlfetch.Fetch in a
+    common interface which is used by gdata.service.GDataService. In other
+    words, this module can be used as the gdata service request handler so
     that all HTTP requests will be performed by the hosting Google App Engine
-    server. 
+    server.
 """
 
 
@@ -120,7 +120,7 @@ class AppEngineHttpClient(atom.http_interface.GenericHttpClient):
       method = None
     return HttpResponse(urlfetch.Fetch(url=str(url), payload=data_str,
         method=method, headers=all_headers))
- 
+
 
 def HttpRequest(service, operation, data, uri, extra_headers=None,
     url_params=None, escape_params=True, content_type='application/atom+xml'):
@@ -171,7 +171,7 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
   else:
     full_url = 'http://%s%s' % (server, partial_uri)
 
-  # Construct the full payload. 
+  # Construct the full payload.
   # Assume that data is None or a string.
   data_str = data
   if data:
@@ -206,7 +206,7 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
     method = urlfetch.DELETE
   else:
     method = None
-  return HttpResponse(urlfetch.Fetch(url=full_url, payload=data_str, 
+  return HttpResponse(urlfetch.Fetch(url=full_url, payload=data_str,
       method=method, headers=headers))
 
 
@@ -223,7 +223,7 @@ def __ConvertDataPart(data):
 
 class HttpResponse(object):
   """Translates a urlfetch resoinse to look like an hhtplib resoinse.
-  
+
   Used to allow the resoinse from HttpRequest to be usable by gdata.service
   methods.
   """
@@ -244,4 +244,4 @@ class HttpResponse(object):
     if not self.headers.has_key(name):
       return self.headers[name.lower()]
     return self.headers[name]
-    
+

@@ -23,7 +23,7 @@ html {
   background-color: InfoBackground;
 }
 
-#feedHeader {  
+#feedHeader {
   margin-top: 4.9em;
   margin-bottom: 1em;
   -moz-margin-start: 1.4em;
@@ -152,7 +152,7 @@ a[href] img {
 .feedEntryContent {
   font-size: 110%;
 }
- 
+
 .link {
   color: #0000FF;
   text-decoration: underline;

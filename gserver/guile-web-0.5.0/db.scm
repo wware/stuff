@@ -27,7 +27,7 @@
 ;;; #(num-rows [hash table 1] ... [hash table N])
 ; (define (db:res->assoc db-res)
 ;   (if (list? db-res)
-;     (let ((names 
+;     (let ((names
 ; 	   (map string->symbol (vector->list (car db-res))))
 ; 	  (name-len (1+ (vector-length (car db-res))))
 ; 	  (data (cdr db-res))

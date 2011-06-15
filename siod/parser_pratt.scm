@@ -36,7 +36,7 @@
 		   "\"" 'string-delim
 		   "*" '(("*"))
 		   ">:<" '(("="))))
-		
+
 (define (te)
   (pratt_read_token (cons-array 100 'string)
 		    *standard-tokenizer-table*

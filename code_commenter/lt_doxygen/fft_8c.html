@@ -41,7 +41,7 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-This is adapted from some reference FFT C code found at: <a href="http://www.cag.lcs.mit.edu/streamit/results/fft/code/c/unifft.c">http://www.cag.lcs.mit.edu/streamit/results/fft/code/c/unifft.c</a> 
+This is adapted from some reference FFT C code found at: <a href="http://www.cag.lcs.mit.edu/streamit/results/fft/code/c/unifft.c">http://www.cag.lcs.mit.edu/streamit/results/fft/code/c/unifft.c</a>
 <p>Definition in file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 <hr><h2>Function Documentation</h2>
 <a class="anchor" name="daa17e772ca7a0d5f9a1697bf2d2a4ca"></a><!-- doxytag: member="fft.c::bitrev" ref="daa17e772ca7a0d5f9a1697bf2d2a4ca" args="(int inp, int numbits)" -->
@@ -70,7 +70,7 @@ This is adapted from some reference FFT C code found at: <a href="http://www.cag
 <div class="memdoc">
 
 <p>
-treats inp as a numbits number and bitreverses it. inp &lt; 2^(numbits) for meaningful bit-reversal 
+treats inp as a numbits number and bitreverses it. inp &lt; 2^(numbits) for meaningful bit-reversal
 <p>Definition at line <a class="el" href="fft_8c-source.html#l00167">167</a> of file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 
 <p>Referenced by <a class="el" href="fft_8c-source.html#l00121">compute_W()</a>, and <a class="el" href="fft_8c-source.html#l00138">permute_bitrev()</a>.</p>
@@ -111,7 +111,7 @@ treats inp as a numbits number and bitreverses it. inp &lt; 2^(numbits) for mean
 <p>
 W will contain roots of unity so that W[bitrev(i,log2n-1)] = e^(2*pi*i/n)<p>
 n should be a power of 2<p>
-Note: W is bit-reversal permuted because fft(..) goes faster if this is done. see that function for more details on why we treat 'i' as a (log2n-1) bit number. 
+Note: W is bit-reversal permuted because fft(..) goes faster if this is done. see that function for more details on why we treat 'i' as a (log2n-1) bit number.
 <p>Definition at line <a class="el" href="fft_8c-source.html#l00121">121</a> of file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 
 <p>References <a class="el" href="fft_8c-source.html#l00167">bitrev()</a>, and <a class="el" href="fft_8c-source.html#l00182">log_2()</a>.</p>
@@ -165,7 +165,7 @@ Note: W is bit-reversal permuted because fft(..) goes faster if this is done. se
 
 <p>
 fft on a set of n points given by A_re and A_im. Bit-reversal permuted roots-of-unity lookup table is given by W_re and W_im. More specifically, W is the array of first n/2 nth roots of unity stored in a permuted bitreversal order. n must be a power of 2 to work.<p>
-Execution time on a 450MHz PIII is about n * log2(n) * 1.2 usecs. 
+Execution time on a 450MHz PIII is about n * log2(n) * 1.2 usecs.
 <p>Definition at line <a class="el" href="fft_8c-source.html#l00201">201</a> of file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 
 <p>Referenced by <a class="el" href="fft_8c-source.html#l00043">main()</a>.</p>
@@ -224,7 +224,7 @@ Execution time on a 450MHz PIII is about n * log2(n) * 1.2 usecs.
 
 <p>
 Find out where the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server is. Go into a loop: get a request to perform an FFT operation, perform it, and put the result back in the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space.<p>
-Three fields in the request <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> are used as unique identifiers to make sure the customer reclaims the correct result, in case several FFTs are being done simultaneously. These identifier fields can be initialized using <a class="el" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int()</a> in <a class="el" href="tuple_8c.html">tuple.c</a>. 
+Three fields in the request <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> are used as unique identifiers to make sure the customer reclaims the correct result, in case several FFTs are being done simultaneously. These identifier fields can be initialized using <a class="el" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int()</a> in <a class="el" href="tuple_8c.html">tuple.c</a>.
 <p>Definition at line <a class="el" href="fft_8c-source.html#l00043">43</a> of file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 
 <p>References <a class="el" href="fft_8c-source.html#l00121">compute_W()</a>, <a class="el" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">element::data</a>, <a class="el" href="tuple_8h-source.html#l00219">tuple::elements</a>, <a class="el" href="fft_8c-source.html#l00201">fft()</a>, <a class="el" href="tuple_8c-source.html#l00110">get_server_portnumber()</a>, <a class="el" href="tuple_8c-source.html#l00864">get_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00366">make_tuple()</a>, <a class="el" href="tuple_8h-source.html#l00262">context::peername</a>, <a class="el" href="fft_8c-source.html#l00138">permute_bitrev()</a>, <a class="el" href="tuple_8h-source.html#l00267">context::portnumber</a>, <a class="el" href="tuple_8c-source.html#l00785">put_tuple()</a>, <a class="el" href="structelement.html#da7388185bb465de085afe680dbe1b62">element::s</a>, and <a class="el" href="tuple_8c-source.html#l01286">tuple_string_field()</a>.</p>
@@ -263,7 +263,7 @@ Three fields in the request <a class="el" href="structtuple.html" title="An orde
 <div class="memdoc">
 
 <p>
-permutes the array using a bit-reversal permutation 
+permutes the array using a bit-reversal permutation
 <p>Definition at line <a class="el" href="fft_8c-source.html#l00138">138</a> of file <a class="el" href="fft_8c-source.html">fft.c</a>.</p>
 
 <p>References <a class="el" href="fft_8c-source.html#l00167">bitrev()</a>, and <a class="el" href="fft_8c-source.html#l00182">log_2()</a>.</p>

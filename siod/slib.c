@@ -1,5 +1,5 @@
 /* Scheme In One Defun, but in C this time.
- 
+
  *                      COPYRIGHT (c) 1988-1994 BY                          *
  *        PARADIGM ASSOCIATES INCORPORATED, CAMBRIDGE, MASSACHUSETTS.       *
  *			   ALL RIGHTS RESERVED                              *
@@ -44,7 +44,7 @@ Cambridge, MA 02138
     own main loops. Some short-int changes for lightspeed C included.
    Release 1.5 29-NOV-89. Added startup flag -g, select stop and copy
     or mark-and-sweep garbage collection, which assumes that the stack/register
-    marking code is correct for your architecture. 
+    marking code is correct for your architecture.
    Release 2.0 1-DEC-89. Added repl_hooks, Catch, Throw. This is significantly
     different enough (from 1.3) now that I'm calling it a major release.
    Release 2.1 4-DEC-89. Small reader features, dot, backquote, comma.
@@ -144,7 +144,7 @@ int ipoll_counter = 0;
 #endif
 
 char *stack_limit_ptr = NULL;
-long stack_size = 
+long stack_size =
 #ifdef THINK_C
   10000;
 #else
@@ -415,14 +415,14 @@ int fputs_fcn(char *st,void *cb)
 
 void put_st(char *st)
 {fput_st(stdout,st);}
-     
+
 void grepl_puts(char *st,void (*repl_puts)(char *))
 {if (repl_puts == NULL)
    {put_st(st);
     fflush(stdout);}
  else
    (*repl_puts)(st);}
-     
+
 long repl(struct repl_hooks *h)
 {LISP x,cw = 0;
  double rt,ct;
@@ -727,7 +727,7 @@ LISP eq(LISP x,LISP y)
 {if EQ(x,y) return(sym_t); else return(NIL);}
 
 LISP eql(LISP x,LISP y)
-{if EQ(x,y) return(sym_t); else 
+{if EQ(x,y) return(sym_t); else
  if NFLONUMP(x) return(NIL); else
  if NFLONUMP(y) return(NIL); else
  if (FLONM(x) == FLONM(y)) return(sym_t);
@@ -906,7 +906,7 @@ void init_storage_1(void)
        FLONM(ptr) = j;
        inums[j] = ptr;}
     gc_protect_n(inums,inums_dim);}}
- 
+
 void init_subr(char *name, long type, SUBR_FUNC fcn)
 {setvar(cintern(name),subrcons(type,name,fcn),NIL);}
 
@@ -968,7 +968,7 @@ long allocate_user_tc(void)
    err("ran out of user type codes",NIL);
  ++user_tc_next;
  return(x);}
- 
+
 void set_gc_hooks(long type,
 		  LISP (*rel)(LISP),
 		  LISP (*mark)(LISP),
@@ -1083,7 +1083,7 @@ void free_oldspace(LISP space,LISP end)
 	default:
 	  p = get_user_type_hooks(TYPE(ptr));
 	  if (p->gc_free) (*p->gc_free)(ptr);}}
-      
+
 void gc_stop_and_copy(void)
 {LISP newspace,oldspace,end;
  long flag;
@@ -1331,10 +1331,10 @@ long freelist_length(void)
  for(n=0,l=freelist;NNULLP(l); ++n) l = CDR(l);
  n += (heap_end - heap);
  return(n);}
- 
+
 LISP gc_status(LISP args)
 {long n,m;
- if NNULLP(args) 
+ if NNULLP(args)
    if NULLP(car(args)) gc_status_flag = 0; else gc_status_flag = 1;
  if (gc_kind_copying == 1)
    {if (gc_status_flag)
@@ -1643,7 +1643,7 @@ LISP setvar(LISP var,LISP val,LISP env)
  tmp = envlookup(var,env);
  if NULLP(tmp) return(VCELL(var) = val);
  return(CAR(tmp)=val);}
- 
+
 LISP leval_setq(LISP args,LISP env)
 {return(setvar(car(args),leval(car(cdr(args)),env),env));}
 
@@ -1655,7 +1655,7 @@ LISP syntax_define(LISP args)
 	     cons(cdr(car(args)),
 		  cdr(args))),
 	     NIL))));}
-      
+
 LISP leval_define(LISP args,LISP env)
 {LISP tmp,var,val;
  tmp = syntax_define(args);
@@ -1669,12 +1669,12 @@ LISP leval_define(LISP args,LISP env)
  setcar(tmp,cons(var,car(tmp)));
  setcdr(tmp,cons(val,cdr(tmp)));
  return(val);}
- 
+
 LISP leval_if(LISP *pform,LISP *penv)
 {LISP args,env;
  args = cdr(*pform);
  env = *penv;
- if NNULLP(leval(car(args),env)) 
+ if NNULLP(leval(car(args),env))
     *pform = car(cdr(args)); else *pform = car(cdr(cdr(args)));
  return(sym_t);}
 
@@ -1684,14 +1684,14 @@ LISP leval_lambda(LISP args,LISP env)
    body = car(cdr(args));
   else body = cons(sym_progn,cdr(args));
  return(closure(env,cons(arglchk(car(args)),body)));}
-                         
+
 LISP leval_progn(LISP *pform,LISP *penv)
 {LISP env,l,next;
  env = *penv;
  l = cdr(*pform);
  next = cdr(l);
  while(NNULLP(next)) {leval(car(l),env);l=next;next=cdr(next);}
- *pform = car(l); 
+ *pform = car(l);
  return(sym_t);}
 
 LISP leval_or(LISP *pform,LISP *penv)
@@ -1703,7 +1703,7 @@ LISP leval_or(LISP *pform,LISP *penv)
    {val = leval(car(l),env);
     if NNULLP(val) {*pform = val; return(NIL);}
     l=next;next=cdr(next);}
- *pform = car(l); 
+ *pform = car(l);
  return(sym_t);}
 
 LISP leval_and(LISP *pform,LISP *penv)
@@ -1715,7 +1715,7 @@ LISP leval_and(LISP *pform,LISP *penv)
  while(NNULLP(next))
    {if NULLP(leval(car(l),env)) {*pform = NIL; return(NIL);}
     l=next;next=cdr(next);}
- *pform = car(l); 
+ *pform = car(l);
  return(sym_t);}
 
 LISP leval_catch_1(LISP forms,LISP env)
@@ -1794,7 +1794,7 @@ LISP let_macro(LISP form)
  setcdr(form,cons(reverse(fl),cons(reverse(al),cons(p,NIL))));
  setcar(form,cintern("let-internal"));
  return(form);}
-   
+
 LISP leval_quote(LISP args,LISP env)
 {return(car(args));}
 
@@ -2057,7 +2057,7 @@ LISP lreadtk(char *buffer,long j)
  return(flocons(atof(buffer)));
  a_symbol:
  return(rintern(buffer));}
-      
+
 LISP copy_list(LISP x)
 {if NULLP(x) return(NIL);
  STACK_CHECK(&x);
@@ -2250,7 +2250,7 @@ void file_gc_free(LISP ptr)
  if (ptr->storage_as.c_file.name)
    {free(ptr->storage_as.c_file.name);
     ptr->storage_as.c_file.name = NULL;}}
-   
+
 void file_prin1(LISP ptr,struct gen_printio *f)
 {char *name;
  name = ptr->storage_as.c_file.name;
@@ -2293,7 +2293,7 @@ LISP lputc(LISP c,LISP p)
  putc(i,f);
  no_interrupt(flag);
  return(NIL);}
-     
+
 LISP lputs(LISP str,LISP p)
 {fput_st(get_c_file(p,stdout),get_c_string(str));
  return(NIL);}
@@ -2545,5 +2545,4 @@ void pr(LISP p)
 void prp(LISP *p)
 {if (!p) return;
  pr(*p);}
-
 

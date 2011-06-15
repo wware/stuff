@@ -49,7 +49,7 @@
 VERSION=0.7
 
 CC=@CC@        # set the C compiler to gcc for most platforms. This is
-               # set to pgcc for Mandrake 6.1 due to irritating colorgcc. 
+               # set to pgcc for Mandrake 6.1 due to irritating colorgcc.
 
 # WARNING: THIS MAY FAIL IF PYTHON IS IN A STRANGE PLACE! It works with
 # both the BRU Professional Python installation and the Red Hat 6.2
@@ -75,14 +75,14 @@ clean:
 	@rm -f *.o *~ *.so
 
 dist:	clean
-	@rm -f config.h config.cache config.guess config.log config.status Makefile 
+	@rm -f config.h config.cache config.guess config.log config.status Makefile
 	./makedist $(VERSION)
 
 install:
 	@cp _twofish.so @PYTHON_LIB@/_twofish.so
 	@cp *.py  @PYTHON_PREFIX@/
 
-# I'm keeping track of dependencies from the start, sigh. 
+# I'm keeping track of dependencies from the start, sigh.
 
 _twofish.o: _twofish.c aes.h table.h debug.h
 	$(CC) -c $(CFLAGS) _twofish.c

@@ -1,4 +1,4 @@
-.TH SIOD 1C LOCAL 
+.TH SIOD 1C LOCAL
 .SH NAME
 siod \- small scheme interpreter (Scheme In One Defun).
 .SH SYNOPSIS
@@ -6,10 +6,10 @@ siod \- small scheme interpreter (Scheme In One Defun).
 [-sX] [-hX] [-iX] [-gX] [-oX] [-nX] [-eX] [-vX] [-lX] [-mX] [-vX] [filenames]
 .SH DESCRIPTION
 .I Siod
-is a very small scheme interpreter which can be used for 
+is a very small scheme interpreter which can be used for
 interactive calculations,
-scripts, or included as a command interpreter or extension/macro 
-language in other applications. See the documentation for interfacing 
+scripts, or included as a command interpreter or extension/macro
+language in other applications. See the documentation for interfacing
 requirements and how to add user-defined data types. The dash-style command
 line options may also be delimited by commas.
 
@@ -28,11 +28,11 @@ The
 .I XXXXX
 should be an integer, specifying the number of cons cells to
 allocate in the heap. The default is 100000:10. Or an integer followed by
-a colon, the number after which gives the maximum number of heaps to 
+a colon, the number after which gives the maximum number of heaps to
 malloc with mark and sweep gc mode.
 .TP
 .BI \-i "XXXXX"
-The 
+The
 .I XXXXX
 should be the name of an init file to load before going into
 the read/eval/print loop.
@@ -85,7 +85,7 @@ most generally useful level is 0. Defaults to 4.
 The
 .I XXXXX
 can be 0 (default) which has no effect, or 1, which causes the scheme
-procedure main, with no arguments to be invoked after all files are loaded, 
+procedure main, with no arguments to be invoked after all files are loaded,
 or 2, which does the same thing but prevents further arguments from
 being interpreted, or 3, which will wrap special error handling
 around the call to main which is convenient for writing cgi scripts
@@ -93,7 +93,7 @@ producing html. The environment may be obtained from the getenv
 procedure or the variable *env*. Arguments are found in *args*.
 .TP
 .BI \-v "XXXXX"
-The 
+The
 .I XXXXX
 Is passed along to the siod argument processing, however if the value
 is greater than 0 a Content-type: text/plain header is generated
@@ -161,4 +161,4 @@ With -g1 it does not GC during EVAL, only before each READ/EVAL/PRINT cycle.
 It does GC during EVAL with -g0, but that code may not run without modification
 on all architectures.
 .SH VERSION
-Current version is 3.2, 12-MAR-96, by George Carrette. GJC\@world.std.com 
+Current version is 3.2, 12-MAR-96, by George Carrette. GJC\@world.std.com

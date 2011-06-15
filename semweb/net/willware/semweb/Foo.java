@@ -16,7 +16,7 @@ import com.hp.hpl.jena.sparql.core.ResultBinding;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 public class Foo {
-    
+
     private static boolean USE_OWL = false;
     private static boolean DUMP_AND_QUIT = false;
     private static boolean NOT_REALLY = false;
@@ -58,7 +58,7 @@ public class Foo {
         int howMany = 10;
         GenealogyModel model = GenealogyModel.getInstance();
         model.read(danbriFoaf);
-        
+
         // Conjoin graphs from many different FOAF docs
         model.crawlSeeAlsos(howMany, new Tester() {
                 public boolean test(String uri) {
@@ -68,7 +68,7 @@ public class Foo {
                             );
                 }
             });
-        
+
         // Let's do a query on this data
         model.query("SELECT ?name ?interest WHERE {\n"
                 + "    ?person " + Interest + " ?interest.\n"
@@ -81,15 +81,15 @@ public class Foo {
                     }
                 });
     }
-    
+
     public static void main(String[] _args) {
-        
+
         GenealogyModel model = GenealogyModel.getInstance();
-        
+
         Model airports = Airport.getModel("BOS");
         airports = Airport.getModel("LAX", airports);
         model.mergeFrom(airports);
-        
+
         /* What do I get with the OWL reasoner? It should be able to
          * do things like merging people, or at least declaring them
          * to be the same person. For purposes of the genealogy, I
@@ -122,7 +122,7 @@ public class Foo {
                                            + (Literal) binding.get("name2"));
                     }
                 });
-    
+
         query = new GenealogyModel.Query(new String[] { "?name", "?date" });
         query.addTriplet("?person", Name, "?name");
         query.addTriplet("?person", Event, "?death");
@@ -140,7 +140,7 @@ public class Foo {
                 }
             }
         });
-    
+
         query = new GenealogyModel.Query(new String[] { "?name", "?aname" });
         query.addTriplet("?person", Name, "?name");
         query.addTriplet("?person", nearestAirport, "?airport");
@@ -148,7 +148,7 @@ public class Foo {
         query.addTriplet("?airport2", iataCode, "?code");
         query.addTriplet("?airport2", airportName, "?aname");
         model.query(query, null);
-    
+
         // For each person with a name and a birthday, show the name and birthday.
         // To identify the birthday, we find an event attached to that person, make
         // sure that it's the person's birth, and then find its date.
@@ -283,9 +283,9 @@ public class Foo {
         System.out.println(plist.listOfPeople() + " all are people who know SueB");
         System.out.println("fini");
     }
-    
+
     static Model inferenceFun(Model model) {
-        
+
         /* p and q are properties, p is a subproperty of q, and a has
          * p-property "foo", therefore a has q-property "foo" as well.
          */
@@ -294,7 +294,7 @@ public class Foo {
         Property q = model.createProperty(NS, "q");
         model.add(p, RDFS.subPropertyOf, q);
         model.createResource(NS + "a").addProperty(p, "foo");
-        
+
         /*
          * The conclusion "a q foo" is to be concluded by an inference
          * engine. This requires an InfModel.

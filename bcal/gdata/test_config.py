@@ -34,7 +34,7 @@ option_value = gdata.test_config.options.get_value('x')
 
 The above will check the command line for an '--x' argument, and if not
 found will either use the default value for 'x' or prompt the user to enter
-one. 
+one.
 
 Your test can override the value specified by the user by performing:
 
@@ -118,7 +118,7 @@ options = ConfigCollection()
 # Register the default options.
 options.register(
     'username',
-    'Please enter the email address of your test account', 
+    'Please enter the email address of your test account',
     description=('The email address you want to sign in with. '
                  'Make sure this is a test account as these tests may edit'
                  ' or delete data.'))
@@ -152,7 +152,7 @@ options.register(
     default='false')
 options.register(
     'appsusername',
-    'Please enter the email address of your test Apps domain account', 
+    'Please enter the email address of your test Apps domain account',
     description=('The email address you want to sign in with. '
                  'Make sure this is a test account on your Apps domain as '
                  'these tests may edit or delete data.'))
@@ -269,7 +269,7 @@ def configure_cache(client, test_name):
             with a atom.mock_http_core.MockHttpClient so that repeated
             executions can used cached responses instead of contacting
             the server.
-    test_name: str The name of this test method. Examples: 
+    test_name: str The name of this test method. Examples:
                'TestClass.test_x_works', 'TestClass.test_crud_operations'.
                This is used to name the recording of the HTTP requests and
                responses, so it should be unique to each test method in the
@@ -286,7 +286,7 @@ def configure_cache(client, test_name):
 
 def close_client(client):
   """Saves the recoded responses to a temp file if the config file allows.
-  
+
   This should be called in the unit test's tearDown method.
 
   Checks to see if the 'savecache' option is set to 'true', to make sure we
@@ -299,7 +299,7 @@ def close_client(client):
 
 def configure_service(service, case_name, service_name):
   """Sets up a mock GDataService v1 client to reuse recorded sessions.
-  
+
   Should be called during setUp of each unit test. This is a duplicate of
   configure_client, modified to handle old v1 service classes.
   """
@@ -326,7 +326,7 @@ def configure_service(service, case_name, service_name):
 
 def configure_service_cache(service, test_name):
   """Loads or starts a session recording for a v1 Service object.
-  
+
   Duplicates the behavior of configure_cache, but the target for this
   function is a v1 Service object instead of a v2 Client.
   """
@@ -345,12 +345,12 @@ def close_service(service):
 
 def build_suite(classes):
   """Creates a TestSuite for all unit test classes in the list.
-  
+
   Assumes that each of the classes in the list has unit test methods which
   begin with 'test'. Calls unittest.makeSuite.
 
-  Returns: 
-    A new unittest.TestSuite containing a test suite for all classes.   
+  Returns:
+    A new unittest.TestSuite containing a test suite for all classes.
   """
   suites = [unittest.makeSuite(a_class, 'test') for a_class in classes]
   return unittest.TestSuite(suites)
@@ -370,7 +370,7 @@ def check_data_classes(test, classes):
       for versioned_qname in qname_versions:
         test.assert_(isinstance(versioned_qname, str),
                      'The class %s has a non-string _qname' % data_class)
-        test.assert_(not versioned_qname.endswith('}'), 
+        test.assert_(not versioned_qname.endswith('}'),
                      'The _qname for class %s is only a namespace' % (
                          data_class))
 
@@ -378,11 +378,11 @@ def check_data_classes(test, classes):
       # Ignore all elements that start with _ (private members)
       if not attribute_name.startswith('_'):
         try:
-          if not (isinstance(value, str) or inspect.isfunction(value) 
+          if not (isinstance(value, str) or inspect.isfunction(value)
               or (isinstance(value, list)
                   and issubclass(value[0], atom.core.XmlElement))
               or type(value) == property # Allow properties.
-              or inspect.ismethod(value) # Allow methods. 
+              or inspect.ismethod(value) # Allow methods.
               or issubclass(value, atom.core.XmlElement)):
             test.fail(
                 'XmlElement member should have an attribute, XML class,'

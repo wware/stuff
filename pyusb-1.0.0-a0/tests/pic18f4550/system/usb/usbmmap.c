@@ -52,7 +52,7 @@
  * C compiler a way to address each variable directly. This is very important
  * because when a register can be accessed directly, it saves execution time
  * and reduces program size.
- * 
+ *
  * Endpoints are defined using the endpoint number and the direction
  * of transfer. For simplicity, usbmmap.c only uses the endpoint number
  * in the BDT register allocation scheme. This means if the usbcfg.h states
@@ -61,7 +61,7 @@
  * always be instantiated for control transfer by default, and one each sets
  * for endpoint1 in and endpoint1 out. The naming convention for instantiating
  * BDT is
- * 
+ *
  * ep<#>B<d>
  *
  * where # is the endpoint number, and d is the direction of
@@ -117,7 +117,7 @@
  * Note that the endpoint size defined in the usbcfg.h file is again
  * used in the usbmmap.c file. This shows that the relationship between
  * the two files are tightly related.
- * 
+ *
  * The endpoint buffer for each USB function must be located in the
  * dual-port RAM area and has to come after all the BDTs have been
  * instantiated. An example declaration is:
@@ -147,7 +147,7 @@
  * smaller program code.
  *
  *****************************************************************************/
- 
+
 /** I N C L U D E S **********************************************************/
 #include "system\typedefs.h"
 #include "system\usb\usb.h"

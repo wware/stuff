@@ -15,7 +15,7 @@
 ;     along with this program; if not, write to the Free Software
 ;     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-;;; This is a wrapper for Oleg's SSAX 
+;;; This is a wrapper for Oleg's SSAX
 (define-module (web ssax)
   #:export (xml-token?
 	    xml-token-kind xml-token-head
@@ -31,8 +31,8 @@
 	    SSAX:complete-start-tag
 	    SSAX:read-external-ID
 	    SSAX:read-char-data
-	    SSAX:make-pi-parser 
-	    SSAX:make-elem-parser 
+	    SSAX:make-pi-parser
+	    SSAX:make-elem-parser
 	    SSAX:make-parser
 	    SSAX:XML->SXML
 	    SSAX:warn
@@ -47,7 +47,7 @@
 ;;; SSAX:read-QName SSAX:Prefix-XML name-compare SSAX:skip-pi
 ;;; SSAX:read-pi-body-as-string SSAX:skip-internal-dtd
 ;;; make-empty-attlist attlist-add attlist-null? attlist-remove-top
-;;; attlist->alist SSAX:resolve-name SSAX:scan-Misc 
+;;; attlist->alist SSAX:resolve-name SSAX:scan-Misc
 
 ;;; These appear to be the public procedures:
 
@@ -56,7 +56,7 @@
 ;;; SSAX:uri-string->symbol SSAX:complete-start-tag
 ;;; SSAX:complete-start-tag SSAX:read-external-ID SSAX:read-char-data
 ;;; SSAX:assert-token SSAX:make-pi-parser SSAX:make-elem-parser
-;;; SSAX:make-parser SSAX:XML->SXML 
+;;; SSAX:make-parser SSAX:XML->SXML
 
 
 ;;; User should be able to override these

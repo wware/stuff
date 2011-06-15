@@ -1,5 +1,5 @@
 ;;-*-mode:lisp-*-
-;; 15-MAR-95. George Carrette. GJC@DELPHI.COM 
+;; 15-MAR-95. George Carrette. GJC@DELPHI.COM
 ;;            A hyper-text-protocol (HTTP) client.
 ;; $Id: http.scm,v 1.2 1995/12/06 14:13:50 gjc Exp $
 

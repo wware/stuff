@@ -26,7 +26,7 @@
 	(setup-post-args post)))
   (if (and (lkey-default (cdddr *args*) "username")
 	   (lkey-default (cdddr *args*) "password"))
-      (http-set-basic-authorization 
+      (http-set-basic-authorization
        (lkey-default (cdddr *args*) "username")
        (lkey-default (cdddr *args*) "password")))
   (http.get (or (larg-default (cdddr *args*) 0)

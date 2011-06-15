@@ -1,7 +1,7 @@
 /* Code specific to Lightspeed C on MacIntosh.
    This detects that the character APPLE-DOT is depressed,
    and then expects that sending a newline to the console
-   will invoke the proper signal handling code. 
+   will invoke the proper signal handling code.
 
    See the file "THINK C 5.0 FOLDER/C LIBRARIES/SOURCES/CONSOLE.C"
 
@@ -11,7 +11,7 @@
    overflow bashing another program.
 
  */
-  
+
 
 #include <stdio.h>
 #include <console.h>
@@ -26,7 +26,7 @@ void full_interrupt_poll(int *counter)
  if (interrupt_key_down())
      putc('\n',stdout);
   /* 200 seems to be a good compromise here between
-     interrupt latency and cpu-bound performance */   
+     interrupt latency and cpu-bound performance */
  *counter = 200;}
 
 static int interrupt_key_down(void)

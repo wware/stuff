@@ -1,18 +1,18 @@
 [
     {
-        "pk": 1, 
-        "model": "django_orm.location", 
+        "pk": 1,
+        "model": "django_orm.location",
         "fields": {
-            "city": "Framingham", 
-            "state": "MA", 
+            "city": "Framingham",
+            "state": "MA",
             "street": "12 Francine Road"
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "django_orm.person", 
+        "pk": 1,
+        "model": "django_orm.person",
         "fields": {
-            "home": 1, 
+            "home": 1,
             "name": "Will"
         }
     }

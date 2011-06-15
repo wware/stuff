@@ -61,67 +61,67 @@ class Age(atom.AtomBase):
 class Books(atom.AtomBase):
   """The YouTube Books element"""
   _tag = 'books'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Gender(atom.AtomBase):
   """The YouTube Gender element"""
   _tag = 'gender'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Company(atom.AtomBase):
   """The YouTube Company element"""
   _tag = 'company'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Hobbies(atom.AtomBase):
   """The YouTube Hobbies element"""
   _tag = 'hobbies'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Hometown(atom.AtomBase):
   """The YouTube Hometown element"""
   _tag = 'hometown'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Location(atom.AtomBase):
   """The YouTube Location element"""
   _tag = 'location'
-  _namespace = YOUTUBE_NAMESPACE 
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Movies(atom.AtomBase):
   """The YouTube Movies element"""
   _tag = 'movies'
-  _namespace = YOUTUBE_NAMESPACE    
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Music(atom.AtomBase):
   """The YouTube Music element"""
   _tag = 'music'
-  _namespace = YOUTUBE_NAMESPACE    
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Occupation(atom.AtomBase):
   """The YouTube Occupation element"""
   _tag = 'occupation'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class School(atom.AtomBase):
   """The YouTube School element"""
   _tag = 'school'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Relationship(atom.AtomBase):
   """The YouTube Relationship element"""
   _tag = 'relationship'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Recorded(atom.AtomBase):
@@ -134,7 +134,7 @@ class Statistics(atom.AtomBase):
   """The YouTube Statistics element."""
   _tag = 'statistics'
   _namespace = YOUTUBE_NAMESPACE
-  _attributes = atom.AtomBase._attributes.copy() 
+  _attributes = atom.AtomBase._attributes.copy()
   _attributes['viewCount'] = 'view_count'
   _attributes['videoWatchCount'] = 'video_watch_count'
   _attributes['subscriberCount'] = 'subscriber_count'
@@ -164,13 +164,13 @@ class Status(atom.AtomBase):
 class Position(atom.AtomBase):
   """The YouTube Position element. The position in a playlist feed."""
   _tag = 'position'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Racy(atom.AtomBase):
   """The YouTube Racy element."""
   _tag = 'racy'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 class Description(atom.AtomBase):
   """The YouTube Description element."""
@@ -187,7 +187,7 @@ class Private(atom.AtomBase):
 class NoEmbed(atom.AtomBase):
   """The YouTube VideoShare element. Whether a video can be embedded or not."""
   _tag = 'noembed'
-  _namespace = YOUTUBE_NAMESPACE  
+  _namespace = YOUTUBE_NAMESPACE
 
 
 class Comments(atom.AtomBase):
@@ -356,7 +356,7 @@ class YouTubeContactEntry(gdata.GDataEntry):
 
   def __init__(self, author=None, category=None, content=None, atom_id=None,
                link=None, published=None, title=None, updated=None,
-               username=None, status=None, extension_elements=None, 
+               username=None, status=None, extension_elements=None,
                extension_attributes=None, text=None):
 
     gdata.GDataEntry.__init__(self, author=author, category=category,
@@ -385,7 +385,7 @@ class YouTubeVideoEntry(gdata.GDataEntry):
   def __init__(self, author=None, category=None, content=None, atom_id=None,
                link=None, published=None, title=None, updated=None, rating=None,
                noembed=None, statistics=None, racy=None, media=None, geo=None,
-               recorded=None, comments=None, extension_elements=None, 
+               recorded=None, comments=None, extension_elements=None,
                extension_attributes=None):
 
     self.rating = rating
@@ -445,7 +445,7 @@ class YouTubeVideoEntry(gdata.GDataEntry):
   def GetYouTubeCategoryAsString(self):
     """Convenience method to return the YouTube category as string.
 
-    YouTubeVideoEntries can contain multiple Category objects with differing 
+    YouTubeVideoEntries can contain multiple Category objects with differing
         schemes. This method returns only the category with the correct
         scheme, ignoring developer tags.
     """
@@ -553,7 +553,7 @@ class YouTubePlaylistEntry(gdata.GDataEntry):
 
     gdata.GDataEntry.__init__(self, author=author, category=category,
                               content=content, atom_id=atom_id,
-                              link=link, published=published, title=title, 
+                              link=link, published=published, title=title,
                               updated=updated,
                               extension_elements=extension_elements,
                               extension_attributes=extension_attributes)

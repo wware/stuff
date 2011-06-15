@@ -79,7 +79,7 @@ public class Airport {
             if (x != null && x.length() > 0) {
                 if (firstData) {
                     int n = x.indexOf(" - ");
-                    this.airportName = x.substring(n + 3); 
+                    this.airportName = x.substring(n + 3);
                     firstData = false;
                 }
                 if (DEBUG) {
@@ -118,7 +118,7 @@ public class Airport {
             return airport_ont;
         }
     }
-    
+
     private static AirportOntology airport_ont = new AirportOntology();
 
     public static Model getModel(String symbol) {

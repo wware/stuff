@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -69,7 +69,7 @@ where both <var>name</var> and <var>value</var> are strings.  For example:
 as a cookie with <var>name</var> and <var>value</var>.  Both args may be strings,
 symbols or keywords.  Also, recognize and format appropriately the
 optional keyword parameters <code>#:path</code>, <code>#:domain</code>,
-<code>#:expires</code> (strings); and <code>#:secure</code> (boolean). 
+<code>#:expires</code> (strings); and <code>#:secure</code> (boolean).
 </p></blockquote></div>
    <!-- @twerpdoc (rfc2965-set-cookie2-tree) -->
 <!-- ../source/server-utils/cookies.doc -->
@@ -100,28 +100,28 @@ be a number.  For all other <var>a</var>, <var>v</var> can be a string or symbol
 the keyword <code>#:Set-Cookie2</code>, and the <span class="sc">cdr</span> is a tree of
 strings.  Otherwise <var>M</var> should be a <code>mouthpiece</code>
 (see <a href="answer.html#answer">answer</a>) in which case it is applied with the
-<code>#:add-header</code> command to the list. 
+<code>#:add-header</code> command to the list.
 </p></blockquote></div>
 
 <h3 class="heading">example</h3>
 
-<p>Here is an example that demonstates both RFC2109 and RFC2965 formatting. 
+<p>Here is an example that demonstates both RFC2109 and RFC2965 formatting.
 Notable differences: the keyword to specify the path is now capitalized; the
 representation of the cookie's value is now double-quoted.
 
 <pre class="example">     ;; RFC2109
      (rfc2109-set-cookie-string 'war 'lose #:path "/ignorance/suffering")
      &rArr; "Set-Cookie: war=lose; path=/ignorance/suffering"
-     
+
      ;; RFC2965
      (use-modules ((www server-utils answer) #:select (walk-tree)))
-     
+
      (define TREE (rfc2965-set-cookie2-tree
                    '(war lose #:Path "/ignorance/suffering" #:Discard)))
-     
+
      (car TREE)
      &rArr; #:Set-Cookie2
-     
+
      (walk-tree display (cdr TREE))
      -| war="lose";Path="/ignorance/suffering";Discard;Version=1
 </pre>
@@ -132,7 +132,7 @@ a client, you can use <code>rfc2965-parse-cookie-header-value</code>.
 <!-- ../source/server-utils/cookies.doc -->
 <div class="defun">
 &mdash; Procedure: <b>rfc2965-parse-cookie-header-value</b><var> s </var>[<var>flags...</var>]<var><a name="index-rfc2965_002dparse_002dcookie_002dheader_002dvalue-84"></a></var><br>
-<blockquote><p>Parse the <code>Cookie</code> HTTP response header string <var>s</var>. 
+<blockquote><p>Parse the <code>Cookie</code> HTTP response header string <var>s</var>.
 Return a list of the form <code>(</code><var>vers</var> <var>n</var><code>
 [</code><var>cookie-spec</var><code>...])</code>, where <var>vers</var> is the version number
 of the cookie specification, 0 (zero) for RFC2109 compliance and 1
@@ -140,7 +140,7 @@ of the cookie specification, 0 (zero) for RFC2109 compliance and 1
 cookie-specs the <span class="sc">cdr</span> of the form.
 
         <p>Each <var>cookie-spec</var> has the form: <code>(</code><var>name</var> <var>value</var> <var>a1</var>
-<var>v1</var><code>...)</code>. 
+<var>v1</var><code>...)</code>.
 <var>name</var>, <var>value</var> are strings.  Each <var>a</var> is a keyword,
 one of <code>#:Path</code>, <code>#:Domain</code> or <code>#:Port</code>.  Each <var>v</var>
 is a string, except for that associated with <code>#:Port</code>, which
@@ -157,8 +157,8 @@ with this by reparsing an unrecognized attribute as the beginning of a
 new cookie.  With this flag, an unrecognized attribute signals an error.
 
           <br><dt><code>#:canonicalize-NAME-as-keyword</code><dd>Convert the <var>name</var> in each cookie-spec into a keyword whose
-first character and characters following a hyphen are upcased. 
-For example, "session-id-no" would become <code>#:Session-Id-No</code>. 
+first character and characters following a hyphen are upcased.
+For example, "session-id-no" would become <code>#:Session-Id-No</code>.
 </dl>
 
         <p>Parsing may signal an error and display an error message in the form:
@@ -168,7 +168,7 @@ For example, "session-id-no" would become <code>#:Session-Id-No</code>.
 &ldquo;reading token&rdquo;, &ldquo;reading pair&rdquo;, &ldquo;reading one cookie&rdquo; or
 &ldquo;parsing&rdquo;.  The error message also displays string <var>s</var> on a line
 by itself and on the next line a caret by itself indented to be at
-(or near) the site of the error. 
+(or near) the site of the error.
 </p></blockquote></div>
 
 <p class="noindent">RFC2965 also specifies some other small algorithms, some of which are codified
@@ -178,7 +178,7 @@ as procedures available in this module.
 <!-- ../source/server-utils/cookies.doc -->
 <div class="defun">
 &mdash; Procedure: <b>reach</b><var> h<a name="index-reach-85"></a></var><br>
-<blockquote><p>Return the <dfn>reach</dfn> (a string) of host name <var>h</var>. 
+<blockquote><p>Return the <dfn>reach</dfn> (a string) of host name <var>h</var>.
 Quoting from RFC2965 section 1 (Terminology):
 
      <pre class="format">The reach R of a host name H is defined as follows:
@@ -191,7 +191,7 @@ Quoting from RFC2965 section 1 (Terminology):
      Otherwise, the reach of H is H.
 </pre>
         <p>Note that comparison with "local" uses <code>string=?</code>,
-i.e., case-sensitively. 
+i.e., case-sensitively.
 </p></blockquote></div>
 
 <!--  -->

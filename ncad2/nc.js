@@ -258,7 +258,7 @@ function determineBoundingBox() {
 
 /*
  * When rotating the molecule, we want to draw quickly, so if there
- * are large numbers of atoms, just draw some of them. 
+ * are large numbers of atoms, just draw some of them.
  */
 function drawFast() {
     var canvas = document.getElementById("canvas");
@@ -492,7 +492,7 @@ function cpeptide() {
     var v = new makeVector(-xsum / numAtoms, -ysum / numAtoms, -zsum / numAtoms);
     for (i = 0; i < numAtoms; i++) {
 	atomArray[i] = atomArray[i].nudge(v);
-    }    
+    }
 
     orientation = new makeOrientation();
     drawAtoms();

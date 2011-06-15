@@ -19,10 +19,10 @@ IntervalTreeNode::IntervalTreeNode()
 {
 }
 
-IntervalTreeNode::IntervalTreeNode(Interval * newInterval) 
+IntervalTreeNode::IntervalTreeNode(Interval * newInterval)
   : storedInterval (newInterval) ,
-    key(newInterval->GetLowPoint()), 
-    high(newInterval->GetHighPoint()) , 
+    key(newInterval->GetLowPoint()),
+    high(newInterval->GetHighPoint()) ,
     maxHigh(high) {
 }
 
@@ -50,7 +50,7 @@ IntervalTree::IntervalTree()
   nil->red = 0;
   nil->key = nil->high = nil->maxHigh = MIN_INT;
   nil->storedInterval = NULL;
-  
+
   root = new IntervalTreeNode;
   root->parent = root->left = root->right = nil;
   root->key = root->high = root->maxHigh = MAX_INT;
@@ -59,11 +59,11 @@ IntervalTree::IntervalTree()
 
   /* the following are used for the Enumerate function */
   recursionNodeStackSize = 128;
-  recursionNodeStack = (it_recursion_node *) 
+  recursionNodeStack = (it_recursion_node *)
     SafeMalloc(recursionNodeStackSize*sizeof(it_recursion_node));
   recursionNodeStackTop = 1;
   recursionNodeStack[0].start_node = NULL;
-  
+
 }
 
 /***********************************************************************/
@@ -86,7 +86,7 @@ IntervalTree::IntervalTree()
 void IntervalTree::LeftRotate(IntervalTreeNode* x)
 {
   IntervalTreeNode* y;
- 
+
   /*  I originally wrote this function to use the sentinel for */
   /*  nil to avoid checking for nil.  However this introduces a */
   /*  very subtle bug because sometimes this function modifies */
@@ -102,8 +102,8 @@ void IntervalTree::LeftRotate(IntervalTreeNode* x)
 
   if (y->left != nil) y->left->parent=x; /* used to use sentinel here */
   /* and do an unconditional assignment instead of testing for nil */
-  
-  y->parent=x->parent;   
+
+  y->parent=x->parent;
 
   /* instead of checking if x->parent is the root as in the book, we */
   /* count on the root sentinel to implicitly take care of this case */
@@ -207,13 +207,13 @@ void IntervalTree::TreeInsertHelp(IntervalTreeNode* z)
   /*  This function should only be called by InsertITTree (see above) */
   IntervalTreeNode* x;
   IntervalTreeNode* y;
-    
+
   z->left=z->right=nil;
   y=root;
   x=root->left;
   while( x != nil) {
     y=x;
-    if ( x->key > z->key) { 
+    if ( x->key > z->key) {
       x=x->left;
     } else { /* x->key <= z->key */
       x=x->right;
@@ -221,7 +221,7 @@ void IntervalTree::TreeInsertHelp(IntervalTreeNode* z)
   }
   z->parent=y;
   if ( (y == root) ||
-       (y->key > z->key) ) { 
+       (y->key > z->key) ) {
     y->left=z;
   } else {
     y->right=z;
@@ -306,7 +306,7 @@ IntervalTreeNode * IntervalTree::Insert(Interval * newInterval)
 	x->parent->red=0;
 	x->parent->parent->red=1;
 	RightRotate(x->parent->parent);
-      } 
+      }
     } else { /* case for x->parent == x->parent->parent->right */
              /* this part is just like the section above with */
              /* left and right interchanged */
@@ -324,7 +324,7 @@ IntervalTreeNode * IntervalTree::Insert(Interval * newInterval)
 	x->parent->red=0;
 	x->parent->parent->red=1;
 	LeftRotate(x->parent->parent);
-      } 
+      }
     }
   }
   root->left->red=0;
@@ -352,9 +352,9 @@ IntervalTreeNode * IntervalTree::Insert(Interval * newInterval)
 /**/
 /*    Note:  uses the algorithm in _Introduction_To_Algorithms_ */
 /***********************************************************************/
-  
+
 IntervalTreeNode * IntervalTree::GetSuccessorOf(IntervalTreeNode * x) const
-{ 
+{
   IntervalTreeNode* y;
 
   if (nil != (y = x->right)) { /* assignment to y is intentional */
@@ -397,8 +397,8 @@ IntervalTreeNode * IntervalTree::GetPredecessorOf(IntervalTreeNode * x) const
     return(y);
   } else {
     y=x->parent;
-    while(x == y->left) { 
-      if (y == root) return(nil); 
+    while(x == y->left) {
+      if (y == root) return(nil);
       x=y;
       y=y->parent;
     }
@@ -436,7 +436,7 @@ void IntervalTreeNode::Print(IntervalTreeNode * nil,
 }
 
 void IntervalTree::TreePrintHelper( IntervalTreeNode* x) const
-{  
+{
   if (x != nil) {
     TreePrintHelper(x->left);
     x->Print(nil,root);
@@ -525,7 +525,7 @@ void IntervalTree::DeleteFixUp(IntervalTreeNode* x)
 	LeftRotate(x->parent);
 	w=x->parent->right;
       }
-      if ( (!w->right->red) && (!w->left->red) ) { 
+      if ( (!w->right->red) && (!w->left->red) ) {
 	w->red=1;
 	x=x->parent;
       } else {
@@ -549,7 +549,7 @@ void IntervalTree::DeleteFixUp(IntervalTreeNode* x)
 	RightRotate(x->parent);
 	w=x->parent->left;
       }
-      if ( (!w->right->red) && (!w->left->red) ) { 
+      if ( (!w->right->red) && (!w->left->red) ) {
 	w->red=1;
 	x=x->parent;
       } else {
@@ -618,23 +618,23 @@ Interval * IntervalTree::DeleteNode(IntervalTreeNode * z)
     Assert( (y!=nil),"y is nil in DeleteNode \n");
 #endif
     /* y is the node to splice out and x is its child */
-  
+
     y->maxHigh = MIN_INT;
     y->left=z->left;
     y->right=z->right;
     y->parent=z->parent;
     z->left->parent=z->right->parent=y;
     if (z == z->parent->left) {
-      z->parent->left=y; 
+      z->parent->left=y;
     } else {
       z->parent->right=y;
     }
-    FixUpMaxHigh(x->parent); 
+    FixUpMaxHigh(x->parent);
     if (!(y->red)) {
       y->red = z->red;
       DeleteFixUp(x);
     } else
-      y->red = z->red; 
+      y->red = z->red;
     delete z;
 #ifdef CHECK_INTERVAL_TREE_ASSUMPTIONS
     CheckAssumptions();
@@ -718,13 +718,13 @@ int Overlap(int a1, int a2, int b1, int b2)
 /*  of the left child of root we must recursively check the right subtree */
 /*  of the left child of root as well as the right child of root. */
 
-TemplateStack<void *> * IntervalTree::Enumerate(int low, 
+TemplateStack<void *> * IntervalTree::Enumerate(int low,
 						int high)
 {
   TemplateStack<void *> * enumResultStack;
   IntervalTreeNode* x=root->left;
   int stuffToDo = (x != nil);
-  
+
   // Possible speed up: add min field to prune right searches //
 
 #ifdef DEBUG_ASSERT
@@ -739,13 +739,13 @@ TemplateStack<void *> * IntervalTree::Enumerate(int low,
       enumResultStack->Push(x->storedInterval);
       recursionNodeStack[currentParent].tryRightBranch=1;
     }
-    if(x->left->maxHigh >= low) { // implies x != nil 
+    if(x->left->maxHigh >= low) { // implies x != nil
       if ( recursionNodeStackTop == recursionNodeStackSize ) {
 	recursionNodeStackSize *= 2;
-	recursionNodeStack = (it_recursion_node *) 
+	recursionNodeStack = (it_recursion_node *)
 	  realloc(recursionNodeStack,
 		  recursionNodeStackSize * sizeof(it_recursion_node));
-	if (recursionNodeStack == NULL) 
+	if (recursionNodeStack == NULL)
 	  ExitProgramMacro("realloc failed in IntervalTree::Enumerate\n");
       }
       recursionNodeStack[recursionNodeStackTop].start_node = x;
@@ -770,12 +770,12 @@ TemplateStack<void *> * IntervalTree::Enumerate(int low,
   Assert((recursionNodeStackTop == 1),
 	 "recursionStack not empty when exiting IntervalTree::Enumerate");
 #endif
-  return(enumResultStack);   
+  return(enumResultStack);
 }
-	
 
 
-int IntervalTree::CheckMaxHighFieldsHelper(IntervalTreeNode * y, 
+
+int IntervalTree::CheckMaxHighFieldsHelper(IntervalTreeNode * y,
 				    const int currentHigh,
 				    int match) const
 {
@@ -791,7 +791,7 @@ int IntervalTree::CheckMaxHighFieldsHelper(IntervalTreeNode * y,
   return match;
 }
 
-	  
+
 
 /* Make sure the maxHigh fields for everything makes sense. *
  * If something is wrong, print a warning and exit */

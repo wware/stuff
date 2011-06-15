@@ -128,4 +128,3 @@ class Session:
         self.sharedKey = True
         return self
 
-

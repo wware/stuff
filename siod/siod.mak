@@ -6,28 +6,28 @@
 !IF "$(CFG)" == ""
 CFG=siod - Win32 Debug
 !MESSAGE No configuration specified.  Defaulting to siod - Win32 Debug.
-!ENDIF 
+!ENDIF
 
 !IF "$(CFG)" != "siod - Win32 Release" && "$(CFG)" != "siod - Win32 Debug"
 !MESSAGE Invalid configuration "$(CFG)" specified.
 !MESSAGE You can specify a configuration when running NMAKE on this makefile
 !MESSAGE by defining the macro CFG on the command line.  For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "siod.mak" CFG="siod - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "siod - Win32 Release" (based on "Win32 (x86) Console Application")
 !MESSAGE "siod - Win32 Debug" (based on "Win32 (x86) Console Application")
-!MESSAGE 
+!MESSAGE
 !ERROR An invalid configuration is specified.
-!ENDIF 
+!ENDIF
 
 !IF "$(OS)" == "Windows_NT"
 NULL=
-!ELSE 
+!ELSE
 NULL=nul
-!ENDIF 
+!ENDIF
 ################################################################################
 # Begin Project
 # PROP Target_Last_Scanned "siod - Win32 Debug"
@@ -51,7 +51,7 @@ INTDIR=.\Release
 
 ALL : "$(OUTDIR)\siod.exe"
 
-CLEAN : 
+CLEAN :
 	-@erase ".\Release\siod.exe"
 	-@erase ".\Release\siod.obj"
 
@@ -61,7 +61,7 @@ CLEAN :
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /YX /c
 # ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /YX /c
 CPP_PROJ=/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"\
- /Fp"$(INTDIR)/siod.pch" /YX /Fo"$(INTDIR)/" /c 
+ /Fp"$(INTDIR)/siod.pch" /YX /Fo"$(INTDIR)/" /c
 CPP_OBJS=.\Release/
 CPP_SBRS=
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -69,7 +69,7 @@ CPP_SBRS=
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-BSC32_FLAGS=/nologo /o"$(OUTDIR)/siod.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)/siod.bsc"
 BSC32_SBRS=
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
@@ -77,7 +77,7 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
  odbccp32.lib $(INTDIR)/libsiod.lib /nologo /subsystem:console /incremental:no\
- /pdb:"$(OUTDIR)/siod.pdb" /machine:I386 /out:"$(OUTDIR)/siod.exe" 
+ /pdb:"$(OUTDIR)/siod.pdb" /machine:I386 /out:"$(OUTDIR)/siod.exe"
 LINK32_OBJS= \
 	".\Release\siod.obj"
 
@@ -103,7 +103,7 @@ INTDIR=.\Debug
 
 ALL : "$(OUTDIR)\siod.exe"
 
-CLEAN : 
+CLEAN :
 	-@erase ".\Debug\siod.exe"
 	-@erase ".\Debug\siod.obj"
 	-@erase ".\Debug\siod.ilk"
@@ -117,7 +117,7 @@ CLEAN :
 # ADD BASE CPP /nologo /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /YX /c
 # ADD CPP /nologo /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /YX /c
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE"\
- /Fp"$(INTDIR)/siod.pch" /YX /Fo"$(INTDIR)/" /Fd"$(INTDIR)/" /c 
+ /Fp"$(INTDIR)/siod.pch" /YX /Fo"$(INTDIR)/" /Fd"$(INTDIR)/" /c
 CPP_OBJS=.\Debug/
 CPP_SBRS=
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -125,7 +125,7 @@ CPP_SBRS=
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-BSC32_FLAGS=/nologo /o"$(OUTDIR)/siod.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)/siod.bsc"
 BSC32_SBRS=
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386
@@ -133,7 +133,7 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
  odbccp32.lib $(INTDIR)/libsiod.lib /nologo /subsystem:console /incremental:yes\
- /pdb:"$(OUTDIR)/siod.pdb" /debug /machine:I386 /out:"$(OUTDIR)/siod.exe" 
+ /pdb:"$(OUTDIR)/siod.pdb" /debug /machine:I386 /out:"$(OUTDIR)/siod.exe"
 LINK32_OBJS= \
 	".\Debug\siod.obj"
 
@@ -142,25 +142,25 @@ LINK32_OBJS= \
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ENDIF 
+!ENDIF
 
 .c{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cpp{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cxx{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .c{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cpp{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cxx{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 ################################################################################
 # Begin Target
@@ -172,7 +172,7 @@ LINK32_OBJS= \
 
 !ELSEIF  "$(CFG)" == "siod - Win32 Debug"
 
-!ENDIF 
+!ENDIF
 
 ################################################################################
 # Begin Source File
@@ -180,7 +180,7 @@ LINK32_OBJS= \
 SOURCE=siod.c
 DEP_CPP_SIOD_=\
 	"siod.h"\
-	
+
 
 "$(INTDIR)\siod.obj" : $(SOURCE) $(DEP_CPP_SIOD_) "$(INTDIR)"
    $(CPP) $(CPP_PROJ) $(SOURCE)

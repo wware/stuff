@@ -8,12 +8,12 @@
 /*------------------ Of interest only to FFI users --------------------*/
 
 
-enum scheme_port_kind { 
-  port_free=0, 
-  port_file=1, 
-  port_string=2, 
-  port_input=16, 
-  port_output=32 
+enum scheme_port_kind {
+  port_free=0,
+  port_file=1,
+  port_string=2,
+  port_input=16,
+  port_output=32
 };
 
 typedef struct port {
@@ -133,11 +133,11 @@ int dump_size;		 /* number of frames allocated for dump stack */
 };
 
 /* operator code */
-enum scheme_opcodes { 
-#define _OP_DEF(A,B,C,D,E,OP) OP, 
-#include "opdefines.h" 
-  OP_MAXDEFINED 
-}; 
+enum scheme_opcodes {
+#define _OP_DEF(A,B,C,D,E,OP) OP,
+#include "opdefines.h"
+  OP_MAXDEFINED
+};
 
 
 #define cons(sc,a,b) _cons(sc,a,b,0)

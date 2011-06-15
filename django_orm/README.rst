@@ -28,19 +28,19 @@ The fixture file looks like this::
 
     [
         {
-            "pk": 1, 
-            "model": "django_orm.location", 
+            "pk": 1,
+            "model": "django_orm.location",
             "fields": {
-                "city": "Framingham", 
-                "state": "MA", 
+                "city": "Framingham",
+                "state": "MA",
                 "street": "12 Francine Road"
             }
-        }, 
+        },
         {
-            "pk": 1, 
-            "model": "django_orm.person", 
+            "pk": 1,
+            "model": "django_orm.person",
             "fields": {
-                "home": 1, 
+                "home": 1,
                 "name": "Will"
             }
         }
@@ -60,10 +60,10 @@ Person), you actually return the JSON for that thing::
 
     >>> import pprint
     >>> from django_orm.models import *
-    
+
     >>> pprint.pprint(Person.objects.get(id=1).toJson())
     {'home_id': 1L, 'id': 1L, 'name': u'Will'}
-    
+
     >>> pprint.pprint(Person.objects.get(id=1).toJson(deep=True))
     {'home': {'city': u'Framingham',
               'id': 1L,

@@ -36,7 +36,7 @@ remod:
 	make KNOPPIX2
 	cp KNOPPIX2 /media/C9D0-3E18/KNOPPIX/KNOPPIX
 	sync
-	umount /media/C9D0-3E18 
+	umount /media/C9D0-3E18
 
 # some things must be done on a case-by-case basis
 modified: fetched
@@ -58,7 +58,7 @@ KNOPPIX2: modified
 dsl-tweaked.zip: KNOPPIX2
 	sudo rm -rf tozip
 	sudo cp -R fromzip tozip
-	sudo cp KNOPPIX2 tozip/KNOPPIX/KNOPPIX 
+	sudo cp KNOPPIX2 tozip/KNOPPIX/KNOPPIX
 	(cd tozip; sudo zip -r ../dsl-tweaked.zip *)
 
 clean:

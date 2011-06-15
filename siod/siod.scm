@@ -6,7 +6,7 @@
 ;;
 ;; $Id: siod.scm,v 1.4 1996/06/26 13:21:55 gjc Exp $
 ;;
-;; This is a bit of maclisp compatibility. 
+;; This is a bit of maclisp compatibility.
 ;; Also a somewhat broken Backquote.
 
 (if (>= (verbose) 3)
@@ -75,8 +75,8 @@
 		 (loop))))
     (loop)
     (prognify (reverse result))))
-  
-  
+
+
 (define progn begin)
 
 (define the-empty-stream ())

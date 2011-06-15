@@ -1,7 +1,7 @@
 #!/usr/local/bin/siod -v01,-m2 -*-mode:lisp-*-
 
 ;; name:     ftp-test
-;; purpose:  create test conditions for monitoring of an ftp service. 
+;; purpose:  create test conditions for monitoring of an ftp service.
 ;; usage:    ftp-test <hostname> [:connections=N] [:wait=pause]
 ;;                    [:username=anonymous] [:password=user@hostname]
 ;;                    [:debug=false]

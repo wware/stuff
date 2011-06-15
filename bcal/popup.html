@@ -20,7 +20,7 @@
              onclick="window.opener.location.href=window.opener.location.href;
                       window.close();">
     </FORM>
-    
+
     <table border="1">
       {% for param in params %}
       <tr>
@@ -33,7 +33,7 @@
       </tr>
       {% endfor %}
     </table>
-    
+
     {% if members %}
     <FORM method="GET" action="/updatemembers">
       <table>
@@ -59,7 +59,7 @@
     </FORM>
     {% endif %}
     {% endblock %}
-    
+
     <script type="text/javascript">
 
       function updatePage() {

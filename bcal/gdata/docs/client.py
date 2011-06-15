@@ -131,7 +131,7 @@ class DocsClient(gdata.client.GDClient):
       uri = DOCLIST_FEED_URI
 
     if isinstance(uri, (str, unicode)):
-      uri = atom.http_core.Uri.parse_uri(uri)    
+      uri = atom.http_core.Uri.parse_uri(uri)
 
     # Add max-results param if it wasn't included in the uri.
     if limit is not None and not 'max-results' in uri.query:
@@ -548,7 +548,7 @@ class DocsQuery(gdata.client.Query):
                     Default is false.
       ocr: str (optional) Specifies whether to attempt OCR on a .jpg, .png, or
            .gif upload. Possible values are 'true' and 'false'. Default is
-           false. See OCR in the Protocol Guide: 
+           false. See OCR in the Protocol Guide:
            http://code.google.com/apis/documents/docs/3.0/developers_guide_protocol.html#OCR
       target_language: str (optional) Specifies the language to translate a
                        document into. See Document Translation in the Protocol

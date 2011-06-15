@@ -61,7 +61,7 @@ function(helpBtn)
  fltk:fl_message([[A Simple Wget GUI, written in murgaLua.
 
 The files will be automatically downloaded to your home directory,
-unless otherwise specified. 
+unless otherwise specified.
 Click on the "Options" button to edit the options.]])
 end)
 

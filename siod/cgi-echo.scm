@@ -33,7 +33,7 @@
 		 (mapcar line-printer (strbreakup element "%0D%0A"))
 	       (line-printer element)))
 	   (strbreakup (or (fread n) "") "&"))))
-  
+
     (writes nil
 	    "\r\n\r\nquery took "
 	    (* (car (runtime)) 1000)

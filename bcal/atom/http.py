@@ -20,14 +20,14 @@
 This module make HTTP requests based on httplib, but there are environments
 in which an httplib based approach will not work (if running in Google App
 Engine for example). In those cases, higher level classes (like AtomService
-and GDataService) can swap out the HttpClient to transparently use a 
+and GDataService) can swap out the HttpClient to transparently use a
 different mechanism for making HTTP requests.
 
-  HttpClient: Contains a request method which performs an HTTP call to the 
+  HttpClient: Contains a request method which performs an HTTP call to the
       server.
-      
+
   ProxiedHttpClient: Contains a request method which connects to a proxy using
-      settings stored in operating system environment variables then 
+      settings stored in operating system environment variables then
       performs an HTTP call to the endpoint server.
 """
 
@@ -50,7 +50,7 @@ try:
   ssl_imported = True
 except ImportError:
   pass
-  
+
 
 
 class ProxyError(atom.http_interface.Error):
@@ -65,7 +65,7 @@ DEFAULT_CONTENT_TYPE = 'application/atom+xml'
 
 
 class HttpClient(atom.http_interface.GenericHttpClient):
-  # Added to allow old v1 HttpClient objects to use the new 
+  # Added to allow old v1 HttpClient objects to use the new
   # http_code.HttpClient. Used in unit tests to inject a mock client.
   v2_http_client = None
 
@@ -74,7 +74,7 @@ class HttpClient(atom.http_interface.GenericHttpClient):
     self.headers = headers or {}
 
   def request(self, operation, url, data=None, headers=None):
-    """Performs an HTTP call to the server, supports GET, POST, PUT, and 
+    """Performs an HTTP call to the server, supports GET, POST, PUT, and
     DELETE.
 
     Usage example, perform and HTTP GET on http://www.google.com/:
@@ -87,14 +87,14 @@ class HttpClient(atom.http_interface.GenericHttpClient):
           of 'GET', 'POST', 'PUT', or 'DELETE'
       data: filestream, list of parts, or other object which can be converted
           to a string. Should be set to None when performing a GET or DELETE.
-          If data is a file-like object which can be read, this method will 
-          read a chunk of 100K bytes at a time and send them. 
-          If the data is a list of parts to be sent, each part will be 
+          If data is a file-like object which can be read, this method will
+          read a chunk of 100K bytes at a time and send them.
+          If the data is a list of parts to be sent, each part will be
           evaluated and sent.
       url: The full URL to which the request should be sent. Can be a string
           or atom.url.Url.
       headers: dict of strings. HTTP headers which should be sent
-          in the request. 
+          in the request.
     """
     all_headers = self.headers.copy()
     if headers:
@@ -128,13 +128,13 @@ class HttpClient(atom.http_interface.GenericHttpClient):
       else:
         raise atom.http_interface.UnparsableUrlObject('Unable to parse url '
             'parameter because it was not a string or atom.url.Url')
-    
+
     connection = self._prepare_connection(url, all_headers)
 
     if self.debug:
       connection.debuglevel = 1
 
-    connection.putrequest(operation, self._get_access_url(url), 
+    connection.putrequest(operation, self._get_access_url(url),
         skip_host=True)
     if url.port is not None:
       connection.putheader('Host', '%s:%s' % (url.host, url.port))
@@ -172,7 +172,7 @@ class HttpClient(atom.http_interface.GenericHttpClient):
 
     # Return the HTTP Response from the server.
     return connection.getresponse()
-    
+
   def _prepare_connection(self, url, headers):
     if not isinstance(url, atom.url.Url):
       if isinstance(url, types.StringTypes):
@@ -195,15 +195,15 @@ class HttpClient(atom.http_interface.GenericHttpClient):
 
 class ProxiedHttpClient(HttpClient):
   """Performs an HTTP request through a proxy.
-  
-  The proxy settings are obtained from enviroment variables. The URL of the 
-  proxy server is assumed to be stored in the environment variables 
+
+  The proxy settings are obtained from enviroment variables. The URL of the
+  proxy server is assumed to be stored in the environment variables
   'https_proxy' and 'http_proxy' respectively. If the proxy server requires
-  a Basic Auth authorization header, the username and password are expected to 
-  be in the 'proxy-username' or 'proxy_username' variable and the 
+  a Basic Auth authorization header, the username and password are expected to
+  be in the 'proxy-username' or 'proxy_username' variable and the
   'proxy-password' or 'proxy_password' variable.
-  
-  After connecting to the proxy server, the request is completed as in 
+
+  After connecting to the proxy server, the request is completed as in
   HttpClient.request.
   """
   def _prepare_connection(self, url, headers):
@@ -212,29 +212,29 @@ class ProxiedHttpClient(HttpClient):
       # destination is https
       proxy = os.environ.get('https_proxy')
       if proxy:
-        # Set any proxy auth headers 
+        # Set any proxy auth headers
         if proxy_auth:
           proxy_auth = 'Proxy-authorization: %s' % proxy_auth
-          
+
         # Construct the proxy connect command.
         port = url.port
         if not port:
           port = '443'
         proxy_connect = 'CONNECT %s:%s HTTP/1.0\r\n' % (url.host, port)
-        
+
         # Set the user agent to send to the proxy
         if headers and 'User-Agent' in headers:
           user_agent = 'User-Agent: %s\r\n' % (headers['User-Agent'])
         else:
           user_agent = ''
-        
+
         proxy_pieces = '%s%s%s\r\n' % (proxy_connect, proxy_auth, user_agent)
-        
+
         # Find the proxy host and port.
         proxy_url = atom.url.parse_url(proxy)
         if not proxy_url.port:
           proxy_url.port = '80'
-        
+
         # Connect to the proxy server, very simple recv and error checking
         p_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         p_sock.connect((proxy_url.host, int(proxy_url.port)))
@@ -244,7 +244,7 @@ class ProxiedHttpClient(HttpClient):
         # Wait for the full response.
         while response.find("\r\n\r\n") == -1:
           response += p_sock.recv(8192)
-       
+
         p_status = response.split()[1]
         if p_status != str(200):
           raise ProxyError('Error status=%s' % str(p_status))
@@ -256,7 +256,7 @@ class ProxiedHttpClient(HttpClient):
         else:
           sock_ssl = socket.ssl(p_sock, None, None)
           sslobj = httplib.FakeSocket(p_sock, sock_ssl)
- 
+
         # Initalize httplib and replace with the proxy socket.
         connection = httplib.HTTPConnection(proxy_url.host)
         connection.sock = sslobj
@@ -271,7 +271,7 @@ class ProxiedHttpClient(HttpClient):
         proxy_url = atom.url.parse_url(proxy)
         if not proxy_url.port:
           proxy_url.port = '80'
-        
+
         if proxy_auth:
           headers['Proxy-Authorization'] = proxy_auth.strip()
 

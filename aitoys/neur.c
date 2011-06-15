@@ -217,14 +217,14 @@ DL_EXPORT(void)
      initneur()
 {
   PyObject *m, *d;
-  
+
   /* Initialize the type of the new type object here; doing it here
    * is required for portability to Windows without requiring C++. */
   Neur_Type.ob_type = &PyType_Type;
-  
+
   /* Create the module and add the functions */
   m = Py_InitModule("neur", neur_methods);
-  
+
   /* Add some symbolic constants to the module */
   d = PyModule_GetDict(m);
   ErrorObject = PyErr_NewException("neur.error", NULL, NULL);

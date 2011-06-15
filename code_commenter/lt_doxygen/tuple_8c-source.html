@@ -46,7 +46,7 @@
 <a name="l00031"></a>00031 <span class="comment"> *    THE POSSIBILITY OF SUCH DAMAGE.</span>
 <a name="l00032"></a>00032 <span class="comment"> *</span>
 <a name="l00033"></a>00033 <span class="comment"> *****************************************************************/</span>
-<a name="l00034"></a>00034 
+<a name="l00034"></a>00034
 <a name="l00035"></a>00035 <span class="preprocessor">#include &lt;assert.h&gt;</span>
 <a name="l00036"></a>00036 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include &lt;stdarg.h&gt;</span>
@@ -61,7 +61,7 @@
 <a name="l00046"></a>00046 <span class="preprocessor">#include &lt;netinet/tcp.h&gt;</span>        <span class="comment">// Added for TCP_NODELAY</span>
 <a name="l00047"></a>00047 <span class="preprocessor">#include &lt;netdb.h&gt;</span>
 <a name="l00048"></a>00048 <span class="preprocessor">#include &lt;sched.h&gt;</span>
-<a name="l00049"></a>00049 
+<a name="l00049"></a>00049
 <a name="l00050"></a>00050 <span class="preprocessor">#ifdef MACOSX</span>
 <a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#include &lt;malloc/malloc.h&gt;</span>
 <a name="l00052"></a>00052 <span class="preprocessor">#include &lt;netinet/in.h&gt;</span>
@@ -71,24 +71,24 @@
 <a name="l00056"></a>00056 <span class="preprocessor">#endif</span>
 <a name="l00057"></a>00057 <span class="preprocessor"></span>
 <a name="l00058"></a>00058 <span class="preprocessor">#include "<a class="code" href="tuple_8h.html">tuple.h</a>"</span>
-<a name="l00059"></a>00059 
+<a name="l00059"></a>00059
 <a name="l00079"></a><a class="code" href="tuple_8h.html#b35b3d9e562b3a2c7f1f36fe88fe4523">00079</a> <span class="keywordtype">int</span> <a class="code" href="tuple_8c.html#b35b3d9e562b3a2c7f1f36fe88fe4523">i_am_server</a> = 0;
-<a name="l00080"></a>00080 
+<a name="l00080"></a>00080
 <a name="l00081"></a>00081 <span class="preprocessor">#ifdef DEBUG</span>
 <a name="l00082"></a>00082 <span class="preprocessor"></span><span class="keywordtype">int</span> debug_counter = 0;
 <a name="l00083"></a>00083 <span class="preprocessor">#endif</span>
 <a name="l00084"></a>00084 <span class="preprocessor"></span>
 <a name="l00089"></a><a class="code" href="tuple_8h.html#01b53fb9873f8228a81dd48f00ed2f1b">00089</a> <span class="keywordtype">char</span> <a class="code" href="tuple_8c.html#01b53fb9873f8228a81dd48f00ed2f1b">logbuf</a>[<a class="code" href="tuple_8h.html#041b49ecae1ddca1e27f1db8d37ddd25">LOGBUFSIZE</a>];
 <a name="l00093"></a><a class="code" href="tuple_8h.html#e04e4d0edb23bd956fb72751e690ee47">00093</a> <span class="keywordtype">int</span> <a class="code" href="tuple_8c.html#e04e4d0edb23bd956fb72751e690ee47">logptr</a> = 0;
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095 
+<a name="l00094"></a>00094
+<a name="l00095"></a>00095
 <a name="l00096"></a><a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">00096</a> <span class="preprocessor">#define PERROR(x) fprintf(stderr, __FILE__":%d  ", __LINE__); perror(x)</span>
 <a name="l00097"></a>00097 <span class="preprocessor"></span>
 <a name="l00098"></a>00098 <span class="keywordtype">void</span> <a class="code" href="tuple_8c.html#670064ed820d37295190fb448d10f7cf">print_tuple_stderr</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s);
 <a name="l00099"></a>00099 <span class="keywordtype">void</span> <a class="code" href="tuple_8c.html#b8d31f4b2002ce83b2907cf67c84329a">print_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s);
 <a name="l00100"></a>00100 <span class="keywordtype">void</span> <a class="code" href="tuple_8c.html#e9a2fb8b22bb2977962f0b0b772d94f6">print_element_stderr</a>(<span class="keyword">struct</span> <a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> *e);
 <a name="l00101"></a>00101 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="tuple_8c.html#9ff17942a987218673077bc587967076">tuple_tuple_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keywordtype">int</span> n);
-<a name="l00102"></a>00102 
+<a name="l00102"></a>00102
 <a name="l00109"></a>00109 <span class="keywordtype">int</span>
 <a name="l00110"></a><a class="code" href="tuple_8h.html#a14972cd8034d6dc2744d24572f5bb01">00110</a> <a class="code" href="tuple_8c.html#a14972cd8034d6dc2744d24572f5bb01">get_server_portnumber</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00111"></a>00111 {
@@ -105,11 +105,11 @@
 <a name="l00122"></a>00122         ctx-&gt;<a class="code" href="structcontext.html#ae0ec6036c458497c720aba9deabe1fe">portnumber</a> = atoi(s);
 <a name="l00123"></a>00123         <span class="keywordflow">return</span> 0;
 <a name="l00124"></a>00124 }
-<a name="l00125"></a>00125 
+<a name="l00125"></a>00125
 <a name="l00126"></a>00126 <span class="comment">/*</span>
 <a name="l00127"></a>00127 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l00128"></a>00128 <span class="comment"> */</span>
-<a name="l00129"></a>00129 
+<a name="l00129"></a>00129
 <a name="l00133"></a>00133 <span class="keywordtype">void</span>
 <a name="l00134"></a><a class="code" href="tuple_8h.html#5e08715ad01f6632d632648eaf8d374c">00134</a> <a class="code" href="tuple_8c.html#5e08715ad01f6632d632648eaf8d374c">print_element</a>(<span class="keyword">struct</span> <a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> *e)
 <a name="l00135"></a>00135 {
@@ -160,8 +160,8 @@
 <a name="l00180"></a>00180                 <span class="keywordflow">break</span>;
 <a name="l00181"></a>00181         }
 <a name="l00182"></a>00182 }
-<a name="l00183"></a>00183 
-<a name="l00184"></a>00184 
+<a name="l00183"></a>00183
+<a name="l00184"></a>00184
 <a name="l00188"></a>00188 <span class="keywordtype">void</span>
 <a name="l00189"></a><a class="code" href="tuple_8c.html#e9a2fb8b22bb2977962f0b0b772d94f6">00189</a> <a class="code" href="tuple_8c.html#e9a2fb8b22bb2977962f0b0b772d94f6">print_element_stderr</a>(<span class="keyword">struct</span> <a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> *e)
 <a name="l00190"></a>00190 {
@@ -205,7 +205,7 @@
 <a name="l00228"></a>00228                 <span class="keywordflow">break</span>;
 <a name="l00229"></a>00229         }
 <a name="l00230"></a>00230 }
-<a name="l00231"></a>00231 
+<a name="l00231"></a>00231
 <a name="l00235"></a>00235 <span class="keywordtype">void</span>
 <a name="l00236"></a><a class="code" href="tuple_8c.html#b8d31f4b2002ce83b2907cf67c84329a">00236</a> <a class="code" href="tuple_8c.html#b8d31f4b2002ce83b2907cf67c84329a">print_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s)
 <a name="l00237"></a>00237 {
@@ -228,8 +228,8 @@
 <a name="l00254"></a>00254         }
 <a name="l00255"></a>00255         <a class="code" href="tuple_8c.html#e04e4d0edb23bd956fb72751e690ee47">logptr</a> += sprintf(<a class="code" href="tuple_8c.html#01b53fb9873f8228a81dd48f00ed2f1b">logbuf</a> + <a class="code" href="tuple_8c.html#e04e4d0edb23bd956fb72751e690ee47">logptr</a>, <span class="stringliteral">")\n"</span>);
 <a name="l00256"></a>00256 }
-<a name="l00257"></a>00257 
-<a name="l00258"></a>00258 
+<a name="l00257"></a>00257
+<a name="l00258"></a>00258
 <a name="l00262"></a>00262 <span class="keywordtype">void</span>
 <a name="l00263"></a><a class="code" href="tuple_8c.html#670064ed820d37295190fb448d10f7cf">00263</a> <a class="code" href="tuple_8c.html#670064ed820d37295190fb448d10f7cf">print_tuple_stderr</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s)
 <a name="l00264"></a>00264 {
@@ -251,11 +251,11 @@
 <a name="l00280"></a>00280         }
 <a name="l00281"></a>00281         fprintf(stderr,<span class="stringliteral">")"</span>);
 <a name="l00282"></a>00282 }
-<a name="l00283"></a>00283 
+<a name="l00283"></a>00283
 <a name="l00284"></a>00284 <span class="comment">/*</span>
 <a name="l00285"></a>00285 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l00286"></a>00286 <span class="comment"> */</span>
-<a name="l00287"></a>00287 
+<a name="l00287"></a>00287
 <a name="l00291"></a>00291 <span class="keyword">static</span> <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00292"></a><a class="code" href="tuple_8c.html#cc294a3f75aaa6e3d69af8e664eb274c">00292</a> <a class="code" href="tuple_8c.html#cc294a3f75aaa6e3d69af8e664eb274c">make_tuple_internal</a>(<span class="keywordtype">char</span> *fmt, <a class="code" href="tuple_8h.html#6e6fde95f2a221e9bcd58fa102bd90ff">va_list</a> ap)
 <a name="l00293"></a>00293 {
@@ -263,7 +263,7 @@
 <a name="l00295"></a>00295         <span class="keywordtype">double</span> d;
 <a name="l00296"></a>00296         <span class="keywordtype">char</span> *s;
 <a name="l00297"></a>00297         <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *t;
-<a name="l00298"></a>00298 
+<a name="l00298"></a>00298
 <a name="l00299"></a>00299         t = malloc(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a>));
 <a name="l00300"></a>00300         <span class="keywordflow">if</span> (t == NULL) {
 <a name="l00301"></a>00301                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"malloc failed"</span>);
@@ -280,7 +280,7 @@
 <a name="l00312"></a>00312                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"malloc failed"</span>);
 <a name="l00313"></a>00313                 <a class="code" href="tuple_8h.html#cb518006643e05e763f3e5672a014515">EXIT</a>();
 <a name="l00314"></a>00314         }
-<a name="l00315"></a>00315 
+<a name="l00315"></a>00315
 <a name="l00316"></a>00316         elt_index = 0;
 <a name="l00317"></a>00317         <span class="keywordflow">while</span> (*fmt) {
 <a name="l00318"></a>00318                 t-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[elt_index].<a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">tag</a> = *fmt;
@@ -325,7 +325,7 @@
 <a name="l00357"></a>00357         }
 <a name="l00358"></a>00358         <span class="keywordflow">return</span> t;
 <a name="l00359"></a>00359 }
-<a name="l00360"></a>00360 
+<a name="l00360"></a>00360
 <a name="l00365"></a>00365 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00366"></a><a class="code" href="tuple_8h.html#9ccf0e673f38d6d1b8a066e144351b27">00366</a> <a class="code" href="tuple_8c.html#9ccf0e673f38d6d1b8a066e144351b27">make_tuple</a>(<span class="keywordtype">char</span> *fmt, ...)
 <a name="l00367"></a>00367 {
@@ -336,8 +336,8 @@
 <a name="l00372"></a>00372         va_end(ap);
 <a name="l00373"></a>00373         <span class="keywordflow">return</span> t;
 <a name="l00374"></a>00374 }
-<a name="l00375"></a>00375 
-<a name="l00376"></a>00376 
+<a name="l00375"></a>00375
+<a name="l00376"></a>00376
 <a name="l00380"></a>00380 <span class="keywordtype">void</span>
 <a name="l00381"></a><a class="code" href="tuple_8h.html#3283d3634054a3a0875b3341a898d0df">00381</a> <a class="code" href="tuple_8c.html#3283d3634054a3a0875b3341a898d0df">destroy_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *t)
 <a name="l00382"></a>00382 {
@@ -348,8 +348,8 @@
 <a name="l00387"></a>00387                 free(t);
 <a name="l00388"></a>00388         }
 <a name="l00389"></a>00389 }
-<a name="l00390"></a>00390 
-<a name="l00391"></a>00391 
+<a name="l00390"></a>00390
+<a name="l00391"></a>00391
 <a name="l00395"></a>00395 <span class="keywordtype">int</span>
 <a name="l00396"></a><a class="code" href="tuple_8h.html#0d5edb0ec00a9e9b42e850845479ea25">00396</a> <a class="code" href="tuple_8c.html#0d5edb0ec00a9e9b42e850845479ea25">tuples_match</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *t)
 <a name="l00397"></a>00397 {
@@ -360,7 +360,7 @@
 <a name="l00402"></a>00402         <span class="keywordflow">for</span> (i = 0; i &lt; num_elts; i++) {
 <a name="l00403"></a>00403                 <span class="keywordtype">int</span> s_tag = s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[i].<a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">tag</a>;
 <a name="l00404"></a>00404                 <span class="keywordtype">int</span> t_tag = t-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[i].<a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">tag</a>;
-<a name="l00405"></a>00405 
+<a name="l00405"></a>00405
 <a name="l00406"></a>00406                 <span class="keywordflow">if</span> (s_tag != <span class="charliteral">'?'</span> &amp;&amp; t_tag != <span class="charliteral">'?'</span>) {
 <a name="l00407"></a>00407                         <span class="keywordflow">if</span> (s_tag != t_tag)
 <a name="l00408"></a>00408                                 <span class="keywordflow">return</span> 0;
@@ -396,13 +396,13 @@
 <a name="l00438"></a>00438         }
 <a name="l00439"></a>00439         <span class="keywordflow">return</span> 1;
 <a name="l00440"></a>00440 }
-<a name="l00441"></a>00441 
-<a name="l00442"></a>00442 
-<a name="l00443"></a>00443 
+<a name="l00441"></a>00441
+<a name="l00442"></a>00442
+<a name="l00443"></a>00443
 <a name="l00444"></a>00444 <span class="comment">/*</span>
 <a name="l00445"></a>00445 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l00446"></a>00446 <span class="comment"> */</span>
-<a name="l00447"></a>00447 
+<a name="l00447"></a>00447
 <a name="l00452"></a>00452 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
 <a name="l00453"></a><a class="code" href="tuple_8h.html#ee1c688f2ec1f98b9c552b73f02b751c">00453</a> <a class="code" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int</a>(<span class="keywordtype">void</span>)
 <a name="l00454"></a>00454 {
@@ -412,12 +412,12 @@
 <a name="l00458"></a>00458         close(sock);
 <a name="l00459"></a>00459         <span class="keywordflow">return</span> x;
 <a name="l00460"></a>00460 }
-<a name="l00461"></a>00461 
-<a name="l00462"></a>00462 
+<a name="l00461"></a>00461
+<a name="l00462"></a>00462
 <a name="l00463"></a>00463 <span class="comment">/*</span>
 <a name="l00464"></a>00464 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l00465"></a>00465 <span class="comment"> */</span>
-<a name="l00466"></a>00466 
+<a name="l00466"></a>00466
 <a name="l00470"></a>00470 <span class="keywordtype">int</span>
 <a name="l00471"></a><a class="code" href="tuple_8h.html#8a542bbac28c84dfc16a2adac1dade70">00471</a> <a class="code" href="tuple_8c.html#8a542bbac28c84dfc16a2adac1dade70">send_chunk</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx, <span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> bytes_to_send)
 <a name="l00472"></a>00472 {
@@ -443,8 +443,8 @@
 <a name="l00492"></a>00492         }
 <a name="l00493"></a>00493         <span class="keywordflow">return</span> 0;
 <a name="l00494"></a>00494 }
-<a name="l00495"></a>00495 
-<a name="l00496"></a>00496 
+<a name="l00495"></a>00495
+<a name="l00496"></a>00496
 <a name="l00500"></a>00500 <span class="keywordtype">int</span>
 <a name="l00501"></a><a class="code" href="tuple_8h.html#3eca31423e56f6031094e81b1a61e0c5">00501</a> <a class="code" href="tuple_8c.html#3eca31423e56f6031094e81b1a61e0c5">send_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx, <span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *t)
 <a name="l00502"></a>00502 {
@@ -463,7 +463,7 @@
 <a name="l00515"></a>00515                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"send_chunk failed"</span>);
 <a name="l00516"></a>00516                 <span class="keywordflow">return</span> 1;
 <a name="l00517"></a>00517         }
-<a name="l00518"></a>00518 
+<a name="l00518"></a>00518
 <a name="l00519"></a>00519         string_length = 0;
 <a name="l00520"></a>00520         <span class="comment">//fprintf(stderr,"Sending %d elts\n", t-&gt;num_elts);</span>
 <a name="l00521"></a>00521         <span class="keywordflow">for</span> (i = 0; i &lt; t-&gt;<a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a>; i++) {
@@ -503,7 +503,7 @@
 <a name="l00555"></a>00555                         }
 <a name="l00556"></a>00556                 }
 <a name="l00557"></a>00557         }
-<a name="l00558"></a>00558 
+<a name="l00558"></a>00558
 <a name="l00559"></a>00559         <span class="keywordflow">for</span> (i = 0; i &lt; t-&gt;<a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a>; i++) {
 <a name="l00560"></a>00560                 <span class="keywordflow">if</span> (t-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[i].<a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">tag</a> == <span class="charliteral">'s'</span>) {
 <a name="l00561"></a>00561                         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#8a542bbac28c84dfc16a2adac1dade70">send_chunk</a>(ctx,
@@ -516,8 +516,8 @@
 <a name="l00568"></a>00568         }
 <a name="l00569"></a>00569         <span class="keywordflow">return</span> 0;
 <a name="l00570"></a>00570 }
-<a name="l00571"></a>00571 
-<a name="l00572"></a>00572 
+<a name="l00571"></a>00571
+<a name="l00572"></a>00572
 <a name="l00576"></a>00576 <span class="keywordtype">int</span>
 <a name="l00577"></a><a class="code" href="tuple_8h.html#f8a5c9947c940eb9cf8bd99e39d52b70">00577</a> <a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx, <span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> size)
 <a name="l00578"></a>00578 {
@@ -562,32 +562,32 @@
 <a name="l00617"></a>00617         }
 <a name="l00618"></a>00618         <span class="keywordflow">return</span> 0; <span class="comment">// signal success</span>
 <a name="l00619"></a>00619 }
-<a name="l00620"></a>00620 
-<a name="l00621"></a>00621 
+<a name="l00620"></a>00620
+<a name="l00621"></a>00621
 <a name="l00625"></a>00625 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00626"></a><a class="code" href="tuple_8h.html#72fa108c93c62c0111460d078033d5a7">00626</a> <a class="code" href="tuple_8c.html#72fa108c93c62c0111460d078033d5a7">recv_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00627"></a>00627 {
 <a name="l00628"></a>00628         <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s;
 <a name="l00629"></a>00629         <span class="keywordtype">int</span> i, <a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a>, <a class="code" href="structtuple.html#4fcd5b1c560c7d8104adbeb8ac26ac18">string_length</a>, element_size;
-<a name="l00630"></a>00630 
+<a name="l00630"></a>00630
 <a name="l00631"></a>00631         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(ctx, (<span class="keywordtype">char</span> *) &amp;num_elts, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l00632"></a>00632                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"recv_chunk failed"</span>);
 <a name="l00633"></a>00633                 <span class="keywordflow">return</span> NULL;
 <a name="l00634"></a>00634         }
-<a name="l00635"></a>00635 
+<a name="l00635"></a>00635
 <a name="l00636"></a>00636         <span class="comment">/*</span>
 <a name="l00637"></a>00637 <span class="comment">         * return code for non-blocking gets and reads </span>
 <a name="l00638"></a>00638 <span class="comment">         */</span>
 <a name="l00639"></a>00639         <span class="keywordflow">if</span> (num_elts == -1) {
 <a name="l00640"></a>00640                 <span class="keywordflow">return</span> (<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *) -1;
 <a name="l00641"></a>00641         }
-<a name="l00642"></a>00642 
+<a name="l00642"></a>00642
 <a name="l00643"></a>00643         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(ctx, (<span class="keywordtype">char</span> *) &amp;string_length, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l00644"></a>00644                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"recv_chunk failed"</span>);
 <a name="l00645"></a>00645                 <span class="keywordflow">return</span> NULL;
 <a name="l00646"></a>00646         }
 <a name="l00647"></a>00647         assert(string_length &gt;= 0);
-<a name="l00648"></a>00648 
+<a name="l00648"></a>00648
 <a name="l00649"></a>00649         s = malloc(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a>));
 <a name="l00650"></a>00650         <span class="keywordflow">if</span> (s == NULL) {
 <a name="l00651"></a>00651                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"malloc failed"</span>);
@@ -595,14 +595,14 @@
 <a name="l00653"></a>00653         }
 <a name="l00654"></a>00654         s-&gt;<a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a> = num_elts;
 <a name="l00655"></a>00655         s-&gt;<a class="code" href="structtuple.html#4fcd5b1c560c7d8104adbeb8ac26ac18">string_length</a> = string_length;
-<a name="l00656"></a>00656 
+<a name="l00656"></a>00656
 <a name="l00657"></a>00657         element_size = num_elts * <span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>);
 <a name="l00658"></a>00658         s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a> = malloc(element_size);
 <a name="l00659"></a>00659         <span class="keywordflow">if</span> (s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a> == NULL) {
 <a name="l00660"></a>00660                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"malloc failed"</span>);
 <a name="l00661"></a>00661                 <a class="code" href="tuple_8h.html#cb518006643e05e763f3e5672a014515">EXIT</a>();
 <a name="l00662"></a>00662         }
-<a name="l00663"></a>00663 
+<a name="l00663"></a>00663
 <a name="l00664"></a>00664         <span class="comment">// Recursively receive all the elements</span>
 <a name="l00665"></a>00665         <span class="keywordflow">for</span> (i=0; i&lt;num_elts; i++) {
 <a name="l00666"></a>00666                 <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(ctx, (<span class="keywordtype">char</span> *) (s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>+i), <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>))) {
@@ -620,7 +620,7 @@
 <a name="l00678"></a>00678                         s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[i].<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#faee4bb1c38809e920e362c8a57fe184">t</a> = nested_tuple;
 <a name="l00679"></a>00679                 }
 <a name="l00680"></a>00680         }
-<a name="l00681"></a>00681 
+<a name="l00681"></a>00681
 <a name="l00682"></a>00682         <span class="keywordflow">if</span> (string_length) {
 <a name="l00683"></a>00683                 s-&gt;<a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">string_space</a> = malloc(string_length);
 <a name="l00684"></a>00684                 <span class="keywordflow">if</span> (s-&gt;<a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">string_space</a> == NULL) {
@@ -632,7 +632,7 @@
 <a name="l00690"></a>00690                         <a class="code" href="tuple_8h.html#6e4267906923670d579ef822ed5480b8">PRINTF</a>(<span class="stringliteral">"string_length=%d, num_elts=%d, string_space=%p(%s)\n"</span>, string_length, s-&gt;<a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a>, s-&gt;<a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">string_space</a>, s-&gt;<a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">string_space</a>);
 <a name="l00691"></a>00691                         <span class="keywordflow">return</span> NULL;
 <a name="l00692"></a>00692                 }
-<a name="l00693"></a>00693 
+<a name="l00693"></a>00693
 <a name="l00694"></a>00694                 <span class="comment">/*</span>
 <a name="l00695"></a>00695 <span class="comment">                 * translate index values to pointers </span>
 <a name="l00696"></a>00696 <span class="comment">                 */</span>
@@ -649,19 +649,19 @@
 <a name="l00707"></a>00707         }
 <a name="l00708"></a>00708         <span class="keywordflow">return</span> s;
 <a name="l00709"></a>00709 }
-<a name="l00710"></a>00710 
-<a name="l00711"></a>00711 
+<a name="l00710"></a>00710
+<a name="l00711"></a>00711
 <a name="l00712"></a>00712 <span class="comment">/*</span>
 <a name="l00713"></a>00713 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l00714"></a>00714 <span class="comment"> */</span>
-<a name="l00715"></a>00715 
+<a name="l00715"></a>00715
 <a name="l00719"></a>00719 <span class="keyword">static</span> <span class="keywordtype">int</span>
 <a name="l00720"></a><a class="code" href="tuple_8c.html#b5abd5d5c40dba938eaf60306005d76c">00720</a> <a class="code" href="tuple_8c.html#b5abd5d5c40dba938eaf60306005d76c">open_client_socket</a>(<span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00721"></a>00721 {
 <a name="l00722"></a>00722         <span class="keyword">struct </span>sockaddr_in addr;
 <a name="l00723"></a>00723         <span class="keyword">static</span> <span class="keywordtype">int</span> context_id=1;
 <a name="l00724"></a>00724 <span class="comment">//      int optval=1;</span>
-<a name="l00725"></a>00725 
+<a name="l00725"></a>00725
 <a name="l00726"></a>00726         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a> = context_id++;
 <a name="l00727"></a>00727         ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a> = socket(AF_INET, SOCK_STREAM, 0);
 <a name="l00728"></a>00728         <span class="keywordflow">if</span> (ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a> &lt; 0) {
@@ -687,13 +687,13 @@
 <a name="l00748"></a>00748                 <span class="keywordflow">return</span> 1;
 <a name="l00749"></a>00749         }
 <a name="l00750"></a>00750         assert(he-&gt;h_addrtype == AF_INET);
-<a name="l00751"></a>00751         
+<a name="l00751"></a>00751
 <a name="l00752"></a>00752         memset(&amp;addr, 0, <span class="keyword">sizeof</span>(addr));
 <a name="l00753"></a>00753         addr.sin_family = AF_INET;
 <a name="l00754"></a>00754         addr.sin_addr.s_addr = ((<span class="keyword">struct </span>in_addr *)he-&gt;h_addr_list[0])-&gt;s_addr;
 <a name="l00755"></a>00755         addr.sin_port = htons(ctx-&gt;<a class="code" href="structcontext.html#ae0ec6036c458497c720aba9deabe1fe">portnumber</a>);
-<a name="l00756"></a>00756 
-<a name="l00757"></a>00757         <span class="keywordflow">if</span> (connect(ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>, (<span class="keyword">struct</span> sockaddr *) &amp;addr, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in)) &lt; 0) 
+<a name="l00756"></a>00756
+<a name="l00757"></a>00757         <span class="keywordflow">if</span> (connect(ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>, (<span class="keyword">struct</span> sockaddr *) &amp;addr, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in)) &lt; 0)
 <a name="l00758"></a>00758         {
 <a name="l00759"></a>00759                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"connect failed"</span>);
 <a name="l00760"></a>00760                 <span class="comment">// When the system is flooded with lingering TIME_WAIT</span>
@@ -710,13 +710,13 @@
 <a name="l00771"></a>00771                 );
 <a name="l00772"></a>00772                 <span class="keywordflow">return</span> 1;
 <a name="l00773"></a>00773         }
-<a name="l00774"></a>00774 
+<a name="l00774"></a>00774
 <a name="l00775"></a>00775         <span class="keywordflow">return</span> 0;
 <a name="l00776"></a>00776 }
-<a name="l00777"></a>00777 
-<a name="l00778"></a>00778 
-<a name="l00779"></a>00779 
-<a name="l00780"></a>00780 
+<a name="l00777"></a>00777
+<a name="l00778"></a>00778
+<a name="l00779"></a>00779
+<a name="l00780"></a>00780
 <a name="l00784"></a>00784 <span class="keywordtype">int</span>
 <a name="l00785"></a><a class="code" href="tuple_8h.html#284e342b556c777858e1e3cd97182633">00785</a> <a class="code" href="tuple_8c.html#284e342b556c777858e1e3cd97182633">put_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00786"></a>00786 {
@@ -750,8 +750,8 @@
 <a name="l00814"></a>00814         ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>=0;
 <a name="l00815"></a>00815         <span class="keywordflow">return</span> 0;
 <a name="l00816"></a>00816 }
-<a name="l00817"></a>00817 
-<a name="l00818"></a>00818 
+<a name="l00817"></a>00817
+<a name="l00818"></a>00818
 <a name="l00822"></a>00822 <span class="keywordtype">int</span>
 <a name="l00823"></a><a class="code" href="tuple_8h.html#8845f2defd523b7cff7759dc97fa93bf">00823</a> <a class="code" href="tuple_8c.html#8845f2defd523b7cff7759dc97fa93bf">replace_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<span class="keyword">template</span>, <span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *replacement, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00824"></a>00824 {
@@ -788,8 +788,8 @@
 <a name="l00855"></a>00855         ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>=0;
 <a name="l00856"></a>00856         <span class="keywordflow">return</span> 0;
 <a name="l00857"></a>00857 }
-<a name="l00858"></a>00858 
-<a name="l00859"></a>00859 
+<a name="l00858"></a>00858
+<a name="l00859"></a>00859
 <a name="l00863"></a>00863 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00864"></a><a class="code" href="tuple_8h.html#0501e03b2a583260b84b9f8748581e21">00864</a> <a class="code" href="tuple_8c.html#0501e03b2a583260b84b9f8748581e21">get_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00865"></a>00865 {
@@ -827,8 +827,8 @@
 <a name="l00897"></a>00897         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l00898"></a>00898         <span class="keywordflow">return</span> s;
 <a name="l00899"></a>00899 }
-<a name="l00900"></a>00900 
-<a name="l00901"></a>00901 
+<a name="l00900"></a>00900
+<a name="l00901"></a>00901
 <a name="l00905"></a>00905 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00906"></a><a class="code" href="tuple_8h.html#a0a2fb66b2076c934f1ed61014098397">00906</a> <a class="code" href="tuple_8c.html#63671fa149471395bc246aad8fe73663">read_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *template_tuple, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00907"></a>00907 {
@@ -871,8 +871,8 @@
 <a name="l00944"></a>00944         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l00945"></a>00945         <span class="keywordflow">return</span> returned_tuple;
 <a name="l00946"></a>00946 }
-<a name="l00947"></a>00947 
-<a name="l00948"></a>00948 
+<a name="l00947"></a>00947
+<a name="l00948"></a>00948
 <a name="l00952"></a>00952 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l00953"></a><a class="code" href="tuple_8h.html#3646a6f563cf5a110704ff7ee256e959">00953</a> <a class="code" href="tuple_8c.html#9d0144e0a499055afacf70b731ad658d">get_nb_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *template_tuple, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l00954"></a>00954 {
@@ -916,8 +916,8 @@
 <a name="l00992"></a>00992         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l00993"></a>00993         <span class="keywordflow">return</span> returned_tuple;
 <a name="l00994"></a>00994 }
-<a name="l00995"></a>00995 
-<a name="l00996"></a>00996 
+<a name="l00995"></a>00995
+<a name="l00996"></a>00996
 <a name="l01000"></a>01000 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l01001"></a><a class="code" href="tuple_8h.html#456cb9afa6ff6d6e3d34a9666e9caa14">01001</a> <a class="code" href="tuple_8c.html#889925c6437030ce67a4d43f645652d4">read_nb_tuple</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *template_tuple, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l01002"></a>01002 {
@@ -961,27 +961,27 @@
 <a name="l01040"></a>01040         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l01041"></a>01041         <span class="keywordflow">return</span> received_tuple;
 <a name="l01042"></a>01042 }
-<a name="l01043"></a>01043 
-<a name="l01044"></a>01044 
+<a name="l01043"></a>01043
+<a name="l01044"></a>01044
 <a name="l01045"></a>01045 <span class="comment">/*</span>
 <a name="l01046"></a>01046 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l01047"></a>01047 <span class="comment"> */</span>
-<a name="l01048"></a>01048 
-<a name="l01049"></a>01049 
-<a name="l01050"></a>01050 
+<a name="l01048"></a>01048
+<a name="l01049"></a>01049
+<a name="l01050"></a>01050
 <a name="l01056"></a>01056 <span class="keyword">struct </span><a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *
 <a name="l01057"></a><a class="code" href="tuple_8h.html#fab844ac281965d770288904351836a7">01057</a> <a class="code" href="tuple_8c.html#fab844ac281965d770288904351836a7">dump_tuple_space</a>(<span class="keyword">struct</span> <a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *templates, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l01058"></a>01058 {
 <a name="l01059"></a>01059         <span class="keywordtype">int</span> count, op = <a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5c529924c1f8f626fa26b0eef28d1ba73">DUMP</a>;
 <a name="l01060"></a>01060         <span class="keyword">struct </span><a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *s, *t, *tlist;
-<a name="l01061"></a>01061 
+<a name="l01061"></a>01061
 <a name="l01062"></a>01062         <span class="keywordflow">for</span> (count = 0, s = templates; s != NULL; count++, s = s-&gt;<a class="code" href="structtuple__list.html#0c3e333b19897812ecd80d7ab2f667f1">next</a>);
-<a name="l01063"></a>01063 
+<a name="l01063"></a>01063
 <a name="l01064"></a>01064         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#b5abd5d5c40dba938eaf60306005d76c">open_client_socket</a>(ctx)) {
 <a name="l01065"></a>01065                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"open_client_socket failed"</span>);
 <a name="l01066"></a>01066                 <span class="keywordflow">return</span> NULL;
 <a name="l01067"></a>01067         }
-<a name="l01068"></a>01068 
+<a name="l01068"></a>01068
 <a name="l01069"></a>01069         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#8a542bbac28c84dfc16a2adac1dade70">send_chunk</a>(ctx, (<span class="keywordtype">char</span> *) &amp;op, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l01070"></a>01070                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"send failed"</span>);
 <a name="l01071"></a>01071                 <span class="keywordflow">return</span> NULL;
@@ -1002,7 +1002,7 @@
 <a name="l01086"></a>01086 <span class="comment">         * Do NOT free the templates. This guy may want to</span>
 <a name="l01087"></a>01087 <span class="comment">         * use them again later. Let him free them.</span>
 <a name="l01088"></a>01088 <span class="comment">         */</span>
-<a name="l01089"></a>01089 
+<a name="l01089"></a>01089
 <a name="l01090"></a>01090         tlist = NULL;
 <a name="l01091"></a>01091         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(ctx, (<span class="keywordtype">char</span> *) &amp;count, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l01092"></a>01092                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"recv_chunk failed"</span>);
@@ -1028,7 +1028,7 @@
 <a name="l01112"></a>01112                 x-&gt;<a class="code" href="structtuple__list.html#0c3e333b19897812ecd80d7ab2f667f1">next</a> = tlist;
 <a name="l01113"></a>01113                 tlist = x;
 <a name="l01114"></a>01114         }
-<a name="l01115"></a>01115 
+<a name="l01115"></a>01115
 <a name="l01116"></a>01116         <a class="code" href="tuple_8h.html#5fe2f2580d569ddfa0ef914276e71252">DBGPRINTF</a>(<span class="stringliteral">"tlist = %08x\n"</span>, (<span class="keywordtype">int</span>) tlist);
 <a name="l01117"></a>01117         <span class="keywordflow">for</span> (t = tlist; t != NULL;) {
 <a name="l01118"></a>01118                 <a class="code" href="tuple_8h.html#5fe2f2580d569ddfa0ef914276e71252">DBGPRINTF</a>(<span class="stringliteral">"t = %08x\n"</span>, (<span class="keywordtype">int</span>) t);
@@ -1036,25 +1036,25 @@
 <a name="l01120"></a>01120                 <a class="code" href="tuple_8h.html#5fe2f2580d569ddfa0ef914276e71252">DBGPRINTF</a>(<span class="stringliteral">"t-&gt;next = %08x\n"</span>, (<span class="keywordtype">int</span>) t-&gt;next);
 <a name="l01121"></a>01121                 t = t-&gt;next;
 <a name="l01122"></a>01122         }
-<a name="l01123"></a>01123 
+<a name="l01123"></a>01123
 <a name="l01124"></a>01124         <span class="keywordflow">return</span> tlist;
 <a name="l01125"></a>01125 }
-<a name="l01126"></a>01126 
-<a name="l01127"></a>01127 
+<a name="l01126"></a>01126
+<a name="l01127"></a>01127
 <a name="l01133"></a>01133 <span class="keywordtype">int</span>
 <a name="l01134"></a><a class="code" href="tuple_8h.html#dfe2e662a90a9efac43fad5f6ccbf139">01134</a> <a class="code" href="tuple_8c.html#dfe2e662a90a9efac43fad5f6ccbf139">count_tuple_space</a>(<span class="keyword">struct</span> <a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *templates,
 <a name="l01135"></a>01135                   <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx, <span class="keywordtype">int</span> *result)
 <a name="l01136"></a>01136 {
 <a name="l01137"></a>01137         <span class="keywordtype">int</span> count, op = <a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb52addb49878f50c95dc669e5fdbd130a2">COUNT</a>;
 <a name="l01138"></a>01138         <span class="keyword">struct </span><a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *s, *tlist;
-<a name="l01139"></a>01139 
+<a name="l01139"></a>01139
 <a name="l01140"></a>01140         <span class="keywordflow">for</span> (count = 0, s = templates; s != NULL; count++, s = s-&gt;<a class="code" href="structtuple__list.html#0c3e333b19897812ecd80d7ab2f667f1">next</a>);
-<a name="l01141"></a>01141 
+<a name="l01141"></a>01141
 <a name="l01142"></a>01142         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#b5abd5d5c40dba938eaf60306005d76c">open_client_socket</a>(ctx)) {
 <a name="l01143"></a>01143                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"open_client_socket failed"</span>);
 <a name="l01144"></a>01144                 <span class="keywordflow">return</span> 1;
 <a name="l01145"></a>01145         }
-<a name="l01146"></a>01146 
+<a name="l01146"></a>01146
 <a name="l01147"></a>01147         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#8a542bbac28c84dfc16a2adac1dade70">send_chunk</a>(ctx, (<span class="keywordtype">char</span> *) &amp;op, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l01148"></a>01148                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"send failed"</span>);
 <a name="l01149"></a>01149                 <span class="keywordflow">return</span> 1;
@@ -1075,24 +1075,24 @@
 <a name="l01164"></a>01164 <span class="comment">         * Do NOT free the templates. This guy may want to</span>
 <a name="l01165"></a>01165 <span class="comment">         * use them again later. Let him free them.</span>
 <a name="l01166"></a>01166 <span class="comment">         */</span>
-<a name="l01167"></a>01167 
+<a name="l01167"></a>01167
 <a name="l01168"></a>01168         tlist = NULL;
 <a name="l01169"></a>01169         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#f8a5c9947c940eb9cf8bd99e39d52b70">recv_chunk</a>(ctx, (<span class="keywordtype">char</span> *) result, <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>))) {
 <a name="l01170"></a>01170                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"recv_chunk failed"</span>);
 <a name="l01171"></a>01171                 <span class="keywordflow">return</span> 1;
 <a name="l01172"></a>01172         }
-<a name="l01173"></a>01173 
+<a name="l01173"></a>01173
 <a name="l01174"></a>01174         <span class="keywordflow">return</span> 0;
 <a name="l01175"></a>01175 }
-<a name="l01176"></a>01176 
-<a name="l01177"></a>01177 
+<a name="l01176"></a>01176
+<a name="l01177"></a>01177
 <a name="l01181"></a>01181 <span class="keywordtype">int</span>
 <a name="l01182"></a><a class="code" href="tuple_8h.html#bb0b849ff7f9596bba4ac95151859d55">01182</a> <a class="code" href="tuple_8c.html#bb0b849ff7f9596bba4ac95151859d55">tuple_server_log</a>(FILE * stream, <span class="keyword">struct</span> <a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> *ctx)
 <a name="l01183"></a>01183 {
 <a name="l01184"></a>01184         <span class="keywordtype">int</span> n, op = <a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5cd7ffe737ad5fb21fbd7499886934910">LOG</a>;
 <a name="l01185"></a>01185         <span class="keyword">const</span> <span class="keywordtype">int</span> bufsize = <a class="code" href="tuple_8h.html#041b49ecae1ddca1e27f1db8d37ddd25">LOGBUFSIZE</a>;
 <a name="l01186"></a>01186         <span class="keywordtype">char</span> buf[bufsize];
-<a name="l01187"></a>01187 
+<a name="l01187"></a>01187
 <a name="l01188"></a>01188         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#b5abd5d5c40dba938eaf60306005d76c">open_client_socket</a>(ctx)) {
 <a name="l01189"></a>01189                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"open_client_socket failed"</span>);
 <a name="l01190"></a>01190                 <span class="keywordflow">return</span> 1;
@@ -1101,13 +1101,13 @@
 <a name="l01193"></a>01193                 <span class="keywordflow">if</span> (close(ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>))
 <a name="l01194"></a>01194                 {
 <a name="l01195"></a>01195                         <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"close failed"</span>);
-<a name="l01196"></a>01196                 }       
+<a name="l01196"></a>01196                 }
 <a name="l01197"></a>01197                 ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>=0;
 <a name="l01198"></a>01198                 ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l01199"></a>01199                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"send_chunk failed"</span>);
 <a name="l01200"></a>01200                 <span class="keywordflow">return</span> 1;
 <a name="l01201"></a>01201         }
-<a name="l01202"></a>01202 
+<a name="l01202"></a>01202
 <a name="l01203"></a>01203         n = read(ctx-&gt;<a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>, buf, bufsize);
 <a name="l01204"></a>01204         <span class="keywordflow">if</span> (n &lt; 0) {
 <a name="l01205"></a>01205                 <a class="code" href="tuple_8c.html#2da7fe6c5277be25a9bda95f08a85aee">PERROR</a>(<span class="stringliteral">"read failed"</span>);
@@ -1123,13 +1123,13 @@
 <a name="l01215"></a>01215         ctx-&gt;<a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>=0;
 <a name="l01216"></a>01216         <span class="keywordflow">return</span> 0;
 <a name="l01217"></a>01217 }
-<a name="l01218"></a>01218 
-<a name="l01219"></a>01219 
-<a name="l01220"></a>01220 
+<a name="l01218"></a>01218
+<a name="l01219"></a>01219
+<a name="l01220"></a>01220
 <a name="l01221"></a>01221 <span class="comment">/*</span>
 <a name="l01222"></a>01222 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l01223"></a>01223 <span class="comment"> */</span>
-<a name="l01224"></a>01224 
+<a name="l01224"></a>01224
 <a name="l01228"></a>01228 <span class="keyword">static</span> <span class="keyword">struct </span><a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> *
 <a name="l01229"></a><a class="code" href="tuple_8c.html#1c724b805798578437f9cb4e98dc2e1f">01229</a> <a class="code" href="tuple_8c.html#1c724b805798578437f9cb4e98dc2e1f">tuple_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>, <span class="keywordtype">int</span> n)
 <a name="l01230"></a>01230 {
@@ -1140,8 +1140,8 @@
 <a name="l01235"></a>01235         }
 <a name="l01236"></a>01236         <span class="keywordflow">return</span> &amp;s-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[n];
 <a name="l01237"></a>01237 }
-<a name="l01238"></a>01238 
-<a name="l01239"></a>01239 
+<a name="l01238"></a>01238
+<a name="l01239"></a>01239
 <a name="l01243"></a>01243 <span class="keywordtype">int</span>
 <a name="l01244"></a><a class="code" href="tuple_8h.html#cfae941a81c1e8cc820268a81e169d5a">01244</a> <a class="code" href="tuple_8c.html#cfae941a81c1e8cc820268a81e169d5a">tuple_int_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>, <span class="keywordtype">int</span> n)
 <a name="l01245"></a>01245 {
@@ -1158,8 +1158,8 @@
 <a name="l01256"></a>01256         }
 <a name="l01257"></a>01257         <span class="keywordflow">return</span> e-&gt;<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#4e41a1440036146f7a3c50c07a91e7fe">i</a>;
 <a name="l01258"></a>01258 }
-<a name="l01259"></a>01259 
-<a name="l01260"></a>01260 
+<a name="l01259"></a>01259
+<a name="l01260"></a>01260
 <a name="l01264"></a>01264 <span class="keywordtype">double</span>
 <a name="l01265"></a><a class="code" href="tuple_8h.html#a7338a380b05e6e11f16e80105116d66">01265</a> <a class="code" href="tuple_8c.html#a7338a380b05e6e11f16e80105116d66">tuple_double_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>, <span class="keywordtype">int</span> n)
 <a name="l01266"></a>01266 {
@@ -1176,8 +1176,8 @@
 <a name="l01277"></a>01277         }
 <a name="l01278"></a>01278         <span class="keywordflow">return</span> e-&gt;<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#2be7d673f98af059654cd6c13a608174">d</a>;
 <a name="l01279"></a>01279 }
-<a name="l01280"></a>01280 
-<a name="l01281"></a>01281 
+<a name="l01280"></a>01280
+<a name="l01281"></a>01281
 <a name="l01285"></a>01285 <span class="keywordtype">char</span> *
 <a name="l01286"></a><a class="code" href="tuple_8h.html#3e4b17fa3a7431f7447098da86d6db88">01286</a> <a class="code" href="tuple_8c.html#3e4b17fa3a7431f7447098da86d6db88">tuple_string_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>, <span class="keywordtype">int</span> *<a class="code" href="structelement.html#9e5d9d7d1b1fed2777e54ee69f8beff2">len</a>, <span class="keywordtype">int</span> n)
 <a name="l01287"></a>01287 {
@@ -1196,8 +1196,8 @@
 <a name="l01300"></a>01300                 *len = e-&gt;<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>.len;
 <a name="l01301"></a>01301         <span class="keywordflow">return</span> e-&gt;<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#da7388185bb465de085afe680dbe1b62">s</a>.ptr;
 <a name="l01302"></a>01302 }
-<a name="l01303"></a>01303 
-<a name="l01304"></a>01304 
+<a name="l01303"></a>01303
+<a name="l01304"></a>01304
 <a name="l01308"></a>01308 <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *
 <a name="l01309"></a><a class="code" href="tuple_8c.html#9ff17942a987218673077bc587967076">01309</a> <a class="code" href="tuple_8c.html#9ff17942a987218673077bc587967076">tuple_tuple_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keywordtype">int</span> n)
 <a name="l01310"></a>01310 {
@@ -1214,8 +1214,8 @@
 <a name="l01321"></a>01321         }
 <a name="l01322"></a>01322         <span class="keywordflow">return</span> e-&gt;<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#faee4bb1c38809e920e362c8a57fe184">t</a>;
 <a name="l01323"></a>01323 }
-<a name="l01324"></a>01324 
-<a name="l01325"></a>01325 
+<a name="l01324"></a>01324
+<a name="l01325"></a>01325
 <a name="l01326"></a>01326 <span class="comment">/*</span>
 <a name="l01327"></a>01327 <span class="comment"> * ----------------------------------------------------------- </span>
 <a name="l01328"></a>01328 <span class="comment"> */</span>

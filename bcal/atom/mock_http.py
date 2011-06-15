@@ -69,16 +69,16 @@ class MockHttpClient(atom.http_interface.GenericHttpClient):
 
     The MockHttpClient can be switched from replay mode to record mode by
     setting the real_client member to an instance of an HttpClient which will
-    make real HTTP requests and store the server's response in list of 
+    make real HTTP requests and store the server's response in list of
     recordings.
-    
+
     Args:
       headers: dict containing HTTP headers which should be included in all
           HTTP requests.
       recordings: The initial recordings to be used for responses. This list
           contains tuples in the form: (MockRequest, MockResponse)
-      real_client: An HttpClient which will make a real HTTP request. The 
-          response will be converted into a MockResponse and stored in 
+      real_client: An HttpClient which will make a real HTTP request. The
+          response will be converted into a MockResponse and stored in
           recordings.
     """
     self.recordings = recordings or []
@@ -87,10 +87,10 @@ class MockHttpClient(atom.http_interface.GenericHttpClient):
 
   def add_response(self, response, operation, url, data=None, headers=None):
     """Adds a request-response pair to the recordings list.
-    
+
     After the recording is added, future matching requests will receive the
     response.
-    
+
     Args:
       response: MockResponse
       operation: str
@@ -105,9 +105,9 @@ class MockHttpClient(atom.http_interface.GenericHttpClient):
 
   def request(self, operation, url, data=None, headers=None):
     """Returns a matching MockResponse from the recordings.
-    
-    If the real_client is set, the request will be passed along and the 
-    server's response will be added to the recordings and also returned. 
+
+    If the real_client is set, the request will be passed along and the
+    server's response will be added to the recordings and also returned.
 
     If there is no match, a NoRecordingFound error will be raised.
     """
@@ -120,13 +120,13 @@ class MockHttpClient(atom.http_interface.GenericHttpClient):
       raise NoRecordingFound('No recodings found for %s %s' % (
           operation, url))
     else:
-      # There is a real HTTP client, so make the request, and record the 
+      # There is a real HTTP client, so make the request, and record the
       # response.
-      response = self.real_client.request(operation, url, data=data, 
+      response = self.real_client.request(operation, url, data=data,
           headers=headers)
       # TODO: copy the headers
       stored_response = MockResponse(body=response, status=response.status,
           reason=response.reason)
-      self.add_response(stored_response, operation, url, data=data, 
+      self.add_response(stored_response, operation, url, data=data,
           headers=headers)
       return stored_response

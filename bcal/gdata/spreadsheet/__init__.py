@@ -48,7 +48,7 @@ GSPREADSHEETS_EXTENDED_TEMPLATE = ('{http://schemas.google.com/spreadsheets'
 
 class ColCount(atom.AtomBase):
   """The Google Spreadsheets colCount element """
-  
+
   _tag = 'colCount'
   _namespace = GSPREADSHEETS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -60,14 +60,14 @@ class ColCount(atom.AtomBase):
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
 
-    
+
 def ColCountFromString(xml_string):
   return atom.CreateClassFromXMLString(ColCount, xml_string)
 
 
 class RowCount(atom.AtomBase):
   """The Google Spreadsheets rowCount element """
-  
+
   _tag = 'rowCount'
   _namespace = GSPREADSHEETS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -81,11 +81,11 @@ class RowCount(atom.AtomBase):
 
 def RowCountFromString(xml_string):
   return atom.CreateClassFromXMLString(RowCount, xml_string)
-      
+
 
 class Cell(atom.AtomBase):
   """The Google Spreadsheets cell element """
-  
+
   _tag = 'cell'
   _namespace = GSPREADSHEETS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -94,8 +94,8 @@ class Cell(atom.AtomBase):
   _attributes['col'] = 'col'
   _attributes['inputValue'] = 'inputValue'
   _attributes['numericValue'] = 'numericValue'
-  
-  def __init__(self, text=None, row=None, col=None, inputValue=None, 
+
+  def __init__(self, text=None, row=None, col=None, inputValue=None,
       numericValue=None, extension_elements=None, extension_attributes=None):
     self.text = text
     self.row = row
@@ -112,7 +112,7 @@ def CellFromString(xml_string):
 
 class Custom(atom.AtomBase):
   """The Google Spreadsheets custom element"""
-  
+
   _namespace = GSPREADSHEETS_EXTENDED_NAMESPACE
   _children = atom.AtomBase._children.copy()
   _attributes = atom.AtomBase._attributes.copy()
@@ -123,20 +123,20 @@ class Custom(atom.AtomBase):
     self.text = text
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
+
   def _BecomeChildElement(self, tree):
     new_child = ElementTree.Element('')
     tree.append(new_child)
-    new_child.tag = '{%s}%s' % (self.__class__._namespace, 
+    new_child.tag = '{%s}%s' % (self.__class__._namespace,
                                 self.column)
     self._AddMembersToElementTree(new_child)
-  
+
   def _ToElementTree(self):
     new_tree = ElementTree.Element('{%s}%s' % (self.__class__._namespace,
                                                self.column))
     self._AddMembersToElementTree(new_tree)
     return new_tree
-    
+
   def _HarvestElementTree(self, tree):
     namespace_uri, local_tag = string.split(tree.tag[1:], "}", 1)
     self.column = local_tag
@@ -152,7 +152,7 @@ def CustomFromString(xml_string):
   element_tree = ElementTree.fromstring(xml_string)
   return _CustomFromElementTree(element_tree)
 
-  
+
 def _CustomFromElementTree(element_tree):
   namespace_uri, local_tag = string.split(element_tree.tag[1:], "}", 1)
   if namespace_uri == GSPREADSHEETS_EXTENDED_NAMESPACE:
@@ -162,18 +162,18 @@ def _CustomFromElementTree(element_tree):
     return new_custom
   return None
 
-  
 
 
-                                                  
+
+
 class SpreadsheetsSpreadsheet(gdata.GDataEntry):
   """A Google Spreadsheets flavor of a Spreadsheet Atom Entry """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
+
   def __init__(self, author=None, category=None, content=None,
       contributor=None, atom_id=None, link=None, published=None, rights=None,
       source=None, summary=None, title=None, control=None, updated=None,
@@ -194,29 +194,29 @@ class SpreadsheetsSpreadsheet(gdata.GDataEntry):
     self.text = text
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
-    
+
+
 def SpreadsheetsSpreadsheetFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsSpreadsheet, 
+  return atom.CreateClassFromXMLString(SpreadsheetsSpreadsheet,
                                        xml_string)
 
 
 class SpreadsheetsWorksheet(gdata.GDataEntry):
   """A Google Spreadsheets flavor of a Worksheet Atom Entry """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  _children['{%s}rowCount' % GSPREADSHEETS_NAMESPACE] = ('row_count', 
+  _children['{%s}rowCount' % GSPREADSHEETS_NAMESPACE] = ('row_count',
                                                          RowCount)
-  _children['{%s}colCount' % GSPREADSHEETS_NAMESPACE] = ('col_count', 
+  _children['{%s}colCount' % GSPREADSHEETS_NAMESPACE] = ('col_count',
                                                          ColCount)
-  
+
   def __init__(self, author=None, category=None, content=None,
       contributor=None, atom_id=None, link=None, published=None, rights=None,
-      source=None, summary=None, title=None, control=None, updated=None, 
-      row_count=None, col_count=None, text=None, extension_elements=None, 
+      source=None, summary=None, title=None, control=None, updated=None,
+      row_count=None, col_count=None, text=None, extension_elements=None,
       extension_attributes=None):
     self.author = author or []
     self.category = category or []
@@ -237,24 +237,24 @@ class SpreadsheetsWorksheet(gdata.GDataEntry):
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
 
-    
+
 def SpreadsheetsWorksheetFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsWorksheet, 
+  return atom.CreateClassFromXMLString(SpreadsheetsWorksheet,
                                        xml_string)
 
 
 class SpreadsheetsCell(gdata.BatchEntry):
   """A Google Spreadsheets flavor of a Cell Atom Entry """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.BatchEntry._children.copy()
   _attributes = gdata.BatchEntry._attributes.copy()
   _children['{%s}cell' % GSPREADSHEETS_NAMESPACE] = ('cell', Cell)
-  
+
   def __init__(self, author=None, category=None, content=None,
       contributor=None, atom_id=None, link=None, published=None, rights=None,
-      source=None, summary=None, title=None, control=None, updated=None, 
+      source=None, summary=None, title=None, control=None, updated=None,
       cell=None, batch_operation=None, batch_id=None, batch_status=None,
       text=None, extension_elements=None, extension_attributes=None):
     self.author = author or []
@@ -280,22 +280,22 @@ class SpreadsheetsCell(gdata.BatchEntry):
 
 
 def SpreadsheetsCellFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsCell, 
+  return atom.CreateClassFromXMLString(SpreadsheetsCell,
                                        xml_string)
 
-                                       
+
 class SpreadsheetsList(gdata.GDataEntry):
   """A Google Spreadsheets flavor of a List Atom Entry """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
+
   def __init__(self, author=None, category=None, content=None,
       contributor=None, atom_id=None, link=None, published=None, rights=None,
-      source=None, summary=None, title=None, control=None, updated=None, 
-      custom=None, 
+      source=None, summary=None, title=None, control=None, updated=None,
+      custom=None,
       text=None, extension_elements=None, extension_attributes=None):
     self.author = author or []
     self.category = category or []
@@ -314,7 +314,7 @@ class SpreadsheetsList(gdata.GDataEntry):
     self.text = text
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
+
   # We need to overwrite _ConvertElementTreeToMember to add special logic to
   # convert custom attributes to members
   def _ConvertElementTreeToMember(self, child_tree):
@@ -331,7 +331,7 @@ class SpreadsheetsList(gdata.GDataEntry):
         getattr(self, member_name).append(atom._CreateClassFromElementTree(
             member_class[0], child_tree))
       else:
-        setattr(self, member_name, 
+        setattr(self, member_name,
                 atom._CreateClassFromElementTree(member_class, child_tree))
     elif child_tree.tag.find('{%s}' % GSPREADSHEETS_EXTENDED_NAMESPACE) == 0:
       # If this is in the custom namespace, make add it to the custom dict.
@@ -341,14 +341,14 @@ class SpreadsheetsList(gdata.GDataEntry):
         self.custom[name] = custom
     else:
       atom.ExtensionContainer._ConvertElementTreeToMember(self, child_tree)
-  
+
   # We need to overwtite _AddMembersToElementTree to add special logic to
   # convert custom members to XML nodes.
   def _AddMembersToElementTree(self, tree):
-    # Convert the members of this class which are XML child nodes. 
+    # Convert the members of this class which are XML child nodes.
     # This uses the class's _children dictionary to find the members which
     # should become XML child nodes.
-    member_node_names = [values[0] for tag, values in 
+    member_node_names = [values[0] for tag, values in
                                        self.__class__._children.iteritems()]
     for member_name in member_node_names:
       member = getattr(self, member_name)
@@ -367,13 +367,13 @@ class SpreadsheetsList(gdata.GDataEntry):
     # Convert all special custom item attributes to nodes
     for name, custom in self.custom.iteritems():
       custom._BecomeChildElement(tree)
-    # Lastly, call the ExtensionContainers's _AddMembersToElementTree to 
+    # Lastly, call the ExtensionContainers's _AddMembersToElementTree to
     # convert any extension attributes.
     atom.ExtensionContainer._AddMembersToElementTree(self, tree)
 
-  
+
 def SpreadsheetsListFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsList, 
+  return atom.CreateClassFromXMLString(SpreadsheetsList,
                                        xml_string)
   element_tree = ElementTree.fromstring(xml_string)
   return _SpreadsheetsListFromElementTree(element_tree)
@@ -381,52 +381,52 @@ def SpreadsheetsListFromString(xml_string):
 
 class SpreadsheetsSpreadsheetsFeed(gdata.GDataFeed):
   """A feed containing Google Spreadsheets Spreadsheets"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [SpreadsheetsSpreadsheet])
 
 
 def SpreadsheetsSpreadsheetsFeedFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsSpreadsheetsFeed, 
+  return atom.CreateClassFromXMLString(SpreadsheetsSpreadsheetsFeed,
                                        xml_string)
-                                       
-      
+
+
 class SpreadsheetsWorksheetsFeed(gdata.GDataFeed):
   """A feed containing Google Spreadsheets Spreadsheets"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [SpreadsheetsWorksheet])
 
 
 def SpreadsheetsWorksheetsFeedFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsWorksheetsFeed, 
+  return atom.CreateClassFromXMLString(SpreadsheetsWorksheetsFeed,
                                        xml_string)
 
 
 class SpreadsheetsCellsFeed(gdata.BatchFeed):
   """A feed containing Google Spreadsheets Cells"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.BatchFeed._children.copy()
   _attributes = gdata.BatchFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [SpreadsheetsCell])
-  _children['{%s}rowCount' % GSPREADSHEETS_NAMESPACE] = ('row_count', 
+  _children['{%s}rowCount' % GSPREADSHEETS_NAMESPACE] = ('row_count',
                                                          RowCount)
-  _children['{%s}colCount' % GSPREADSHEETS_NAMESPACE] = ('col_count', 
+  _children['{%s}colCount' % GSPREADSHEETS_NAMESPACE] = ('col_count',
                                                          ColCount)
-                                                  
+
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,
@@ -454,21 +454,21 @@ class SpreadsheetsCellsFeed(gdata.BatchFeed):
 
 
 def SpreadsheetsCellsFeedFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsCellsFeed, 
+  return atom.CreateClassFromXMLString(SpreadsheetsCellsFeed,
                                        xml_string)
 
-      
+
 class SpreadsheetsListFeed(gdata.GDataFeed):
   """A feed containing Google Spreadsheets Spreadsheets"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [SpreadsheetsList])
 
 
 def SpreadsheetsListFeedFromString(xml_string):
-  return atom.CreateClassFromXMLString(SpreadsheetsListFeed, 
+  return atom.CreateClassFromXMLString(SpreadsheetsListFeed,
                                        xml_string)

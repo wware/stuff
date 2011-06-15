@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -42,9 +42,9 @@ epoch, in the GMT time zone (also known as UTC).
 <div class="defun">
 &mdash; Procedure: <b>format-utcsec</b><var> port format utc-seconds<a name="index-format_002dutcsec-47"></a></var><br>
 <blockquote><p>Write to output port <var>port</var> the <var>utc-seconds</var>
-formatted according to <var>format</var> (a string). 
-If <var>port</var> is <code>#f</code>, return the output string, instead. 
-This uses <code>strftime</code>, q.v. 
+formatted according to <var>format</var> (a string).
+If <var>port</var> is <code>#f</code>, return the output string, instead.
+This uses <code>strftime</code>, q.v.
 </p></blockquote></div>
    <!-- @twerpdoc (rfc1123-date<-) -->
 <!-- ../source/utcsec.doc -->
@@ -80,7 +80,7 @@ return the utc-seconds it represents.
 
 <div class="defun">
 &mdash; Procedure: <b>&lt;-mtime</b><var> filespec<a name="index-g_t_003c_002dmtime-50"></a></var><br>
-<blockquote><p>Return the utc-seconds of the modification time of <var>filespec</var>. 
+<blockquote><p>Return the utc-seconds of the modification time of <var>filespec</var>.
 <var>filespec</var> can be a filename (string), a port opened on a
 <code>stat</code>able file, or the object resulting from a <code>stat</code>
 on one of these.
@@ -98,17 +98,17 @@ on one of these.
 
 <div class="defun">
 &mdash; Procedure: <b>&lt;-ctime</b><var> filespec<a name="index-g_t_003c_002dctime-51"></a></var><br>
-<blockquote><p>Return the utc-seconds of the creation time of <var>filespec</var>. 
+<blockquote><p>Return the utc-seconds of the creation time of <var>filespec</var>.
 <var>filespec</var> can be a filename (string), a port opened on a
 <code>stat</code>able file, or the object resulting from a <code>stat</code>
-on one of these. 
+on one of these.
 </p></blockquote></div>
    <!-- @twerpdoc (rfc1123-now) -->
 <!-- ../source/utcsec.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>rfc1123-now</b><var><a name="index-rfc1123_002dnow-52"></a></var><br>
-<blockquote><p>The "current time" formatted according to RFC1123. 
+<blockquote><p>The "current time" formatted according to RFC1123.
 </p></blockquote></div>
 
 <!--  -->

@@ -75,4 +75,3 @@ class Title(atom.core.XmlElement):
   """Name given to the resource."""
   _qname = DC_TEMPLATE % 'title'
 
-

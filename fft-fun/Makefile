@@ -8,7 +8,7 @@ endif
 all: test
 
 mt19937ar.o: mt19937ar.c
-	gcc $(CFLAGS) -c mt19937ar.c 
+	gcc $(CFLAGS) -c mt19937ar.c
 
 fft.o: fft.c
 	gcc $(CFLAGS) -c fft.c

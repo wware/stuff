@@ -65,7 +65,7 @@
 
 (define (http-put-test url content-type content)
   (http-test url "POST" content-type content))
-  
+
 (define (http-open url operation content-type content)
   (let ((s (s-open *http-server-host* *http-server-port*))
 	(response-headers nil)
@@ -85,7 +85,7 @@
 	 s))
     (if *http-user-authorization*
 	(s-puts
-	 (string-append "Authorization: " 
+	 (string-append "Authorization: "
 			*http-user-authorization*
 			"\r\n")
 	 s))
@@ -210,7 +210,7 @@
 			    (if rest
 				(cons "&" rest)))))))))
   (apply string-append (loop l)))
-  
+
 (if (> (verbose) 4)
     (trace http-get-test))
 
@@ -266,7 +266,7 @@
 	    (* n-forks n-hits-per-fork)
 	    " total hits. " (/ (* n-forks n-hits-per-fork) test-real)
 	    " hits per second.\n")))
-	    
+
 
 (define (continuos-loop-test time-limit)
   (let ((grand-start-time (realtime))

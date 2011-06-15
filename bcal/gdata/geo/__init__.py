@@ -4,7 +4,7 @@
 #
 # $Id: __init__.py 81 2007-10-03 14:41:42Z havard.gulldahl $
 #
-# Copyright 2007 Håvard Gulldahl 
+# Copyright 2007 Håvard Gulldahl
 # Portions copyright 2007 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Picasa Web Albums uses the georss and gml namespaces for 
+"""Picasa Web Albums uses the georss and gml namespaces for
 elements defined in the GeoRSS and Geography Markup Language specifications.
 
 Specifically, Picasa Web Albums uses the following elements:
@@ -32,11 +32,11 @@ http://code.google.com/apis/picasaweb/reference.html#georss_reference
 
 
 Picasa Web Albums also accepts geographic-location data in two other formats:
-W3C format and plain-GeoRSS (without GML) format. 
+W3C format and plain-GeoRSS (without GML) format.
 """
-# 
-#Over the wire, the Picasa Web Albums only accepts and sends the 
-#elements mentioned above, but this module will let you seamlessly convert 
+#
+#Over the wire, the Picasa Web Albums only accepts and sends the
+#elements mentioned above, but this module will let you seamlessly convert
 #between the different formats (TODO 2007-10-18 hg)
 
 __author__ = u'havard@gulldahl.no'# (Håvard Gulldahl)' #BUG: api chokes on non-ascii chars in __author__
@@ -56,7 +56,7 @@ class GeoBaseElement(atom.AtomBase):
   To add new elements, you only need to add the element tag name to self._tag
   and the namespace to self._namespace
   """
-  
+
   _tag = ''
   _namespace = GML_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -72,7 +72,7 @@ class GeoBaseElement(atom.AtomBase):
 class Pos(GeoBaseElement):
   """(string) Specifies a latitude and longitude, separated by a space,
   e.g. `35.669998 139.770004'"""
-  
+
   _tag = 'pos'
 def PosFromString(xml_string):
   return atom.CreateClassFromXMLString(Pos, xml_string)
@@ -80,10 +80,10 @@ def PosFromString(xml_string):
 class Point(GeoBaseElement):
   """(container)  Specifies a particular geographical point, by means of
   a <gml:pos> element."""
-  
+
   _tag = 'Point'
   _children = atom.AtomBase._children.copy()
-  _children['{%s}pos' % GML_NAMESPACE] = ('pos', Pos) 
+  _children['{%s}pos' % GML_NAMESPACE] = ('pos', Pos)
   def __init__(self, pos=None, extension_elements=None, extension_attributes=None, text=None):
     GeoBaseElement.__init__(self, extension_elements=extension_elements,
                             extension_attributes=extension_attributes,
@@ -97,22 +97,22 @@ def PointFromString(xml_string):
 class Where(GeoBaseElement):
   """(container) Specifies a geographical location or region.
   A container element, containing a single <gml:Point> element.
-  (Not to be confused with <gd:where>.) 
-  
+  (Not to be confused with <gd:where>.)
+
   Note that the (only) child attribute, .Point, is title-cased.
   This reflects the names of elements in the xml stream
   (principle of least surprise).
-  
+
   As a convenience, you can get a tuple of (lat, lon) with Where.location(),
   and set the same data with Where.setLocation( (lat, lon) ).
 
   Similarly, there are methods to set and get only latitude and longitude.
   """
-  
+
   _tag = 'where'
   _namespace = GEORSS_NAMESPACE
   _children = atom.AtomBase._children.copy()
-  _children['{%s}Point' % GML_NAMESPACE] = ('Point', Point) 
+  _children['{%s}Point' % GML_NAMESPACE] = ('Point', Point)
   def __init__(self, point=None, extension_elements=None, extension_attributes=None, text=None):
     GeoBaseElement.__init__(self, extension_elements=extension_elements,
                             extension_attributes=extension_attributes,
@@ -132,11 +132,11 @@ class Where(GeoBaseElement):
     Arguments:
     lat (float): The latitude in degrees, from -90.0 to 90.0
     lon (float): The longitude in degrees, from -180.0 to 180.0
-    
+
     Returns True on success.
 
     """
-    
+
     assert(isinstance(latlon[0], float))
     assert(isinstance(latlon[1], float))
     try:
@@ -148,7 +148,7 @@ class Where(GeoBaseElement):
     "(float) Get the latitude value of the geo-tag. See also .location()"
     lat, lon = self.location()
     return lat
-  
+
   def longitude(self):
     "(float) Get the longtitude value of the geo-tag. See also .location()"
     lat, lon = self.location()
@@ -166,10 +166,10 @@ class Where(GeoBaseElement):
     """
     _lat, lon = self.location()
     return self.set_location(lat, lon)
-  
+
   def set_longitude(self, lon):
     """(bool) Set the longtitude value of the geo-tag.
-    
+
     Args:
     lat (float): The new latitude value
 
@@ -182,4 +182,4 @@ class Where(GeoBaseElement):
 
 def WhereFromString(xml_string):
   return atom.CreateClassFromXMLString(Where, xml_string)
-  
+

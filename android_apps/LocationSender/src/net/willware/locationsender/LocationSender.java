@@ -19,11 +19,11 @@ public class LocationSender extends Activity implements LocationListener {
 	private Criteria coarseCriteria;
 	private LocationManager lm;
 	private boolean fineUpdates = false;
-	
+
 	private static int UPDATE_MINTIME = 10000;  // 10 seconds
-	private static float FINE_UPDATE_MINDISTANCE = 15.0f;  // 15 meters -> ~50 feet 
-	private static float COARSE_UPDATE_MINDISTANCE = 100.0f;  // 100 meters -> ~300 feet 
-	
+	private static float FINE_UPDATE_MINDISTANCE = 15.0f;  // 15 meters -> ~50 feet
+	private static float COARSE_UPDATE_MINDISTANCE = 100.0f;  // 100 meters -> ~300 feet
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,12 +104,12 @@ public class LocationSender extends Activity implements LocationListener {
     public void onProviderDisabled(String provider) {
     	// do nothing for now
     }
-    
+
     @Override
     public void onProviderEnabled(String provider) {
     	// do nothing for now
     }
-    
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     	// do nothing for now

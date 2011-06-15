@@ -264,7 +264,7 @@ def SitemapUrlCountFromString(xml_string):
 class LinkFinder(atom.LinkFinder):
   """An "interface" providing methods to find link elements
 
-  SitesEntry elements often contain multiple links which differ in the rel 
+  SitesEntry elements often contain multiple links which differ in the rel
   attribute or content type. Often, developers are interested in a specific
   type of link so this class provides methods to find specific classes of links.
 
@@ -291,7 +291,7 @@ class LinkFinder(atom.LinkFinder):
 
   def GetPostLink(self):
     """Get a link containing the POST target URL.
-    
+
     The POST target URL is used to insert new entries.
 
     Returns:
@@ -333,11 +333,11 @@ class SitesEntry(atom.Entry, LinkFinder):
       'verified', Verified)
   _children['{%s}verification-method' % GWEBMASTERTOOLS_NAMESPACE] = (
       'verification_method', [VerificationMethod])
-  
+
   def __GetId(self):
     return self.__id
 
-  # This method was created to strip the unwanted whitespace from the id's 
+  # This method was created to strip the unwanted whitespace from the id's
   # text node.
   def __SetId(self, id):
     self.__id = id
@@ -353,8 +353,8 @@ class SitesEntry(atom.Entry, LinkFinder):
       enhanced_image_search=None,
       verified=None, verification_method=None,
       extension_elements=None, extension_attributes=None, text=None):
-    atom.Entry.__init__(self, category=category, 
-                        content=content, atom_id=atom_id, link=link, 
+    atom.Entry.__init__(self, category=category,
+                        content=content, atom_id=atom_id, link=link,
                         title=title, updated=updated, text=text)
 
     self.entry_link = entry_link or []
@@ -404,21 +404,21 @@ class SitesFeed(atom.Feed, LinkFinder):
       category=None, link=None, updated=None,
       extension_elements=None, extension_attributes=None, text=None):
     """Constructor for Source
-    
+
     Args:
       category: list (optional) A list of Category instances
       id: Id (optional) The entry's Id element
       link: list (optional) A list of Link instances
       title: Title (optional) the entry's title element
       updated: Updated (optional) the entry's updated element
-      entry: list (optional) A list of the Entry instances contained in the 
+      entry: list (optional) A list of the Entry instances contained in the
           feed.
-      text: String (optional) The text contents of the element. This is the 
-          contents of the Entry's XML text node. 
+      text: String (optional) The text contents of the element. This is the
+          contents of the Entry's XML text node.
           (Example: <foo>This is the text</foo>)
       extension_elements: list (optional) A list of ExtensionElement instances
           which are children of this element.
-      extension_attributes: dict (optional) A dictionary of strings which are 
+      extension_attributes: dict (optional) A dictionary of strings which are
           the values for additional XML attributes of this element.
     """
 
@@ -457,11 +457,11 @@ class SitemapsEntry(atom.Entry, LinkFinder):
       = ('sitemap_mobile_markup_language', SitemapMobileMarkupLanguage)
   _children['{%s}sitemap-news-publication-label' % GWEBMASTERTOOLS_NAMESPACE] \
       = ('sitemap_news_publication_label', SitemapNewsPublicationLabel)
-  
+
   def __GetId(self):
     return self.__id
 
-  # This method was created to strip the unwanted whitespace from the id's 
+  # This method was created to strip the unwanted whitespace from the id's
   # text node.
   def __SetId(self, id):
     self.__id = id
@@ -476,8 +476,8 @@ class SitemapsEntry(atom.Entry, LinkFinder):
       sitemap_url_count=None, sitemap_mobile_markup_language=None,
       sitemap_news_publication_label=None,
       extension_elements=None, extension_attributes=None, text=None):
-    atom.Entry.__init__(self, category=category, 
-                        content=content, atom_id=atom_id, link=link, 
+    atom.Entry.__init__(self, category=category,
+                        content=content, atom_id=atom_id, link=link,
                         title=title, updated=updated, text=text)
 
     self.sitemap_type = sitemap_type

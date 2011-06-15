@@ -1,6 +1,6 @@
 
 // Note that until the bug in egcs-2.90.27 980315 (egcs-1.0.2 release)
-// gets fixed this file needs to be compiled with -fguiding-decls.  
+// gets fixed this file needs to be compiled with -fguiding-decls.
 // Trying to fix the warning caused by compileing without -fguiding-decls
 // causes an internal compiler error.
 
@@ -31,7 +31,7 @@
 // class.  This allows an instance of SetDatabase to be pointed
 // to by an aribtrary number of SetDatabaseHandle instances.  When
 // the last SetDatabaseHandle instance stops pointing to a database,
-// the database deletes itself.  
+// the database deletes itself.
 //
 // The advantages of this approach are:
 //
@@ -53,9 +53,9 @@ template <class KeyClass, class ValueClass>
 class SetDatabase {
   friend class SetDatabaseHandleIterator<KeyClass,ValueClass>;
   friend class SetDatabaseHandle<KeyClass,ValueClass>;
-  friend ostream & operator<<<KeyClass, ValueClass>(ostream & s, 
+  friend ostream & operator<<<KeyClass, ValueClass>(ostream & s,
 						    const SetDatabase & d);
-  friend istream & operator>><KeyClass, ValueClass>(istream & s, 
+  friend istream & operator>><KeyClass, ValueClass>(istream & s,
 						    SetDatabase & d);
 public:
   inline int GetKeyType() const {return databaseKeyType;}
@@ -102,13 +102,13 @@ public:
     }
   }
 
-  int Add( const KeyClass & key,  const ValueClass  object, 
+  int Add( const KeyClass & key,  const ValueClass  object,
 	   ValueClass * oldObject , SetEntryToken * token)
   {
     int notAlreadyInTable;
     InvalidateIteratorsAttachedToThisDatabase();
     *token = Tcl_CreateHashEntry(&hashTable, (char *) key, &notAlreadyInTable);
-    if (notAlreadyInTable) 
+    if (notAlreadyInTable)
       itemsInTable++;
     else  *oldObject = (ValueClass) Tcl_GetHashValue(*token);
     Tcl_SetHashValue(*token,object);
@@ -120,7 +120,7 @@ public:
       int notAlreadyInTable;
       InvalidateIteratorsAttachedToThisDatabase();
       *token = Tcl_CreateHashEntry(&hashTable, (char *) key, &notAlreadyInTable);
-      if (notAlreadyInTable) 
+      if (notAlreadyInTable)
 	itemsInTable++;
       Tcl_SetHashValue(*token,object);
       return notAlreadyInTable;
@@ -132,7 +132,7 @@ public:
     InvalidateIteratorsAttachedToThisDatabase();
     Tcl_HashEntry * newEntry =
       Tcl_CreateHashEntry(&hashTable, (char *) key, &notAlreadyInTable);
-    if (notAlreadyInTable) 
+    if (notAlreadyInTable)
       itemsInTable++;
     Tcl_SetHashValue(newEntry,object);
     return notAlreadyInTable;
@@ -144,7 +144,7 @@ public:
       Tcl_DeleteHashEntry(token);
       itemsInTable--;
     }
-  
+
   ValueClass Delete( const KeyClass & key, int * found)
   {
     ValueClass  returnValue = (ValueClass) NULL;
@@ -266,7 +266,7 @@ public:
     return database->Search(object,found);
   }
 
-  inline ValueClass Delete(KeyClass k,int * found = NULL) 
+  inline ValueClass Delete(KeyClass k,int * found = NULL)
   {return database->Delete(k,found);}
 
   inline void DeleteEntryForToken(SetEntryToken token)
@@ -298,9 +298,9 @@ protected:
   // for the SetDatabase class pointed to by the SetDatabaseHandles.
   void LetGoDb(SetDatabase<KeyClass,ValueClass> * s){
     if (--(s->numberOfHandlesToThisObject) < 1) delete s;}
-  
+
   // The Grab function increments the number of things pointing
-  // to s by 1.  See the comment for the LetGoDb function for 
+  // to s by 1.  See the comment for the LetGoDb function for
   // more information.
   void GrabDb(SetDatabase<KeyClass,ValueClass> * s)
     {s->numberOfHandlesToThisObject++;}
@@ -346,8 +346,8 @@ protected:
  ********************************************************************** */
 
 template <class KeyClass, class ValueClass>
-void AndDatabases(Tcl_HashTable * smaller, 
-		  Tcl_HashTable * larger, 
+void AndDatabases(Tcl_HashTable * smaller,
+		  Tcl_HashTable * larger,
 		  SetDatabase<KeyClass,ValueClass> * result)
 {
   Tcl_HashSearch searchPtr;
@@ -381,7 +381,7 @@ void AndDatabases(Tcl_HashTable * smaller,
 
 template <class KeyClass, class ValueClass>
 void SubtractDatabases(Tcl_HashTable * positive,
-		       Tcl_HashTable * negative, 
+		       Tcl_HashTable * negative,
 		       SetDatabase<KeyClass, ValueClass> * result)
 {
   Tcl_HashSearch searchPtr;
@@ -439,8 +439,8 @@ void MergeDatabases(Tcl_HashTable * input,
  ********************************************************************** */
 
 template <class KeyClass, class ValueClass>
-SetDatabaseHandle<KeyClass,ValueClass> 
-operator|(SetDatabaseHandle<KeyClass,ValueClass> & a, 
+SetDatabaseHandle<KeyClass,ValueClass>
+operator|(SetDatabaseHandle<KeyClass,ValueClass> & a,
 	  SetDatabaseHandle<KeyClass,ValueClass> & b)
 {
   ASSUME(a.database->GetKeyType() == b.database->GetKeyType());
@@ -468,13 +468,13 @@ operator|(SetDatabaseHandle<KeyClass,ValueClass> & a,
  ********************************************************************** */
 
 template <class KeyClass, class ValueClass>SetDatabaseHandle<KeyClass,ValueClass>
-operator&(SetDatabaseHandle<KeyClass,ValueClass> & a, 
+operator&(SetDatabaseHandle<KeyClass,ValueClass> & a,
 	  SetDatabaseHandle<KeyClass,ValueClass> & b)
 {
   ASSUME(a.database->GetKeyType() == b.database->GetKeyType());
 
   SetDatabaseHandle<KeyClass,ValueClass> result(a.database->GetKeyType());
-  if (a.database->Size() < b.database->Size()) 
+  if (a.database->Size() < b.database->Size())
     AndDatabases(a.GetDatabaseHashTable(),
 		 b.GetDatabaseHashTable(),
 		 result.database);
@@ -501,8 +501,8 @@ operator&(SetDatabaseHandle<KeyClass,ValueClass> & a,
  *
  ********************************************************************** */
 
-template <class KeyClass, class ValueClass>SetDatabaseHandle<KeyClass,ValueClass> 
-operator-(SetDatabaseHandle<KeyClass,ValueClass>  &a, 
+template <class KeyClass, class ValueClass>SetDatabaseHandle<KeyClass,ValueClass>
+operator-(SetDatabaseHandle<KeyClass,ValueClass>  &a,
 	  SetDatabaseHandle<KeyClass,ValueClass>  &b)
 {
   ASSUME(a.database->GetKeyType() == b.database->GetKeyType());
@@ -514,11 +514,11 @@ operator-(SetDatabaseHandle<KeyClass,ValueClass>  &a,
   return result;
 }
 
-  
+
 template <class KeyClass, class ValueClass>
-SetDatabaseHandle<KeyClass,ValueClass> & 
+SetDatabaseHandle<KeyClass,ValueClass> &
 SetDatabaseHandle<KeyClass,ValueClass>::operator=
-(const SetDatabaseHandle<KeyClass,ValueClass> & other) 
+(const SetDatabaseHandle<KeyClass,ValueClass> & other)
 {
   if (other.database != database) {
     LetGoDb(database);
@@ -531,7 +531,7 @@ SetDatabaseHandle<KeyClass,ValueClass>::operator=
 template <class KeyClass, class ValueClass>
 bool
 SetDatabaseHandle<KeyClass,ValueClass>::operator==
-(const SetDatabaseHandle<KeyClass,ValueClass> & other) 
+(const SetDatabaseHandle<KeyClass,ValueClass> & other)
 {
   return (other.database == database);
 }
@@ -539,16 +539,16 @@ SetDatabaseHandle<KeyClass,ValueClass>::operator==
 template <class KeyClass, class ValueClass>
 bool
 SetDatabaseHandle<KeyClass,ValueClass>::operator!=
-(const SetDatabaseHandle<KeyClass,ValueClass> & other) 
+(const SetDatabaseHandle<KeyClass,ValueClass> & other)
 {
   return (other.database != database);
 }
 
 template <class KeyClass, class ValueClass>
 ostream & operator<<(ostream & s, const SetDatabase<KeyClass,ValueClass> & d)
-{ 
+{
   Tcl_HashSearch searchPtr;
-  Tcl_HashEntry * currentEntry = 
+  Tcl_HashEntry * currentEntry =
     Tcl_FirstHashEntry((Tcl_HashTable *) // this cast discards the const
 		       &(d.hashTable), &searchPtr);
   while (currentEntry != NULL) {
@@ -559,7 +559,7 @@ ostream & operator<<(ostream & s, const SetDatabase<KeyClass,ValueClass> & d)
   }
   return s;
 }
-  
+
 template <class KeyClass, class ValueClass>
 ostream & operator<<(ostream & s, const SetDatabaseHandle<KeyClass,ValueClass> & h)
 {
@@ -570,7 +570,7 @@ ostream & operator<<(ostream & s, const SetDatabaseHandle<KeyClass,ValueClass> &
 
 template <class KeyClass, class ValueClass>
 istream & operator>>(istream & s, SetDatabase<KeyClass,ValueClass> & d)
-{ 
+{
   char c;
   char ** mainArgv = NULL;
   char ** subArgv = NULL;
@@ -602,7 +602,7 @@ istream & operator>>(istream & s, SetDatabase<KeyClass,ValueClass> & d)
   if (inputString != NULL) delete [] inputString;
   return s;
 }
-  
+
 template <class KeyClass, class ValueClass>
 istream & operator>>(istream & s, SetDatabaseHandle<KeyClass,ValueClass> & h)
 {
@@ -612,36 +612,36 @@ istream & operator>>(istream & s, SetDatabaseHandle<KeyClass,ValueClass> & h)
 
 template <class KeyType, class ValueType>
 class SetDatabaseHandleIterator {
-public: 
+public:
   SetDatabaseHandleIterator(SetDatabaseHandle<KeyType,ValueType> const & handle)
-  :_handle(handle), _IDNumber(handle.database->_IDNumber), 
+  :_handle(handle), _IDNumber(handle.database->_IDNumber),
    _currentHashEntry(Tcl_FirstHashEntry(&_handle.database->hashTable,&_searchPtr))
     { }
 
-  inline bool ItemsRemaining() 
+  inline bool ItemsRemaining()
     {
       return _currentHashEntry != NULL;
     }
 
-  inline KeyType GetCurrentKey() 
+  inline KeyType GetCurrentKey()
     {
       ASSUME( ItemsRemaining() );
       ASSUME( _handle.MatchesIDNumber(_IDNumber) );
       return (KeyType) Tcl_GetHashKey(&_handle.database->hashTable,_currentHashEntry);
     }
 
-  inline ValueType GetCurrentValue() 
+  inline ValueType GetCurrentValue()
     {
       ASSUME( ItemsRemaining() );
       ASSUME( _handle.MatchesIDNumber(_IDNumber) );
       return (ValueType) Tcl_GetHashValue(_currentHashEntry);
     }
-  
+
   KeyType operator++(int) // postfix operator
     {
       ASSUME(ItemsRemaining());
       ASSUME( _handle.MatchesIDNumber(_IDNumber) );
-      KeyType returnValue = 
+      KeyType returnValue =
 	(KeyType) Tcl_GetHashKey(&_handle.database->hashTable,_currentHashEntry);
       _currentHashEntry = Tcl_NextHashEntry(&_searchPtr);
       return returnValue;
@@ -649,7 +649,7 @@ public:
 
 protected:
   const SetDatabaseHandle<KeyType,ValueType> &	_handle;
-  int						_IDNumber;  
+  int						_IDNumber;
   Tcl_HashSearch				_searchPtr;
   Tcl_HashEntry *				_currentHashEntry;
 };

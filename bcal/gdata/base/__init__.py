@@ -43,10 +43,10 @@ GMETA_TEMPLATE = '{http://base.google.com/ns-metadata/1.0}%s'
 
 class ItemAttributeContainer(object):
   """Provides methods for finding Google Base Item attributes.
-  
+
   Google Base item attributes are child nodes in the gbase namespace. Google
   Base allows you to define your own item attributes and this class provides
-  methods to interact with the custom attributes.   
+  methods to interact with the custom attributes.
   """
 
   def GetItemAttributes(self, name):
@@ -70,17 +70,17 @@ class ItemAttributeContainer(object):
     """Get the contents of the first Base item attribute which matches name.
 
     This method is deprecated, please use GetItemAttributes instead.
-    
-    Args: 
+
+    Args:
       name: str The tag of the desired base attribute. For example, calling
           this method with name = 'rating' would search for a tag rating
-          in the GBase namespace in the item attributes. 
+          in the GBase namespace in the item attributes.
 
     Returns:
       The text contents of the item attribute, or none if the attribute was
       not found.
     """
-  
+
     for attrib in self.item_attributes:
       if attrib.name == name:
         return attrib.text
@@ -88,24 +88,24 @@ class ItemAttributeContainer(object):
 
   def AddItemAttribute(self, name, value, value_type=None, access=None):
     """Adds a new item attribute tag containing the value.
-    
+
     Creates a new extension element in the GBase namespace to represent a
     Google Base item attribute.
-    
+
     Args:
       name: str The tag name for the new attribute. This must be a valid xml
         tag name. The tag will be placed in the GBase namespace.
       value: str Contents for the item attribute
       value_type: str (optional) The type of data in the vlaue, Examples: text
           float
-      access: str (optional) Used to hide attributes. The attribute is not 
+      access: str (optional) Used to hide attributes. The attribute is not
           exposed in the snippets feed if access is set to 'private'.
     """
 
-    new_attribute =  ItemAttribute(name, text=value, 
+    new_attribute =  ItemAttribute(name, text=value,
         text_type=value_type, access=access)
     self.item_attributes.append(new_attribute)
-    
+
   def SetItemAttribute(self, name, value):
     """Changes an existing item attribute's value."""
 
@@ -116,15 +116,15 @@ class ItemAttributeContainer(object):
 
   def RemoveItemAttribute(self, name):
     """Deletes the first extension element which matches name.
-    
-    Deletes the first extension element which matches name. 
+
+    Deletes the first extension element which matches name.
     """
 
     for i in xrange(len(self.item_attributes)):
       if self.item_attributes[i].name == name:
         del self.item_attributes[i]
         return
-  
+
   # We need to overwrite _ConvertElementTreeToMember to add special logic to
   # convert custom attributes to members
   def _ConvertElementTreeToMember(self, child_tree):
@@ -141,7 +141,7 @@ class ItemAttributeContainer(object):
         getattr(self, member_name).append(atom._CreateClassFromElementTree(
             member_class[0], child_tree))
       else:
-        setattr(self, member_name, 
+        setattr(self, member_name,
                 atom._CreateClassFromElementTree(member_class, child_tree))
     elif child_tree.tag.find('{%s}' % GBASE_NAMESPACE) == 0:
       # If this is in the gbase namespace, make it into an extension element.
@@ -154,14 +154,14 @@ class ItemAttributeContainer(object):
       self.AddItemAttribute(name, value, value_type)
     else:
       atom.ExtensionContainer._ConvertElementTreeToMember(self, child_tree)
-  
+
   # We need to overwtite _AddMembersToElementTree to add special logic to
   # convert custom members to XML nodes.
   def _AddMembersToElementTree(self, tree):
-    # Convert the members of this class which are XML child nodes. 
+    # Convert the members of this class which are XML child nodes.
     # This uses the class's _children dictionary to find the members which
     # should become XML child nodes.
-    member_node_names = [values[0] for tag, values in 
+    member_node_names = [values[0] for tag, values in
                                        self.__class__._children.iteritems()]
     for member_name in member_node_names:
       member = getattr(self, member_name)
@@ -180,26 +180,26 @@ class ItemAttributeContainer(object):
     # Convert all special custom item attributes to nodes
     for attribute in self.item_attributes:
       attribute._BecomeChildElement(tree)
-    # Lastly, call the ExtensionContainers's _AddMembersToElementTree to 
+    # Lastly, call the ExtensionContainers's _AddMembersToElementTree to
     # convert any extension attributes.
     atom.ExtensionContainer._AddMembersToElementTree(self, tree)
 
 
 class ItemAttribute(atom.Text):
   """An optional or user defined attribute for a GBase item.
-  
+
   Google Base allows items to have custom attribute child nodes. These nodes
   have contents and a type attribute which tells Google Base whether the
-  contents are text, a float value with units, etc. The Atom text class has 
+  contents are text, a float value with units, etc. The Atom text class has
   the same structure, so this class inherits from Text.
   """
-  
+
   _namespace = GBASE_NAMESPACE
   _children = atom.Text._children.copy()
   _attributes = atom.Text._attributes.copy()
   _attributes['access'] = 'access'
 
-  def __init__(self, name, text_type=None, access=None, text=None, 
+  def __init__(self, name, text_type=None, access=None, text=None,
       extension_elements=None, extension_attributes=None):
     """Constructor for a GBase item attribute
 
@@ -208,12 +208,12 @@ class ItemAttribute(atom.Text):
           price, color, make, model, pages, salary, etc.
       text_type: str (optional) The type associated with the text contents
       access: str (optional) If the access attribute is set to 'private', the
-          attribute will not be included in the item's description in the 
+          attribute will not be included in the item's description in the
           snippets feed
       text: str (optional) The text data in the this element
-      extension_elements: list (optional) A  list of ExtensionElement 
+      extension_elements: list (optional) A  list of ExtensionElement
           instances
-      extension_attributes: dict (optional) A dictionary of attribute 
+      extension_attributes: dict (optional) A dictionary of attribute
           value string pairs
     """
 
@@ -223,26 +223,26 @@ class ItemAttribute(atom.Text):
     self.text = text
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
+
   def _BecomeChildElement(self, tree):
     new_child = ElementTree.Element('')
     tree.append(new_child)
-    new_child.tag = '{%s}%s' % (self.__class__._namespace, 
+    new_child.tag = '{%s}%s' % (self.__class__._namespace,
                                 self.name)
     self._AddMembersToElementTree(new_child)
-  
+
   def _ToElementTree(self):
     new_tree = ElementTree.Element('{%s}%s' % (self.__class__._namespace,
                                                self.name))
     self._AddMembersToElementTree(new_tree)
     return new_tree
-    
+
 
 def ItemAttributeFromString(xml_string):
   element_tree = ElementTree.fromstring(xml_string)
-  return _ItemAttributeFromElementTree(element_tree)  
-  
-  
+  return _ItemAttributeFromElementTree(element_tree)
+
+
 def _ItemAttributeFromElementTree(element_tree):
   if element_tree.tag.find(GBASE_TEMPLATE % '') == 0:
     to_return = ItemAttribute('')
@@ -251,11 +251,11 @@ def _ItemAttributeFromElementTree(element_tree):
     if to_return.name and to_return.name != '':
       return to_return
   return None
-  
+
 
 class Label(atom.AtomBase):
   """The Google Base label element"""
-  
+
   _tag = 'label'
   _namespace = GBASE_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -274,7 +274,7 @@ def LabelFromString(xml_string):
 
 class Thumbnail(atom.AtomBase):
   """The Google Base thumbnail element"""
-  
+
   _tag = 'thumbnail'
   _namespace = GMETA_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -297,7 +297,7 @@ def ThumbnailFromString(xml_string):
 
 class ImageLink(atom.Text):
   """The Google Base image_link element"""
-  
+
   _tag = 'image_link'
   _namespace = GBASE_NAMESPACE
   _children = atom.Text._children.copy()
@@ -311,7 +311,7 @@ class ImageLink(atom.Text):
     self.type = text_type
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
+
 
 def ImageLinkFromString(xml_string):
   return atom.CreateClassFromXMLString(ImageLink, xml_string)
@@ -319,7 +319,7 @@ def ImageLinkFromString(xml_string):
 
 class ItemType(atom.Text):
   """The Google Base item_type element"""
-  
+
   _tag = 'item_type'
   _namespace = GBASE_NAMESPACE
   _children = atom.Text._children.copy()
@@ -339,33 +339,33 @@ def ItemTypeFromString(xml_string):
 
 class MetaItemType(ItemType):
   """The Google Base item_type element"""
-  
+
   _tag = 'item_type'
   _namespace = GMETA_NAMESPACE
   _children = ItemType._children.copy()
   _attributes = ItemType._attributes.copy()
 
-  
+
 def MetaItemTypeFromString(xml_string):
   return atom.CreateClassFromXMLString(MetaItemType, xml_string)
 
 
 class Value(atom.AtomBase):
   """Metadata about common values for a given attribute
-  
+
   A value is a child of an attribute which comes from the attributes feed.
   The value's text is a commonly used value paired with an attribute name
   and the value's count tells how often this value appears for the given
   attribute in the search results.
   """
-  
+
   _tag = 'value'
   _namespace = GMETA_NAMESPACE
   _children = atom.AtomBase._children.copy()
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['count'] = 'count'
- 
-  def __init__(self, count=None, text=None, extension_elements=None, 
+
+  def __init__(self, count=None, text=None, extension_elements=None,
       extension_attributes=None):
     """Constructor for Attribute metadata element
 
@@ -391,12 +391,12 @@ def ValueFromString(xml_string):
 
 class Attribute(atom.Text):
   """Metadata about an attribute from the attributes feed
-  
-  An entry from the attributes feed contains a list of attributes. Each 
+
+  An entry from the attributes feed contains a list of attributes. Each
   attribute describes the attribute's type and count of the items which
   use the attribute.
   """
-  
+
   _tag = 'attribute'
   _namespace = GMETA_NAMESPACE
   _children = atom.Text._children.copy()
@@ -405,7 +405,7 @@ class Attribute(atom.Text):
   _attributes['count'] = 'count'
   _attributes['name'] = 'name'
 
-  def __init__(self, name=None, attribute_type=None, count=None, value=None, 
+  def __init__(self, name=None, attribute_type=None, count=None, value=None,
       text=None, extension_elements=None, extension_attributes=None):
     """Constructor for Attribute metadata element
 
@@ -415,12 +415,12 @@ class Attribute(atom.Text):
           test, float, etc.
       count: str (optional) The number of times this attribute appears in
           the query results.
-      value: list (optional) The values which are often used for this 
+      value: list (optional) The values which are often used for this
           attirbute.
       text: str (optional) The text contents of the XML for this attribute.
-      extension_elements: list (optional) A  list of ExtensionElement 
+      extension_elements: list (optional) A  list of ExtensionElement
           instances
-      extension_attributes: dict (optional) A dictionary of attribute value 
+      extension_attributes: dict (optional) A dictionary of attribute value
           string pairs
     """
 
@@ -436,47 +436,47 @@ class Attribute(atom.Text):
 def AttributeFromString(xml_string):
   return atom.CreateClassFromXMLString(Attribute, xml_string)
 
-  
+
 class Attributes(atom.AtomBase):
   """A collection of Google Base metadata attributes"""
-  
+
   _tag = 'attributes'
   _namespace = GMETA_NAMESPACE
   _children = atom.AtomBase._children.copy()
   _attributes = atom.AtomBase._attributes.copy()
   _children['{%s}attribute' % GMETA_NAMESPACE] = ('attribute', [Attribute])
-  
-  def __init__(self, attribute=None, extension_elements=None, 
+
+  def __init__(self, attribute=None, extension_elements=None,
       extension_attributes=None, text=None):
     self.attribute = attribute or []
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    self.text = text  
-  
-  
+    self.text = text
+
+
 class GBaseItem(ItemAttributeContainer, gdata.BatchEntry):
   """An Google Base flavor of an Atom Entry.
-  
+
   Google Base items have required attributes, recommended attributes, and user
-  defined attributes. The required attributes are stored in this class as 
-  members, and other attributes are stored as extension elements. You can 
-  access the recommended and user defined attributes by using 
-  AddItemAttribute, SetItemAttribute, FindItemAttribute, and 
+  defined attributes. The required attributes are stored in this class as
+  members, and other attributes are stored as extension elements. You can
+  access the recommended and user defined attributes by using
+  AddItemAttribute, SetItemAttribute, FindItemAttribute, and
   RemoveItemAttribute.
-  
+
   The Base Item
   """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.BatchEntry._children.copy()
   _attributes = gdata.BatchEntry._attributes.copy()
   _children['{%s}label' % GBASE_NAMESPACE] = ('label', [Label])
   _children['{%s}item_type' % GBASE_NAMESPACE] = ('item_type', ItemType)
-  
+
   def __init__(self, author=None, category=None, content=None,
       contributor=None, atom_id=None, link=None, published=None, rights=None,
-      source=None, summary=None, title=None, updated=None, control=None, 
+      source=None, summary=None, title=None, updated=None, control=None,
       label=None, item_type=None, item_attributes=None,
       batch_operation=None, batch_id=None, batch_status=None,
       text=None, extension_elements=None, extension_attributes=None):
@@ -513,15 +513,15 @@ class GBaseSnippet(GBaseItem):
   _namespace = atom.ATOM_NAMESPACE
   _children = GBaseItem._children.copy()
   _attributes = GBaseItem._attributes.copy()
-  
-  
+
+
 def GBaseSnippetFromString(xml_string):
   return atom.CreateClassFromXMLString(GBaseSnippet, xml_string)
 
 
 class GBaseAttributeEntry(gdata.GDataEntry):
   """An Atom Entry from the attributes feed"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
@@ -550,7 +550,7 @@ class GBaseAttributeEntry(gdata.GDataEntry):
     self.attribute = attribute or []
     self.text = text
     self.extension_elements = extension_elements or []
-    self.extension_attributes = extension_attributes or {} 
+    self.extension_attributes = extension_attributes or {}
 
 
 def GBaseAttributeEntryFromString(xml_string):
@@ -559,15 +559,15 @@ def GBaseAttributeEntryFromString(xml_string):
 
 class GBaseItemTypeEntry(gdata.GDataEntry):
   """An Atom entry from the item types feed
-  
+
   These entries contain a list of attributes which are stored in one
   XML node called attributes. This class simplifies the data structure
-  by treating attributes as a list of attribute instances. 
+  by treating attributes as a list of attribute instances.
 
   Note that the item_type for an item type entry is in the Google Base meta
   namespace as opposed to item_types encountered in other feeds.
   """
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
@@ -605,11 +605,11 @@ class GBaseItemTypeEntry(gdata.GDataEntry):
 
 def GBaseItemTypeEntryFromString(xml_string):
   return atom.CreateClassFromXMLString(GBaseItemTypeEntry, xml_string)
-  
-  
+
+
 class GBaseItemFeed(gdata.BatchFeed):
   """A feed containing Google Base Items"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.BatchFeed._children.copy()
@@ -623,7 +623,7 @@ def GBaseItemFeedFromString(xml_string):
 
 class GBaseSnippetFeed(gdata.GDataFeed):
   """A feed containing Google Base Snippets"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
@@ -637,17 +637,17 @@ def GBaseSnippetFeedFromString(xml_string):
 
 class GBaseAttributesFeed(gdata.GDataFeed):
   """A feed containing Google Base Attributes
- 
+
   A query sent to the attributes feed will return a feed of
   attributes which are present in the items that match the
-  query. 
+  query.
   """
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [GBaseAttributeEntry])
 
 
@@ -658,24 +658,24 @@ def GBaseAttributesFeedFromString(xml_string):
 class GBaseLocalesFeed(gdata.GDataFeed):
   """The locales feed from Google Base.
 
-  This read-only feed defines the permitted locales for Google Base. The 
+  This read-only feed defines the permitted locales for Google Base. The
   locale value identifies the language, currency, and date formats used in a
   feed.
   """
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
 
-  
+
 def GBaseLocalesFeedFromString(xml_string):
   return atom.CreateClassFromXMLString(GBaseLocalesFeed, xml_string)
- 
- 
+
+
 class GBaseItemTypesFeed(gdata.GDataFeed):
   """A feed from the Google Base item types feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()

@@ -57,6 +57,6 @@ int main()
         pPIO->PIO_SODR = LED2;
         pPIO->PIO_CODR = LED1;
         delay();
-    }    
+    }
     return 0;
 }

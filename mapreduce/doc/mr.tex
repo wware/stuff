@@ -323,7 +323,7 @@ ever work on.
 \subsection{Amazon's Hadoop-for-rent cluster}
 
 {\tt http://aws.amazon.com/elasticmapreduce/}
- 
+
 The price for MapReduce services on Amazon appears pretty cheap, but
 there's a lot I don't know. Is it running on Linux machines? What
 languages are allowed? How do I get my code onto their cluster?
@@ -422,18 +422,18 @@ space) on top of a hashspace. Each hashtable is a Python dictionary
 where the keys are (relatively short) byte sequences and the values
 are potentially large byte sequences. Keys are typically interpreted
 as ASCII strings but could alternatively be taken as long integers.
- 
+
 A full reference implementation for a hashspace can be done nicely in
 Python. Treat each hashtable as a dictionary and use pickle or cPickle
 for serialization. There may not be any need to move to C or C++,
 we'll see about that.
- 
+
 Note that there can be multiple identical hashtables floating around
 in the space.
- 
+
 A query is where one machine passes another a template and the second
 guy passes back the list of lengths for matching hashtables.
- 
+
 One thing you need is to handle different kinds of linked lists of
 hashtables. The forward link on a hashtable is of the form {\tt next:
   8914701238740}, where the value is a unique ID so the next hashtable

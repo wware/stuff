@@ -57,13 +57,13 @@ import atom
 
 class AtomService(object):
   """Performs Atom Publishing Protocol CRUD operations.
-  
-  The AtomService contains methods to perform HTTP CRUD operations. 
+
+  The AtomService contains methods to perform HTTP CRUD operations.
   """
 
   # Default values for members
   port = 80
-  ssl = True 
+  ssl = True
   # Set the current_token to force the AtomService to use this token
   # instead of searching for an appropriate token in the token_store.
   current_token = None
@@ -79,13 +79,13 @@ class AtomService(object):
   override_token = property(_get_override_token, _set_override_token)
 
   #@atom.v1_deprecated('Please use atom.client.AtomPubClient instead.')
-  def __init__(self, server=None, additional_headers=None, 
+  def __init__(self, server=None, additional_headers=None,
       application_name='', http_client=None, token_store=None):
     """Creates a new AtomService client.
-    
+
     Args:
       server: string (optional) The start of a URL for the server
-              to which all operations should be directed. Example: 
+              to which all operations should be directed. Example:
               'www.google.com'
       additional_headers: dict (optional) Any additional HTTP headers which
                           should be included with CRUD operations.
@@ -116,7 +116,7 @@ class AtomService(object):
   def _set_debug(self, value):
     self.http_client.debug = value
 
-  debug = property(_get_debug, _set_debug, 
+  debug = property(_get_debug, _set_debug,
       doc='If True, HTTP debug information is printed.')
 
   def use_basic_auth(self, username, password, scopes=None):
@@ -124,7 +124,7 @@ class AtomService(object):
       if scopes is None:
         scopes = [atom.token_store.SCOPE_ALL]
       base_64_string = base64.encodestring('%s:%s' % (username, password))
-      token = BasicAuthToken('Basic %s' % base_64_string.strip(), 
+      token = BasicAuthToken('Basic %s' % base_64_string.strip(),
           scopes=[atom.token_store.SCOPE_ALL])
       if self.auto_set_current_token:
         self.current_token = token
@@ -137,9 +137,9 @@ class AtomService(object):
     """Sets an Authenticaiton: Basic HTTP header containing plaintext.
 
     Deprecated, use use_basic_auth instead.
-    
+
     The username and password are base64 encoded and added to an HTTP header
-    which will be included in each request. Note that your username and 
+    which will be included in each request. Note that your username and
     password are sent in plaintext.
 
     Args:
@@ -149,13 +149,13 @@ class AtomService(object):
     self.use_basic_auth(username, password)
 
   #@atom.v1_deprecated('Please use atom.client.AtomPubClient for requests.')
-  def request(self, operation, url, data=None, headers=None, 
+  def request(self, operation, url, data=None, headers=None,
       url_params=None):
     if isinstance(url, (str, unicode)):
       if url.startswith('http:') and self.ssl:
         # Force all requests to be https if self.ssl is True.
         url = atom.url.parse_url('https:' + url[5:])
-      elif not url.startswith('http') and self.ssl: 
+      elif not url.startswith('http') and self.ssl:
         url = atom.url.parse_url('https://%s%s' % (self.server, url))
       elif not url.startswith('http'):
         url = atom.url.parse_url('http://%s%s' % (self.server, url))
@@ -182,7 +182,7 @@ class AtomService(object):
       auth_token = self.override_token
     else:
       auth_token = self.token_store.find_token(url)
-    return auth_token.perform_request(self.http_client, operation, url, 
+    return auth_token.perform_request(self.http_client, operation, url,
         data=data, headers=all_headers)
 
   request = atom.v1_deprecated(
@@ -193,22 +193,22 @@ class AtomService(object):
   def Get(self, uri, extra_headers=None, url_params=None, escape_params=True):
     """Query the APP server with the given URI
 
-    The uri is the portion of the URI after the server value 
+    The uri is the portion of the URI after the server value
     (server example: 'www.google.com').
 
     Example use:
-    To perform a query against Google Base, set the server to 
-    'base.google.com' and set the uri to '/base/feeds/...', where ... is 
-    your query. For example, to find snippets for all digital cameras uri 
+    To perform a query against Google Base, set the server to
+    'base.google.com' and set the uri to '/base/feeds/...', where ... is
+    your query. For example, to find snippets for all digital cameras uri
     should be set to: '/base/feeds/snippets?bq=digital+camera'
 
     Args:
       uri: string The query in the form of a URI. Example:
            '/base/feeds/snippets?bq=digital+camera'.
       extra_headers: dicty (optional) Extra HTTP headers to be included
-                     in the GET request. These headers are in addition to 
+                     in the GET request. These headers are in addition to
                      those stored in the client's additional_headers property.
-                     The client automatically sets the Content-Type and 
+                     The client automatically sets the Content-Type and
                      Authorization headers.
       url_params: dict (optional) Additional URL parameters to be included
                   in the query. These are translated into query arguments
@@ -223,19 +223,19 @@ class AtomService(object):
     Returns:
       httplib.HTTPResponse The server's response to the GET request.
     """
-    return self.request('GET', uri, data=None, headers=extra_headers, 
+    return self.request('GET', uri, data=None, headers=extra_headers,
                         url_params=url_params)
 
-  def Post(self, data, uri, extra_headers=None, url_params=None, 
+  def Post(self, data, uri, extra_headers=None, url_params=None,
            escape_params=True, content_type='application/atom+xml'):
     """Insert data into an APP server at the given URI.
 
     Args:
-      data: string, ElementTree._Element, or something with a __str__ method 
-            The XML to be sent to the uri. 
-      uri: string The location (feed) to which the data should be inserted. 
-           Example: '/base/feeds/items'. 
-      extra_headers: dict (optional) HTTP headers which are to be included. 
+      data: string, ElementTree._Element, or something with a __str__ method
+            The XML to be sent to the uri.
+      uri: string The location (feed) to which the data should be inserted.
+           Example: '/base/feeds/items'.
+      extra_headers: dict (optional) HTTP headers which are to be included.
                      The client automatically sets the Content-Type,
                      Authorization, and Content-Length headers.
       url_params: dict (optional) Additional URL parameters to be included
@@ -255,15 +255,15 @@ class AtomService(object):
       extra_headers = {}
     if content_type:
       extra_headers['Content-Type'] = content_type
-    return self.request('POST', uri, data=data, headers=extra_headers, 
+    return self.request('POST', uri, data=data, headers=extra_headers,
                         url_params=url_params)
 
-  def Put(self, data, uri, extra_headers=None, url_params=None, 
+  def Put(self, data, uri, extra_headers=None, url_params=None,
            escape_params=True, content_type='application/atom+xml'):
     """Updates an entry at the given URI.
-     
+
     Args:
-      data: string, ElementTree._Element, or xml_wrapper.ElementWrapper The 
+      data: string, ElementTree._Element, or xml_wrapper.ElementWrapper The
             XML containing the updated data.
       uri: string A URI indicating entry to which the update will be applied.
            Example: '/base/feeds/items/ITEM-ID'
@@ -279,7 +279,7 @@ class AtomService(object):
                      reserved characters have been escaped). If true, this
                      method will escape the query and any URL parameters
                      provided.
-  
+
     Returns:
       httplib.HTTPResponse Server's response to the PUT request.
     """
@@ -287,15 +287,15 @@ class AtomService(object):
       extra_headers = {}
     if content_type:
       extra_headers['Content-Type'] = content_type
-    return self.request('PUT', uri, data=data, headers=extra_headers, 
+    return self.request('PUT', uri, data=data, headers=extra_headers,
                         url_params=url_params)
 
-  def Delete(self, uri, extra_headers=None, url_params=None, 
+  def Delete(self, uri, extra_headers=None, url_params=None,
              escape_params=True):
     """Deletes the entry at the given URI.
 
     Args:
-      uri: string The URI of the entry to be deleted. Example: 
+      uri: string The URI of the entry to be deleted. Example:
            '/base/feeds/items/ITEM-ID'
       extra_headers: dict (optional) HTTP headers which are to be included.
                      The client automatically sets the Content-Type and
@@ -313,7 +313,7 @@ class AtomService(object):
     Returns:
       httplib.HTTPResponse Server's response to the DELETE request.
     """
-    return self.request('DELETE', uri, data=None, headers=extra_headers, 
+    return self.request('DELETE', uri, data=None, headers=extra_headers,
                         url_params=url_params)
 
 
@@ -423,7 +423,7 @@ def PrepareConnection(service, full_uri):
       # Wait for the full response.
       while response.find("\r\n\r\n") == -1:
         response += p_sock.recv(8192)
-       
+
       p_status=response.split()[1]
       if p_status!=str(200):
         raise 'Error status=',str(p_status)
@@ -471,14 +471,14 @@ def UseBasicAuth(service, username, password, for_proxy=False):
   """Sets an Authenticaiton: Basic HTTP header containing plaintext.
 
   Deprecated, use AtomService.use_basic_auth insread.
-  
+
   The username and password are base64 encoded and added to an HTTP header
-  which will be included in each request. Note that your username and 
-  password are sent in plaintext. The auth header is added to the 
+  which will be included in each request. Note that your username and
+  password are sent in plaintext. The auth header is added to the
   additional_headers dictionary in the service object.
 
   Args:
-    service: atom.AtomService or a subclass which has an 
+    service: atom.AtomService or a subclass which has an
         additional_headers dict as a member.
     username: str
     password: str
@@ -564,7 +564,7 @@ def BuildUri(uri, url_params=None, escape_params=True):
     url_params: dict (optional)
     escape_params: boolean (optional)
     uri: string The start of the desired URI. This string can alrady contain
-         URL parameters. Examples: '/base/feeds/snippets', 
+         URL parameters. Examples: '/base/feeds/snippets',
          '/base/feeds/snippets?bq=digital+camera'
     url_parameters: dict (optional) Additional URL parameters to be included
                     in the query. These are translated into query arguments
@@ -592,53 +592,53 @@ def BuildUri(uri, url_params=None, escape_params=True):
     else:
       # The uri string did not have any URL parameters (no ? character)
       # so put a ? between the uri and URL parameters.
-      full_uri = '%s%s' % (uri, '?%s' % ('&'.join([] + parameter_list)))  
+      full_uri = '%s%s' % (uri, '?%s' % ('&'.join([] + parameter_list)))
   else:
     full_uri = uri
-        
+
   return full_uri
 
-  
-def HttpRequest(service, operation, data, uri, extra_headers=None, 
+
+def HttpRequest(service, operation, data, uri, extra_headers=None,
     url_params=None, escape_params=True, content_type='application/atom+xml'):
   """Performs an HTTP call to the server, supports GET, POST, PUT, and DELETE.
-  
+
   This method is deprecated, use atom.http.HttpClient.request instead.
 
   Usage example, perform and HTTP GET on http://www.google.com/:
     import atom.service
     client = atom.service.AtomService()
     http_response = client.Get('http://www.google.com/')
-  or you could set the client.server to 'www.google.com' and use the 
+  or you could set the client.server to 'www.google.com' and use the
   following:
     client.server = 'www.google.com'
     http_response = client.Get('/')
 
   Args:
-    service: atom.AtomService object which contains some of the parameters 
-        needed to make the request. The following members are used to 
-        construct the HTTP call: server (str), additional_headers (dict), 
+    service: atom.AtomService object which contains some of the parameters
+        needed to make the request. The following members are used to
+        construct the HTTP call: server (str), additional_headers (dict),
         port (int), and ssl (bool).
     operation: str The HTTP operation to be performed. This is usually one of
         'GET', 'POST', 'PUT', or 'DELETE'
-    data: ElementTree, filestream, list of parts, or other object which can be 
-        converted to a string. 
+    data: ElementTree, filestream, list of parts, or other object which can be
+        converted to a string.
         Should be set to None when performing a GET or PUT.
         If data is a file-like object which can be read, this method will read
-        a chunk of 100K bytes at a time and send them. 
+        a chunk of 100K bytes at a time and send them.
         If the data is a list of parts to be sent, each part will be evaluated
         and sent.
-    uri: The beginning of the URL to which the request should be sent. 
-        Examples: '/', '/base/feeds/snippets', 
+    uri: The beginning of the URL to which the request should be sent.
+        Examples: '/', '/base/feeds/snippets',
         '/m8/feeds/contacts/default/base'
     extra_headers: dict of strings. HTTP headers which should be sent
-        in the request. These headers are in addition to those stored in 
+        in the request. These headers are in addition to those stored in
         service.additional_headers.
     url_params: dict of strings. Key value pairs to be added to the URL as
-        URL parameters. For example {'foo':'bar', 'test':'param'} will 
+        URL parameters. For example {'foo':'bar', 'test':'param'} will
         become ?foo=bar&test=param.
-    escape_params: bool default True. If true, the keys and values in 
-        url_params will be URL escaped when the form is constructed 
+    escape_params: bool default True. If true, the keys and values in
+        url_params will be URL escaped when the form is constructed
         (Special characters converted to %XX form.)
     content_type: str The MIME type for the data being sent. Defaults to
         'application/atom+xml', this is only used if data is set.
@@ -656,16 +656,16 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
 
   connection.putrequest(operation, full_uri)
 
-  # If the list of headers does not include a Content-Length, attempt to 
+  # If the list of headers does not include a Content-Length, attempt to
   # calculate it based on the data object.
-  if (data and not service.additional_headers.has_key('Content-Length') and 
+  if (data and not service.additional_headers.has_key('Content-Length') and
       not extra_headers.has_key('Content-Length')):
     content_length = CalculateDataLength(data)
     if content_length:
       extra_headers['Content-Length'] = str(content_length)
 
   if content_type:
-    extra_headers['Content-Type'] = content_type 
+    extra_headers['Content-Type'] = content_type
 
   # Send the HTTP headers.
   if isinstance(service.additional_headers, dict):
@@ -686,7 +686,7 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
 
   # Return the HTTP Response from the server.
   return connection.getresponse()
-  
+
 
 def __SendDataPart(data, connection):
   """This method is deprecated, use atom.http._send_data_part"""
@@ -714,8 +714,8 @@ def __SendDataPart(data, connection):
 
 
 def CalculateDataLength(data):
-  """Attempts to determine the length of the data to send. 
-  
+  """Attempts to determine the length of the data to send.
+
   This method will respond with a length only if the data is a string or
   and ElementTree element.
 
@@ -734,7 +734,7 @@ def CalculateDataLength(data):
     return None
   else:
     return len(str(data))
-    
+
 
 def deprecation(message):
   warnings.warn(message, DeprecationWarning, stacklevel=2)

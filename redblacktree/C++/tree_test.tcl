@@ -17,7 +17,7 @@ namespace eval IntervalTreeTest {
 	}
 	return $result
     }
-    
+
     proc CreateRandomInterval { } {
 	variable maxKey
 	set low [expr round((rand() * $maxKey))]
@@ -25,7 +25,7 @@ namespace eval IntervalTreeTest {
 	if {$low > $high} {set low [expr - $low]}
 	return [list $low $high]
     }
-    
+
     proc CheckQuery { tree listName } {
 	upvar $listName list
 	set interval [CreateRandomInterval]
@@ -37,7 +37,7 @@ namespace eval IntervalTreeTest {
 	    return {}
 	}
     }
-    
+
     proc Add { tree listName } {
 	upvar $listName list
 	set interval [CreateRandomInterval]
@@ -45,7 +45,7 @@ namespace eval IntervalTreeTest {
 	eval intTreeAdd $tree $interval
 	return
     }
-    
+
     proc Remove {tree listName} {
 	variable maxGrowSize
 	upvar $listName list
@@ -55,34 +55,34 @@ namespace eval IntervalTreeTest {
 	set list [lreplace $list $index $index]
 	return
     }
-    
+
     # offset = 0 makes tree/list grow, offset = 1 makes it shrink.
     proc AddRemoveOrQuery { tree listName offset} {
 	upvar $listName list
 	set i [expr (round(rand() * 64 ) % 4) + $offset]
 	switch $i {
 	    0
-	    -  
+	    -
 	    1	{ Add $tree list}
-	    2       { 
+	    2       {
 		set result [CheckQuery $tree list]
 		if {[llength $result]} {
 		    error "CheckQuery failed with result '$result'\n"
 		}
 	    }
-	    3 
+	    3
 	    -
-	    4 	 { 
+	    4 	 {
 		if {[llength $list]} {
 		    Remove $tree list
-		} 
+		}
 	    }
 	    default { error "Unreachable part of switch statement seen ($i)!"}
 	}
 	puts -nonewline "[llength $list] "
 	flush stdout
     }
-    
+
     proc GrowThenShrinkCheck {tree listName } {
 	variable maxGrowSize
 	upvar $listName list
@@ -95,7 +95,7 @@ namespace eval IntervalTreeTest {
 	    AddRemoveOrQuery $tree list 1
 	}
     }
-    
+
     proc DoAllIntervalTreeTests { } {
 	intTreeCreate junk
 	set ::intTreeList {}
@@ -120,12 +120,12 @@ namespace eval RedBlackTreeTest {
 	}
 	return $result
     }
-    
+
     proc CreateRandomEntry { } {
 	variable maxKey
 	return [expr round((rand() * $maxKey))]
     }
-    
+
     proc CheckQuery { tree listName } {
 	upvar $listName list
 	set low [CreateRandomEntry]
@@ -138,7 +138,7 @@ namespace eval RedBlackTreeTest {
 	    return {}
 	}
     }
-    
+
     proc Add { tree listName } {
 	upvar $listName list
 	set key [CreateRandomEntry]
@@ -146,7 +146,7 @@ namespace eval RedBlackTreeTest {
 	rbTreeAdd $tree $key
 	return
     }
-    
+
     proc Remove {tree listName} {
 	variable maxGrowSize
 	upvar $listName list
@@ -156,34 +156,34 @@ namespace eval RedBlackTreeTest {
 	set list [lreplace $list $index $index]
 	return
     }
-    
+
     # offset = 0 makes tree/list grow, offset = 1 makes it shrink.
     proc AddRemoveOrQuery { tree listName offset} {
 	upvar $listName list
 	set i [expr (round(rand() * 64 ) % 4) + $offset]
 	switch $i {
 	    0
-	    -  
+	    -
 	    1	{ Add $tree list}
-	    2       { 
+	    2       {
 		set result [CheckQuery $tree list]
 		if {[llength $result]} {
 		    error "CheckQuery failed with result '$result'\n"
 		}
 	    }
-	    3 
+	    3
 	    -
-	    4 	 { 
+	    4 	 {
 		if {[llength $list]} {
 		    Remove $tree list
-		} 
+		}
 	    }
 	    default { error "Unreachable part of switch statement seen ($i)!"}
 	}
 	puts -nonewline "[llength $list] "
 	flush stdout
     }
-    
+
     proc GrowThenShrinkCheck {tree listName} {
 	variable maxGrowSize
 	upvar $listName list
@@ -196,11 +196,11 @@ namespace eval RedBlackTreeTest {
 	    AddRemoveOrQuery $tree list 1
 	}
     }
-    
+
     proc DoAllRedBlackTreeTests { } {
 	rbTreeCreate junk
 	set ::rbTreeList {}
-	GrowThenShrinkCheck junk ::rbTreeList 
+	GrowThenShrinkCheck junk ::rbTreeList
 	rbTreeDelete junk
     }
 }

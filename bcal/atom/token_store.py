@@ -44,7 +44,7 @@ class TokenStore(object):
     """Adds a new token to the store (replaces tokens with the same scope).
 
     Args:
-      token: A subclass of http_interface.GenericToken. The token object is 
+      token: A subclass of http_interface.GenericToken. The token object is
           responsible for adding the Authorization header to the HTTP request.
           The scopes defined in the token are used to determine if the token
           is valid for a requested scope when find_token is called.
@@ -58,7 +58,7 @@ class TokenStore(object):
 
     for scope in token.scopes:
       self._tokens[str(scope)] = token
-    return True  
+    return True
 
   def find_token(self, url):
     """Selects an Authorization header token which can be used for the URL.
@@ -72,7 +72,7 @@ class TokenStore(object):
     Returns:
       The token object which should execute the HTTP request. If there was
       no token for the url (the url did not begin with any of the token
-      scopes available), then the atom.http_interface.GenericToken will be 
+      scopes available), then the atom.http_interface.GenericToken will be
       returned because the GenericToken calls through to the http client
       without adding an Authorization header.
     """
@@ -114,4 +114,4 @@ class TokenStore(object):
     return token_found
 
   def remove_all_tokens(self):
-    self._tokens = {} 
+    self._tokens = {}

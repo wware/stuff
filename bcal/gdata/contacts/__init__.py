@@ -43,7 +43,7 @@ IM_NETMEETING = 'http://schemas.google.com/g/2005#netmeeting'  # NetMeeting
 PHOTO_LINK_REL = 'http://schemas.google.com/contacts/2008/rel#photo'
 PHOTO_EDIT_LINK_REL = 'http://schemas.google.com/contacts/2008/rel#edit-photo'
 
-# Different phone types, for moro info see: 
+# Different phone types, for moro info see:
 # http://code.google.com/apis/gdata/docs/2.0/elements.html#gdPhoneNumber
 PHONE_CAR = 'http://schemas.google.com/g/2005#car'
 PHONE_FAX = 'http://schemas.google.com/g/2005#fax'

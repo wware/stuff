@@ -297,4 +297,3 @@ class WebContent(atom.core.XmlElement):
   url = 'url'
   display = 'display'
 
-

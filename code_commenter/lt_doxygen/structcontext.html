@@ -22,7 +22,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>context Struct Reference</h1><!-- doxytag: class="context" -->The information we need to keep track of a client-server connection.  
+<h1>context Struct Reference</h1><!-- doxytag: class="context" -->The information we need to keep track of a client-server connection.
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="tuple_8h-source.html">tuple.h</a>&gt;</code>
@@ -42,9 +42,9 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-The information we need to keep track of a client-server connection. 
+The information we need to keep track of a client-server connection.
 <p>
-From the client's point of view, this includes the hostname and port number. From the server's point of view this includes a pthread for the client. Both client and server maintain a socket descriptor here. 
+From the client's point of view, this includes the hostname and port number. From the server's point of view this includes a pthread for the client. Both client and server maintain a socket descriptor here.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00252">252</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 <hr><h2>Field Documentation</h2>
 <a class="anchor" name="e609ea99b4c1f37ceb6bc646e083ce4a"></a><!-- doxytag: member="context::id" ref="e609ea99b4c1f37ceb6bc646e083ce4a" args="" -->
@@ -59,7 +59,7 @@ From the client's point of view, this includes the hostname and port number. Fro
 <div class="memdoc">
 
 <p>
-A unique identifier for the <a class="el" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> This may help in bug hunts. 
+A unique identifier for the <a class="el" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> This may help in bug hunts.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00258">258</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="tuple_8c-source.html#l00953">get_nb_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00864">get_tuple()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, <a class="el" href="tuple__server_8c-source.html#l00385">handle_replace()</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00188">new_ctx()</a>, <a class="el" href="tuple_8c-source.html#l00720">open_client_socket()</a>, <a class="el" href="tuple_8c-source.html#l00785">put_tuple()</a>, <a class="el" href="tuple_8c-source.html#l01001">read_nb_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00906">read_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00577">recv_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00823">replace_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00471">send_chunk()</a>, and <a class="el" href="tuple_8c-source.html#l01182">tuple_server_log()</a>.</p>
@@ -78,7 +78,7 @@ A unique identifier for the <a class="el" href="structcontext.html" title="The i
 <div class="memdoc">
 
 <p>
-The hostname of the peer 
+The hostname of the peer
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00262">262</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="tuple_8c-source.html#l00110">get_server_portnumber()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, <a class="el" href="tuple__server_8c-source.html#l00385">handle_replace()</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, <a class="el" href="fft_8c-source.html#l00043">main()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00188">new_ctx()</a>, and <a class="el" href="tuple_8c-source.html#l00720">open_client_socket()</a>.</p>
@@ -97,7 +97,7 @@ The hostname of the peer
 <div class="memdoc">
 
 <p>
-The port number of the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server. Used by the client to make connections. Ignored in server code. 
+The port number of the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server. Used by the client to make connections. Ignored in server code.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00267">267</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple_8c-source.html#l00110">get_server_portnumber()</a>, <a class="el" href="fft_8c-source.html#l00043">main()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00188">new_ctx()</a>, and <a class="el" href="tuple_8c-source.html#l00720">open_client_socket()</a>.</p>
@@ -116,7 +116,7 @@ The port number of the <a class="el" href="structtuple.html" title="An ordered s
 <div class="memdoc">
 
 <p>
-Socket for connection between client and <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server. 
+Socket for connection between client and <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00271">271</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00219">ctx_dealloc()</a>, <a class="el" href="tuple_8c-source.html#l00953">get_nb_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00864">get_tuple()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, <a class="el" href="tuple__server_8c-source.html#l00385">handle_replace()</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>, <a class="el" href="tuple_8c-source.html#l00720">open_client_socket()</a>, <a class="el" href="tuple_8c-source.html#l00785">put_tuple()</a>, <a class="el" href="tuple_8c-source.html#l01001">read_nb_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00906">read_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00577">recv_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00823">replace_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00471">send_chunk()</a>, and <a class="el" href="tuple_8c-source.html#l01182">tuple_server_log()</a>.</p>
@@ -135,7 +135,7 @@ Socket for connection between client and <a class="el" href="structtuple.html" t
 <div class="memdoc">
 
 <p>
-On the server side, this is the pthread for the client. If no pthread is active here, this is set to -1 so we'll know it's available. 
+On the server side, this is the pthread for the client. If no pthread is active here, this is set to -1 so we'll know it's available.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00277">277</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, and <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>.</p>

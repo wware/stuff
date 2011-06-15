@@ -14,7 +14,7 @@ write the funky Slackware ISO you need to coerce the choice of image,
 otherwise it will look for mysterious undocumented Ununtu specifics.
 So do this::
 
- usb-creator-gtk -i Desktop/liveslack.iso 
+ usb-creator-gtk -i Desktop/liveslack.iso
 
 Hmm, that didn't work. What I think will work is to use the
 livecd-tools package available ONLY on Fedora, so I'm going to set up

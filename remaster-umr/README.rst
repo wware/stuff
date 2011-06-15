@@ -17,7 +17,7 @@ line arguments, and it adds these to the UMR base. You can use an example
 debian package that I've provided elsewhere in this repository::
 
  (cd ../make-debian-pkg/; make)
- ./customize.sh ../make-debian-pkg/foo-bar_1.0_i386.deb 
+ ./customize.sh ../make-debian-pkg/foo-bar_1.0_i386.deb
 
 The script will ask for your password once or twice because it needs "sudo"
 privileges in some places. It will create the file

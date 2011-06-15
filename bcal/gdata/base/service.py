@@ -16,11 +16,11 @@
 
 """GBaseService extends the GDataService to streamline Google Base operations.
 
-  GBaseService: Provides methods to query feeds and manipulate items. Extends 
+  GBaseService: Provides methods to query feeds and manipulate items. Extends
                 GDataService.
 
-  DictionaryToParamList: Function which converts a dictionary into a list of 
-                         URL arguments (represented as strings). This is a 
+  DictionaryToParamList: Function which converts a dictionary into a list of
+                         URL arguments (represented as strings). This is a
                          utility function used in CRUD operations.
 """
 
@@ -90,18 +90,18 @@ class GBaseService(gdata.service.GDataService):
 
   api_key = property(__GetAPIKey, __SetAPIKey,
       doc="""Get or set the API key to be included in all requests.""")
-    
+
   def Query(self, uri, converter=None):
     """Performs a style query and returns a resulting feed or entry.
 
     Args:
       uri: string The full URI which be queried. Examples include
-          '/base/feeds/snippets?bq=digital+camera', 
+          '/base/feeds/snippets?bq=digital+camera',
           'http://www.google.com/base/feeds/snippets?bq=digital+camera'
           '/base/feeds/items'
           I recommend creating a URI using a query class.
       converter: func (optional) A function which will be executed on the
-          server's response. Examples include GBaseItemFromString, etc. 
+          server's response. Examples include GBaseItemFromString, etc.
 
     Returns:
       If converter was specified, returns the results of calling converter on
@@ -109,7 +109,7 @@ class GBaseService(gdata.service.GDataService):
       was an Atom Entry, returns a GBaseItem, by default, the method returns
       the result of calling gdata.service's Get method.
     """
- 
+
     result = self.Get(uri, converter=converter)
     if converter:
       return result
@@ -147,15 +147,15 @@ class GBaseService(gdata.service.GDataService):
   def GetLocale(self, uri):
     return self.Get(uri, converter=gdata.base.GDataEntryFromString)
 
-  def InsertItem(self, new_item, url_params=None, escape_params=True, 
+  def InsertItem(self, new_item, url_params=None, escape_params=True,
       converter=None):
     """Adds an item to Google Base.
 
-    Args: 
-      new_item: atom.Entry or subclass A new item which is to be added to 
+    Args:
+      new_item: atom.Entry or subclass A new item which is to be added to
                 Google Base.
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
       converter: func (optional) Function which is executed on the server's
@@ -189,12 +189,12 @@ class GBaseService(gdata.service.GDataService):
     Returns:
       True if the delete succeeded.
     """
-    
+
     return self.Delete('%s' % (item_id[len('http://www.google.com'):],),
                        url_params=url_params, escape_params=escape_params)
-                           
-  def UpdateItem(self, item_id, updated_item, url_params=None, 
-                 escape_params=True, 
+
+  def UpdateItem(self, item_id, updated_item, url_params=None,
+                 escape_params=True,
                  converter=gdata.base.GBaseItemFromString):
     """Updates an existing item.
 
@@ -202,7 +202,7 @@ class GBaseService(gdata.service.GDataService):
       item_id: string The ID of the item to be updated.  Example:
                'http://www.google.com/base/feeds/items/13185446517496042648'
       updated_item: atom.Entry, subclass, or string, containing
-                    the Atom Entry which will replace the base item which is 
+                    the Atom Entry which will replace the base item which is
                     stored at the item_id.
       url_params: dict (optional) Additional URL parameters to be included
                   in the update request.
@@ -217,31 +217,31 @@ class GBaseService(gdata.service.GDataService):
       If converter is defined, the results of running converter on the server's
       response. Otherwise, it will be a GBaseItem.
     """
-    
-    response = self.Put(updated_item, 
-        item_id, url_params=url_params, escape_params=escape_params, 
+
+    response = self.Put(updated_item,
+        item_id, url_params=url_params, escape_params=escape_params,
         converter=converter)
     if not converter and isinstance(response, atom.Entry):
       return gdata.base.GBaseItemFromString(response.ToString())
     return response
 
-  def ExecuteBatch(self, batch_feed, 
+  def ExecuteBatch(self, batch_feed,
                    converter=gdata.base.GBaseItemFeedFromString):
     """Sends a batch request feed to the server.
-    
-    Args: 
+
+    Args:
       batch_feed: gdata.BatchFeed A feed containing BatchEntry elements which
           contain the desired CRUD operation and any necessary entry data.
       converter: Function (optional) Function to be executed on the server's
           response. This function should take one string as a parameter. The
-          default value is GBaseItemFeedFromString which will turn the result 
+          default value is GBaseItemFeedFromString which will turn the result
           into a gdata.base.GBaseItem object.
 
     Returns:
       A gdata.BatchFeed containing the results.
     """
-    
-    return self.Post(batch_feed, BASE_BATCH_URL, converter=converter) 
+
+    return self.Post(batch_feed, BASE_BATCH_URL, converter=converter)
 
 
 class BaseQuery(gdata.service.Query):
@@ -252,5 +252,5 @@ class BaseQuery(gdata.service.Query):
   def _SetBaseQuery(self, base_query):
     self['bq'] = base_query
 
-  bq = property(_GetBaseQuery, _SetBaseQuery, 
+  bq = property(_GetBaseQuery, _SetBaseQuery,
       doc="""The bq query parameter""")

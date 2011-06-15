@@ -260,7 +260,7 @@ void cogitate(struct triple *facts,
 			apply_rule(facts, pointer, size, r);
 			DEBUG({
 				printf("db size = %d\n", *pointer);
-			});			
+			});
 			if (out_of_memory_flag)
 				return;
 		}

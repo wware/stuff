@@ -56,9 +56,9 @@ George Carrette, June 16, 1996. gjc@world.std.com
 The standard distribution contains unix manual pages in source
 and text (txt) formats. A number of command files are provided that
 invoke the interpreter to perform useful and/or exemplary tasks.
-Support files and extensions 
+Support files and extensions
 
-Building: 
+Building:
 
   unix .... the makefile has different targets for common
             operating system variants, and has been tested on all systems

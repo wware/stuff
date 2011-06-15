@@ -10,9 +10,9 @@ union {
         unsigned char head;        /* 1 byte */
     } part;
 } crc_buffer;
- 
+
 static void putCRC(unsigned char b)
-{   
+{
     unsigned char i;
     crc_buffer.part.data = b;
     for (i = 0; i < 8; i++)
@@ -22,7 +22,7 @@ static void putCRC(unsigned char b)
             crc_buffer.part.remainder ^= POLYNOMIAL;
     };
 }
- 
+
 unsigned short CRC (unsigned char *data, unsigned int length)
 {
     crc_buffer.part.remainder = 0;

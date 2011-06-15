@@ -336,4 +336,3 @@ class ExtensionElement(atom.core.XmlElement):
 
   _BecomeChildElement = atom.core.XmlElement._become_child
 
-

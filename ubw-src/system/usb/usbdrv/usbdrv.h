@@ -200,7 +200,7 @@
 void USBCheckBusStatus(void);
 void USBDriverService(void);
 void USBRemoteWakeup(void);
-void USBSoftDetach(void); 
+void USBSoftDetach(void);
 
 void ClearArray(byte* startAdr,byte count);
 #endif //USBDRV_H

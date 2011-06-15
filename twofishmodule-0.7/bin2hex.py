@@ -28,7 +28,7 @@ def reverse(str):
         retvalue=s+retvalue
         pass
     return retvalue
-    
+
 
 # Compare this to its 'c' equivalent in bin2hex.c...
 def dit2hex(ch):
@@ -38,7 +38,7 @@ def dit2hex(ch):
     leftchar=hexchars[leftnib]
     rightchar=hexchars[rightnib]
     return leftchar+rightchar
-    
+
 # compare this to its 'c' equivalent in bin2hex.c...
 def bin2hex(str):
     retvalue=""  # return value is empty until we add to it...
@@ -49,7 +49,7 @@ def bin2hex(str):
     return retvalue
 
 
-# this is similar to the 'c' equivalent. 
+# this is similar to the 'c' equivalent.
 def hex2dit(ch):
     if (ch >= '0') and (ch <= '9'):
         return ord(ch)-ord('0')
@@ -67,7 +67,7 @@ def hex2dit(ch):
 def hex2bin(str):
     ###DEBUG###
     # print str
-    str=string.strip(str) # zap white space. 
+    str=string.strip(str) # zap white space.
     if (not str):
 	return None #agh!!!! NADA THERE!!!
     i=len(str)

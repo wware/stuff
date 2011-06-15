@@ -73,7 +73,7 @@ class CalendarResourceEntry(gdata.data.GDEntry):
         value = p.value
         break
     return value
-  
+
   def _SetProperty(self, name, value):
     """Set the apps:property value with the given name to the given value.
 
@@ -143,7 +143,7 @@ class CalendarResourceEntry(gdata.data.GDEntry):
 
   def SetResourceDescription(self, value):
     """Set the description of this Calendar Resource object.
-    
+
     Args:
       value: string The new description value to give this object.
     """
@@ -175,13 +175,13 @@ class CalendarResourceEntry(gdata.data.GDEntry):
 
   def GetResourceEmail(self):
     """Get the email of this Calendar Resource object.
-    
+
     Returns:
      The email of this Calendar Resource object as a string or None.
     """
-    
+
     return self._GetProperty(RESOURCE_EMAIL_NAME)
-    
+
   resource_email = pyproperty(GetResourceEmail)
 
   def __init__(self, resource_id=None, resource_common_name=None,
@@ -195,8 +195,8 @@ class CalendarResourceEntry(gdata.data.GDEntry):
       resource_description: string (optional) The description to give this new
                             object.
       resource_type: string (optional) The type to give this new object.
-      args: The other parameters to pass to gdata.entry.GDEntry constructor. 
-      kwargs: The other parameters to pass to gdata.entry.GDEntry constructor. 
+      args: The other parameters to pass to gdata.entry.GDEntry constructor.
+      kwargs: The other parameters to pass to gdata.entry.GDEntry constructor.
     """
     super(CalendarResourceEntry, self).__init__(*args, **kwargs)
     if resource_id:

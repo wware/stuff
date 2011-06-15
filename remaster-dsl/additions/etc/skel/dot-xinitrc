@@ -18,7 +18,7 @@ if [ "$ICONS" == "xtdesk" ]; then
   for x in `ls -1 .xtdesktop/*.hide 2>/dev/null`; do rm -f ${x%.*}; done
   iconsnap.lua &>/dev/null &
   xtdesk.sh
-elif [ "$ICONS" == "dfm" ]; then 
+elif [ "$ICONS" == "dfm" ]; then
   /usr/bin/dfm &
 else
   [ "$DESKTOP" == "jwm" ] && echo '<?xml version="1.0"?><JWM></JWM>' > .jwmrc-icons

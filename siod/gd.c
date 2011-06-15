@@ -132,7 +132,7 @@ LISP lgdPointy(LISP ptr,LISP j,LISP value)
  else
    value = flocons(pt[i].y);
  return(value);}
- 
+
 LISP lgdImageGif(LISP im,LISP f)
 {long iflag;
  iflag = no_interrupt(1);
@@ -292,7 +292,7 @@ LISP lgdImageFill(LISP l)
  color = get_c_long(poparg(&l,NIL));
  gdImageFill(im,x,y,color);
  return(NIL);}
- 
+
 /*
 
 void gdImageSetBrush(gdImagePtr im, gdImagePtr brush)

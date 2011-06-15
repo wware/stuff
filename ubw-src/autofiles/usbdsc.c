@@ -37,9 +37,9 @@
  * in conjunction with the usbdsc.h file. When a descriptor is added
  * or removed from the main configuration descriptor, i.e. CFG01,
  * the user must also change the descriptor structure defined in
- * the usbdsc.h file. The structure is used to calculate the 
+ * the usbdsc.h file. The structure is used to calculate the
  * descriptor size, i.e. sizeof(CFG01).
- * 
+ *
  * A typical configuration descriptor consists of:
  * At least one configuration descriptor (USB_CFG_DSC)
  * One or more interface descriptors (USB_INTF_DSC)
@@ -70,7 +70,7 @@
  *     USB_INTF_DSC            i01a00;                 \
  *     USB_EP_DSC              ep02i_i01a00;           \
  * } cfg01
- * 
+ *
  * Note the hierarchy of the descriptors above, it follows the USB
  * specification requirement. All endpoints belonging to an interface
  * should be listed immediately after that interface.
@@ -160,7 +160,7 @@
  * state according to the definition in the USB specification.
  *
  ********************************************************************/
- 
+
 /*********************************************************************
  * Descriptor specific type definitions are defined in:
  * system\usb\usbdefs\usbdefs_std_dsc.h
@@ -168,7 +168,7 @@
  * Configuration information is defined in:
  * autofiles\usbcfg.h
  ********************************************************************/
- 
+
 /** I N C L U D E S *************************************************/
 #include "system/typedefs.h"
 #include "system/usb/usb.h"
@@ -178,7 +178,7 @@
 
 /* Device Descriptor */
 rom USB_DEV_DSC device_dsc=
-{    
+{
     sizeof(USB_DEV_DSC),    // Size of this descriptor in bytes
     DSC_DEV,                // DEVICE descriptor type
     0x0200,                 // USB Spec Release Number in BCD format
@@ -207,7 +207,7 @@ CFG01=
     0,                      // Configuration string index
     _DEFAULT,               // Attributes, see usbdefs_std_dsc.h
     50,                     // Max power consumption (2X mA)
-    
+
     /* Interface Descriptor */
     sizeof(USB_INTF_DSC),   // Size of this descriptor in bytes
     DSC_INTF,               // INTERFACE descriptor type
@@ -227,7 +227,7 @@ CFG01=
 
     /* Endpoint Descriptor */
     sizeof(USB_EP_DSC),DSC_EP,_EP02_IN,_INT,CDC_INT_EP_SIZE,0x02,
-    
+
     /* Interface Descriptor */
     sizeof(USB_INTF_DSC),   // Size of this descriptor in bytes
     DSC_INTF,               // INTERFACE descriptor type
@@ -238,7 +238,7 @@ CFG01=
     0,                      // Subclass code
     NO_PROTOCOL,            // Protocol code
     0,                      // Interface string index
-    
+
     /* Endpoint Descriptors */
     sizeof(USB_EP_DSC),DSC_EP,_EP03_OUT,_BULK,CDC_BULK_OUT_EP_SIZE,0x00,
     sizeof(USB_EP_DSC),DSC_EP,_EP03_IN,_BULK,CDC_BULK_IN_EP_SIZE,0x00

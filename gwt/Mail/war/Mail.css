@@ -10,12 +10,12 @@ body {
   margin-top: 3px;
 }
 
-a { 
+a {
   color: #000;
 }
 
 a:visited {
-  color: #000; 
+  color: #000;
 }
 
 .gwt-DialogBox {

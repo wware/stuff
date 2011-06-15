@@ -55,7 +55,7 @@
  * The busnum file is important as that is the only way we can relate sysfs
  * devices to usbfs nodes.
  *
- * If we also have descriptors, we can obtain the device descriptor and active 
+ * If we also have descriptors, we can obtain the device descriptor and active
  * configuration without touching usbfs at all.
  *
  * The descriptors file originally only contained the active configuration
@@ -360,7 +360,7 @@ static int sysfs_get_active_config(struct libusb_device *dev, int *config)
 	r = read(fd, tmp, sizeof(tmp));
 	close(fd);
 	if (r < 0) {
-		usbi_err(DEVICE_CTX(dev), 
+		usbi_err(DEVICE_CTX(dev),
 			"read bConfigurationValue failed ret=%d errno=%d", r, errno);
 		return LIBUSB_ERROR_IO;
 	} else if (r == 0) {
@@ -587,7 +587,7 @@ static int op_get_config_descriptor(struct libusb_device *dev,
 }
 
 /* cache the active config descriptor in memory. a value of -1 means that
- * we aren't sure which one is active, so just assume the first one. 
+ * we aren't sure which one is active, so just assume the first one.
  * only for usbfs. */
 static int cache_active_config(struct libusb_device *dev, int fd,
 	int active_config)
@@ -1016,7 +1016,7 @@ static int sysfs_get_device_list(struct libusb_context *ctx,
 		if (r < 0)
 			goto out;
 		discdevs = discdevs_new;
-	}	
+	}
 
 out:
 	closedir(devices);
@@ -1405,7 +1405,7 @@ static int submit_bulk_transfer(struct usbi_transfer *itransfer,
 					"submiturb failed error %d errno=%d", r, errno);
 				r = LIBUSB_ERROR_IO;
 			}
-	
+
 			/* if the first URB submission fails, we can simply free up and
 			 * return failure immediately. */
 			if (i == 0) {

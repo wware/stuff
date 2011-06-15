@@ -22,7 +22,7 @@ $window->add ($button);
 $window->show_all;
 Gtk2->main;
 
-sub button_callback 
+sub button_callback
 {
     # print out (button, user_data)
     print Dumper (@_);

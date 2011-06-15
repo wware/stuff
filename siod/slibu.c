@@ -4,7 +4,7 @@
    many of them depending on operating system calls.
    Note that I have avoided more than one nesting of conditional compilation,
    and the use of the else clause, in hopes of preserving some readability.
-   Furthermore, gnu autoconfigure is complex and produces scripts nearly as 
+   Furthermore, gnu autoconfigure is complex and produces scripts nearly as
    big as this source file.
  */
 
@@ -171,7 +171,7 @@ static long longfield(char *name,LISP alist)
  if NULLP(value = assq(key,alist))
    return(0);
  return(get_c_long(cdr(value)));}
- 
+
 void lencode_pwent(LISP alist,struct passwd *p)
 {p->pw_name = strfield("name",alist);
  p->pw_passwd = strfield("passwd",alist);
@@ -456,7 +456,7 @@ LISP lwait(LISP lpid,LISP loptions)
 			    "WNOHANG",WNOHANG,
 			    "WUNTRACED",WUNTRACED,
 			    NULL);
- iflag = no_interrupt(1); 
+ iflag = no_interrupt(1);
  ret = waitpid(pid,&status,options);
  no_interrupt(iflag);
  if (ret == 0)
@@ -823,7 +823,7 @@ LISP decode_stat(struct stat *s)
 		 "gen",flocons(s->st_gen),
 #endif
 		 NULL));}
-	      
+
 
 LISP g_stat(LISP fname,int (*fcn)(const char *,struct stat *))
 {struct stat st;
@@ -1114,7 +1114,7 @@ LISP http_date_parse(LISP input)
  t = time(NULL);
  if (lc = localtime(&t))
    gmtoff = lc->tm_gmtoff;
- if (strchr(str,',') && strchr(str,'-')) 
+ if (strchr(str,',') && strchr(str,'-'))
    /* rfc-850: Sunday, 06-Nov-94 08:49:37 GMT */
    format = "%a, %d-%b-%y %H:%M:%S GMT";
  else if (strchr(str,','))

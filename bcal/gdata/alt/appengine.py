@@ -42,31 +42,31 @@ from google.appengine.api import users
 from google.appengine.api import memcache
 
 
-def run_on_appengine(gdata_service, store_tokens=True, 
+def run_on_appengine(gdata_service, store_tokens=True,
     single_user_mode=False, deadline=None):
   """Modifies a GDataService object to allow it to run on App Engine.
 
   Args:
     gdata_service: An instance of AtomService, GDataService, or any
-        of their subclasses which has an http_client member and a 
+        of their subclasses which has an http_client member and a
         token_store member.
     store_tokens: Boolean, defaults to True. If True, the gdata_service
                   will attempt to add each token to it's token_store when
                   SetClientLoginToken or SetAuthSubToken is called. If False
-                  the tokens will not automatically be added to the 
+                  the tokens will not automatically be added to the
                   token_store.
     single_user_mode: Boolean, defaults to False. If True, the current_token
-                      member of gdata_service will be set when 
+                      member of gdata_service will be set when
                       SetClientLoginToken or SetAuthTubToken is called. If set
                       to True, the current_token is set in the gdata_service
-                      and anyone who accesses the object will use the same 
-                      token. 
-                      
-                      Note: If store_tokens is set to False and 
-                      single_user_mode is set to False, all tokens will be 
+                      and anyone who accesses the object will use the same
+                      token.
+
+                      Note: If store_tokens is set to False and
+                      single_user_mode is set to False, all tokens will be
                       ignored, since the library assumes: the tokens should not
                       be stored in the datastore and they should not be stored
-                      in the gdata_service object. This will make it 
+                      in the gdata_service object. This will make it
                       impossible to make requests which require authorization.
     deadline: int (optional) The number of seconds to wait for a response
               before timing out on the HTTP request. If no deadline is
@@ -199,7 +199,7 @@ class TokenCollection(db.Model):
 class AppEngineTokenStore(atom.token_store.TokenStore):
   """Stores the user's auth tokens in the App Engine datastore.
 
-  Tokens are only written to the datastore if a user is signed in (if 
+  Tokens are only written to the datastore if a user is signed in (if
   users.get_current_user() returns a user object).
   """
   def __init__(self):
@@ -207,11 +207,11 @@ class AppEngineTokenStore(atom.token_store.TokenStore):
 
   def add_token(self, token):
     """Associates the token with the current user and stores it.
-    
+
     If there is no current user, the token will not be stored.
 
     Returns:
-      False if the token was not stored. 
+      False if the token was not stored.
     """
     tokens = load_auth_tokens(self.user)
     if not hasattr(token, 'scopes') or not token.scopes:
@@ -229,7 +229,7 @@ class AppEngineTokenStore(atom.token_store.TokenStore):
 
     Returns:
       The stored token which belongs to the current user and is valid for the
-      desired URL. If there is no current user, or there is no valid user 
+      desired URL. If there is no current user, or there is no valid user
       token in the datastore, a atom.http_interface.GenericToken is returned.
     """
     if url is None:
@@ -251,7 +251,7 @@ class AppEngineTokenStore(atom.token_store.TokenStore):
 
   def remove_token(self, token):
     """Removes the token from the current user's collection in the datastore.
-    
+
     Returns:
       False if the token was not removed, this could be because the token was
       not in the datastore, or because there is no current user.
@@ -276,7 +276,7 @@ class AppEngineTokenStore(atom.token_store.TokenStore):
 
 def save_auth_tokens(token_dict, user=None):
   """Associates the tokens with the current user and writes to the datastore.
-  
+
   If there us no current user, the tokens are not written and this function
   returns None.
 
@@ -295,14 +295,14 @@ def save_auth_tokens(token_dict, user=None):
     return user_tokens.put()
   else:
     user_tokens = TokenCollection(
-        user=user, 
+        user=user,
         pickled_tokens=pickle.dumps(token_dict))
     return user_tokens.put()
-     
+
 
 def load_auth_tokens(user=None):
   """Reads a dictionary of the current user's tokens from the datastore.
-  
+
   If there is no current user (a user is not signed in to the app) or the user
   does not have any tokens, an empty dictionary is returned.
   """

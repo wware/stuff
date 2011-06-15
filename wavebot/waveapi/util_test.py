@@ -149,7 +149,7 @@ class TestUtils(unittest.TestCase):
     self.assertEquals(2, len(output.keys()))
     self.assertEquals(Data.java_class, output['javaClass'])
     self.assertEquals(data.public, output['public'])
-  
+
   def testStringEnum(self):
     empty = util.StringEnum()
     single = util.StringEnum('foo')

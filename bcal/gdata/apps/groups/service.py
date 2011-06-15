@@ -165,10 +165,10 @@ class GroupsService(gdata.apps.service.PropertyService):
 
   def RetrievePageOfGroups(self, start_group=None):
     """Retrieve one page of groups in the domain.
-    
+
     Args:
       start_group: The key to continue for pagination through all groups.
-      
+
     Returns:
       A feed object containing the result of the retrieve operation.
     """
@@ -258,10 +258,10 @@ class GroupsService(gdata.apps.service.PropertyService):
     uri = self._ServiceUrl('member', True, group_id, '', '',
                            suspended_users=suspended_users)
     return self._GetPropertiesList(uri)
-    
+
   def RetrievePageOfMembers(self, group_id, suspended_users=False, start=None):
     """Retrieve one page of members of a given group.
-    
+
     Args:
       group_id: The ID of the group (e.g. us-sales).
       suspended_users: A boolean; should we include any suspended users in
@@ -271,7 +271,7 @@ class GroupsService(gdata.apps.service.PropertyService):
     Returns:
       A feed object containing the result of the retrieve operation.
     """
-    
+
     uri = self._ServiceUrl('member', True, group_id, '', '',
                            suspended_users=suspended_users)
     if start is not None:
@@ -350,10 +350,10 @@ class GroupsService(gdata.apps.service.PropertyService):
     uri = self._ServiceUrl('owner', True, group_id, '', '',
                            suspended_users=suspended_users)
     return self._GetPropertiesList(uri)
-    
+
   def RetrievePageOfOwners(self, group_id, suspended_users=False, start=None):
     """Retrieve one page of owners of the given group.
-    
+
     Args:
       group_id: The ID of the group (e.g. us-sales).
       suspended_users: A boolean; should we include any suspended users in
@@ -372,7 +372,7 @@ class GroupsService(gdata.apps.service.PropertyService):
         uri += "?start="+start
     property_feed = self._GetPropertyFeed(uri)
     return property_feed
-        
+
   def RemoveOwnerFromGroup(self, owner_email, group_id):
     """Remove the given owner from the given group.
 

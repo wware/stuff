@@ -2,7 +2,7 @@
     This directory contains source code for data structures which
 implement balanced binary trees (red-black trees) and interval trees.
 The main source code files are:
-    
+
     RedBlackTree.h, RedBlackTree.cc
     interval_tree.cc, interval_tree.h
 

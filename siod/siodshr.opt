@@ -151,7 +151,7 @@ universal=readtl
 universal=lgetc
 universal=lungetc
 !!
-!! 
+!!
 PSECT_ATTR=CATCH_FRAMEP,NOSHR,LCL
 PSECT_ATTR=EOF_VAL,NOSHR,LCL
 PSECT_ATTR=ERRJMP,NOSHR,LCL

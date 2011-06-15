@@ -253,7 +253,7 @@ class DocumentListAclFeed(gdata.GDataFeed):
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [DocumentListAclEntry])
 
 

@@ -87,4 +87,3 @@ class VolumeFeed(gdata.data.BatchFeed):
   """Describes a Book Search volume feed."""
   entry = [VolumeEntry]
 
-

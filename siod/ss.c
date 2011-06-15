@@ -286,13 +286,13 @@ void ss_force(struct sock_stream *ss)
    else if (status == 0)
      /* this should never happen */
      sleep(1);}
- 
+
 int ss_flsbuf(int c,struct sock_stream *ss)
 {ss_force(ss);
  --(ss)->ocnt;
  *(ss)->optr++ = c;
  return(c);}
- 
+
 LISP s_getc(LISP s)
 {struct sock_stream *ss = get_ss(s,1);
  int c,iflag;
@@ -468,7 +468,7 @@ void ss_ungetc_fcn(int c,struct sock_stream *ss)
    err("inconsistent s_ungetc",NIL);
  ++ss->icnt;
  no_interrupt(iflag);}
- 
+
 LISP s_read_sexp(LISP s)
 {struct gen_readio r;
  r.getc_fcn = (int (*)(void *)) ss_getc_fcn;

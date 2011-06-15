@@ -127,11 +127,11 @@
 #define usb_bus_sense       1
 #endif
 
-#define self_power          0	
+#define self_power          0
 
 /** L E D ***********************************************************/
 #define mInitAllLEDs()      {LATE &= 0xFC; TRISE &= 0xFC; 	\
-							 LATD &= 0x00; TRISD &= 0x00;}	// LATD LEDs are on 
+							 LATD &= 0x00; TRISD &= 0x00;}	// LATD LEDs are on
 															// the HPC Explorer board
 
 #define mLED_1              LATEbits.LATE1 	// Red RE1 LED on PIM board
@@ -168,7 +168,7 @@
 							 ANCON0bits.PCFG0 = 1;			\
 							 WDTCONbits.ADSHR = 0;			\
 							 ADCON0=0x01;					\
-							 ADCON1=0xBE;}		// POT on HPC Explorer				
+							 ADCON1=0xBE;}		// POT on HPC Explorer
 
 /** I 2 C   T E M P   S E N S E *************************************/
 #define	mInitI2CPins()		TRISC |= 0x18;		// RC3 and RC4 are I2C

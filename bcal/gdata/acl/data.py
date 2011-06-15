@@ -52,4 +52,3 @@ class AclFeed(gdata.data.GDFeed):
   """Describes a feed of an access control list (ACL)."""
   entry = [AclEntry]
 
-

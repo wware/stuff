@@ -12,15 +12,15 @@
 # define STANDALONE 1
 #endif
 
-#ifndef _MSC_VER 
-# define USE_STRCASECMP 1 
+#ifndef _MSC_VER
+# define USE_STRCASECMP 1
 # ifndef USE_STRLWR
-#   define USE_STRLWR 1 
+#   define USE_STRLWR 1
 # endif
 # define SCHEME_EXPORT
-#else 
-# define USE_STRCASECMP 0 
-# define USE_STRLWR 0 
+#else
+# define USE_STRCASECMP 0
+# define USE_STRLWR 0
 # ifdef _SCHEME_SOURCE
 #  define SCHEME_EXPORT __declspec(dllexport)
 # else
@@ -166,7 +166,7 @@ struct scheme_interface {
   pointer (*mk_foreign_func)(scheme *sc, foreign_func f);
   void (*putstr)(scheme *sc, const char *s);
   void (*putcharacter)(scheme *sc, int c);
-  
+
   int (*is_string)(pointer p);
   char *(*string_value)(pointer p);
   int (*is_number)(pointer p);
@@ -183,7 +183,7 @@ struct scheme_interface {
   pointer (*vector_elem)(pointer vec, int ielem);
   pointer (*set_vector_elem)(pointer vec, int ielem, pointer newel);
   int (*is_port)(pointer p);
-  
+
   int (*is_pair)(pointer p);
   pointer (*pair_car)(pointer p);
   pointer (*pair_cdr)(pointer p);
@@ -192,7 +192,7 @@ struct scheme_interface {
 
   int (*is_symbol)(pointer p);
   char *(*symname)(pointer p);
-  
+
   int (*is_syntax)(pointer p);
   int (*is_proc)(pointer p);
   int (*is_foreign)(pointer p);

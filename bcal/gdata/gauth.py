@@ -1218,7 +1218,7 @@ def find_scopes_for_services(service_names=None):
   """Creates a combined list of scope URLs for the desired services.
 
   This method searches the AUTH_SCOPES dictionary.
-  
+
   Args:
     service_names: list of strings (optional) Each name must be a key in the
                    AUTH_SCOPES dictionary. If no list is provided (None) then

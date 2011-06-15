@@ -59,11 +59,11 @@ byte ctrl_buffer[EP0_BUFF_SIZE];
  * Note:            None
  *****************************************************************************/
 void PyUSBInitEP(void)
-{   
+{
     bulk_len = 0;
     intr_len = 0;
     iso_len = 0;
-    
+
     // USBGEN_UEP = EP_OUT_IN|HSHK_EN;             // Enable 2 data pipes
 
 	UEP_BULK = EP_OUT_IN|HSHK_EN;
@@ -113,10 +113,10 @@ void BulkWrite(void)
 	if(!mBulkTxIsBusy() && bulk_len)
 	{
 		byte i;
-		
+
 	    for (i = 0; i < bulk_len; i++)
 	    	bulk_in[i] = bulk_buffer[i];
-	
+
 	    BULK_BD_IN.Cnt = bulk_len;
 		bulk_len = 0;
 	    mUSBBufferReady(BULK_BD_IN);
@@ -144,10 +144,10 @@ void IntrWrite(void)
 	if(!mIntrTxIsBusy() && intr_len)
 	{
 		byte i;
-		
+
 	    for (i = 0; i < intr_len; i++)
 	    	intr_in[i] = intr_buffer[i];
-	
+
 	    INTR_BD_IN.Cnt = intr_len;
 		intr_len = 0;
 	    mUSBBufferReady(INTR_BD_IN);

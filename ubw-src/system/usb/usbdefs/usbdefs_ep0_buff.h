@@ -63,12 +63,12 @@ typedef union _CTRL_TRF_SETUP
     {
         byte _byte[EP0_BUFF_SIZE];
     };
-    
+
     /** Standard Device Requests *********************************************/
     struct
     {
         byte bmRequestType;
-        byte bRequest;    
+        byte bRequest;
         word wValue;
         word wIndex;
         word wLength;
@@ -162,7 +162,7 @@ typedef union _CTRL_TRF_SETUP
         unsigned :8;
     };
     /** End: Standard Device Requests ****************************************/
-    
+
 } CTRL_TRF_SETUP;
 
 /******************************************************************************
@@ -183,7 +183,7 @@ typedef union _CTRL_TRF_DATA
     {
         byte _byte[EP0_BUFF_SIZE];
     };
-    
+
     /** First 8-byte direct addressing ***************************************/
     struct
     {

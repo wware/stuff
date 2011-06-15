@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-    Extend gdata.service.GDataService to support authenticated CRUD ops on 
+    Extend gdata.service.GDataService to support authenticated CRUD ops on
     Books API
 
     http://code.google.com/apis/books/docs/getting-started.html
@@ -15,11 +15,11 @@
         * Adding a book with a review to the library adds a note, not a review.
           This does not get included in the returned item. You see this by
           looking at My Library through the website.
-        * Editing a review never edits a review (unless it is freshly added, but 
+        * Editing a review never edits a review (unless it is freshly added, but
           see above). More generally,
         * a Put request with changed annotations (label/rating/review) does NOT
-          change the data. Note: Put requests only work on the href from 
-          GetEditLink (as per the spec). Do not try to PUT to the annotate or 
+          change the data. Note: Put requests only work on the href from
+          GetEditLink (as per the spec). Do not try to PUT to the annotate or
           library feeds, this will cause a 400 Invalid URI Bad Request response.
           Attempting to Post to one of the feeds with the updated annotations
           does not update them. See the following for (hopefully) a follow up:
@@ -35,7 +35,7 @@
           results in a bad URI error.
         * Spec indicates there may be multiple labels, but there does not seem
           to be a way to get the server to accept multiple labels, nor does the
-          web interface have an obvious way to have multiple labels. Multiple 
+          web interface have an obvious way to have multiple labels. Multiple
           labels are never returned.
 """
 
@@ -68,21 +68,21 @@ class BookService(gdata.service.GDataService):
                 exception_handlers=tuple(), **kwargs):
         """source should be of form 'ProgramCompany - ProgramName - Version'"""
 
-        gdata.service.GDataService.__init__(self, email=email, 
+        gdata.service.GDataService.__init__(self, email=email,
                     password=password, service=BOOK_SERVICE, source=source,
-                    server=server, **kwargs) 
+                    server=server, **kwargs)
         self.exception_handlers = exception_handlers
 
-    def search(self, q, start_index="1", max_results="10", 
+    def search(self, q, start_index="1", max_results="10",
                 min_viewability="none", feed=GENERAL_FEED,
                 converter=books.BookFeed.FromString):
         """
         Query the Public search feed. q is either a search string or a
         gdata.service.Query instance with a query set.
-        
+
         min_viewability must be "none", "partial", or "full".
-        
-        If you change the feed to a single item feed, note that you will 
+
+        If you change the feed to a single item feed, note that you will
         probably need to change the converter to be Book.FromString
         """
 
@@ -94,7 +94,7 @@ class BookService(gdata.service.GDataService):
         q['max-results'] = max_results
         q['min-viewability'] = min_viewability
         return self.Get(uri=q.ToUri(),converter=converter)
-    
+
     def search_by_keyword(self, q='', feed=GENERAL_FEED, start_index="1",
                 max_results="10", min_viewability="none", **kwargs):
         """
@@ -105,10 +105,10 @@ class BookService(gdata.service.GDataService):
 
             Legal Identifiers are listed below and correspond to their meaning
             at http://books.google.com/advanced_book_search:
-                all_words 
-                exact_phrase 
-                at_least_one 
-                without_words 
+                all_words
+                exact_phrase
+                at_least_one
+                without_words
                 title
                 author
                 publisher
@@ -148,10 +148,10 @@ class BookService(gdata.service.GDataService):
                 q = '%s OCLC%s' % (q,v)
             else:
                 raise ValueError("Unsupported search keyword")
-        return self.search(q.strip(),start_index=start_index, feed=feed, 
-                            max_results=max_results, 
+        return self.search(q.strip(),start_index=start_index, feed=feed,
+                            max_results=max_results,
                             min_viewability=min_viewability)
-    
+
     def search_library(self, q, id='me', **kwargs):
         """Like search, but in a library feed. Default is the authenticated
         user's feed. Change by setting id."""
@@ -160,7 +160,7 @@ class BookService(gdata.service.GDataService):
             raise ValueError("kwarg 'feed' conflicts with library_id")
         feed = LIBRARY_FEED % id
         return self.search(q, feed=feed, **kwargs)
-   
+
     def search_library_by_keyword(self, id='me', **kwargs):
         """Hybrid of search_by_keyword and search_library
         """
@@ -169,8 +169,8 @@ class BookService(gdata.service.GDataService):
             raise ValueError("kwarg 'feed' conflicts with library_id")
         feed = LIBRARY_FEED % id
         return self.search_by_keyword(feed=feed,**kwargs)
-    
-    def search_annotations(self, q, id='me', **kwargs): 
+
+    def search_annotations(self, q, id='me', **kwargs):
         """Like search, but in an annotation feed. Default is the authenticated
         user's feed. Change by setting id."""
 
@@ -178,7 +178,7 @@ class BookService(gdata.service.GDataService):
             raise ValueError("kwarg 'feed' conflicts with library_id")
         feed = ANNOTATION_FEED % id
         return self.search(q, feed=feed, **kwargs)
-    
+
     def search_annotations_by_keyword(self, id='me', **kwargs):
         """Hybrid of search_by_keyword and search_annotations
         """
@@ -187,48 +187,48 @@ class BookService(gdata.service.GDataService):
             raise ValueError("kwarg 'feed' conflicts with library_id")
         feed = ANNOTATION_FEED % id
         return self.search_by_keyword(feed=feed,**kwargs)
-    
+
     def add_item_to_library(self, item):
-        """Add the item, either an XML string or books.Book instance, to the 
+        """Add the item, either an XML string or books.Book instance, to the
         user's library feed"""
 
         feed = LIBRARY_FEED % 'me'
         return self.Post(data=item, uri=feed, converter=books.Book.FromString)
-    
+
     def remove_item_from_library(self, item):
         """
-        Remove the item, a books.Book instance, from the authenticated user's 
+        Remove the item, a books.Book instance, from the authenticated user's
         library feed. Using an item retrieved from a public search will fail.
         """
 
         return self.Delete(item.GetEditLink().href)
-    
+
     def add_annotation(self, item):
         """
-        Add the item, either an XML string or books.Book instance, to the 
+        Add the item, either an XML string or books.Book instance, to the
         user's annotation feed.
         """
         # do not use GetAnnotationLink, results in 400 Bad URI due to www
-        return self.Post(data=item, uri=ANNOTATION_FEED % 'me', 
+        return self.Post(data=item, uri=ANNOTATION_FEED % 'me',
                         converter=books.Book.FromString)
-    
+
     def edit_annotation(self, item):
         """
-        Send an edited item, a books.Book instance, to the user's annotation 
-        feed. Note that whereas extra annotations in add_annotations, minus 
-        ratings which are immutable once set, are simply added to the item in 
-        the annotation feed, if an annotation has been removed from the item, 
-        sending an edit request will remove that annotation. This should not 
+        Send an edited item, a books.Book instance, to the user's annotation
+        feed. Note that whereas extra annotations in add_annotations, minus
+        ratings which are immutable once set, are simply added to the item in
+        the annotation feed, if an annotation has been removed from the item,
+        sending an edit request will remove that annotation. This should not
         happen with add_annotation.
         """
 
         return self.Put(data=item, uri=item.GetEditLink().href,
-                    converter=books.Book.FromString) 
-    
+                    converter=books.Book.FromString)
+
     def get_by_google_id(self, id):
         return self.Get(ITEM_FEED + id, converter=books.Book.FromString)
-    
-    def get_library(self, id='me',feed=LIBRARY_FEED, start_index="1", 
+
+    def get_library(self, id='me',feed=LIBRARY_FEED, start_index="1",
                 max_results="100", min_viewability="none",
                 converter=books.BookFeed.FromString):
         """

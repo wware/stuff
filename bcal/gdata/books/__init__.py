@@ -20,7 +20,7 @@ import gdata
 
 
 BOOK_SEARCH_NAMESPACE   = 'http://schemas.google.com/books/2008'
-DC_NAMESPACE            = 'http://purl.org/dc/terms' 
+DC_NAMESPACE            = 'http://purl.org/dc/terms'
 ANNOTATION_REL          = "http://schemas.google.com/books/2008/annotation"
 INFO_REL                = "http://schemas.google.com/books/2008/info"
 LABEL_SCHEME            = "http://schemas.google.com/books/2008/labels"
@@ -48,11 +48,11 @@ class Creator(_AtomFromString):
     """
     The <dc:creator> element identifies an author-or more generally, an entity
     responsible for creating the volume in question. Examples of a creator
-    include a person, an organization, or a service. In the case of 
-    anthologies, proceedings, or other edited works, this field may be used to 
-    indicate editors or other entities responsible for collecting the volume's 
+    include a person, an organization, or a service. In the case of
+    anthologies, proceedings, or other edited works, this field may be used to
+    indicate editors or other entities responsible for collecting the volume's
     contents.
-    
+
     This element appears as a child of <entry>. If there are multiple authors or
     contributors to the book, there may be multiple <dc:creator> elements in the
     volume entry (one for each creator or contributor).
@@ -65,24 +65,24 @@ class Creator(_AtomFromString):
 class Date(_AtomFromString): #iso 8601 / W3CDTF profile
     """
     The <dc:date> element indicates the publication date of the specific volume
-    in question. If the book is a reprint, this is the reprint date, not the 
-    original publication date. The date is encoded according to the ISO-8601 
+    in question. If the book is a reprint, this is the reprint date, not the
+    original publication date. The date is encoded according to the ISO-8601
     standard (and more specifically, the W3CDTF profile).
 
     The <dc:date> element can appear only as a child of <entry>.
-    
+
     Usually only the year or the year and the month are given.
 
     YYYY-MM-DDThh:mm:ssTZD  TZD = -hh:mm or +hh:mm
     """
-    
-    _tag = 'date'     
+
+    _tag = 'date'
     _namespace = DC_NAMESPACE
-   
+
 
 class Description(_AtomFromString):
     """
-    The <dc:description> element includes text that describes a book or book 
+    The <dc:description> element includes text that describes a book or book
     result. In a search result feed, this may be a search result "snippet" that
     contains the words around the user's search term. For a single volume feed,
     this element may contain a synopsis of the book.
@@ -96,8 +96,8 @@ class Description(_AtomFromString):
 
 class Format(_AtomFromString):
     """
-    The <dc:format> element describes the physical properties of the volume. 
-    Currently, it indicates the number of pages in the book, but more 
+    The <dc:format> element describes the physical properties of the volume.
+    Currently, it indicates the number of pages in the book, but more
     information may be added to this field in the future.
 
     This element can appear only as a child of <entry>.
@@ -109,19 +109,19 @@ class Format(_AtomFromString):
 
 class Identifier(_AtomFromString):
     """
-    The <dc:identifier> element provides an unambiguous reference to a 
+    The <dc:identifier> element provides an unambiguous reference to a
     particular book.
     * Every <entry> contains at least one <dc:identifier> child.
     * The first identifier is always the unique string Book Search has assigned
-      to the volume (such as s1gVAAAAYAAJ). This is the ID that appears in the 
-      book's URL in the Book Search GUI, as well as in the URL of that book's 
+      to the volume (such as s1gVAAAAYAAJ). This is the ID that appears in the
+      book's URL in the Book Search GUI, as well as in the URL of that book's
       single item feed.
-    * Many books contain additional <dc:identifier> elements. These provide 
-      alternate, external identifiers to the volume. Such identifiers may 
-      include the ISBNs, ISSNs, Library of Congress Control Numbers (LCCNs), 
-      and OCLC numbers; they are prepended with a corresponding namespace 
+    * Many books contain additional <dc:identifier> elements. These provide
+      alternate, external identifiers to the volume. Such identifiers may
+      include the ISBNs, ISSNs, Library of Congress Control Numbers (LCCNs),
+      and OCLC numbers; they are prepended with a corresponding namespace
       prefix (such as "ISBN:").
-    * Any <dc:identifier> can be passed to the Dynamic Links, used to 
+    * Any <dc:identifier> can be passed to the Dynamic Links, used to
       instantiate an Embedded Viewer, or even used to construct static links to
       Book Search.
     The <dc:identifier> element can appear only as a child of <entry>.
@@ -133,12 +133,12 @@ class Identifier(_AtomFromString):
 
 class Publisher(_AtomFromString):
     """
-    The <dc:publisher> element contains the name of the entity responsible for 
+    The <dc:publisher> element contains the name of the entity responsible for
     producing and distributing the volume (usually the specific edition of this
-    book). Examples of a publisher include a person, an organization, or a 
+    book). Examples of a publisher include a person, an organization, or a
     service.
 
-    This element can appear only as a child of <entry>. If there is more than 
+    This element can appear only as a child of <entry>. If there is more than
     one publisher, multiple <dc:publisher> elements may appear.
     """
 
@@ -148,11 +148,11 @@ class Publisher(_AtomFromString):
 
 class Subject(_AtomFromString):
     """
-    The <dc:subject> element identifies the topic of the book. Usually this is 
-    a Library of Congress Subject Heading (LCSH) or  Book Industry Standards 
+    The <dc:subject> element identifies the topic of the book. Usually this is
+    a Library of Congress Subject Heading (LCSH) or  Book Industry Standards
     and Communications Subject Heading (BISAC).
 
-    The <dc:subject> element can appear only as a child of <entry>. There may 
+    The <dc:subject> element can appear only as a child of <entry>. There may
     be multiple <dc:subject> elements per entry.
     """
 
@@ -173,11 +173,11 @@ class Title(_AtomFromString):
 
 class Viewability(_AtomFromString):
     """
-    Google Book Search respects the user's local copyright restrictions. As a 
-    result, previews or full views of some books are not available in all 
-    locations. The <gbs:viewability> element indicates whether a book is fully 
+    Google Book Search respects the user's local copyright restrictions. As a
+    result, previews or full views of some books are not available in all
+    locations. The <gbs:viewability> element indicates whether a book is fully
     viewable, can be previewed, or only has "about the book" information. These
-    three "viewability modes" are the same ones returned by the Dynamic Links 
+    three "viewability modes" are the same ones returned by the Dynamic Links
     API.
 
     The <gbs:viewability> element can appear only as a child of <entry>.
@@ -196,7 +196,7 @@ class Viewability(_AtomFromString):
     _attributes = atom.AtomBase._attributes.copy()
     _attributes['value'] = 'value'
 
-    def __init__(self, value=None, text=None, 
+    def __init__(self, value=None, text=None,
                 extension_elements=None, extension_attributes=None):
         self.value = value
         _AtomFromString.__init__(self, extension_elements=extension_elements,
@@ -206,7 +206,7 @@ class Viewability(_AtomFromString):
 class Embeddability(_AtomFromString):
     """
     Many of the books found on Google Book Search can be embedded on third-party
-    sites using the Embedded Viewer. The <gbs:embeddability> element indicates 
+    sites using the Embedded Viewer. The <gbs:embeddability> element indicates
     whether a particular book result is available for embedding. By definition,
     a book that cannot be previewed on Book Search cannot be embedded on third-
     party sites.
@@ -223,7 +223,7 @@ class Embeddability(_AtomFromString):
     _attributes = atom.AtomBase._attributes.copy()
     _attributes['value'] = 'value'
 
-    def __init__(self, value=None, text=None, extension_elements=None, 
+    def __init__(self, value=None, text=None, extension_elements=None,
                 extension_attributes=None):
         self.value = value
         _AtomFromString.__init__(self, extension_elements=extension_elements,
@@ -233,7 +233,7 @@ class Embeddability(_AtomFromString):
 class Review(_AtomFromString):
     """
     When present, the <gbs:review> element contains a user-generated review for
-    a given book. This element currently appears only in the user library and 
+    a given book. This element currently appears only in the user library and
     user annotation feeds, as a child of <entry>.
 
     type: text, html, xhtml
@@ -245,8 +245,8 @@ class Review(_AtomFromString):
     _attributes = atom.AtomBase._attributes.copy()
     _attributes['type'] = 'type'
     _attributes['{http://www.w3.org/XML/1998/namespace}lang'] = 'lang'
-    
-    def __init__(self, type=None, lang=None, text=None, 
+
+    def __init__(self, type=None, lang=None, text=None,
                 extension_elements=None, extension_attributes=None):
         self.type = type
         self.lang = lang
@@ -271,8 +271,8 @@ class Rating(_AtomFromString):
 
     def __init__(self, min=None, max=None, average=None, value=None, text=None,
                 extension_elements=None, extension_attributes=None):
-        self.min = min 
-        self.max = max 
+        self.min = min
+        self.max = max
         self.average = average
         self.value = value
         _AtomFromString.__init__(self, extension_elements=extension_elements,
@@ -291,7 +291,7 @@ class Book(_AtomFromString, gdata.GDataEntry):
     _children = gdata.GDataEntry._children.copy()
     for i in (Creator, Identifier, Publisher, Subject,):
         _children['{%s}%s' % (i._namespace, i._tag)] = (i._tag, [i])
-    for i in (Date, Description, Format, Viewability, Embeddability, 
+    for i in (Date, Description, Format, Viewability, Embeddability,
                 Review, Rating):  # Review, Rating maybe only in anno/lib entrys
         _children['{%s}%s' % (i._namespace, i._tag)] = (i._tag, i)
     # there is an atom title as well, should we clobber that?
@@ -301,7 +301,7 @@ class Book(_AtomFromString, gdata.GDataEntry):
     def to_dict(self):
         """Returns a dictionary of the book's available metadata. If the data
         cannot be discovered, it is not included as a key in the returned dict.
-        The possible keys are: authors, embeddability, date, description, 
+        The possible keys are: authors, embeddability, date, description,
         format, identifiers, publishers, rating, review, subjects, title, and
         viewability.
 
@@ -310,7 +310,7 @@ class Book(_AtomFromString, gdata.GDataEntry):
           * Singular keys will be strings
           * Title, despite usually being a list, joins the title and subtitle
             with a space as a single string.
-          * embeddability and viewability only return the portion of the URI 
+          * embeddability and viewability only return the portion of the URI
             after #
           * identifiers is a list of tuples, where the first item of each tuple
             is the type of identifier and the second item is the identifying
@@ -358,13 +358,13 @@ class Book(_AtomFromString, gdata.GDataEntry):
             d['viewability'] = self.viewability.value.split('#')[-1]
         return d
 
-    def __init__(self, creator=None, date=None, 
-                description=None, format=None, author=None, identifier=None, 
-                publisher=None, subject=None, dc_title=None, viewability=None, 
-                embeddability=None, review=None, rating=None, category=None, 
+    def __init__(self, creator=None, date=None,
+                description=None, format=None, author=None, identifier=None,
+                publisher=None, subject=None, dc_title=None, viewability=None,
+                embeddability=None, review=None, rating=None, category=None,
                 content=None, contributor=None, atom_id=None, link=None,
-                published=None, rights=None, source=None, summary=None, 
-                title=None, control=None, updated=None, text=None, 
+                published=None, rights=None, source=None, summary=None,
+                title=None, control=None, updated=None, text=None,
                 extension_elements=None, extension_attributes=None):
         self.creator = creator
         self.date = date
@@ -378,19 +378,19 @@ class Book(_AtomFromString, gdata.GDataEntry):
         self.embeddability = embeddability
         self.review = review
         self.rating = rating
-        gdata.GDataEntry.__init__(self, author=author, category=category, 
+        gdata.GDataEntry.__init__(self, author=author, category=category,
                 content=content, contributor=contributor, atom_id=atom_id,
                 link=link, published=published, rights=rights, source=source,
-                summary=summary, title=title, control=control, updated=updated, 
-                text=text, extension_elements=extension_elements, 
+                summary=summary, title=title, control=control, updated=updated,
+                text=text, extension_elements=extension_elements,
                 extension_attributes=extension_attributes)
-    
+
     def GetThumbnailLink(self):
         """Returns the atom.Link object representing the thumbnail URI."""
         for i in self.link:
             if i.rel == THUMBNAIL_REL:
                 return i
-    
+
     def GetInfoLink(self):
         """
         Returns the atom.Link object representing the human-readable info URI.
@@ -398,46 +398,46 @@ class Book(_AtomFromString, gdata.GDataEntry):
         for i in self.link:
             if i.rel == INFO_REL:
                 return i
-    
+
     def GetPreviewLink(self):
         """Returns the atom.Link object representing the preview URI."""
         for i in self.link:
             if i.rel == PREVIEW_REL:
                 return i
-    
+
     def GetAnnotationLink(self):
         """
         Returns the atom.Link object representing the Annotation URI.
         Note that the use of www.books in the href of this link seems to make
-        this information useless. Using books.service.ANNOTATION_FEED and 
+        this information useless. Using books.service.ANNOTATION_FEED and
         BOOK_SERVER to construct your URI seems to work better.
         """
         for i in self.link:
             if i.rel == ANNOTATION_REL:
                 return i
-    
+
     def set_rating(self, value):
         """Set user's rating. Must be an integral string between 1 nad 5"""
         assert (value in ('1','2','3','4','5'))
         if not isinstance(self.rating, Rating):
             self.rating = Rating()
         self.rating.value = value
-    
+
     def set_review(self, text, type='text', lang='en'):
         """Set user's review text"""
         self.review = Review(text=text, type=type, lang=lang)
-    
+
     def get_label(self):
         """Get users label for the item as a string"""
         for i in self.category:
             if i.scheme == LABEL_SCHEME:
                 return i.term
-    
+
     def set_label(self, term):
         """Clear pre-existing label for the item and set term as the label."""
         self.remove_label()
         self.category.append(atom.Category(term=term, scheme=LABEL_SCHEME))
-    
+
     def remove_label(self):
         """Clear the user's label for the item"""
         ln = len(self.category)
@@ -447,13 +447,13 @@ class Book(_AtomFromString, gdata.GDataEntry):
 
     def clean_annotations(self):
         """Clear all annotations from an item. Useful for taking an item from
-        another user's library/annotation feed and adding it to the 
+        another user's library/annotation feed and adding it to the
         authenticated user's library without adopting annotations."""
         self.remove_label()
         self.review = None
         self.rating = None
 
-    
+
     def get_google_id(self):
         """Get Google's ID of the item."""
         return self.id.text.split('/')[-1]

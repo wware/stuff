@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -40,7 +40,7 @@ some degree of performance tuning; a server may be able to achieve
 better throughput with certain chunk sizes than with others.
 
    <p>The output from <code>mouthpiece</code> and <code>string&lt;-headers</code>
-is formatted according to their optional <code>style</code> argument. 
+is formatted according to their optional <code>style</code> argument.
 By default, headers have the form:
 
 <pre class="example">     NAME #\: #\space VALUE #\cr #\lf
@@ -50,7 +50,7 @@ headers, has the form:
 
 <pre class="example">     HTTP/1.0 <var>nnn</var> <var>msg</var>
 </pre>
-   <p class="noindent">and a single <code>#\cr #\lf</code> pair separates the headers from the body. 
+   <p class="noindent">and a single <code>#\cr #\lf</code> pair separates the headers from the body.
 The <code>style</code> support is <strong>experimental</strong> (see <a href="modlisp.html#modlisp">modlisp</a>).
 
 <!-- @twerpdoc (mouthpiece) -->
@@ -61,26 +61,26 @@ The <code>style</code> support is <strong>experimental</strong> (see <a href="mo
 HTTP 1.0 response to <var>out-port</var>.  Optional arg <var>status-box</var> is a
 list whose <span class="sc">car</span> is set to the numeric status code given to a
 <code>#:set-reply-status</code> command.  If <var>status-box</var> has length of two
-or more, its <span class="sc">cadr</span> is set to the content-length on <code>#:send-reply</code>. 
+or more, its <span class="sc">cadr</span> is set to the content-length on <code>#:send-reply</code>.
 A content-length value of <code>#f</code> means there have been no calls to
 <code>#:add-content</code>.  The commands and their args are:
 
-          
+
 <a name="index-reset_002dprotocol_0021-87"></a>
-<dl><dt><code>#:reset-protocol!</code><dd>Reset internal state, including reply status, headers and content. 
+<dl><dt><code>#:reset-protocol!</code><dd>Reset internal state, including reply status, headers and content.
 This is called automatically by <code>#:send-reply</code>.
 
           <p><a name="index-set_002dreply_002dstatus-88"></a><br><dt><code>#:set-reply-status </code><var>number</var> <var>message</var><dd>Set the reply status.  <var>message</var> is a short string.
 
           <p><a name="index-set_002dreply_002dstatus_003asuccess-89"></a><br><dt><code>#:set-reply-status:success</code><dd>This is equivalent to <code>#:set-reply-status 200 "OK"</code>.
 
-          <p><a name="index-add_002dheader-90"></a><br><dt><code>#:add-header </code><var>name</var> <var>value</var><dd><var>name</var> may be <code>#f</code>, <code>#t</code>, a string, symbol or keyword. 
+          <p><a name="index-add_002dheader-90"></a><br><dt><code>#:add-header </code><var>name</var> <var>value</var><dd><var>name</var> may be <code>#f</code>, <code>#t</code>, a string, symbol or keyword.
 <var>value</var> is a string.  If <var>name</var> is <code>#f</code> or <code>#t</code>,
 <var>value</var> is taken to be a pre-formatted string, "A: B" or "A:
 B\r\n", respectively.  If <var>name</var> is not a boolean, <var>value</var>
 may also be a tree of strings or a number.
 
-          <p><a name="index-add_002dcontent-91"></a><br><dt><code>#:add-content [</code><var>tree</var><code> ...]</code><dd><var>tree</var> may be a string, a nested list of strings, or a series of such. 
+          <p><a name="index-add_002dcontent-91"></a><br><dt><code>#:add-content [</code><var>tree</var><code> ...]</code><dd><var>tree</var> may be a string, a nested list of strings, or a series of such.
 Subsequent calls to <code>#:add-content</code> append their trees to the
 collected content tree thus far.
 
@@ -117,13 +117,13 @@ the reply status.
 
           <p>Optional arg <var>close</var> means do a <code>shutdown</code> on <var>out-port</var>
 using <var>close</var> &mdash; directly, if an integer, or called with no
-arguments, if a thunk &mdash; as the shutdown <code>how</code> argument. 
-(Note: If <var>out-port</var> is not a socket, this does nothing silently.) 
+arguments, if a thunk &mdash; as the shutdown <code>how</code> argument.
+(Note: If <var>out-port</var> is not a socket, this does nothing silently.)
 See <a href="../guile/Network-Sockets-and-Communication.html#Network-Sockets-and-Communication">Network Sockets and Communication</a>.
 
           <p>If <var>close</var> is specified, the closure forgets about <var>out-port</var>
 internally; it is an error to call other mouthpiece commands,
-subsequently. 
+subsequently.
 </dl>
         </p></blockquote></div>
 
@@ -132,12 +132,12 @@ subsequently.
 <p>Here is an example that uses most of the <code>mouthpiece</code> commands:
 
 <pre class="example">     (use-modules (www server-utils filesystem) (scripts slurp))
-     
+
      (define SERVER-NAME "Guile-WWW-example-server")
      (define SERVER-VERSION "1.0")
      (define STATUS (list #f #f))
      (define M (mouthpiece (open-output-file "fake") STATUS))
-     
+
      (define (transmit-file filename)
        (M #:set-reply-status:success)
        (M #:add-header #:Server (string-append SERVER-NAME " "
@@ -152,37 +152,37 @@ subsequently.
        ;; if it were a socket, we might specify 2 to
        ;; stop both reception and transmission.
        (M #:send-reply))
-     
+
      (transmit-file "COPYING")
      -| rechunked: (8192 8192 1605)
      STATUS
      &rArr; (200 17989)
 </pre>
    <p class="noindent">For higher performance, you can preformat parts of the response, using
-<code>CRLF</code>, and some lower-level convenience procedures. 
+<code>CRLF</code>, and some lower-level convenience procedures.
 If preformatting is not possible (or desirable), you can still
 declare a nested list of strings (aka <dfn>tree</dfn>) to have a
 <dfn>flat length</dfn>, i.e., the size in bytes a tree would occupy
-once flattened, thus enabling internal optimizations. 
+once flattened, thus enabling internal optimizations.
 (The flat length of a string is its <code>string-length</code>.)
 
 <div class="defun">
 &mdash; Scheme String: <b>CRLF</b><var><a name="index-CRLF-98"></a></var><br>
-<blockquote><p>The string &ldquo;\r\n&rdquo;. 
+<blockquote><p>The string &ldquo;\r\n&rdquo;.
 </p></blockquote></div>
 
 <div class="defun">
 &mdash; Object Property: <b>flat-length</b><var><a name="index-flat_002dlength-99"></a></var><br>
-<blockquote><p>The value is a non-negative integer, or <code>#f</code> if not yet computed. 
+<blockquote><p>The value is a non-negative integer, or <code>#f</code> if not yet computed.
 </p></blockquote></div>
 
 <!-- @twerpdoc (fs) -->
 <!-- ../source/server-utils/answer.doc -->
 <div class="defun">
 &mdash; Procedure: <b>fs</b><var> s </var>[<var>args...</var>]<var><a name="index-fs-100"></a></var><br>
-<blockquote><p>Return a new string made by using format string <var>s</var> on <var>args</var>. 
+<blockquote><p>Return a new string made by using format string <var>s</var> on <var>args</var>.
 As in <code>simple-format</code> (which this procedure uses), <code>~A</code> expands
-as with <code>display</code>, while <code>~S</code> expands as with <code>write</code>. 
+as with <code>display</code>, while <code>~S</code> expands as with <code>write</code>.
 </p></blockquote></div>
    <!-- @twerpdoc (walk-tree) -->
 <!-- ../source/server-utils/answer.doc -->
@@ -190,26 +190,26 @@ as with <code>display</code>, while <code>~S</code> expands as with <code>write<
 <div class="defun">
 &mdash; Procedure: <b>walk-tree</b><var> proc tree<a name="index-walk_002dtree-101"></a></var><br>
 <blockquote><p>Call <var>proc</var> for each recursively-visited leaf in <var>tree</var>, excluding
-empty lists.  It is an error for <var>tree</var> to contain improper lists. 
+empty lists.  It is an error for <var>tree</var> to contain improper lists.
 </p></blockquote></div>
    <!-- @twerpdoc (tree-flat-length!) -->
 <!-- ../source/server-utils/answer.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>tree-flat-length!</b><var> tree<a name="index-tree_002dflat_002dlength_0021-102"></a></var><br>
-<blockquote><p>If <var>tree</var> is a string, return its <code>string-length</code>. 
-If <var>tree</var> already has a <code>flat-length</code>, return that. 
+<blockquote><p>If <var>tree</var> is a string, return its <code>string-length</code>.
+If <var>tree</var> already has a <code>flat-length</code>, return that.
 Otherwise, recursively compute, set, and return the
-<code>flat-length</code> of <var>tree</var>. 
+<code>flat-length</code> of <var>tree</var>.
 </p></blockquote></div>
    <!-- @twerpdoc (string<-tree) -->
 <!-- ../source/server-utils/answer.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>string&lt;-tree</b><var> tree<a name="index-string_003c_002dtree-103"></a></var><br>
-<blockquote><p>Return a new string made from flattening <var>tree</var>. 
+<blockquote><p>Return a new string made from flattening <var>tree</var>.
 Set the <code>flat-length</code> (using <code>tree-flat-length!</code>)
-of <var>tree</var> by side effect. 
+of <var>tree</var> by side effect.
 </p></blockquote></div>
    <!-- @twerpdoc (string<-headers) -->
 <!-- ../source/server-utils/answer.doc -->
@@ -223,7 +223,7 @@ specified as <code>#f</code>, the default is to format headers like so:
      <pre class="example">          NAME #\: #\space VALUE #\cr #\lf
 </pre>
         <p>Each name may be a string, symbol or keyword.  Each value may be a
-string, number, symbol, or a tree. 
+string, number, symbol, or a tree.
 </p></blockquote></div>
    <!-- @twerpdoc (string<-header-components) -->
 <!-- ../source/server-utils/answer.doc -->
@@ -238,8 +238,8 @@ value args.  Each header is formatted like so: &ldquo;<var>name</var>:
         <p>Each <var>n</var> may be a string, symbol or keyword.  Each <var>v</var> may be a
 string, number, symbol, or a tree.
 
-        <p><strong>NOTE</strong>: This proc <strong>will be removed</strong> after 2011-12-31. 
-Use <code>string&lt;-headers</code> instead. 
+        <p><strong>NOTE</strong>: This proc <strong>will be removed</strong> after 2011-12-31.
+Use <code>string&lt;-headers</code> instead.
 </p></blockquote></div>
 
 <h3 class="heading">example</h3>
@@ -251,7 +251,7 @@ preformatted headers and <code>fs</code>:
        (string&lt;-headers
         `((#:Server     . ,(fs "~A ~A" SERVER-NAME SERVER-VERSION))
           (#:Connection . "close"))))
-     
+
      (define (transmit-file filename)
        (M #:set-reply-status:success)
        (M #:add-header #t CONSTANT-HEADERS)
@@ -269,7 +269,7 @@ same result, although the latter is both more elegant and more efficient:
      (walk-tree (lambda (string)
                   (M #:add-content string))
                 tree)
-     
+
      ;; Letting the mouthpiece handle things.
      (M #:add-content tree)
 </pre>

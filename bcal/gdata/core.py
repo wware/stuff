@@ -37,7 +37,7 @@ try:
 except ImportError:
   try:
     # Try to import from django, should work on App Engine
-    from django.utils import simplejson 
+    from django.utils import simplejson
   except ImportError:
     # Should work for Python2.6 and higher.
     import json as simplejson
@@ -67,10 +67,10 @@ def _convert_to_jsonc(x):
 
 def parse_json(json_string):
   """Converts a JSON-C string into a Jsonc object.
-  
+
   Args:
     json_string: str or unicode The JSON to be parsed.
-  
+
   Returns:
     A new Jsonc object.
   """
@@ -97,7 +97,7 @@ def prettify_jsonc(jsonc_obj, indentation=2):
 
 def _convert_to_object(jsonc_obj):
   """Creates a new dict or list which has the data in the Jsonc object.
-  
+
   Used to convert the Jsonc object to a plain old Python object to simplify
   conversion to a JSON-C string.
 
@@ -126,7 +126,7 @@ def _convert_to_object(jsonc_obj):
 
 def _to_jsonc_name(member_name):
   """Converts a Python style member name to a JSON-C style name.
-  
+
   JSON-C uses camelCaseWithLower while Python tends to use
   lower_with_underscores so this method converts as follows:
 
@@ -137,7 +137,7 @@ def _to_jsonc_name(member_name):
     member_name: str or unicode The Python syle name which should be
                  converted to JSON-C style.
 
-  Returns: 
+  Returns:
     The JSON-C style name as a str or unicode.
   """
 

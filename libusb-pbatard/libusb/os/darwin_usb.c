@@ -487,7 +487,7 @@ static int darwin_check_configuration (struct libusb_context *ctx, struct libusb
   } else
     /* not configured */
     priv->active_config = 0;
-  
+
   usbi_info (ctx, "active config: %u, first config: %u", priv->active_config, priv->first_config);
 
   return 0;

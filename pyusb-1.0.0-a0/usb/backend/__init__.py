@@ -1,8 +1,8 @@
-# Copyright (C) 2009-2010 Wander Lairson Costa 
-# 
+# Copyright (C) 2009-2010 Wander Lairson Costa
+#
 # The following terms apply to all files associated
 # with the software unless explicitly disclaimed in individual files.
-# 
+#
 # The authors hereby grant permission to use, copy, modify, distribute,
 # and license this software and its documentation for any purpose, provided
 # that existing copyright notices are retained in all copies and that this
@@ -12,13 +12,13 @@
 # and need not follow the licensing terms described here, provided that
 # the new terms are clearly indicated on the first page of each file where
 # they apply.
-# 
+#
 # IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY PARTY
 # FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
 # ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION, OR ANY
 # DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 # THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
 # INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  THIS SOFTWARE
@@ -33,7 +33,7 @@ This module exports:
 IBackend - backend interface.
 
 Backends are Python objects which implement the IBackend interface.
-The easiest way to do so is inherinting from IBackend. 
+The easiest way to do so is inherinting from IBackend.
 
 PyUSB already provides backends for libusb versions 0.1 and 1.0,
 and OpenUSB library. Backends modules included with PyUSB are required to
@@ -162,7 +162,7 @@ class IBackend(object):
         This method opens the device identified by the dev parameter for communication.
         This method must be called before calling any communication related method, such
         as transfer methods.
-        
+
         It returns a handle identifying the communication instance. This handle must be
         passed to the communication methods.
         """
@@ -191,7 +191,7 @@ class IBackend(object):
 
         This method should only be called when the interface has more than
         one alternate setting. The dev_handle is the value returned by the
-        open_device() method. intf and altsetting are respectivelly the 
+        open_device() method. intf and altsetting are respectivelly the
         bInterfaceNumber and bAlternateSetting fields of the related interface.
         """
         _not_implemented(self.set_interface_altsetting)
@@ -345,7 +345,7 @@ class IBackend(object):
 
     def detach_kernel_driver(self, dev_handle, intf):
         r"""Detach a kernel driver from an interface.
-        
+
         If successful, you will then be able to claim the interface
         and perform I/O.
         """

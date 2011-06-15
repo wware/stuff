@@ -3,24 +3,24 @@
      Version 1.39
           Drew Yao fixed buffer overflow problems in mk_sharp_const.
      Version 1.38
-          Interim release until the rewrite, mostly incorporating modifications from 
+          Interim release until the rewrite, mostly incorporating modifications from
           Kevin Cozens. Small addition for Cygwin in the makefile, and modifications
           by Andrew Guenther for Apple platforms.
      Version 1.37
           Joe Buehler submitted reserve_cells.
      Version 1.36
 	  Joe Buehler fixed a patch in the allocator.
-	  Alexander Shendi moved the comment handling in the scanner, which 
+	  Alexander Shendi moved the comment handling in the scanner, which
 	  fixed an obscure bug for which Mike E had provided a patch as well.
 	  Kevin Cozens has submitted some fixes and modifications which have not
 	  been incorporated yet in their entirety.
      Version 1.35
-	  Todd Showalter discovered that the number of free cells reported 
+	  Todd Showalter discovered that the number of free cells reported
 	  after GC was incorrect, which could also cause unnecessary allocations.
 	 Version 1.34
 	  Long missing version. Lots of bugfixes have accumulated in my email, so
 	  I had to start using them. In this version, Keenan Pepper has submitted
-	  a bugfix for the string comparison library procedure, Wouter Boeke 
+	  a bugfix for the string comparison library procedure, Wouter Boeke
 	  modified some code that was casting to the wrong type and crashed on
 	  some machines, "SheppardCo" submitted a replacement "modulo" code and
 	  Scott Fenton submitted lots of corrections that shut up some compiler
@@ -28,13 +28,13 @@
 	  I have to dig deeper into my mailbox and find earlier emails, too.
      Version 1.33
 	  Charles Hayden fixed a nasty GC bug of the new stack frame, while in
-	  the process of porting TinyScheme to C++. He also submitted other 
+	  the process of porting TinyScheme to C++. He also submitted other
 	  changes, and other people also had comments or requests, but the GC
-	  bug was so important that this version is put through the door to 
+	  bug was so important that this version is put through the door to
 	  correct it.
      Version 1.32
 	  Stephen Gildea put some quality time on TinyScheme again, and made
-	  a whole lot of changes to the interpreter that made it noticeably 
+	  a whole lot of changes to the interpreter that made it noticeably
 	  faster.
      Version 1.31
           Patches to the hastily-done version 1.30. Stephen Gildea fixed
@@ -47,7 +47,7 @@
 	  using macros and a single source text to keep the enums and the
 	  dispatch table in sync, and I used his contributed "opdefines.h".
 	  Timothy Downs contributed a helpful function, "scheme_call".
-	  Stephen Gildea contributed new versions of the makefile and 
+	  Stephen Gildea contributed new versions of the makefile and
 	  practically all other sources. He created a built-in STRING-APPEND,
 	  and fixed a lot of other bugs.
 	  Ruhi Bloodworth reported fixes necessary for OS X and a small
@@ -63,13 +63,13 @@
 	  to v.1.28.
      Version 1.28
 	  Many people have contacted me with bugfixes or remarks in
-	  the three months I was inactive. A lot of them spotted that 
+	  the three months I was inactive. A lot of them spotted that
 	  scheme_deinit crashed while reporting gc results. They suggested
 	  that sc->outport be set to NIL in scheme_deinit, which I did.
 	  Dennis Taylor remarked that OP_VALUEPRINT reset sc->value instead
-	  of preserving it. He submitted a modification which I adopted 
+	  of preserving it. He submitted a modification which I adopted
 	  partially. David Hovemeyer sent me many little changes, that you
-	  will find in version 1.28, and Partice Stoessel modified the 
+	  will find in version 1.28, and Partice Stoessel modified the
 	  float reader to conform to R5RS.
      Version 1.27
           Version 1.27 is the successor of 1.25. Bug fixes only, but I had to
@@ -86,7 +86,7 @@
 	  representation. Plus, promises are no longer closures. Unfortunately,
 	  I discovered that continuations and force/delay do not pass the SCM
 	  test (and never did)... However, on the bright side, what little
-	  modifications I did had a large impact on the footprint: 
+	  modifications I did had a large impact on the footprint:
 	  USE_NO_FEATURES now produces an object file of 63960 bytes on Linux!
      Version 1.24
 	  SCM tests now pass again after change in atom2str.
@@ -109,7 +109,7 @@
 	  became apparent that the current implementation of ports suffered
 	  from a grave fault: ports were not garbage-collected. I changed the
 	  ports to be heap-allocated, which enabled the use of string ports
-	  for loading. Jason also fixed errors in the garbage collection of 
+	  for loading. Jason also fixed errors in the garbage collection of
 	  vectors. USE_VERBATIM is gone. "ssp_compiler.c" has a better solution
 	  on HTML generation. A bug involving backslash notation in strings
 	  has been fixed. '-c' flag now executes next argument as a stream of

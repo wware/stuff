@@ -3,7 +3,7 @@ the syntax of the programming language. So it really makes sense to
 make this a modification of some other tool that already understands
 syntax. Doxygen looks like an obvious candidate.
 
-Doxygen already has an option for generating HTML, and it's open 
+Doxygen already has an option for generating HTML, and it's open
 source, so it should be fairly straightforward to get Doxygen to add
 the Javascript to do the pop-up windows.
 

@@ -1,4 +1,4 @@
-/*  
+/*
  *                   COPYRIGHT (c) 1988-1994 BY                             *
  *        PARADIGM ASSOCIATES INCORPORATED, CAMBRIDGE, MASSACHUSETTS.       *
  *        See the source file SLIB.C for more information.                  *
@@ -64,7 +64,7 @@ void array_gc_scan(LISP ptr)
 {long j;
  if TYPEP(ptr,tc_lisp_array)
    for(j=0;j < ptr->storage_as.lisp_array.dim; ++j)
-     ptr->storage_as.lisp_array.data[j] =     
+     ptr->storage_as.lisp_array.data[j] =
        gc_relocate(ptr->storage_as.lisp_array.data[j]);}
 
 LISP array_gc_mark(LISP ptr)
@@ -701,7 +701,7 @@ long href_index(LISP table,LISP key)
     return(0);}
  else
    return(index);}
- 
+
 LISP href(LISP table,LISP key)
 {return(cdr(assoc(key,
 		  table->storage_as.lisp_array.data[href_index(table,key)])));}
@@ -1781,7 +1781,7 @@ LISP hexstr2bytes(LISP a)
  LISP result;
  long j,dim;
  in = get_c_string(a);
- dim = strlen(in) / 2; 
+ dim = strlen(in) / 2;
  result = arcons(tc_byte_array,dim,0);
  out = (unsigned char *) result->storage_as.string.data;
  for(j=0;j<dim;++j)
@@ -1908,7 +1908,7 @@ LISP leval_cond(LISP *pform,LISP *penv)
 	    {leval(car(clause),env);
 	     clause=next;
 	     next=cdr(next);}
-	  *pform = car(clause); 
+	  *pform = car(clause);
 	  return(sym_t);}}
     args = next;
     next = cdr(next);}

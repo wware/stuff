@@ -46,7 +46,7 @@
 <a name="l00031"></a>00031 <span class="comment"> *    THE POSSIBILITY OF SUCH DAMAGE.</span>
 <a name="l00032"></a>00032 <span class="comment"> *</span>
 <a name="l00033"></a>00033 <span class="comment"> *****************************************************************/</span>
-<a name="l00034"></a>00034 
+<a name="l00034"></a>00034
 <a name="l00035"></a>00035 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00036"></a>00036 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
@@ -57,9 +57,9 @@
 <a name="l00042"></a>00042 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
 <a name="l00043"></a>00043 <span class="preprocessor">#include &lt;sys/stat.h&gt;</span>
 <a name="l00044"></a>00044 <span class="preprocessor">#include &lt;fcntl.h&gt;</span>
-<a name="l00045"></a>00045 
+<a name="l00045"></a>00045
 <a name="l00046"></a>00046 <span class="preprocessor">#include "<a class="code" href="tuple_8h.html">tuple.h</a>"</span>
-<a name="l00047"></a>00047 
+<a name="l00047"></a>00047
 <a name="l00048"></a><a class="code" href="tuple__client_8c.html#db2d9505bae635c86de4a47561d7d930">00048</a> <span class="preprocessor">#define PARALLEL 4</span>
 <a name="l00049"></a>00049 <span class="preprocessor"></span>
 <a name="l00050"></a><a class="code" href="tuple__client_8c.html#0240ac851181b84ac374872dc5434ee4">00050</a> <span class="preprocessor">#define N  8 * 1024</span>
@@ -74,7 +74,7 @@
 <a name="l00063"></a>00063         <span class="keyword">struct </span>timeval T0, T1;
 <a name="l00064"></a>00064         <span class="keywordtype">int</span> rndsock;
 <a name="l00065"></a>00065         <span class="keyword">struct </span><a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a> ctx;
-<a name="l00066"></a>00066 
+<a name="l00066"></a>00066
 <a name="l00067"></a>00067         <span class="keywordflow">if</span> (<a class="code" href="tuple_8c.html#a14972cd8034d6dc2744d24572f5bb01">get_server_portnumber</a>(&amp;ctx)) {
 <a name="l00068"></a>00068                 <span class="keywordflow">if</span> (argc &lt; 3) {
 <a name="l00069"></a>00069                         <span class="comment">/* help message */</span>
@@ -85,23 +85,23 @@
 <a name="l00074"></a>00074                 strcpy(ctx.<a class="code" href="structcontext.html#39c49d1a65d79c0a79d77cf3fd62fec2">peername</a>, argv[1]);
 <a name="l00075"></a>00075                 ctx.<a class="code" href="structcontext.html#ae0ec6036c458497c720aba9deabe1fe">portnumber</a> = atoi(argv[2]);
 <a name="l00076"></a>00076         }
-<a name="l00077"></a>00077 
+<a name="l00077"></a>00077
 <a name="l00078"></a>00078         rndsock = open(<span class="stringliteral">"/dev/urandom"</span>, O_RDONLY);
 <a name="l00079"></a>00079         mult = 1.0 / pow(2.0, 31);
 <a name="l00080"></a>00080         <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="tuple__client_8c.html#0240ac851181b84ac374872dc5434ee4">N</a>; i++) {
 <a name="l00081"></a>00081                 x[i] = mult * <a class="code" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int</a>();
 <a name="l00082"></a>00082                 y[i] = mult * <a class="code" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int</a>();
 <a name="l00083"></a>00083         }
-<a name="l00084"></a>00084 
+<a name="l00084"></a>00084
 <a name="l00085"></a>00085         s = <a class="code" href="tuple_8c.html#9ccf0e673f38d6d1b8a066e144351b27">make_tuple</a>(<span class="stringliteral">"siiis#s#"</span>, <span class="stringliteral">"fft"</span>,
 <a name="l00086"></a>00086                        0, 0, 0, x, N * <span class="keyword">sizeof</span>(<span class="keywordtype">double</span>), y, N * <span class="keyword">sizeof</span>(<span class="keywordtype">double</span>));
-<a name="l00087"></a>00087 
+<a name="l00087"></a>00087
 <a name="l00088"></a>00088         t = <a class="code" href="tuple_8c.html#9ccf0e673f38d6d1b8a066e144351b27">make_tuple</a>(<span class="stringliteral">"siii??"</span>, <span class="stringliteral">"fft done"</span>, 0, 0, 0);
-<a name="l00089"></a>00089 
+<a name="l00089"></a>00089
 <a name="l00090"></a>00090         gettimeofday(&amp;T0, NULL);
-<a name="l00091"></a>00091 
+<a name="l00091"></a>00091
 <a name="l00092"></a>00092         <span class="keywordflow">while</span> (1) {
-<a name="l00093"></a>00093 
+<a name="l00093"></a>00093
 <a name="l00094"></a>00094                 <span class="keywordflow">for</span> (j = 0; j &lt; <a class="code" href="tuple__client_8c.html#db2d9505bae635c86de4a47561d7d930">PARALLEL</a>; j++) {
 <a name="l00095"></a>00095                         r1[j] = <a class="code" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int</a>();
 <a name="l00096"></a>00096                         r2[j] = <a class="code" href="tuple_8c.html#ee1c688f2ec1f98b9c552b73f02b751c">random_int</a>();
@@ -114,7 +114,7 @@
 <a name="l00103"></a>00103                                 exit(1);
 <a name="l00104"></a>00104                         }
 <a name="l00105"></a>00105                 }
-<a name="l00106"></a>00106 
+<a name="l00106"></a>00106
 <a name="l00107"></a>00107                 <span class="keywordflow">for</span> (j = 0; j &lt; PARALLEL; j++) {
 <a name="l00108"></a>00108                         t-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[1].<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#4e41a1440036146f7a3c50c07a91e7fe">i</a> = r1[j];
 <a name="l00109"></a>00109                         t-&gt;<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>[2].<a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>.<a class="code" href="structelement.html#4e41a1440036146f7a3c50c07a91e7fe">i</a> = r2[j];
@@ -125,17 +125,17 @@
 <a name="l00114"></a>00114                                 exit(1);
 <a name="l00115"></a>00115                         }
 <a name="l00116"></a>00116                 }
-<a name="l00117"></a>00117 
+<a name="l00117"></a>00117
 <a name="l00118"></a>00118                 gettimeofday(&amp;T1, NULL);
 <a name="l00119"></a>00119                 iters += PARALLEL;
 <a name="l00120"></a>00120                 printf(<span class="stringliteral">"%f\n"</span>, <a class="code" href="tuple_8h.html#fb3a694d2cbc770aecace9c0650f7b9f">TIMEVAL_DIFF</a>(T0, T1) / iters);
 <a name="l00121"></a>00121         }
-<a name="l00122"></a>00122 
+<a name="l00122"></a>00122
 <a name="l00123"></a>00123         close(rndsock);
 <a name="l00124"></a>00124         <a class="code" href="tuple_8c.html#3283d3634054a3a0875b3341a898d0df">destroy_tuple</a>(s);
 <a name="l00125"></a>00125         <a class="code" href="tuple_8c.html#3283d3634054a3a0875b3341a898d0df">destroy_tuple</a>(t);
 <a name="l00126"></a>00126         <a class="code" href="tuple_8c.html#3283d3634054a3a0875b3341a898d0df">destroy_tuple</a>(u);
-<a name="l00127"></a>00127 
+<a name="l00127"></a>00127
 <a name="l00128"></a>00128         <span class="keywordflow">return</span> 0;
 <a name="l00129"></a>00129 }
 </pre></div></div>

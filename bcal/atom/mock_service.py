@@ -52,10 +52,10 @@ def LoadRecordings(recordings_file_or_string):
 
 def HttpRequest(service, operation, data, uri, extra_headers=None,
     url_params=None, escape_params=True, content_type='application/atom+xml'):
-  """Simulates an HTTP call to the server, makes an actual HTTP request if 
+  """Simulates an HTTP call to the server, makes an actual HTTP request if
   real_request_handler is set.
 
-  This function operates in two different modes depending on if 
+  This function operates in two different modes depending on if
   real_request_handler is set or not. If real_request_handler is not set,
   HttpRequest will look in this module's recordings list to find a response
   which matches the parameters in the function call. If real_request_handler
@@ -93,25 +93,25 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
   """
   full_uri = atom.service.BuildUri(uri, url_params, escape_params)
   (server, port, ssl, uri) = atom.service.ProcessUrl(service, uri)
-  current_request = MockRequest(operation, full_uri, host=server, ssl=ssl, 
-      data=data, extra_headers=extra_headers, url_params=url_params, 
+  current_request = MockRequest(operation, full_uri, host=server, ssl=ssl,
+      data=data, extra_headers=extra_headers, url_params=url_params,
       escape_params=escape_params, content_type=content_type)
-  # If the request handler is set, we should actually make the request using 
+  # If the request handler is set, we should actually make the request using
   # the request handler and record the response to replay later.
   if real_request_handler:
     response = real_request_handler.HttpRequest(service, operation, data, uri,
-        extra_headers=extra_headers, url_params=url_params, 
+        extra_headers=extra_headers, url_params=url_params,
         escape_params=escape_params, content_type=content_type)
     # TODO: need to copy the HTTP headers from the real response into the
     # recorded_response.
-    recorded_response = MockHttpResponse(body=response.read(), 
+    recorded_response = MockHttpResponse(body=response.read(),
         status=response.status, reason=response.reason)
     # Insert a tuple which maps the request to the response object returned
     # when making an HTTP call using the real_request_handler.
     recordings.append((current_request, recorded_response))
     return recorded_response
   else:
-    # Look through available recordings to see if one matches the current 
+    # Look through available recordings to see if one matches the current
     # request.
     for request_response_pair in recordings:
       if request_response_pair[0].IsMatch(current_request):
@@ -121,16 +121,16 @@ def HttpRequest(service, operation, data, uri, extra_headers=None,
 
 class MockRequest(object):
   """Represents a request made to an AtomPub server.
-  
+
   These objects are used to determine if a client request matches a recorded
-  HTTP request to determine what the mock server's response will be. 
+  HTTP request to determine what the mock server's response will be.
   """
 
-  def __init__(self, operation, uri, host=None, ssl=False, port=None, 
+  def __init__(self, operation, uri, host=None, ssl=False, port=None,
       data=None, extra_headers=None, url_params=None, escape_params=True,
       content_type='application/atom+xml'):
     """Constructor for a MockRequest
-    
+
     Args:
       operation: str One of 'GET', 'POST', 'PUT', or 'DELETE' this is the
           HTTP operation requested on the resource.
@@ -138,24 +138,24 @@ class MockRequest(object):
           retrieved. This should include the protocol (http/https) and the host
           (aka domain). For example, these are some valud full_uris:
           'http://example.com', 'https://www.google.com/accounts/ClientLogin'
-      host: str (optional) The server name which will be placed at the 
+      host: str (optional) The server name which will be placed at the
           beginning of the URL if the uri parameter does not begin with 'http'.
           Examples include 'example.com', 'www.google.com', 'www.blogger.com'.
-      ssl: boolean (optional) If true, the request URL will begin with https 
+      ssl: boolean (optional) If true, the request URL will begin with https
           instead of http.
       data: ElementTree, filestream, list of parts, or other object which can be
           converted to a string. (optional)
           Should be set to None when performing a GET or PUT.
-          If data is a file-like object which can be read, the constructor 
-          will read the entire file into memory. If the data is a list of 
+          If data is a file-like object which can be read, the constructor
+          will read the entire file into memory. If the data is a list of
           parts to be sent, each part will be evaluated and stored.
       extra_headers: dict (optional) HTTP headers included in the request.
-      url_params: dict (optional) Key value pairs which should be added to 
-          the URL as URL parameters in the request. For example uri='/', 
+      url_params: dict (optional) Key value pairs which should be added to
+          the URL as URL parameters in the request. For example uri='/',
           url_parameters={'foo':'1','bar':'2'} could become '/?foo=1&bar=2'.
-      escape_params: boolean (optional) Perform URL escaping on the keys and 
+      escape_params: boolean (optional) Perform URL escaping on the keys and
           values specified in url_params. Defaults to True.
-      content_type: str (optional) Provides the MIME type of the data being 
+      content_type: str (optional) Provides the MIME type of the data being
           sent.
     """
     self.operation = operation
@@ -174,11 +174,11 @@ class MockRequest(object):
 
   def IsMatch(self, other_request):
     """Check to see if the other_request is equivalent to this request.
-    
+
     Used to determine if a recording matches an incoming request so that a
     recorded response should be sent to the client.
 
-    The matching is not exact, only the operation and URL are examined 
+    The matching is not exact, only the operation and URL are examined
     currently.
 
     Args:
@@ -186,15 +186,15 @@ class MockRequest(object):
           (self) MockRequest against to see if they are equivalent.
     """
     # More accurate matching logic will likely be required.
-    return (self.operation == other_request.operation and self.uri == 
+    return (self.operation == other_request.operation and self.uri ==
         other_request.uri)
 
 
 def _ConstructFullUrlBase(uri, host=None, ssl=False):
   """Puts URL components into the form http(s)://full.host.strinf/uri/path
-  
-  Used to construct a roughly canonical URL so that URLs which begin with 
-  'http://example.com/' can be compared to a uri of '/' when the host is 
+
+  Used to construct a roughly canonical URL so that URLs which begin with
+  'http://example.com/' can be compared to a uri of '/' when the host is
   set to 'example.com'
 
   If the uri contains 'http://host' already, the host and ssl parameters
@@ -225,8 +225,8 @@ class MockHttpResponse(object):
     """Construct a mock HTTPResponse and set members.
 
     Args:
-      body: str (optional) The HTTP body of the server's response. 
-      status: int (optional) 
+      body: str (optional) The HTTP body of the server's response.
+      status: int (optional)
       reason: str (optional)
       headers: dict (optional)
     """

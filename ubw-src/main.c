@@ -83,9 +83,9 @@ void main(void)
 static void InitializeSystem(void)
 {
     ADCON1 |= 0x0F;                 // Default all pins to digital
-        
+
     mInitializeUSBDriver();         // See usbdrv.h
-    
+
     UserInit();                     // See user.c & .h
 
 }
@@ -101,7 +101,7 @@ void USBTasks(void)
     USBCheckBusStatus();                    // Must use polling method
     if(UCFGbits.UTEYE!=1)
         USBDriverService();                 // Interrupt or polling method
-    
+
     #if defined(USB_USE_CDC)
     CDCTxService();
     #endif

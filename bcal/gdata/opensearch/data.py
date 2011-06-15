@@ -45,4 +45,3 @@ class TotalResults(atom.core.XmlElement):
   _qname = (OPENSEARCH_TEMPLATE_V1 % 'totalResults',
       OPENSEARCH_TEMPLATE_V2 % 'totalResults')
 
-

@@ -1,7 +1,7 @@
 /**
  * textwin.java - pop up a new frame to read or write text
  * Copyright (c) 1998 Will Ware, all rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. All advertising materials mentioning features or use of this software
  *    or its derived works must display the following acknowledgement:
  * 	This product includes software developed by Will Ware.
- * 
+ *
  * This software is provided "as is" and any express or implied warranties,
  * including, but not limited to, the implied warranties of merchantability
  * or fitness for any particular purpose are disclaimed. In no event shall

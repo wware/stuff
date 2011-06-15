@@ -141,7 +141,7 @@ class Packet:
             else:
                 print
 
- 
+
 class EthernetHeader(Packet):
 
     # Ethernet protocol IDs, /usr/include/net/ethernet.h
@@ -171,17 +171,17 @@ class ArpPacket(Packet):
     # Constants found in /usr/include/net/if_arp.h
     # ARP hardware IDs
     HW_NETROM = 0     # From KA9Q: NET/ROM pseudo.
-    HW_ETHER = 1      # Ethernet 10/100Mbps. 
-    HW_EETHER = 2     # Experimental Ethernet. 
-    HW_AX25 = 3       # AX.25 Level 2. 
-    HW_PRONET = 4     # PROnet token ring. 
-    HW_CHAOS = 5      # Chaosnet. 
-    HW_IEEE802 = 6    # IEEE 802.2 Ethernet/TR/TB. 
-    HW_ARCNET = 7     # ARCnet. 
-    HW_APPLETLK = 8   # APPLEtalk. 
-    HW_DLCI = 15      # Frame Relay DLCI. 
-    HW_ATM = 19       # ATM. 
-    HW_METRICOM = 23  # Metricom STRIP (new IANA id). 
+    HW_ETHER = 1      # Ethernet 10/100Mbps.
+    HW_EETHER = 2     # Experimental Ethernet.
+    HW_AX25 = 3       # AX.25 Level 2.
+    HW_PRONET = 4     # PROnet token ring.
+    HW_CHAOS = 5      # Chaosnet.
+    HW_IEEE802 = 6    # IEEE 802.2 Ethernet/TR/TB.
+    HW_ARCNET = 7     # ARCnet.
+    HW_APPLETLK = 8   # APPLEtalk.
+    HW_DLCI = 15      # Frame Relay DLCI.
+    HW_ATM = 19       # ATM.
+    HW_METRICOM = 23  # Metricom STRIP (new IANA id).
 
     # ARP opcodes
     OPCODE_REQUEST = 1   # ARP request.

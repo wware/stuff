@@ -15,7 +15,7 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-"""CodesearchService extends GDataService to streamline Google Codesearch 
+"""CodesearchService extends GDataService to streamline Google Codesearch
 operations"""
 
 
@@ -27,7 +27,7 @@ import gdata.service
 import gdata.codesearch
 
 
-class CodesearchService(gdata.service.GDataService): 
+class CodesearchService(gdata.service.GDataService):
     """Client extension for Google codesearch service"""
 
     def __init__(self, email=None, password=None, source=None,
@@ -87,7 +87,7 @@ class CodesearchService(gdata.service.GDataService):
 class CodesearchQuery(gdata.service.Query):
     """Object used to construct the query to the Google Codesearch feed. here only as a shorcut"""
 
-    def __init__(self, feed='/codesearch/feeds/search', text_query=None, 
+    def __init__(self, feed='/codesearch/feeds/search', text_query=None,
             params=None, categories=None):
         """Constructor for Codesearch Query.
 

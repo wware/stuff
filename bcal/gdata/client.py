@@ -381,7 +381,7 @@ class GDClient(atom.client.AtomPubClient):
                        'https://www.google.com/accounts/ClientLogin'),
                    captcha_token=None, captcha_response=None):
     """Performs an auth request using the user's email address and password.
-    
+
     In order to modify user specific data and read user private data, your
     application must be authorized by the user. One way to demonstrage
     authorization is by including a Client Login token in the Authorization
@@ -393,8 +393,8 @@ class GDClient(atom.client.AtomPubClient):
     object will be set in the client's auth_token member. With the auth_token
     set, future requests from this client will include the Client Login
     token.
-    
-    For a list of service names, see 
+
+    For a list of service names, see
     http://code.google.com/apis/gdata/faq.html#clientlogin
     For more information on Client Login, see:
     http://code.google.com/apis/accounts/docs/AuthForInstalledApps.html
@@ -488,7 +488,7 @@ class GDClient(atom.client.AtomPubClient):
   def revoke_token(self, token=None, url=atom.http_core.Uri.parse_uri(
       'https://www.google.com/accounts/AuthSubRevokeToken')):
     """Requests that the token be invalidated.
-    
+
     This method can be used for both AuthSub and OAuth tokens (to invalidate
     a ClientLogin token, the user must change their password).
 
@@ -723,7 +723,7 @@ class GDClient(atom.client.AtomPubClient):
 
   def delete(self, entry_or_uri, auth_token=None, force=False, **kwargs):
     http_request = atom.http_core.HttpRequest()
-      
+
     # Include the ETag in the request if present.
     if force:
       http_request.headers['If-Match'] = '*'
@@ -899,7 +899,7 @@ class ResumableUploader(object):
       resumable_media_link: str The full URL for the #resumable-create-media or
           #resumable-edit-media link for starting a resumable upload request or
           updating media using a resumable PUT.
-      entry: A (optional) gdata.data.GDEntry containging metadata to create the 
+      entry: A (optional) gdata.data.GDEntry containging metadata to create the
           upload from.
       headers: dict (optional) Additional headers to send in the initial request
           to create the resumable upload request. These headers will override
@@ -920,7 +920,7 @@ class ResumableUploader(object):
       incomplete.
     """
     http_request = atom.http_core.HttpRequest()
-    
+
     # Send empty POST if Atom XML wasn't specified.
     if entry is None:
       http_request.add_body_part('', self.content_type, size=0)
@@ -999,7 +999,7 @@ class ResumableUploader(object):
     Args:
       resumable_media_link: str The full URL for the #resumable-create-media for
           starting a resumable upload request.
-      entry: A (optional) gdata.data.GDEntry containging metadata to create the 
+      entry: A (optional) gdata.data.GDEntry containging metadata to create the
           upload from.
       headers: dict Additional headers to send in the initial request to create
           the resumable upload request. These headers will override any default

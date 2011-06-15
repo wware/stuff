@@ -4,10 +4,10 @@
 #include "RedBlackTree.h"
 #include "sets.H"
 
-static SetDatabaseHandle<char*,IntervalTree *> 
+static SetDatabaseHandle<char*,IntervalTree *>
 global_IntervalTreesInTcl(TCL_STRING_KEYS);
 
-static SetDatabaseHandle<char*,RedBlackTree *> 
+static SetDatabaseHandle<char*,RedBlackTree *>
 global_RedBlackTreesInTcl(TCL_STRING_KEYS);
 
 class SimpleInterval : public Interval {
@@ -15,7 +15,7 @@ public:
   SimpleInterval(const int low,const int high)
     :_low(low), _high(high)
     { }
-  
+
   int GetLowPoint() const { return _low;}
   int GetHighPoint() const { return _high;}
   IntervalTreeNode * GetNode() { return _node;}
@@ -64,7 +64,7 @@ int DeleteIntervalTreeInTcl(ClientData, Tcl_Interp * interp, int argc,
 		  "Wrong # arguments.\nUsage: intTreeDelete nameOfTree\n",
 		  TCL_STATIC);
     return TCL_ERROR;
-  } else if (NULL == (treeToDelete = 
+  } else if (NULL == (treeToDelete =
 		      global_IntervalTreesInTcl.Search(argv[1]))) {
     Tcl_SetResult(interp,
 		  "An interval tree with that name doesn't exist!\n",
@@ -169,7 +169,7 @@ int IntervalTreeRemoveNode(ClientData, Tcl_Interp * interp, int argc,
     else {
       TemplateStack<void *> * queryResults = tree->Enumerate(low,high);
       for (int i=0, last = queryResults->Size(); i < last; i++) {
-	SimpleInterval * currentInterval = 
+	SimpleInterval * currentInterval =
 	  (SimpleInterval *) (*queryResults)[i];
 	if ( (currentInterval->GetLowPoint() == low) &&
 	     (currentInterval->GetHighPoint() == high) ) {
@@ -216,7 +216,7 @@ int DeleteRedBlackTreeInTcl(ClientData, Tcl_Interp * interp, int argc,
 		  "Wrong # arguments.\nUsage: rbTreeDelete nameOfTree\n",
 		  TCL_STATIC);
     return TCL_ERROR;
-  } else if (NULL == (treeToDelete = 
+  } else if (NULL == (treeToDelete =
 		      global_RedBlackTreesInTcl.Search(argv[1]))) {
     Tcl_SetResult(interp,
 		  "A red black tree with that name doesn't exist!\n",
@@ -277,7 +277,7 @@ int QueryRedBlackTreeInTcl(ClientData, Tcl_Interp * interp, int argc,
 	 (TCL_OK != Tcl_GetInt(interp,argv[3],&high)) )
       return TCL_ERROR;
     else {
-      TemplateStack<RedBlackTreeNode *> * queryResults = 
+      TemplateStack<RedBlackTreeNode *> * queryResults =
 	tree->Enumerate(low,high);
       Tcl_Obj * listResult = Tcl_NewListObj(0,NULL);
       for (int i=0, last = queryResults->Size(); i < last; i++) {
@@ -314,7 +314,7 @@ int RedBlackTreeRemoveNode(ClientData, Tcl_Interp * interp, int argc,
 	 (TCL_OK != Tcl_GetInt(interp,argv[3],&high)) )
       return TCL_ERROR;
     else {
-      TemplateStack<RedBlackTreeNode *> * queryResults = 
+      TemplateStack<RedBlackTreeNode *> * queryResults =
 	tree->Enumerate(low,high);
       for (int i=0, last = queryResults->Size(); i < last; i++) {
 	RedBlackEntry * curEntry = (*queryResults)[i]->GetEntry();

@@ -7,19 +7,19 @@
 CFG=libusb_static - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "libusb_static.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "libusb_static.mak" CFG="libusb_static - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "libusb_static - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "libusb_static - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"Win32/Debug/lib/libusb-1.0.lib"
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 

@@ -14,11 +14,11 @@ In Eclipse, go to the File menu and choose:
 
   Browse to the directory containing this file,
   select "Foobar".
-  
+
   Be sure to uncheck "Copy projects into workspace" if it is checked.
-  
+
   Click Finish.
-  
+
 You can now browse the project in Eclipse.
 
 To launch your web app in GWT hosted mode, go to the Run menu and choose:

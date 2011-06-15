@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -54,16 +54,16 @@ where <var>name</var> is a string and <var>value</var> is either a string or fou
 values (extractable by <code>call-with-values</code>):
 
           <dl>
-<dt><var>filename</var><dd>A string, or <code>#f</code>. 
-<br><dt><var>type</var><dd>A string representing the MIME type of the uploaded file. 
-<br><dt><var>raw-headers</var><dd>A string, including all eol <span class="sc">crlf</span> chars. 
+<dt><var>filename</var><dd>A string, or <code>#f</code>.
+<br><dt><var>type</var><dd>A string representing the MIME type of the uploaded file.
+<br><dt><var>raw-headers</var><dd>A string, including all eol <span class="sc">crlf</span> chars.
 Incidentally, the <var>type</var> should be
-(redundantly) visible in one of the headers. 
+(redundantly) visible in one of the headers.
 <br><dt><var>squeeze</var><dd>A procedure that takes one arg <var>abr</var> (standing for access byte
 range).  If <var>abr</var> is <code>#f</code>, then internal references to the
 uploaded file's data are dropped.  Otherwise, <var>abr</var> should be a
 procedure that takes three arguments: a string, a beginning index
-(integer, inclusive), and an ending index (integer, exclusive). 
+(integer, inclusive), and an ending index (integer, exclusive).
 </dl>
 
         <p>If there is no type information, <var>value</var> is a simple non-empty string,
@@ -71,7 +71,7 @@ and no associated information (filename, raw-headers, squeeze) is kept.
 
         <p><code>parse-form</code> ignores <dfn>degenerate uploads</dfn>, that is those parts
 of <code>raw-data</code> where the part header specifies no filename and the
-part content-length is zero or unspecified. 
+part content-length is zero or unspecified.
 </p></blockquote></div>
 
 <h3 class="heading">why <code>squeeze</code>?</h3>

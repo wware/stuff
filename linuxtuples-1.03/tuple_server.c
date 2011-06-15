@@ -355,13 +355,13 @@ handle_get_read(struct context *ctx,
                           perror("sem_wait");
 #else
 			status_list[clientnr]='m';
-			if (pthread_mutex_lock(&blocked_mutex)) 
+			if (pthread_mutex_lock(&blocked_mutex))
 				perror("mutex_lock");
 			status_list[clientnr]='b';
-			if (pthread_cond_wait(&blocked_cond, &blocked_mutex)) 
+			if (pthread_cond_wait(&blocked_cond, &blocked_mutex))
 				perror("cond_wait");
 			status_list[clientnr]='u';
-			if (pthread_mutex_unlock(&blocked_mutex)) 
+			if (pthread_mutex_unlock(&blocked_mutex))
 				perror("mutex_unlock");
 #endif
 		}

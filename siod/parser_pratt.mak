@@ -6,31 +6,31 @@
 !IF "$(CFG)" == ""
 CFG=parser_pratt - Win32 Debug
 !MESSAGE No configuration specified.  Defaulting to parser_pratt - Win32 Debug.
-!ENDIF 
+!ENDIF
 
 !IF "$(CFG)" != "parser_pratt - Win32 Release" && "$(CFG)" !=\
  "parser_pratt - Win32 Debug"
 !MESSAGE Invalid configuration "$(CFG)" specified.
 !MESSAGE You can specify a configuration when running NMAKE on this makefile
 !MESSAGE by defining the macro CFG on the command line.  For example:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "parser_pratt.mak" CFG="parser_pratt - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Possible choices for configuration are:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "parser_pratt - Win32 Release" (based on\
  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "parser_pratt - Win32 Debug" (based on\
  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE 
+!MESSAGE
 !ERROR An invalid configuration is specified.
-!ENDIF 
+!ENDIF
 
 !IF "$(OS)" == "Windows_NT"
 NULL=
-!ELSE 
+!ELSE
 NULL=nul
-!ENDIF 
+!ENDIF
 ################################################################################
 # Begin Project
 RSC=rc.exe
@@ -54,7 +54,7 @@ INTDIR=.\Release
 
 ALL : "$(OUTDIR)\parser_pratt.dll"
 
-CLEAN : 
+CLEAN :
 	-@erase ".\Release\parser_pratt.dll"
 	-@erase ".\Release\parser_pratt.obj"
 	-@erase ".\Release\parser_pratt.lib"
@@ -66,18 +66,18 @@ CLEAN :
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /c
 # ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /c
 CPP_PROJ=/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS"\
- /Fp"$(INTDIR)/parser_pratt.pch" /YX /Fo"$(INTDIR)/" /c 
+ /Fp"$(INTDIR)/parser_pratt.pch" /YX /Fo"$(INTDIR)/" /c
 CPP_OBJS=.\Release/
 CPP_SBRS=
 # ADD BASE MTL /nologo /D "NDEBUG" /win32
 # ADD MTL /nologo /D "NDEBUG" /win32
-MTL_PROJ=/nologo /D "NDEBUG" /win32 
+MTL_PROJ=/nologo /D "NDEBUG" /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-BSC32_FLAGS=/nologo /o"$(OUTDIR)/parser_pratt.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)/parser_pratt.bsc"
 BSC32_SBRS=
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
@@ -86,7 +86,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
  odbccp32.lib $(INTDIR)/libsiod.lib /nologo /subsystem:windows /dll /incremental:no\
  /pdb:"$(OUTDIR)/parser_pratt.pdb" /machine:I386 /def:".\parser_pratt.def"\
- /out:"$(OUTDIR)/parser_pratt.dll" /implib:"$(OUTDIR)/parser_pratt.lib" 
+ /out:"$(OUTDIR)/parser_pratt.dll" /implib:"$(OUTDIR)/parser_pratt.lib"
 DEF_FILE= \
 	".\parser_pratt.def"
 LINK32_OBJS= \
@@ -114,7 +114,7 @@ INTDIR=.\Debug
 
 ALL : "$(OUTDIR)\parser_pratt.dll"
 
-CLEAN : 
+CLEAN :
 	-@erase ".\Debug\parser_pratt.dll"
 	-@erase ".\Debug\parser_pratt.obj"
 	-@erase ".\Debug\parser_pratt.ilk"
@@ -130,18 +130,18 @@ CLEAN :
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /c
 # ADD CPP /nologo /MTd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /c
 CPP_PROJ=/nologo /MTd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS"\
- /Fp"$(INTDIR)/parser_pratt.pch" /YX /Fo"$(INTDIR)/" /Fd"$(INTDIR)/" /c 
+ /Fp"$(INTDIR)/parser_pratt.pch" /YX /Fo"$(INTDIR)/" /Fd"$(INTDIR)/" /c
 CPP_OBJS=.\Debug/
 CPP_SBRS=
 # ADD BASE MTL /nologo /D "_DEBUG" /win32
 # ADD MTL /nologo /D "_DEBUG" /win32
-MTL_PROJ=/nologo /D "_DEBUG" /win32 
+MTL_PROJ=/nologo /D "_DEBUG" /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
-BSC32_FLAGS=/nologo /o"$(OUTDIR)/parser_pratt.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)/parser_pratt.bsc"
 BSC32_SBRS=
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386
@@ -151,7 +151,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  odbccp32.lib $(INTDIR)/libsiod.lib /nologo /subsystem:windows /dll /incremental:yes\
  /pdb:"$(OUTDIR)/parser_pratt.pdb" /debug /machine:I386\
  /def:".\parser_pratt.def" /out:"$(OUTDIR)/parser_pratt.dll"\
- /implib:"$(OUTDIR)/parser_pratt.lib" 
+ /implib:"$(OUTDIR)/parser_pratt.lib"
 DEF_FILE= \
 	".\parser_pratt.def"
 LINK32_OBJS= \
@@ -162,25 +162,25 @@ LINK32_OBJS= \
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ENDIF 
+!ENDIF
 
 .c{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cpp{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cxx{$(CPP_OBJS)}.obj:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .c{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cpp{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 .cxx{$(CPP_SBRS)}.sbr:
-   $(CPP) $(CPP_PROJ) $<  
+   $(CPP) $(CPP_PROJ) $<
 
 ################################################################################
 # Begin Target
@@ -192,7 +192,7 @@ LINK32_OBJS= \
 
 !ELSEIF  "$(CFG)" == "parser_pratt - Win32 Debug"
 
-!ENDIF 
+!ENDIF
 
 ################################################################################
 # Begin Source File
@@ -203,7 +203,7 @@ SOURCE=.\parser_pratt.def
 
 !ELSEIF  "$(CFG)" == "parser_pratt - Win32 Debug"
 
-!ENDIF 
+!ENDIF
 
 # End Source File
 ################################################################################
@@ -212,7 +212,7 @@ SOURCE=.\parser_pratt.def
 SOURCE=.\parser_pratt.c
 DEP_CPP_PARSE=\
 	".\siod.h"\
-	
+
 
 "$(INTDIR)\parser_pratt.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
 

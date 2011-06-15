@@ -1,12 +1,12 @@
 /*
  * Copyright 1993-2009 NVIDIA Corporation.  All rights reserved.
  *
- * NVIDIA Corporation and its licensors retain all intellectual property and 
- * proprietary rights in and to this software and related documentation and 
- * any modifications thereto.  Any use, reproduction, disclosure, or distribution 
- * of this software and related documentation without an express license 
+ * NVIDIA Corporation and its licensors retain all intellectual property and
+ * proprietary rights in and to this software and related documentation and
+ * any modifications thereto.  Any use, reproduction, disclosure, or distribution
+ * of this software and related documentation without an express license
  * agreement from NVIDIA Corporation is strictly prohibited.
- * 
+ *
  */
 
 #ifndef _SCAN_BEST_KERNEL_H_
@@ -16,7 +16,7 @@
 #define LOG_NUM_BANKS 4
 
 // Define this to more rigorously avoid bank conflicts, even at the lower (root) levels of the tree
-//#define ZERO_BANK_CONFLICTS 
+//#define ZERO_BANK_CONFLICTS
 
 #ifdef ZERO_BANK_CONFLICTS
 #define CONFLICT_FREE_OFFSET(index) ((index) >> LOG_NUM_BANKS + (index) >> (2 * LOG_NUM_BANKS))
@@ -36,16 +36,16 @@
 // Also shared storage efficient: Uses n + n/NUM_BANKS shared memory -- no ping-ponging
 // Also avoids most bank conflicts using single-element offsets every NUM_BANKS elements.
 //
-// In addition, If ZERO_BANK_CONFLICTS is defined, uses 
-//     n + n/NUM_BANKS + n/(NUM_BANKS*NUM_BANKS) 
-// shared memory. If ZERO_BANK_CONFLICTS is defined, avoids ALL bank conflicts using 
-// single-element offsets every NUM_BANKS elements, plus additional single-element offsets 
+// In addition, If ZERO_BANK_CONFLICTS is defined, uses
+//     n + n/NUM_BANKS + n/(NUM_BANKS*NUM_BANKS)
+// shared memory. If ZERO_BANK_CONFLICTS is defined, avoids ALL bank conflicts using
+// single-element offsets every NUM_BANKS elements, plus additional single-element offsets
 // after every NUM_BANKS^2 elements.
 //
-// Uses a balanced tree type algorithm.  See Blelloch, 1990 "Prefix Sums 
+// Uses a balanced tree type algorithm.  See Blelloch, 1990 "Prefix Sums
 // and Their Applications", or Prins and Chatterjee PRAM course notes:
 // https://www.cs.unc.edu/~prins/Classes/633/Handouts/pram.pdf
-// 
+//
 // This work-efficient version is based on the algorithm presented in Guy Blelloch's
 // Excellent paper "Prefix sums and their applications".
 // http://www.cs.cmu.edu/~blelloch/papers/Ble93.pdf
@@ -72,8 +72,8 @@ __global__ void scan_best(float *g_odata, float *g_idata, int n)
     int bankOffsetB = CONFLICT_FREE_OFFSET(bi);
 
     // Cache the computational window in shared memory
-    TEMP(ai + bankOffsetA) = g_idata[ai]; 
-    TEMP(bi + bankOffsetB) = g_idata[bi]; 
+    TEMP(ai + bankOffsetA) = g_idata[ai];
+    TEMP(bi + bankOffsetB) = g_idata[bi];
 
     int offset = 1;
 
@@ -82,7 +82,7 @@ __global__ void scan_best(float *g_odata, float *g_idata, int n)
     {
         __syncthreads();
 
-        if (thid < d)      
+        if (thid < d)
         {
             int ai = offset*(2*thid+1)-1;
             int bi = offset*(2*thid+2)-1;
@@ -104,7 +104,7 @@ __global__ void scan_best(float *g_odata, float *g_idata, int n)
         int index = n - 1;
         index += CONFLICT_FREE_OFFSET(index);
         TEMP(index) = 0;
-    }   
+    }
 
     // traverse down the tree building the scan in place
     for (int d = 1; d < n; d *= 2)
@@ -130,8 +130,8 @@ __global__ void scan_best(float *g_odata, float *g_idata, int n)
     __syncthreads();
 
     // write results to global memory
-    g_odata[ai] = TEMP(ai + bankOffsetA); 
-    g_odata[bi] = TEMP(bi + bankOffsetB); 
+    g_odata[ai] = TEMP(ai + bankOffsetA);
+    g_odata[bi] = TEMP(bi + bankOffsetB);
 }
 #endif // #ifndef _SCAN_BEST_KERNEL_H_
 

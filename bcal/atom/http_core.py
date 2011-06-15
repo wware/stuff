@@ -52,7 +52,7 @@ MIME_BOUNDARY = 'END_OF_PART'
 
 def get_headers(http_response):
   """Retrieves all HTTP headers from an HTTP response from the server.
-  
+
   This method is provided for backwards compatibility for Python2.2 and 2.3.
   The httplib.HTTPResponse object in 2.2 and 2.3 does not have a getheaders
   method so this function will use getheaders if available, but if not it
@@ -200,7 +200,7 @@ class HttpRequest(object):
 
   def _dump(self):
     """Converts to a printable string for debugging purposes.
-    
+
     In order to preserve the request, it does not read from file-like objects
     in the body.
     """
@@ -396,7 +396,7 @@ class HttpResponse(object):
 
 def _dump_response(http_response):
   """Converts to a string for printing debug messages.
-  
+
   Does not read the body since that may consume the content.
   """
   output = 'HttpResponse\n  status: %s\n  reason: %s\n  headers:' % (

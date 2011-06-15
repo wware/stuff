@@ -7,7 +7,7 @@ extern  void DebugIO(CONST char *s);	/* display the debug output */
 	{ if (debug) _Dump(x,s,R,XOR,doRot,showT,needBswap,t0,t1); }
 #define	DebugDumpKey(key) { if (debug) _DumpKey(key); }
 #define	IV_ROUND	-100
-	
+
 void _Dump(CONST void *p,CONST char *s,int R,int XOR,int doRot,int showT,int needBswap,
 		   DWORD t0,DWORD t1)
 	{
@@ -20,7 +20,7 @@ void _Dump(CONST void *p,CONST char *s,int R,int XOR,int doRot,int showT,int nee
 	else
 		sprintf(line,"%sR[%2d]: ",s,R);
 	for (n=0;line[n];n++) ;
-	
+
 	for (i=0;i<4;i++)
 		{
 		q[i]=((CONST DWORD *)p)[i^(XOR)];

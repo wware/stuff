@@ -76,7 +76,7 @@ void USBCtrlTrfInHandler(void);
  * Note:            None
  *****************************************************************************/
 void USBCtrlEPService(void)
-{   
+{
     if(USTAT == EP00_OUT)
     {
         if(ep0Bo.Stat.PID == SETUP_TOKEN)           // EP0 SETUP
@@ -86,7 +86,7 @@ void USBCtrlEPService(void)
     }
     else if(USTAT == EP00_IN)                       // EP0 IN
         USBCtrlTrfInHandler();
-    
+
 }//end USBCtrlEPService
 
 /******************************************************************************
@@ -133,12 +133,12 @@ void USBCtrlEPService(void)
 void USBCtrlTrfSetupHandler(void)
 {
     byte i;
-    
+
     /* Stage 1 */
     ctrl_trf_state = WAIT_SETUP;
     ctrl_trf_session_owner = MUID_NULL;     // Set owner to NULL
     wCount._word = 0;
-    
+
     /* Stage 2 */
     USBCheckStdRequest();                   // See system\usb9\usb9.c
 
@@ -151,10 +151,10 @@ void USBCtrlTrfSetupHandler(void)
 #endif
 
     USBCheckCDCRequest();
-        
+
     /* Stage 3 */
     USBCtrlEPServiceComplete();
-    
+
 }//end USBCtrlTrfSetupHandler
 
 /******************************************************************************
@@ -182,7 +182,7 @@ void USBCtrlTrfOutHandler(void)
     if(ctrl_trf_state == CTRL_TRF_RX)
     {
         USBCtrlTrfRxService();
-        
+
         /*
          * Don't have to worry about overwriting _KEEP bit
          * because if _KEEP was set, TRNIF would not have been
@@ -195,7 +195,7 @@ void USBCtrlTrfOutHandler(void)
     }
     else    // CTRL_TRF_TX
         USBPrepareForNextSetupTrf();
-    
+
 }//end USBCtrlTrfOutHandler
 
 /******************************************************************************
@@ -225,11 +225,11 @@ void USBCtrlTrfOutHandler(void)
 void USBCtrlTrfInHandler(void)
 {
     mUSBCheckAdrPendingState();         // Must check if in ADR_PENDING_STATE
-    
+
     if(ctrl_trf_state == CTRL_TRF_TX)
     {
         USBCtrlTrfTxService();
-        
+
         if(ep0Bi.Stat.DTS == 0)
             ep0Bi.Stat._byte = _USIE|_DAT1|_DTSEN;
         else
@@ -262,9 +262,9 @@ void USBCtrlTrfInHandler(void)
  *                  be larger than 64 bytes.
  *****************************************************************************/
 void USBCtrlTrfTxService(void)
-{    
+{
     WORD byte_to_send;
-    
+
     /*
      * First, have to figure out how many byte of data to send.
      */
@@ -272,7 +272,7 @@ void USBCtrlTrfTxService(void)
         byte_to_send._word = wCount._word;
     else
         byte_to_send._word = EP0_BUFF_SIZE;
-    
+
     /*
      * Next, load the number of bytes to send to BC9..0 in buffer descriptor
      */
@@ -280,12 +280,12 @@ void USBCtrlTrfTxService(void)
     ep0Bi.Stat.BC8 = 0;
     ep0Bi.Stat._byte |= MSB(byte_to_send);
     ep0Bi.Cnt = LSB(byte_to_send);
-    
+
     /*
      * Subtract the number of bytes just about to be sent from the total.
      */
     wCount._word = wCount._word - byte_to_send._word;
-    
+
     pDst.bRam = (byte*)&CtrlTrfData;        // Set destination pointer
 
     if(usb_stat.ctrl_trf_mem == _ROM)       // Determine type of memory source
@@ -308,7 +308,7 @@ void USBCtrlTrfTxService(void)
             byte_to_send._word--;
         }//end while(byte_to_send._word)
     }//end if(usb_stat.ctrl_trf_mem == _ROM)
-    
+
 }//end USBCtrlTrfTxService
 
 /******************************************************************************
@@ -337,12 +337,12 @@ void USBCtrlTrfRxService(void)
 
     MSB(byte_to_read) = 0x03 & ep0Bo.Stat._byte;    // Filter out last 2 bits
     LSB(byte_to_read) = ep0Bo.Cnt;
-    
+
     /*
      * Accumulate total number of bytes read
      */
     wCount._word = wCount._word + byte_to_read._word;
-    
+
     pSrc.bRam = (byte*)&CtrlTrfData;
 
     while(byte_to_read._word)
@@ -351,8 +351,8 @@ void USBCtrlTrfRxService(void)
         pDst.bRam++;
         pSrc.bRam++;
         byte_to_read._word--;
-    }//end while(byte_to_read._word)    
-    
+    }//end while(byte_to_read._word)
+
 }//end USBCtrlTrfRxService
 
 /******************************************************************************
@@ -399,7 +399,7 @@ void USBCtrlEPServiceComplete(void)
          */
         ep0Bo.Cnt = EP0_BUFF_SIZE;
         ep0Bo.ADR = (byte*)&SetupPkt;
-        
+
         ep0Bo.Stat._byte = _USIE|_BSTALL;
         ep0Bi.Stat._byte = _USIE|_BSTALL;
     }
@@ -439,9 +439,9 @@ void USBCtrlEPServiceComplete(void)
              * should be pointed to SetupPkt.
              */
             ep0Bo.Cnt = EP0_BUFF_SIZE;
-            ep0Bo.ADR = (byte*)&SetupPkt;            
+            ep0Bo.ADR = (byte*)&SetupPkt;
             ep0Bo.Stat._byte = _USIE;           // Note: DTSEN is 0!
-    
+
             /*
              * 2. Prepare IN EP to transfer data, Cnt should have
              *    been initialized by responsible request owner.

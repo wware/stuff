@@ -69,7 +69,7 @@
     (*catch 'errobj
 	    (ftp-setup host1 setc1)
 	    (ftp-setup host2 setc2)
-	    (mapcar (lambda (x) 
+	    (mapcar (lambda (x)
 		      (ftp-pasv-copy c1
 				     (nth 0 x)
 				     c2
@@ -162,7 +162,7 @@
 (define (ftp-cmd c . args)
   (apply ftp-send-command (cons c args))
   (ftp-read-response c))
-    
+
 (define (ftp-close-control c)
   (ftp-cmd c "QUIT")
   (s-close c))
@@ -206,11 +206,11 @@
 	(res2 nil))
     (set! res2 (ftp-cmd c2
 			"PORT "
-			(nth 0 p) "," 
-			(nth 1 p) "," 
-			(nth 2 p) "," 
-			(nth 3 p) "," 
-			(nth 4 p) "," 
+			(nth 0 p) ","
+			(nth 1 p) ","
+			(nth 2 p) ","
+			(nth 3 p) ","
+			(nth 4 p) ","
 			(nth 5 p)))
     (or (and (pair? res2) (= 200 (car res2)))
 	(error "PORT command failed" res2))

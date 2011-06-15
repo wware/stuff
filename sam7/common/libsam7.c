@@ -232,7 +232,7 @@ void uart0_init(int baud_rate)
 #if USE_UART_INTERRUPTS
     /* Set up the Advanced Interrupt Controller (AIC)  registers for USART0 */
     void Usart0IrqHandler(void); /* function prototype for USART0 handler */
-  
+
     volatile AT91PS_AIC  pAIC = AT91C_BASE_AIC;   /* pointer to AIC data structure */
     pAIC->AIC_IDCR = (1<<AT91C_ID_US0);      /* Disable USART0 interrupt in AIC */
     pAIC->AIC_SVR[AT91C_ID_US0] =
@@ -294,11 +294,11 @@ int uart0_txready(void)
     return (pUSART->US_CSR & AT91C_US_TXRDY);
 }
 
-void uart0_putc(int ch) 
+void uart0_putc(int ch)
 {
     while (!uart0_txready());
     pUSART->US_THR = ch;                          /* Transmit Character */
-}	
+}
 
 static void uart0_putchar (int ch)   /* Write Character to Serial Port */
 {
@@ -322,7 +322,7 @@ int uart0_kbhit(void)
 
 /* Read Character from Serial Port */
 int uart0_getc(void)
-{    
+{
     if (!uart0_kbhit()) return -1;                /* -1 if no char available to read */
     return pUSART->US_RHR;                        /* Read Character */
 }

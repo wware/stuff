@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -40,7 +40,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 <!-- ../source/data/http-status.doc -->
 <div class="defun">
 &mdash; Procedure: <b>http-status-string</b><var> number<a name="index-http_002dstatus_002dstring-109"></a></var><br>
-<blockquote><p>Return the string associated with HTTP status <var>number</var>. 
+<blockquote><p>Return the string associated with HTTP status <var>number</var>.
 </p></blockquote></div>
 
 <h3 class="heading">example</h3>
@@ -49,11 +49,11 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 
 <pre class="example">     (use-modules ((www data http-status)
                    #:select (http-status-string)))
-     
+
      (define (h2 n)
        (format #f "&lt;H2&gt;~A ~A&lt;/H2&gt;"
                n (http-status-string n)))
-     
+
      (h2 404) &rArr; "&lt;H2&gt;404 Not Found&lt;/H2&gt;"
      (h2 307) &rArr; "&lt;H2&gt;307 Temporary Redirect&lt;/H2&gt;"
 </pre>

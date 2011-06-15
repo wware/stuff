@@ -10,16 +10,16 @@
 # keyfile mode: -- if the '-k <keyfile>' option is passed on cmd line, the next
 # option is the keyfile. It contains a 128 to 256 bit key in binary. Unless
 # -i or -o options are provided, all i/o is to stdin/stdout. Use 'randkey'
-# program to create a random key. 
+# program to create a random key.
 #
 # immediate mode -- you must provide "-i <inputfile>" argument. The output
-# file will be "inputfile.enc", unless you provide a "-o <outputfile>" 
+# file will be "inputfile.enc", unless you provide a "-o <outputfile>"
 # argument. You will be prompted for a passphrase. This passphrase will then
 # be md5-hashed. The resulting 128-bit string is then passed to the
-# encryption algorithm as its key. 
+# encryption algorithm as its key.
 
 # note that we're a wrapper around twofish.py. We should only be called
-# from the command line. 
+# from the command line.
 
 import getopt
 import hashlib

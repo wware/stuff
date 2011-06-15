@@ -98,9 +98,9 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-The <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server accepts incoming TCP connections and offers clients access to the database. 
+The <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server accepts incoming TCP connections and offers clients access to the database.
 <p>
-The <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server is responsible for remaining stable while clients misbehave, and making sure that client operations are atomic. Client misbehavior can include things like badly-formed requests and dropped network sockets. 
+The <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> server is responsible for remaining stable while clients misbehave, and making sure that client operations are atomic. Client misbehavior can include things like badly-formed requests and dropped network sockets.
 <p>Definition in file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 <hr><h2>Define Documentation</h2>
 <a class="anchor" name="889f2659453f2cafb52b31ca2fcb7196"></a><!-- doxytag: member="tuple_server.c::GETACCESS" ref="889f2659453f2cafb52b31ca2fcb7196" args="" -->
@@ -285,7 +285,7 @@ The <a class="el" href="structtuple.html" title="An ordered sequence of data val
 <div class="memdoc">
 
 <p>
-When we add a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> to the space, we unblock all the clients who are waiting for tuples, so they can check and see if this is the one they want. 
+When we add a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> to the space, we unblock all the clients who are waiting for tuples, so they can check and see if this is the one they want.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00198">198</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00164">blocked_cond</a>, <a class="el" href="tuple__server_8c-source.html#l00163">blocked_mutex</a>, <a class="el" href="tuple__server_8c-source.html#l00148">GETACCESS</a>, <a class="el" href="tuple__server_8c-source.html#l00107">ttuple::next</a>, <a class="el" href="tuple__server_8c-source.html#l00108">ttuple::previous</a>, <a class="el" href="tuple__server_8c-source.html#l00106">ttuple::tuple</a>, and <a class="el" href="tuple__server_8c-source.html#l00150">YIELDACCESS</a>.</p>
@@ -311,7 +311,7 @@ When we add a <a class="el" href="structtuple.html" title="An ordered sequence o
 <div class="memdoc">
 
 <p>
-When a client makes a connection, find out what it wants, and do that operation. 
+When a client makes a connection, find out what it wants, and do that operation.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00510">510</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00198">add_tuple_to_space()</a>, <a class="el" href="tuple__server_8c-source.html#l00131">client_list</a>, <a class="el" href="tuple_8h-source.html#l00128">COUNT</a>, <a class="el" href="tuple_8h-source.html#l00127">DUMP</a>, <a class="el" href="tuple_8h-source.html#l00123">GET</a>, <a class="el" href="tuple_8h-source.html#l00125">GET_NB</a>, <a class="el" href="tuple__server_8c-source.html#l00090">GETLOG</a>, <a class="el" href="tuple__server_8c-source.html#l00430">handle_dump_count_space()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, <a class="el" href="tuple__server_8c-source.html#l00385">handle_replace()</a>, <a class="el" href="tuple_8h-source.html#l00258">context::id</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, <a class="el" href="tuple_8h-source.html#l00129">LOG</a>, <a class="el" href="tuple_8c-source.html#l00089">logbuf</a>, <a class="el" href="tuple__server_8c-source.html#l00096">LOGPRINTF</a>, <a class="el" href="tuple_8c-source.html#l00093">logptr</a>, <a class="el" href="tuple__server_8c-source.html#l00098">LOGTUPLE</a>, <a class="el" href="tuple_8h-source.html#l00262">context::peername</a>, <a class="el" href="tuple_8h-source.html#l00122">PUT</a>, <a class="el" href="tuple_8h-source.html#l00124">READ</a>, <a class="el" href="tuple_8h-source.html#l00126">READ_NB</a>, <a class="el" href="tuple_8c-source.html#l00577">recv_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00626">recv_tuple()</a>, <a class="el" href="tuple_8h-source.html#l00130">REPLACE</a>, <a class="el" href="tuple_8h-source.html#l00106">SHUTDOWN_SOCKET</a>, <a class="el" href="tuple_8h-source.html#l00271">context::sock</a>, <a class="el" href="tuple__server_8c-source.html#l00132">status_list</a>, <a class="el" href="tuple_8h-source.html#l00277">context::thr</a>, and <a class="el" href="tuple__server_8c-source.html#l00092">YIELDLOG</a>.</p>
@@ -346,7 +346,7 @@ When a client makes a connection, find out what it wants, and do that operation.
 <div class="memdoc">
 
 <p>
-When a client requests a dump or a count of the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space, handle that here. 
+When a client requests a dump or a count of the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space, handle that here.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00430">430</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00148">GETACCESS</a>, <a class="el" href="tuple_8h-source.html#l00238">tuple_list::next</a>, <a class="el" href="tuple__server_8c-source.html#l00107">ttuple::next</a>, <a class="el" href="tuple_8c-source.html#l00577">recv_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00626">recv_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00471">send_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00501">send_tuple()</a>, <a class="el" href="tuple_8h-source.html#l00239">tuple_list::tup</a>, <a class="el" href="tuple__server_8c-source.html#l00106">ttuple::tuple</a>, <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>, and <a class="el" href="tuple__server_8c-source.html#l00150">YIELDACCESS</a>.</p>
@@ -393,7 +393,7 @@ When a client requests a dump or a count of the <a class="el" href="structtuple.
 <div class="memdoc">
 
 <p>
-Handle GETs and READs, both blocking and non-blocking. 
+Handle GETs and READs, both blocking and non-blocking.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00294">294</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00198">add_tuple_to_space()</a>, <a class="el" href="tuple__server_8c-source.html#l00164">blocked_cond</a>, <a class="el" href="tuple__server_8c-source.html#l00163">blocked_mutex</a>, <a class="el" href="tuple__server_8c-source.html#l00131">client_list</a>, <a class="el" href="tuple_8h-source.html#l00052">DBGPRINTF</a>, <a class="el" href="tuple_8c-source.html#l00381">destroy_tuple()</a>, <a class="el" href="tuple__server_8c-source.html#l00148">GETACCESS</a>, <a class="el" href="tuple__server_8c-source.html#l00090">GETLOG</a>, <a class="el" href="tuple_8h-source.html#l00258">context::id</a>, <a class="el" href="tuple__server_8c-source.html#l00096">LOGPRINTF</a>, <a class="el" href="tuple__server_8c-source.html#l00098">LOGTUPLE</a>, <a class="el" href="tuple__server_8c-source.html#l00107">ttuple::next</a>, <a class="el" href="tuple_8h-source.html#l00262">context::peername</a>, <a class="el" href="tuple_8h-source.html#l00057">PRINTF</a>, <a class="el" href="tuple__server_8c-source.html#l00239">remove_message_from_space()</a>, <a class="el" href="tuple_8c-source.html#l00471">send_chunk()</a>, <a class="el" href="tuple_8c-source.html#l00501">send_tuple()</a>, <a class="el" href="tuple_8h-source.html#l00271">context::sock</a>, <a class="el" href="tuple__server_8c-source.html#l00132">status_list</a>, <a class="el" href="tuple__server_8c-source.html#l00106">ttuple::tuple</a>, <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>, <a class="el" href="tuple__server_8c-source.html#l00150">YIELDACCESS</a>, and <a class="el" href="tuple__server_8c-source.html#l00092">YIELDLOG</a>.</p>
@@ -434,7 +434,7 @@ Handle GETs and READs, both blocking and non-blocking.
 <div class="memdoc">
 
 <p>
-Handle REPLACE. This operation will not block. 
+Handle REPLACE. This operation will not block.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00385">385</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00198">add_tuple_to_space()</a>, <a class="el" href="tuple__server_8c-source.html#l00131">client_list</a>, <a class="el" href="tuple_8c-source.html#l00381">destroy_tuple()</a>, <a class="el" href="tuple__server_8c-source.html#l00148">GETACCESS</a>, <a class="el" href="tuple__server_8c-source.html#l00090">GETLOG</a>, <a class="el" href="tuple_8h-source.html#l00258">context::id</a>, <a class="el" href="tuple__server_8c-source.html#l00096">LOGPRINTF</a>, <a class="el" href="tuple__server_8c-source.html#l00098">LOGTUPLE</a>, <a class="el" href="tuple__server_8c-source.html#l00107">ttuple::next</a>, <a class="el" href="tuple_8h-source.html#l00262">context::peername</a>, <a class="el" href="tuple__server_8c-source.html#l00239">remove_message_from_space()</a>, <a class="el" href="tuple_8h-source.html#l00130">REPLACE</a>, <a class="el" href="tuple_8h-source.html#l00106">SHUTDOWN_SOCKET</a>, <a class="el" href="tuple_8h-source.html#l00271">context::sock</a>, <a class="el" href="tuple__server_8c-source.html#l00132">status_list</a>, <a class="el" href="tuple__server_8c-source.html#l00106">ttuple::tuple</a>, <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>, <a class="el" href="tuple__server_8c-source.html#l00150">YIELDACCESS</a>, and <a class="el" href="tuple__server_8c-source.html#l00092">YIELDLOG</a>.</p>
@@ -495,7 +495,7 @@ Handle REPLACE. This operation will not block.
 <div class="memdoc">
 
 <p>
-Set up a socket to listen for incoming requests. When one arrives, start a pthread to handle it, and run <a class="el" href="tuple__server_8c.html#f21791011e83a44deaa5e8b35e552476">client_thread_func()</a>. 
+Set up a socket to listen for incoming requests. When one arrives, start a pthread to handle it, and run <a class="el" href="tuple__server_8c.html#f21791011e83a44deaa5e8b35e552476">client_thread_func()</a>.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00690">690</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00147">access_mutex</a>, <a class="el" href="tuple__server_8c-source.html#l00164">blocked_cond</a>, <a class="el" href="tuple__server_8c-source.html#l00163">blocked_mutex</a>, <a class="el" href="tuple__server_8c-source.html#l00131">client_list</a>, <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="tuple_8h-source.html#l00095">EXIT</a>, <a class="el" href="tuple_8c-source.html#l00079">i_am_server</a>, <a class="el" href="tuple_8h-source.html#l00258">context::id</a>, <a class="el" href="tuple__server_8c-source.html#l00089">log_mutex</a>, <a class="el" href="tuple__server_8c-source.html#l00125">MAXNUMTHREADS</a>, <a class="el" href="tuple__server_8c-source.html#l00182">print_thread_func()</a>, <a class="el" href="tuple_8h-source.html#l00271">context::sock</a>, <a class="el" href="tuple__server_8c-source.html#l00132">status_list</a>, and <a class="el" href="tuple_8h-source.html#l00277">context::thr</a>.</p>
@@ -571,7 +571,7 @@ Set up a socket to listen for incoming requests. When one arrives, start a pthre
 <div class="memdoc">
 
 <p>
-Tuples are kept in a doubly-linked list, so there's a lot of pointer-hacking here. 
+Tuples are kept in a doubly-linked list, so there's a lot of pointer-hacking here.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00239">239</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>References <a class="el" href="tuple__server_8c-source.html#l00107">ttuple::next</a>, and <a class="el" href="tuple__server_8c-source.html#l00108">ttuple::previous</a>.</p>
@@ -593,7 +593,7 @@ Tuples are kept in a doubly-linked list, so there's a lot of pointer-hacking her
 <div class="memdoc">
 
 <p>
-Semaphore to make sure that all <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> operations are atomic. Each client finishes his operation before the next guy is allowed to begin. 
+Semaphore to make sure that all <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> operations are atomic. Each client finishes his operation before the next guy is allowed to begin.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00147">147</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>.</p>
@@ -631,7 +631,7 @@ Semaphore to make sure that all <a class="el" href="structtuple.html" title="An 
 <div class="memdoc">
 
 <p>
-When threads/clients block, they wait for this semaphore. 
+When threads/clients block, they wait for this semaphore.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00163">163</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00198">add_tuple_to_space()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, and <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>.</p>
@@ -650,7 +650,7 @@ When threads/clients block, they wait for this semaphore.
 <div class="memdoc">
 
 <p>
-Maintain a list of the clients currently trying to access <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. Keep track of a pthread and a socket for each one. 
+Maintain a list of the clients currently trying to access <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. Keep track of a pthread and a socket for each one.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00131">131</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 <p>Referenced by <a class="el" href="tuple__server_8c-source.html#l00510">client_thread_func()</a>, <a class="el" href="tuple__server_8c-source.html#l00294">handle_get_read()</a>, <a class="el" href="tuple__server_8c-source.html#l00385">handle_replace()</a>, <a class="el" href="tuple__server_8c-source.html#l00268">kill_this_thread()</a>, and <a class="el" href="tuple__server_8c-source.html#l00690">main()</a>.</p>
@@ -669,7 +669,7 @@ Maintain a list of the clients currently trying to access <a class="el" href="st
 <div class="memdoc">
 
 <p>
-Pointer to the first <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> in <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. When there is a GET or READ operation, the search begins with the first <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a>. 
+Pointer to the first <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> in <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. When there is a GET or READ operation, the search begins with the first <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a>.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00115">115</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 </div>
@@ -686,7 +686,7 @@ Pointer to the first <a class="el" href="structtuple.html" title="An ordered seq
 <div class="memdoc">
 
 <p>
-Pointer to the last <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> in <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. When there is a PUT operation, the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> is put at the end of the list. 
+Pointer to the last <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> in <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> space. When there is a PUT operation, the <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> is put at the end of the list.
 <p>Definition at line <a class="el" href="tuple__server_8c-source.html#l00121">121</a> of file <a class="el" href="tuple__server_8c-source.html">tuple_server.c</a>.</p>
 
 </div>

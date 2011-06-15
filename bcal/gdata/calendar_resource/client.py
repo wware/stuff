@@ -38,7 +38,7 @@ RESOURCE_FEED_TEMPLATE = '/a/feeds/calendar/resource/%s/%s/'
 
 class CalendarResourceClient(gdata.client.GDClient):
   """Client extension for the Google Calendar Resource API service.
-  
+
   Attributes:
     host: string The hostname for the Calendar Resouce API service.
     api_version: string The version of the Calendar Resource API.
@@ -54,8 +54,8 @@ class CalendarResourceClient(gdata.client.GDClient):
 
     Args:
       domain: string The Google Apps domain with Calendar Resources.
-      auth_token: (optional) gdata.gauth.ClientLoginToken, AuthSubToken, or 
-        OAuthToken which authorizes this client to edit the calendar resource 
+      auth_token: (optional) gdata.gauth.ClientLoginToken, AuthSubToken, or
+        OAuthToken which authorizes this client to edit the calendar resource
         data.
       kwargs: The other parameters to pass to gdata.client.GDClient constructor.
     """
@@ -105,16 +105,16 @@ class CalendarResourceClient(gdata.client.GDClient):
       **kwargs)
 
   GetResourceFeed = get_resource_feed
-  
+
   def get_resource(self, uri=None, resource_id=None, **kwargs):
     """Fetches a single calendar resource by resource ID.
 
     Args:
       uri: string The base URI of the feed from which to fetch the resource.
       resource_id: string The string ID of the Resource to fetch.
-    
+
     Returns:
-      A Resource object representing the calendar resource with the given 
+      A Resource object representing the calendar resource with the given
       base URI and resource ID.
     """
 
@@ -145,7 +145,7 @@ class CalendarResourceClient(gdata.client.GDClient):
     return self.post(new_resource, self.MakeResourceFeedUri(), **kwargs)
 
   CreateResource = create_resource
-  
+
   def update_resource(self, resource_id, resource_common_name=None,
     resource_description=None, resource_type=None, **kwargs):
     """Updates the calendar resource with the given resource ID.
@@ -175,7 +175,7 @@ class CalendarResourceClient(gdata.client.GDClient):
     Args:
       resource_id: string The resource ID of the calendar resource to delete.
       kwargs: Other parameters to pass to gdata.client.delete()
-    
+
     Returns:
       An HTTP response object.  See gdata.client.request().
     """

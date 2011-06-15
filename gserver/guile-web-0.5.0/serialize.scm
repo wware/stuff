@@ -72,7 +72,7 @@
 	       #f)))
 	(else
 	 serialized-object)))
-		      
+
 ;;; @serialize serializes an object by seeing if it is in the
 ;;; serial-table; if it isn't it serializes the object using
 ;;; %serialize, stores that into the serial-table, and then returns
@@ -194,7 +194,7 @@
       ;; /much/ smaller than that of serializing the list as a pair
       (serialize-list item serial-table)
       (object->sobject (cons '<pair>
-			    (cons 
+			    (cons
 			     (@serialize (car item) serial-table)
 			     (@serialize (cdr item) serial-table))))))
 
@@ -228,7 +228,7 @@
 				       (slot-ref item (car x))
 				       serial-table)))
 		      (class-slots class)))))))
-  
+
 (add-unserializer '<object>
 		  (lambda (object table)
 		    ;; I know eval is evil, this is the only way (that

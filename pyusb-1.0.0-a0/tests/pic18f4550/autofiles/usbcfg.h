@@ -37,7 +37,7 @@
 /** D E F I N I T I O N S *******************************************/
 #define MAX_NUM_INT             1   // For tracking Alternate Setting
 #define EP0_BUFF_SIZE           64   // Valid Options: 8, 16, 32, or 64 bytes.
-									// There is very little advantage in using 
+									// There is very little advantage in using
 									// more than 8 bytes on EP0 IN/OUT, so 8 is the
 									// recommended value.
 
@@ -57,7 +57,7 @@
     #define USE_USB_BUS_SENSE_IO
 
 #elif defined(PIC18F87J50_FS_USB_PIM)
-    //#define USE_USB_BUS_SENSE_IO		//JP1 must be in R-U position to use this feature on this board		
+    //#define USE_USB_BUS_SENSE_IO		//JP1 must be in R-U position to use this feature on this board
 
 /*If using the YOUR_BOARD selection, uncomment below section as appropriate for your hardware*/
 //#elif defined(YOUR_BOARD)

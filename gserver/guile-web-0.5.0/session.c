@@ -53,7 +53,7 @@ SCM scgi_session_register_var (const SCM name, const SCM value)
     }
 
   retval = cgi_session_register_var (n, v);
-  
+
   free (n);
   free (v);
 
@@ -116,7 +116,7 @@ SCM scgi_session_var_exists (const SCM name)
   retval = cgi_session_var_exists (n);
 
   free (n);
-  
+
   if (retval)
     {
       return SCM_BOOL_T;
@@ -231,9 +231,9 @@ SCM scgi_session_var (SCM name)
     }
 
   retval = cgi_session_var (n);
-  
+
   free (n);
-  
+
   return scm_makfrom0str (retval);
 }
 

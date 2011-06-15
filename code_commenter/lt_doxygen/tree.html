@@ -7,23 +7,23 @@
     <title>TreeView</title>
     <script type="text/javascript">
     <!-- // Hide script from old browsers
-    
-    function toggleFolder(id, imageNode) 
+
+    function toggleFolder(id, imageNode)
     {
       var folder = document.getElementById(id);
       var l = imageNode.src.length;
-      if (imageNode.src.substring(l-20,l)=="ftv2folderclosed.png" || 
+      if (imageNode.src.substring(l-20,l)=="ftv2folderclosed.png" ||
           imageNode.src.substring(l-18,l)=="ftv2folderopen.png")
       {
         imageNode = imageNode.previousSibling;
         l = imageNode.src.length;
       }
-      if (folder == null) 
+      if (folder == null)
       {
-      } 
-      else if (folder.style.display == "block") 
+      }
+      else if (folder.style.display == "block")
       {
-        if (imageNode != null) 
+        if (imageNode != null)
         {
           imageNode.nextSibling.src = "ftv2folderclosed.png";
           if (imageNode.src.substring(l-13,l) == "ftv2mnode.png")
@@ -36,10 +36,10 @@
           }
         }
         folder.style.display = "none";
-      } 
-      else 
+      }
+      else
       {
-        if (imageNode != null) 
+        if (imageNode != null)
         {
           imageNode.nextSibling.src = "ftv2folderopen.png";
           if (imageNode.src.substring(l-13,l) == "ftv2pnode.png")
@@ -55,7 +55,7 @@
       }
     }
 
-    // End script hiding -->        
+    // End script hiding -->
     </script>
   </head>
 

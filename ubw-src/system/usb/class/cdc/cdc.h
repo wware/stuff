@@ -195,7 +195,7 @@
  * Macro:           void mUSBUSARTTxRam(byte *pData, byte len)
  *
  * PreCondition:    cdc_trf_state must be in the CDC_TX_READY state.
- *                  
+ *
  *                  Value of 'len' must be equal to or smaller than 255 bytes.
  *
  * Input:           pDdata  : Pointer to the starting location of data bytes
@@ -230,7 +230,7 @@
  * Macro:           void mUSBUSARTTxRom(rom byte *pData, byte len)
  *
  * PreCondition:    cdc_trf_state must be in the CDC_TX_READY state.
- *                  
+ *
  *                  Value of 'len' must be equal to or smaller than 255 bytes.
  *
  * Input:           pDdata  : Pointer to the starting location of data bytes

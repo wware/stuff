@@ -4,8 +4,8 @@
 # General configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           =
-PROJECT_NUMBER         = 
-OUTPUT_DIRECTORY       = 
+PROJECT_NUMBER         =
+OUTPUT_DIRECTORY       =
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
@@ -18,7 +18,7 @@ REPEAT_BRIEF           = YES
 ALWAYS_DETAILED_SEC    = NO
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
-STRIP_FROM_PATH        = 
+STRIP_FROM_PATH        =
 INTERNAL_DOCS          = NO
 STRIP_CODE_COMMENTS    = YES
 CASE_SENSE_NAMES       = YES
@@ -35,8 +35,8 @@ TAB_SIZE               = 8
 GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = YES
 GENERATE_BUGLIST       = YES
-ALIASES                = 
-ENABLED_SECTIONS       = 
+ALIASES                =
+ENABLED_SECTIONS       =
 MAX_INITIALIZER_LINES  = 30
 OPTIMIZE_OUTPUT_FOR_C  = YES
 SHOW_USED_FILES        = YES
@@ -47,7 +47,7 @@ QUIET                  = NO
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_FORMAT            = "$file:$line: $text"
-WARN_LOGFILE           = 
+WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
@@ -57,16 +57,16 @@ INPUT                  = tuple.c \
 			fft.c \
 			py_linuxtuples.c \
 			tuple_client.c
-FILE_PATTERNS          = 
+FILE_PATTERNS          =
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = 
-EXAMPLE_PATH           = 
-EXAMPLE_PATTERNS       = 
+EXCLUDE_PATTERNS       =
+EXAMPLE_PATH           =
+EXAMPLE_PATTERNS       =
 EXAMPLE_RECURSIVE      = NO
-IMAGE_PATH             = 
-INPUT_FILTER           = 
+IMAGE_PATH             =
+INPUT_FILTER           =
 FILTER_SOURCE_FILES    = NO
 #---------------------------------------------------------------------------
 # configuration options related to source browsing
@@ -80,16 +80,16 @@ REFERENCES_RELATION    = YES
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
 COLS_IN_ALPHA_INDEX    = 5
-IGNORE_PREFIX          = 
+IGNORE_PREFIX          =
 #---------------------------------------------------------------------------
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
-HTML_HEADER            = 
-HTML_FOOTER            = 
-HTML_STYLESHEET        = 
+HTML_HEADER            =
+HTML_FOOTER            =
+HTML_STYLESHEET        =
 HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = YES
 GENERATE_CHI           = NO
@@ -106,8 +106,8 @@ GENERATE_LATEX         = NO
 LATEX_OUTPUT           =
 COMPACT_LATEX          =
 PAPER_TYPE             =
-EXTRA_PACKAGES         = 
-LATEX_HEADER           = 
+EXTRA_PACKAGES         =
+LATEX_HEADER           =
 PDF_HYPERLINKS         =
 USE_PDFLATEX           =
 LATEX_BATCHMODE        =
@@ -118,8 +118,8 @@ GENERATE_RTF           = NO
 RTF_OUTPUT             = rtf
 COMPACT_RTF            = NO
 RTF_HYPERLINKS         = NO
-RTF_STYLESHEET_FILE    = 
-RTF_EXTENSIONS_FILE    = 
+RTF_STYLESHEET_FILE    =
+RTF_EXTENSIONS_FILE    =
 #---------------------------------------------------------------------------
 # configuration options related to the man page output
 #---------------------------------------------------------------------------
@@ -136,27 +136,27 @@ GENERATE_XML           = NO
 #---------------------------------------------------------------------------
 GENERATE_AUTOGEN_DEF   = NO
 #---------------------------------------------------------------------------
-# Configuration options related to the preprocessor   
+# Configuration options related to the preprocessor
 #---------------------------------------------------------------------------
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = NO
 EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = 
-INCLUDE_FILE_PATTERNS  = 
-PREDEFINED             = 
-EXPAND_AS_DEFINED      = 
+INCLUDE_PATH           =
+INCLUDE_FILE_PATTERNS  =
+PREDEFINED             =
+EXPAND_AS_DEFINED      =
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
-# Configuration::addtions related to external references   
+# Configuration::addtions related to external references
 #---------------------------------------------------------------------------
-TAGFILES               = 
+TAGFILES               =
 GENERATE_TAGFILE       = tags.xml
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl
 #---------------------------------------------------------------------------
-# Configuration options related to the dot tool   
+# Configuration options related to the dot tool
 #---------------------------------------------------------------------------
 CLASS_DIAGRAMS         = YES
 HAVE_DOT               = NO
@@ -168,19 +168,19 @@ INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
 GRAPHICAL_HIERARCHY    = YES
 DOT_IMAGE_FORMAT       = gif
-DOT_PATH               = 
-DOTFILE_DIRS           = 
+DOT_PATH               =
+DOTFILE_DIRS           =
 MAX_DOT_GRAPH_WIDTH    = 1024
 MAX_DOT_GRAPH_HEIGHT   = 1024
 GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
 #---------------------------------------------------------------------------
-# Configuration::addtions related to the search engine   
+# Configuration::addtions related to the search engine
 #---------------------------------------------------------------------------
 SEARCHENGINE           = NO
 CGI_NAME               = search.cgi
-CGI_URL                = 
-DOC_URL                = 
-DOC_ABSPATH            = 
+CGI_URL                =
+DOC_URL                =
+DOC_ABSPATH            =
 BIN_ABSPATH            = /usr/local/bin/
-EXT_DOC_PATHS          = 
+EXT_DOC_PATHS          =

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
- 
+
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
     <dc:title>Will's Blog</dc:title>
     <dc:language>en</dc:language>
@@ -55,13 +55,13 @@
     <item id="css2" href="wills-blog_files/subscribe.css" media-type="text/css"/>
     <item id="ncx" href="wills-blog.ncx" media-type="application/x-dtbncx+xml"/>
   </manifest>
- 
+
   <spine toc="ncx">
     <itemref idref="contents" />
   </spine>
- 
+
   <guide>
     <reference type="toc" title="Table of Contents" href="wills-blog.xhtml#toc_html"/>
   </guide>
- 
+
 </package>

@@ -26,7 +26,7 @@
 //	your own version of the ExitProgramMacro to dump core, log
 //	things or do something else that you want.  If the symbol
 //	ExitProgramMacro is not defined though, then a default
-//	definition is created.  
+//	definition is created.
 
 #ifndef ExitProgramMacro
 
@@ -148,11 +148,4 @@ inline void NullFunction(void * ) { ; }
 inline void NullFunction(const void * ) { ; }
 
 #endif
-
-
-
-
-
-
-
 

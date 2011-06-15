@@ -1,4 +1,4 @@
-.TH cp-build 1C LOCAL 
+.TH cp-build 1C LOCAL
 .SH NAME
 cp-build \- copy a file to a destination with version numbering and auditing
 .SH SYNOPSIS
@@ -21,7 +21,7 @@ The actual destination data file is left with a read-only protection.
 .RE
 .SS COMMAND LINE OPTIONS
 .TP 8
-.BI destination 
+.BI destination
 The
 .I destination
 defaults to the setting of the environment variable CP_BUILD_DESTINATION
@@ -32,18 +32,18 @@ The
 .I XXXXX
 is used to force the command to go ahead and copy the file to
 the destination even if certain rules have been violated.
-The defined rules are 
+The defined rules are
 .I old,same,size.
 Which prevent an old file,
 the same file, or a file of a radically different size from
-being copied to the destination. Currently only the 
+being copied to the destination. Currently only the
 .I same
 rule is implemented.
 .TP
 .BI :lock= "option"
 The
 .I option
-defaults to 
+defaults to
 .I error
 which will result in any error if any other process is doing a
 .I cp-build

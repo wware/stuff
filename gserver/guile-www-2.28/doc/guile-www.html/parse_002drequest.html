@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -49,7 +49,7 @@ successful parse consumes the trailing &lsquo;<samp><span class="samp">CRLF</spa
 well.  The method is a symbol with its constituent characters
 upcased, such as <code>GET</code>; the other elements are strings.  If the
 first line is missing the HTTP version, <code>parse-first-line</code>
-returns the default "HTTP/1.0". 
+returns the default "HTTP/1.0".
 </p></blockquote></div>
    <!-- @twerpdoc (hqf<-upath) -->
 <!-- ../source/server-utils/parse-request.doc -->
@@ -57,12 +57,12 @@ returns the default "HTTP/1.0".
 <div class="defun">
 &mdash; Procedure: <b>hqf&lt;-upath</b><var> upath<a name="index-hqf_003c_002dupath-70"></a></var><br>
 <blockquote><p>Parse <var>upath</var> and return three values representing
-its hierarchy, query and fragment components. 
+its hierarchy, query and fragment components.
 If a component is missing, its value is <code>#f</code>.
 
      <pre class="example">          (hqf&lt;-upath "/aa/bb/cc?def=xyz&amp;hmm#frag")
           &rArr; #&lt;values "/aa/bb/cc" "def=xyz&amp;hmm" "frag"&gt;
-          
+
           (hqf&lt;-upath "/aa/bb/cc#fr?ag")
           &rArr; #&lt;values "/aa/bb/cc" #f "fr?ag"&gt;
 </pre>
@@ -72,9 +72,9 @@ If a component is missing, its value is <code>#f</code>.
 
 <div class="defun">
 &mdash; Procedure: <b>alist&lt;-query</b><var> query-string<a name="index-alist_003c_002dquery-71"></a></var><br>
-<blockquote><p>Parse urlencoded <var>query-string</var> and return an alist. 
+<blockquote><p>Parse urlencoded <var>query-string</var> and return an alist.
 For each element <code>(</code><var>name</var><code> . </code><var>value</var><code>)</code> of the alist,
-<var>name</var> is a string and <var>value</var> is either <code>#f</code> or a string. 
+<var>name</var> is a string and <var>value</var> is either <code>#f</code> or a string.
 </p></blockquote></div>
    <!-- @twerpdoc (read-headers) -->
 <!-- ../source/server-utils/parse-request.doc -->
@@ -87,10 +87,10 @@ prematurely or is otherwise malformed.  Both keys and values are
 strings.  Values are trimmed of leading and trailing whitespace and
 may be empty.  Values that span more than one line have their
 "continuation whitespace" reduced to a single space.  A successful
-parse consumes the trailing &lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; of the header block as well. 
+parse consumes the trailing &lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; of the header block as well.
 </p></blockquote></div>
 
-<p class="noindent">Sometimes you are interested in the body of the message but not the headers. 
+<p class="noindent">Sometimes you are interested in the body of the message but not the headers.
 In this case, you can use <code>skip-headers</code> to quickly position the port.
 
 <!-- @twerpdoc (skip-headers) -->
@@ -100,7 +100,7 @@ In this case, you can use <code>skip-headers</code> to quickly position the port
 <blockquote><p>Scan without parsing the headers of the HTTP message from input
 <var>port</var>, and return the empty list, or <code>#f</code> if the message
 ends prematurely.  A successful scan consumes the trailing
-&lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; of the header block as well. 
+&lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; of the header block as well.
 </p></blockquote></div>
    <!-- @twerpdoc (read-body) -->
 <!-- ../source/server-utils/parse-request.doc -->
@@ -108,7 +108,7 @@ ends prematurely.  A successful scan consumes the trailing
 <div class="defun">
 &mdash; Procedure: <b>read-body</b><var> len port<a name="index-read_002dbody-74"></a></var><br>
 <blockquote><p>Return a new string of <var>len</var> bytes with contents
-read from input <var>port</var>. 
+read from input <var>port</var>.
 </p></blockquote></div>
 
 <!--  -->

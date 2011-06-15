@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -41,7 +41,7 @@ named <code>log-SOMETHING-proc</code>.
 <!-- ../source/server-utils/log.doc -->
 <div class="defun">
 &mdash; Procedure: <b>log-http-response-proc</b><var> port </var>[<var>gmtime? </var>[<var>stamp-format </var>[<var>method-pair?</var>]]]<var><a name="index-log_002dhttp_002dresponse_002dproc-106"></a></var><br>
-<blockquote><p>Return a procedure that writes an HTTP response log entry to <var>port</var>. 
+<blockquote><p>Return a procedure that writes an HTTP response log entry to <var>port</var>.
 The procedure is called with args <var>client</var>, <var>method</var>, <var>upath</var>
 (strings or symbols) and <var>status</var> (either an atom or a list), and
 writes a one-line entry of the form:
@@ -67,7 +67,7 @@ excruciating conformity to Apache for the benefit of downstream
 programs that might fall over less than gracefully otherwise.  Please
 enjoy the slack.
 
-        <p>The buffering mode for <var>port</var> is set to line-buffered. 
+        <p>The buffering mode for <var>port</var> is set to line-buffered.
 </p></blockquote></div>
 
 <!--  -->

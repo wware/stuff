@@ -2,16 +2,16 @@
  * All Rights Reserved
  *
  * This module is released under a BSD-style Open Source license.
- * See file LICENSE for licensing information. 
+ * See file LICENSE for licensing information.
  *
  * Written December 1999 Eric Lee Green
  *
  */
 /* Twofish Module:
  * This module provides an interface to the TwoFish encryption algorithm,
- * as written by Bruce Schneir et. al. at Counterpane Systems 
+ * as written by Bruce Schneir et. al. at Counterpane Systems
  * (http://www.counterpane.com). Dr. Brian Gladman's sample AES implementation
- * is used to provide the "twofish.c" and "std_defs.h" code needed here. 
+ * is used to provide the "twofish.c" and "std_defs.h" code needed here.
  *
  * Note: This implementation is generously cribbed from md5module.c, which
  * had some of the same criteria. I have heavily hacked Dr. Gladman's code
@@ -27,12 +27,12 @@ typedef unsigned char u1byte;
 typedef struct {
   PyObject_HEAD
   keyInstance encrypt_key;  /* state info for the Twofish cipher... */
-  keyInstance decrypt_key;  
+  keyInstance decrypt_key;
   int key_gen;  /* a flag for whether we're keyed or not... */
   cipherInstance cipher;
   u1byte cfb_blk[16];
   u1byte cfb_crypt[16]; /* encrypted cfb_blk for CFB128 mode */
-  int cfb128_idx;       /* where we are in the CFB128 cfb_blk). */ 
+  int cfb128_idx;       /* where we are in the CFB128 cfb_blk). */
 } TwoFishObject;
 
 staticforward PyTypeObject TwoFishType;
@@ -47,7 +47,7 @@ static PyObject *TwoFishError;
  ****************/
 static TwoFishObject *newTwoFishObject(void) {
   TwoFishObject *fishp;
-  
+
   fishp=PyObject_NEW(TwoFishObject,&TwoFishType);
   if (fishp == NULL)
     return NULL;
@@ -57,7 +57,7 @@ static TwoFishObject *newTwoFishObject(void) {
   return fishp;
 }
 
-static char new_doc [] = 
+static char new_doc [] =
 "new() -> _twofishobject:\n"
 "\n"
 "Return a new TwoFish object\n";
@@ -79,7 +79,7 @@ static PyObject *twofish_set_key(TwoFishObject *self, PyObject *args) {
   unsigned char *key;
   int key_len;   /* sorry, this is what '#' parses :-(. */
   int i;
-  
+
   if (!PyArg_Parse(args,"s#",&key,&key_len)) {
     return NULL;
   }
@@ -88,7 +88,7 @@ static PyObject *twofish_set_key(TwoFishObject *self, PyObject *args) {
     /* Okay, we must raise an exception and exit :-(. */
 
     /****FIXME****/
-    return NULL; 
+    return NULL;
   }
 
   /* okay, we do have it.... */
@@ -102,7 +102,7 @@ static PyObject *twofish_set_key(TwoFishObject *self, PyObject *args) {
   reKey(&self->decrypt_key);
 
   self->key_gen=1;    /* voila! */
-  
+
   Py_INCREF(Py_None);
   return Py_None;  /* always succeeds. */
 }
@@ -131,13 +131,13 @@ static PyObject *twofish_encrypt(TwoFishObject *self,PyObject *args) {
   if (!self->key_gen) {
     /* sorry, no key has been initialized! */
     /* ***FIXME*** RAISE EXCEPTION HERE */
-    return NULL; 
+    return NULL;
   }
   /* okay, now to encrypt it: */
   blockEncrypt(&self->cipher,&self->encrypt_key,data,128,out_blk);
 
   /* encrypt(self->ctx,(u1byte *) data,out_blk); */
-  
+
   /* Now to create a Python string out of the result: */
   return PyString_FromStringAndSize((char *)out_blk,16);
 }
@@ -160,7 +160,7 @@ static PyObject *cfb_salt(TwoFishObject *self,PyObject *args) {
   if (!PyArg_Parse(args,"s#",&src,&src_len)) {
     return NULL;  /* higher level should check this... */
   }
-  
+
   if (src_len != 16) {
     return NULL; /* source length *MUST* be 16! */
   }
@@ -183,7 +183,7 @@ static int cfb_decrypt_char(TwoFishObject *self,int ch) {
   int result;
   u1byte crypt_blk[16];
   int i;
-  
+
   /* Okay, first encrypt the CFB shift register: */
   blockEncrypt(&self->cipher,&self->encrypt_key,self->cfb_blk,128,crypt_blk);
 
@@ -205,7 +205,7 @@ static int cfb_encrypt_char(TwoFishObject *self,int ch) {
   int result;
   u1byte crypt_blk[16];
   int i;
-  
+
   /* okay, encrypt the CFB shift register: */
   blockEncrypt(&self->cipher,&self->encrypt_key,self->cfb_blk,128,crypt_blk);
 
@@ -213,7 +213,7 @@ static int cfb_encrypt_char(TwoFishObject *self,int ch) {
 
   /* Now XOR the low byte of the encrypted CFB register with the plaintext. */
   result=ch ^ (unsigned int) crypt_blk[0];
-  
+
   /* And shift it into the crypt_blk from the RIGHT: */
   for (i=0;i<15;i++) {
     self->cfb_blk[i]=self->cfb_blk[i+1];
@@ -231,11 +231,11 @@ static PyObject *cfb_encrypt(TwoFishObject *self,PyObject *args) {
   int i;
 
   PyObject *retvalue;
-  
+
   if (!PyArg_Parse(args,"s#",&src,&srclen)) {
     return NULL; /* higher level should check this. */
   }
-  
+
   /* Now to alloc our result buffer: will be same length as original data. */
   destdata=(unsigned char *) malloc(srclen);
 
@@ -271,13 +271,13 @@ static PyObject *cfb_encrypt128(TwoFishObject *self,PyObject *args) {
   unsigned char *destdata;
   int srclen;
   int i,ch;
- 
+
   PyObject *retvalue;
-  
+
   if (!PyArg_Parse(args,"s#",&src,&srclen)) {
     return NULL; /* higher level should check this. */
-  } 
-  
+  }
+
   /* Now to alloc our result buffer: will be same length as original data. */
   destdata=(unsigned char *) malloc(srclen);
 
@@ -289,10 +289,10 @@ static PyObject *cfb_encrypt128(TwoFishObject *self,PyObject *args) {
       /* encrypt(self->ctx,self->cfb_blk,self->cfb_crypt); */
       self->cfb128_idx=0;
     }
-    /* XOR the data with a byte from our encrypted buffer. */ 
+    /* XOR the data with a byte from our encrypted buffer. */
     ch=src[i] ^ self->cfb_crypt[self->cfb128_idx];
     /* do output feedback: put crypted byte into next block to be crypted */
-    self->cfb_blk[self->cfb128_idx++]=ch; 
+    self->cfb_blk[self->cfb128_idx++]=ch;
     destdata[i]=(unsigned char) ch;
   }
 
@@ -313,11 +313,11 @@ static PyObject *cfb_decrypt(TwoFishObject *self,PyObject *args) {
   int i;
 
   PyObject *retvalue;
-  
+
   if (!PyArg_Parse(args,"s#",&src,&srclen)) {
     return NULL; /* higher level should check this. */
   }
-  
+
   /* Now to alloc our result buffer: will be same length as original data. */
   destdata=(unsigned char *) malloc(srclen);
 
@@ -346,7 +346,7 @@ static char cfb_decrypt128_doc[] =
 "(Cipher FeedBack) mode. See Schneir, page 200. Note: Must first call\n"
 "cfb_salt(data) to set up the initial unique salt value!\n";
 
- 
+
 /* Now for the actual cfb_decrypt routine: */
 static PyObject *cfb_decrypt128(TwoFishObject *self,PyObject *args) {
   unsigned char *src;
@@ -354,30 +354,30 @@ static PyObject *cfb_decrypt128(TwoFishObject *self,PyObject *args) {
   int srclen;
   int i;
   unsigned char ch;
-  
+
   PyObject *retvalue;
-  
+
   if (!PyArg_Parse(args,"s#",&src,&srclen)) {
     return NULL; /* higher level should check this. */
   }
- 
+
   /* Now to alloc our result buffer: will be same length as original data. */
   destdata=(unsigned char *) malloc(srclen);
- 
+
   /* Now to encrypt each individual character in cfb mode: */
   for (i=0; i<srclen; i++) {
     if (self->cfb128_idx < 0 || self->cfb128_idx > 15) {
 
       blockEncrypt(&self->cipher,&self->encrypt_key,self->cfb_blk,128,self->cfb_crypt);
-           
+
 
       /* encrypt(self->ctx,self->cfb_blk,self->cfb_crypt); */
       self->cfb128_idx=0;
     }
     ch=src[i];
-    destdata[i]=ch ^ self->cfb_crypt[self->cfb128_idx]; 
+    destdata[i]=ch ^ self->cfb_crypt[self->cfb128_idx];
     /* do output feedback: put crypted byte into next block to be crypted */
-    self->cfb_blk[self->cfb128_idx++]=ch; 
+    self->cfb_blk[self->cfb128_idx++]=ch;
   }
   /* Now create a return value: */
   retvalue=PyString_FromStringAndSize((char *)destdata,srclen);
@@ -404,7 +404,7 @@ static PyObject *xor_block(TwoFishObject *self,PyObject *args) {
   if (src_len != 16 || xordata_len != 16) {
     return NULL;
   }
-  
+
   /* Now xor each character in the return block. */
   for (i=0;i<16;i++) {
     return_blk[i]=*src++ ^ *xordata++;
@@ -442,14 +442,14 @@ static PyObject *twofish_decrypt(TwoFishObject *self,PyObject *args) {
   if (!self->key_gen) {
     /* sorry, no key has been initialized! */
     /* ***FIXME*** RAISE EXCEPTION HERE */
-    return NULL; 
+    return NULL;
   }
    /* okay, now to decrypt it: */
 
      blockDecrypt(&self->cipher,&self->decrypt_key,data,128,out_blk);
   /*   decrypt(self->ctx,(u1byte *) data,out_blk); */
 
-  
+
   /* Now to create a Python string out of the result: */
   return PyString_FromStringAndSize((char *)out_blk,16);
 }
@@ -479,7 +479,7 @@ static PyObject *twofish_getattr(TwoFishObject *self, char *name) {
   return Py_FindMethod(twofish_methods,(PyObject *)self, name);
 }
 
-static char module_doc [] = 
+static char module_doc [] =
 "This module implements the interface to Dr. Brian Gladman's implementation\n"
 "of Counterpane's 'twofish' encryption algorithm. This is the low-level\n"
 "interface that operates solely upon 128-bit data values. For stream-oriented\n"
@@ -544,7 +544,7 @@ static PyMethodDef twofish_functions[] = {
 
 /* initialize this module. */
 DL_EXPORT(void)
-init_twofish() 
+init_twofish()
 {
   PyObject *m, *d;
   m=Py_InitModule3("_twofish",twofish_functions,module_doc);

@@ -68,9 +68,9 @@ void USBStdFeatureReqHandler(void);
  * Note:            None
  *****************************************************************************/
 void USBCheckStdRequest(void)
-{   
+{
     if(SetupPkt.RequestType != STANDARD) return;
-    
+
     switch(SetupPkt.bRequest)
     {
         case SET_ADR:
@@ -112,7 +112,7 @@ void USBCheckStdRequest(void)
         default:
             break;
     }//end switch
-    
+
 }//end USBCheckStdRequest
 
 /******************************************************************************
@@ -155,7 +155,7 @@ void USBStdGetDscHandler(void)
                 wCount._word = *pSrc.bRom;                  // Set data count
                 break;
         }//end switch
-        
+
         usb_stat.ctrl_trf_mem = _ROM;                       // Set memory type
     }//end if
 }//end USBStdGetDscHandler
@@ -219,7 +219,7 @@ void USBStdGetStatusHandler(void)
 {
     CtrlTrfData._byte0 = 0;                         // Initialize content
     CtrlTrfData._byte1 = 0;
-        
+
     switch(SetupPkt.Recipient)
     {
         case RCPT_DEV:
@@ -230,7 +230,7 @@ void USBStdGetStatusHandler(void)
              */
             if(self_power == 1)                     // self_power defined in io_cfg.h
                 CtrlTrfData._byte0|=0b000000001;    // Set bit0
-            
+
             if(usb_stat.RemoteWakeup == 1)          // usb_stat defined in usbmmap.c
                 CtrlTrfData._byte0|=0b00000010;     // Set bit1
             break;
@@ -247,7 +247,7 @@ void USBStdGetStatusHandler(void)
                 CtrlTrfData._byte0=0x01;// Set bit0
             break;
     }//end switch
-    
+
     if(ctrl_trf_session_owner == MUID_USB9)
     {
         pSrc.bRam = (byte*)&CtrlTrfData;            // Set Source
@@ -283,7 +283,7 @@ void USBStdFeatureReqHandler(void)
         else
             usb_stat.RemoteWakeup = 0;
     }//end if
-    
+
     if((SetupPkt.bFeature == ENDPOINT_HALT)&&
        (SetupPkt.Recipient == RCPT_EP)&&
        (SetupPkt.EPNum != 0))
@@ -291,7 +291,7 @@ void USBStdFeatureReqHandler(void)
         ctrl_trf_session_owner = MUID_USB9;
         /* Must do address calculation here */
         pDst.bRam = (byte*)&ep0Bo+(SetupPkt.EPNum*8)+(SetupPkt.EPDir*4);
-        
+
         if(SetupPkt.bRequest == SET_FEATURE)
             *pDst.bRam = _USIE|_BSTALL;
         else

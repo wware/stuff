@@ -1,5 +1,5 @@
 /* Scheme In One Defun, but in C this time.
- 
+
  *                    COPYRIGHT (c) 1988-1994 BY                            *
  *        PARADIGM ASSOCIATES INCORPORATED, CAMBRIDGE, MASSACHUSETTS.       *
  *        See the source file SLIB.C for more information.                  *
@@ -97,7 +97,7 @@ int main(int argc,char **argv)
      (if (< x 2)
          x
          (+ (standard-fib (- x 1))
-	    (standard-fib (- x 2)))))  
+	    (standard-fib (- x 2)))))
 
 */
 

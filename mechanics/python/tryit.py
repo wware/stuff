@@ -72,7 +72,7 @@ def buildObjectsXODE():
 def simulate(world, body1, body2):
     # Initialize pygame
     pygame.init()
-    
+
     # Open a display
     srf = pygame.display.set_mode((640,480))
 
@@ -87,7 +87,7 @@ def simulate(world, body1, body2):
         for e in events:
             if e.type==QUIT:
                 loopFlag=False
-                
+
         # Clear the screen
         srf.fill((255,255,255))
 
@@ -97,11 +97,11 @@ def simulate(world, body1, body2):
         pygame.draw.line(srf, (55,0,200), coord(0,2), coord(x1,y1), 2)
         pygame.draw.circle(srf, (55,0,200), coord(x2,y2), 20, 0)
         pygame.draw.line(srf, (55,0,200), coord(x1,y1), coord(x2,y2), 2)
-        
+
         pygame.display.flip()
 
         world.step(dt)
-        
+
         clk.tick(fps)
 
 

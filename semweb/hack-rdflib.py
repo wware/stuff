@@ -18,6 +18,6 @@ g.parse("http://danbri.livejournal.com/data/foaf") # Several friends of Dan Bric
 # I just get redirected to http://xmlns.com/foaf/spec/
 # So I'm not sure what people are doing there
 
-for row in g.query('SELECT ?aname ?bname WHERE { ?a foaf:knows ?b . ?a foaf:name ?aname . ?b foaf:name ?bname . }', 
+for row in g.query('SELECT ?aname ?bname WHERE { ?a foaf:knows ?b . ?a foaf:name ?aname . ?b foaf:name ?bname . }',
                    initNs=dict(foaf=Namespace("http://xmlns.com/foaf/0.1/"))):
     print "%s knows %s" % row

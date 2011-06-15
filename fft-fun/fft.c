@@ -25,7 +25,7 @@ void fft(int m, double* rex, double* imx)
     double tr, ti;
     int i;
     int l;
-    
+
     for (i = 1; i < n; ++i) {
         int k;
         if (i < j) {
@@ -43,7 +43,7 @@ void fft(int m, double* rex, double* imx)
         }
         j += k;
     }
-    
+
     for (l = 1; l <= m; ++l) {
         int i;
         int le = 1 << l;

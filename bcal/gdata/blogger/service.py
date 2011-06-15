@@ -68,13 +68,13 @@ class BloggerService(gdata.service.GDataService):
   def AddPost(self, entry, blog_id=None, uri=None):
     if blog_id:
       uri = '/feeds/%s/posts/default' % blog_id
-    return self.Post(entry, uri, 
+    return self.Post(entry, uri,
                      converter=gdata.blogger.BlogPostEntryFromString)
 
   def UpdatePost(self, entry, uri=None):
     if not uri:
       uri = entry.GetEditLink().href
-    return self.Put(entry, uri, 
+    return self.Put(entry, uri,
                     converter=gdata.blogger.BlogPostEntryFromString)
 
   def DeletePost(self, entry=None, uri=None):
@@ -86,20 +86,20 @@ class BloggerService(gdata.service.GDataService):
     """Adds a new comment to the specified blog post."""
     if blog_id and post_id:
       uri = '/feeds/%s/%s/comments/default' % (blog_id, post_id)
-    return self.Post(comment_entry, uri, 
+    return self.Post(comment_entry, uri,
                      converter=gdata.blogger.CommentEntryFromString)
 
   def DeleteComment(self, entry=None, uri=None):
     if not uri:
       uri = entry.GetEditLink().href
     return self.Delete(uri)
-    
+
 
 class BlogQuery(gdata.service.Query):
 
   def __init__(self, feed=None, params=None, categories=None, blog_id=None):
     """Constructs a query object for the list of a user's Blogger blogs.
-    
+
     Args:
       feed: str (optional) The beginning of the URL to be queried. If the
           feed is not set, and there is no blog_id passed in, the default
@@ -112,13 +112,13 @@ class BlogQuery(gdata.service.Query):
       feed = '/feeds/default/blogs/%s' % blog_id
     elif not feed:
       feed = '/feeds/default/blogs'
-    gdata.service.Query.__init__(self, feed=feed, params=params, 
+    gdata.service.Query.__init__(self, feed=feed, params=params,
         categories=categories)
 
 
 class BlogPostQuery(gdata.service.Query):
 
-  def __init__(self, feed=None, params=None, categories=None, blog_id=None, 
+  def __init__(self, feed=None, params=None, categories=None, blog_id=None,
       post_id=None):
     if not feed and blog_id and post_id:
       feed = '/feeds/%s/posts/default/%s' % (blog_id, post_id)
@@ -130,7 +130,7 @@ class BlogPostQuery(gdata.service.Query):
 
 class BlogCommentQuery(gdata.service.Query):
 
-  def __init__(self, feed=None, params=None, categories=None, blog_id=None, 
+  def __init__(self, feed=None, params=None, categories=None, blog_id=None,
       post_id=None, comment_id=None):
     if not feed and blog_id and comment_id:
       feed = '/feeds/%s/comments/default/%s' % (blog_id, comment_id)

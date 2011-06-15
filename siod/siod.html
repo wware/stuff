@@ -1,26 +1,26 @@
 <!doctype html public "-//IETF//DTD HTML//EN//2.0">
-<!-- 
-     This document is Copyright 1996 by George J. Carrette, 
+<!--
+     This document is Copyright 1996 by George J. Carrette,
      All Rights Reserved.
- -->  
+ -->
 <html>
 <head><title>SIOD: Scheme in One Defun</title>
 </head>
 <body>
 <H1>SIOD: Scheme in One Defun</H1>
-<B>SIOD</B> is a <I>small-footprint</I> implementation of the 
-Scheme programming language that is provided with some database, 
+<B>SIOD</B> is a <I>small-footprint</I> implementation of the
+Scheme programming language that is provided with some database,
 unix programming and cgi scripting extensions.
 
 <BLOCKQUOTE>This document is &copy; 1996 by George J. Carrette,
 All Rights Reserved.</BLOCKQUOTE>
 
 The most recent source code release is usually available in
-the directory 
+the directory
 <a href="ftp://ftp.std.com/pub/gjc/">ftp://ftp.std.com/pub/gjc/</a>
 as <a href="siod_tar.gz">siod_tar.gz</a>.
 Windows 95 binaries <a href="win95bin.zip">win95bin.zip</a>.
-You can reach the the author at 
+You can reach the the author at
 <a href="mailto:gjc@world.std.com">gjc@world.std.com</a>.
 
 <HR>
@@ -49,24 +49,24 @@ students of a <I>LISP and Artificial Intelligence Programming Techniques</I>
 course that I had developed and was teaching at Boston University in the
 late 1980's:
 
-<BLOCKQUOTE>How can we possibly hope to make use any of this stuff in 
+<BLOCKQUOTE>How can we possibly hope to make use any of this stuff in
 work we are doing in other courses or in our jobs?</BLOCKQUOTE>
 
 <P>The problem being that both the commercial and non-commercial lisp
 offerings at the time seemed to want to take over your entire
-programming environment if you wanted to use lisp at all. 
-A completely satisfactory solution to this problem will not be fully 
+programming environment if you wanted to use lisp at all.
+A completely satisfactory solution to this problem will not be fully
 available again until a lisp system is written that uses
 the same compiler back-end, debugging and runtime support as
 all the other languages on a popular machine. But I digress.
 
-<P>Knowing that the use of lisp didn't have to be so intrusive, 
+<P>Knowing that the use of lisp didn't have to be so intrusive,
 but having very little
 practical evidence at hand to actually prove the fact, I decided
 one day while I was keeping the laboratory section room
 open for course <B>EK201</B> to sit down and implement a demonstration
 made up of a simple <B>cons</B>,
-<b>arithmetic</b>, <B>read</b>, <b>eval</b>, and <b>print</b> 
+<b>arithmetic</b>, <B>read</b>, <b>eval</b>, and <b>print</b>
 in straightforward <B>C</B>
 programming style, where the garbage collector was stop-and-copy and
 could only run in the context of the toplevel loop. Defining and executing
@@ -83,8 +83,8 @@ extend it as well as the author would have done the work himself.
 <P>About eight years have passed since that initial release. It has been
 possible to add a feature or two without contributing to the cause
 of software bloat, with the code segment of the libsiod shared
-library remaining under 75K bytes on a prototypical comparison machine 
-like a VAX. Furthermore, as the richness of the C runtime library 
+library remaining under 75K bytes on a prototypical comparison machine
+like a VAX. Furthermore, as the richness of the C runtime library
 available on most systems has improved over time, <B>SIOD</B> remains
 a useful kind of glue to have in a software engineers toolbox.
 
@@ -119,7 +119,7 @@ build files.
 
 <UL>
 <LI><B>1.0</B> April 1988.
-Initial release. 
+Initial release.
 <LI><B>1.1</B> April 1988.
 Macros, predicates, load. Better number recognizer in read,
 provided siod.scm file.
@@ -135,7 +135,7 @@ as an interpreted extension language in other systems.</TD></TR>
 Added the -g flag to enable mark-and-sweep garbage collection.
 The default is stop-and-copy. (Note: changed default to mark-and-sweep)
 <LI><B>2.0</B> December 1989.
-Set_Repl_Hooks, catch & throw. 
+Set_Repl_Hooks, catch & throw.
 <LI><B>2.1</B> December 1989.
 Additions to SIOD.SCM: Backquote, cond.
 <LI><B>2.2</B> December 1989.
@@ -158,7 +158,7 @@ bug fixes.
 <LI><B>2.9</B> August 1992.
 added trace.c, fseek, ftell, some fixes.
 <LI><B>3.0</B> May 1994.
-Windows NT port. some cleanups. SQL support, more string stuff. 
+Windows NT port. some cleanups. SQL support, more string stuff.
 Heap management flexibility, default to mark-and-sweep, suggestions
 by some code reviewers for comp.sources.unix.
 <LI><B>3.1x</B> June 1995.
@@ -178,7 +178,7 @@ interface.
 
 Scheme is a programming language, a dialect of the Lisp (List
 Processing) family of languages, generally utilizing a syntax based on
-parenthetical expressions delimited by whitespace, although 
+parenthetical expressions delimited by whitespace, although
 <a href="#hello.scm">alternative</a> syntax capabilities are sometimes
 available. An implementation
 such as SIOD usually runs by default in an immediate execution mode,
@@ -225,7 +225,7 @@ Note that the arguments to built-in procedures are always optional
 and default to <B>()</B>. Many of these procedures call a C library function
 of the same or similar name, in the obvious way. Therefore you can
 refer to the unix manual page for more detailed information about
-function behavior. Such procedures are indicated with a bold 
+function behavior. Such procedures are indicated with a bold
 <B><FONT SIZE="+2">U</FONT></B>.
 
 <h3>(%%%memref address)</h3>
@@ -236,8 +236,8 @@ a core dump for debugging purposes by referencing address 0 or -1.
 This is a lowlevel routine which should not be invoked in normal code.
 If code is a cons of the form (arlist . body) then env is a list of frames,
 and the application of the closure will invoke the interpreter.
-Otherwise code should be of type tc_subr_X and the 
-application of the closure will pass the env as the 
+Otherwise code should be of type tc_subr_X and the
+application of the closure will pass the env as the
 first argument to the C procedure implementing the subr.
 <h3>(%%closure-code closure)</h3>
 This is a lowlevel routine which should not be invoked in normal code.
@@ -300,21 +300,21 @@ Returns true if x is numerically greater than y.
 Returns true if x is numerically greater than or equal to y.
 <h3>(F_GETLK fd ltype whence start len)</h3>
 The fd may be an integer or file. The function
-<b>fcntl</b> (<B><FONT SIZE="+2">U</FONT></B>) is called on the file 
+<b>fcntl</b> (<B><FONT SIZE="+2">U</FONT></B>) is called on the file
 descriptor and an appropriate <b>struct flock</b>
 constructed from the ltype, whence, start and len arguments, and the
 lock operation F_GETLK. The ltype may be F_RDLCK,F_UNLCK, or F_WRLCK.
 Whence may be SEEK_CUR, SEEK_END or SEEK_SET.
 <h3>(F_SETLK fd ltype whence start len)</h3>
-Same as F_GETLCK but with lock operation F_SETLK. <B><FONT SIZE="+2">U</FONT></B>. 
+Same as F_GETLCK but with lock operation F_SETLK. <B><FONT SIZE="+2">U</FONT></B>.
 <h3>F_SETLKW fd ltype whence start len)</h3>
-Same as F_GETLCK but with lock operation F_SETLKW. <B><FONT SIZE="+2">U</FONT></B>. 
+Same as F_GETLCK but with lock operation F_SETLKW. <B><FONT SIZE="+2">U</FONT></B>.
 For a good example see the command script <A name="cmd">cp-build</a>.
 <h3>(abs x)</h3>
 Returns the absolute numerical value of x.
 <h3>(access-problem? filename method)</h3>
 Invokes the access function (<B><FONT SIZE="+2">U</FONT></B>) on
-the filename and flags created from the method string which 
+the filename and flags created from the method string which
 should contain one or more of the characters "rwxf" returning non-null
 if there is a problem with accessing the file in that way. For example:
 <BLOCKQUOTE><PRE><TT>(if (access-problem? "x.y" "r") (error "can't read x.y"))</TT></PRE></BLOCKQUOTE>
@@ -327,12 +327,12 @@ But if flag is false then the error will not be signaled if the alarm took
 place inside a system call or other critical code section.
 <h3>(allocate-heap)</h3>
 Attempts to allocate (call the C library malloc procedure) to obtain
-an additional heap. The size of the heap and the maximum number of heaps 
+an additional heap. The size of the heap and the maximum number of heaps
 are determined at startup time. Returns non-null if successful.
 <h3>(and form1 form2 form3 ...)</h3>
 A special form which causes the evaluation of its subforms in order,
 from left to right, continuing if and only if the subform returns
-a non-null value. 
+a non-null value.
 <h3>(append l1 l2 l3 l4 ...)</h3>
 Returns a list which the result of appending all of its arguments.
 Example:
@@ -384,16 +384,16 @@ A zero-overhead way of calling the function f n times on arg1.
 <h3>(benchmark-funcall2 nloops f arg1 arg2)</h3>
 A zero-overhead way of calling the function f n times on arg1 and arg2.
 <h3>(bit-and x y)</h3>
-Returns the bitwise logical "and" (C language &amp; operator) 
+Returns the bitwise logical "and" (C language &amp; operator)
 of numerical arguments x and y.
 <h3>(bit-not x)</h3>
-Returns the bitwise logical complement (C language ~ operator) 
+Returns the bitwise logical complement (C language ~ operator)
 of numerical argument x.
 <h3>(bit-or x y)</h3>
-Returns the bitwise logical "or" (C language | operator) 
+Returns the bitwise logical "or" (C language | operator)
 of numerical arguments x and y.
 <h3>(bit-xor x y)</h3>
-Returns the bitwise logical "xor" (C language ^ operator) 
+Returns the bitwise logical "xor" (C language ^ operator)
 of numerical arguments x and y.
 <h3>(butlast x)</h3>
 Returns a new list which has all the elements of the argument x except
@@ -430,7 +430,7 @@ Same as (cdr (cdr x)).
 <h3>(cdr x)</h3>
 If x is the result of (cons a b) then (cdr x) is the same as b.
 <h3>(chdir path)</h3>
-Changes default directory to path. <B><FONT SIZE="+2">U</FONT></B>. 
+Changes default directory to path. <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(chmod path mode)</h3>
 Changes the file mode of path. <B><FONT SIZE="+2">U</FONT></B>. For example, to add execute access
 permission to the file f:
@@ -439,9 +439,9 @@ permission to the file f:
        (encode-file-mode (append '(XUSR XGRP XOTH)
                                   (cdr (assq 'mode (stat f))))))</TT></PRE></BLOCKQUOTE>
 <h3>(chown path uid gid)</h3>
-Changes file ownership. <B><FONT SIZE="+2">U</FONT></B>. 
+Changes file ownership. <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(closedir stream)</h3>
-Closes a directory stream. <B><FONT SIZE="+2">U</FONT></B>. 
+Closes a directory stream. <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(cond clause1 clause2 ...)</h3>
 A special form where each clause is processed until the predicate expression
 of the clause evaluates true. Then each subform in the predicate
@@ -465,13 +465,13 @@ The toplevel cons objects of x are copied, returning a new list.
 Returns the cosine where x is in units of radians.
 <h3>(cpu-usage-limits soft-limit hard-limit)</h3>
 Invokes getrlimit if the arguments are null or otherwise setrlimit.
-<B><FONT SIZE="+2">U</FONT></B>. 
+<B><FONT SIZE="+2">U</FONT></B>.
 <h3>(crypt key salt)</h3>
-A form of string hash. <B><FONT SIZE="+2">U</FONT></B>. 
+A form of string hash. <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(current-resource-usage kind)</h3>
 Kind is the symbol SELF or CHILDREN, calls getrusage, <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(datlength data ctype)</h3>
-Returns the dimension of the data as if viewed as an array by 
+Returns the dimension of the data as if viewed as an array by
 the datref function.
 <h3>(datref data ctype index)</h3>
 References the data as if it were an array of C data type ctype,
@@ -519,8 +519,8 @@ This variable is assigned to the offending object when the error
 procedure has been invoked. Useful mainly during interactive debugging.
 <h3>(error message object)</h3>
 Prints the error message then aborts the current execution
-by invoking *throw using the symbol errobj as the tag 
-and the cons of the message and the object as the value. 
+by invoking *throw using the symbol errobj as the tag
+and the cons of the message and the object as the value.
 Equivalent to:
 
 <BLOCKQUOTE><PRE><TT>(define (error message object)
@@ -578,7 +578,7 @@ Create a child process. Returning a numerical pid in the parent,
 () in the child, or call error if the child cannot be created.
 <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(fread size-or-buffer stream)</h3>
-Returns a new string of size bytes by calling 
+Returns a new string of size bytes by calling
 fread <B><FONT SIZE="+2">U</FONT></B>. Or uses the buffer (a string
 or a byte array) instead and returns the number of bytes read.
 Returns () on end-of-file.
@@ -834,7 +834,7 @@ Used to close a stream opened using popen. Makes sure the
 associated process is killed.
 <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(popen command type)</h3>
-Executes the command in a child process and opens a stream 
+Executes the command in a child process and opens a stream
 connected to the process standard output if type is r, or
 the standard input if type is w.
 <B><FONT SIZE="+2">U</FONT></B>.
@@ -947,7 +947,7 @@ have been loaded by the the current process.
 Removes the directory entry specified by path.
 <B><FONT SIZE="+2">U</FONT></B>.
 <h3>(runtime)</h3>
-Returns a list of containing the current cpu usage in seconds 
+Returns a list of containing the current cpu usage in seconds
 and the subset amount of cpu time that was spent performing garbage
 collection during the currently extant read-eval-print loop cycle.
 <h3>(save-forms filename forms how)</h3>
@@ -1075,11 +1075,11 @@ Returns a new string made up of the part of str begining at start
 and terminating at end. In other words, the new string has a length
 of end - start.
 <h3>(substring-equal? str str2 start end)</h3>
-An efficient way to determine if the substring of str2 specified 
+An efficient way to determine if the substring of str2 specified
 by start and end is equal to str1.
 <h3>(swrite stream table form)</h3>
 This is the same as the write-smart-html procedure
-described in 
+described in
 <a href="ftp://ftp.std.com/pub/gjc/www95-paper.html">ftp://ftp.std.com/pub/gjc/www95-paper.html</a>.
 <h3>(sxhash data modulus)</h3>
 Computes a recursive hash of the data with respect to the specified
@@ -1113,7 +1113,7 @@ for the current lexical scope.
 Traces the specified interpreted procedures by modifying the
 closure objects.
 <h3>(trunc x)</h3>
-Returns the integer portion of x. 
+Returns the integer portion of x.
 <h3>(typeof x)</h3>
 Returns a symbol describing the type of the object x, or
 the integer type code.
@@ -1156,7 +1156,7 @@ Sets the file modification and access times.
 <B><FONT SIZE="+2">U</FONT></B>
 <h3>(verbose arg)</h3>
 Sets the verbosity level of SIOD to the specified level or returns
-the current level if not specified. 
+the current level if not specified.
 <TABLE BORDER=1>
 <TR><TH>Verbose Level</TH><TH>Effect on System</TH></TR>
 <TR><TD>0</TD><TD>No messages.</TD></TR>
@@ -1169,7 +1169,7 @@ databases.</TD></TR>
 </TABLE>
 
 <h3>(wait pid options)</h3>
-Waits on a child process by calling the waitpid function, 
+Waits on a child process by calling the waitpid function,
 where options may be a list containing (WCONTINUED WNOWAIT WNOHANG WUNTRACED).
 Returns a list of the process pid and final exit status. The
 fork-test.scm and http-stress.scm modules provide example usage.
@@ -1347,7 +1347,7 @@ built-in subroutine of 3 arguments.
 
 <a name="hello.scm"><H4>Example, hello.scm</H4></a>
 <PRE><TT>#!/usr/local/bin/siod -v01,-m2 -*-mode:text;parser:pratt-*-
-main() := 
+main() :=
 {writes(nil,"Hello Scheme World.\n");
  fflush(nil);
  writes(nil,"fib(20) = ",fib(20),"\n");
@@ -1371,10 +1371,10 @@ error information from the compiled regular expression handle.
 If the string matches then a list of (start . end) pairs are returned
 indicating the substrings involved in the match against the pattern
 of the compiled regular expression. Otherwise an error code is
-returned: REG_BADBR, REG_BADPAT, REG_BADRPT, REG_EBRACE, 
+returned: REG_BADBR, REG_BADPAT, REG_BADRPT, REG_EBRACE,
 REG_EBRACK, REG_ECHAR,
 REG_ECOLLATE, REG_ECTYPE, REG_EESCAPE, REG_EPAREN, REG_ERANGE,
-REG_ESPACE, REG_ESUBREG, 
+REG_ESPACE, REG_ESUBREG,
 REG_NOMATCH, REG_NOTBOL, REG_NOTEOL.
 
 <h3>Extension: sql_oracle</h3>
@@ -1382,7 +1382,7 @@ Uses the OCI, Oracle Call Interface.
 See the sql_oracle.scm module for examples.
 
 <h3>Extension: sql_rdb</h3>
-Uses the RDB SQL SERVICES, sqlsrv_xxxx routines. 
+Uses the RDB SQL SERVICES, sqlsrv_xxxx routines.
 See the sql_rdb.scm module for examples.
 
 <h3>Extension: sql_sybase</h3>
@@ -1403,7 +1403,7 @@ CS_RPC_CMD or CS_LANG_CMD. The optional keys are procedure argument
 names. Pass "" as the key for un-named positional arguments.
 The result of sybase-execute is an list where the first
 element represents the status and the rest is an association
-list with CS_ROW_RESULT, CS_STATUS_RESULT, CS_PARAM_RESULT, 
+list with CS_ROW_RESULT, CS_STATUS_RESULT, CS_PARAM_RESULT,
 and CS_MSG_RESULT elements. Rows are returned as lists of arrays.
 The handle defaults to the value of the variable *sybase*.
 <h4>(sybase-open key1 arg1 key2 arg2 ...)</h4>
@@ -1498,7 +1498,7 @@ faster and more convenient.
 
 <A name="cmd"><H2>Command interfaces and some scripts provided</h2></A>
 These commands all have unix manual pages, which in the interest of brevity
-are not duplicated here.  
+are not duplicated here.
 <TABLE BORDER=1>
 <TR><TH>Command</TH><TH>Purpose</TH></TR>
 <TR><TD>siod</TD><TD>the interpreter</TD></TR>
@@ -1581,16 +1581,16 @@ Boehm of Xerox Parc then reduced this design decision to a no-brainer,
 and his implementation suggested the use of setjmp as a sufficiently
 portable way for C code to get at the machine register set without
 introducing assembling language. To SIOD then I added only about 300
-bytes of VAX instructions to the size of the runtime system. 
+bytes of VAX instructions to the size of the runtime system.
 
 <P>
 There are two storage management techniques which may be chosen at runtime
-by specifying the -g argument flag. 
+by specifying the -g argument flag.
 
 <UL>
 <LI>-g1 is stop-and-copy. This is the simplest and most
 portable implementation. GC is only done at toplevel.
-<LI>-g0 (the default) is mark-and-sweep. GC is done at any time, 
+<LI>-g0 (the default) is mark-and-sweep. GC is done at any time,
 required or requested. However, the implementation is not as portable.
 </UL>
 
@@ -1614,7 +1614,7 @@ The real tricks in handling garbage collection are (in a copying gc):
 <P>The procedure gc_protect is called once (e.g. at startup) on each
 <B>global</B> location which will contain a lisp object.
 
-<P>That leaves the stack. The beleive is that if we had chosen not to 
+<P>That leaves the stack. The beleive is that if we had chosen not to
 use the argument
 and return-value passing mechanism provided by the C-language
 implementation, (also known as the "machine stack" and "machine
@@ -1626,7 +1626,7 @@ to the implementation.
 <P>Aside from writing a very machine and compiler specific assembling language
 routine for each C-language implementation, embodying assumptions about
 the placement choices for arguments and local values, etc, we
-are left with the following limitation: 
+are left with the following limitation:
 
 <BLOCKQUOTE>YOU CAN GC ONLY AT TOP-LEVEL</BLOCKQUOTE>
 
@@ -1710,14 +1710,14 @@ frames, such as would be utilized by a debugger. The mark_locations
 procedure can then be invoked multiple times with the proper start
 and end addresses.
 
-<P>If the stack is not always aligned (in LISP-PTR sense) then the 
+<P>If the stack is not always aligned (in LISP-PTR sense) then the
 gc_mark_and_sweep procedure will not work properly unless steps
 are taken to work around the problem.
 
 <P>Example, assuming a byte addressed 32-bit pointer machine:
 
 <BLOCKQUOTE><PRE><TT>
-stack_start_ptr: [LISP-PTR(4)] 
+stack_start_ptr: [LISP-PTR(4)]
                  [LISP-PTR(4)]
                  [RANDOM(4)]
                  [RANDOM(2)]
@@ -1779,8 +1779,8 @@ about memory addressing because it is important to be able to get the TYPE
 as quickly as possible.
 
 <P>There are certainly other was to organize data, avoiding the
-use of the C programming <i>struct</i> support, and utilizing 
-carefully contrived macro definitions instead. 
+use of the C programming <i>struct</i> support, and utilizing
+carefully contrived macro definitions instead.
 
 
 <A name="extwrite"><H2>Writing extensions in the C programming language</h2></A>
@@ -1808,7 +1808,7 @@ provided functionality.
 study them. These extensions are straightforward, and easy to debug from the C
 language debugger, with the functions <b>err0</b>, <b>pr</b>, and
 <b>prp</b> being provided to call back into the lisp runtime system
-from the C debugger. 
+from the C debugger.
 
 <P>Some examples from the second class are the <b>ndbm</b>
 and <b>regex</b> modules, and the support for commercial database
@@ -1854,7 +1854,7 @@ arbitrary evalution semantics when the first element of a form
 evaluates to a new datatype.
 
 <H3>User Type Extension</H3>
-If you use them then you must provide some information 
+If you use them then you must provide some information
 to the garbage collector.
 To do this you can supply 4 functions,
 <OL>
@@ -1874,7 +1874,7 @@ set_gc_hooks(type,
              &kind_of_gc);
 </TT></PRE></BLOCKQUOTE>
 
-<P>The variable kind_of_gc should be a long. 
+<P>The variable kind_of_gc should be a long.
 It will receive 0 for mark-and-sweep, 1 for
 stop-and-copy. Therefore set_gc_hooks should be called AFTER process_cla.
 You must specify a relocate function with stop-and-copy. The scan
@@ -1901,10 +1901,10 @@ the <B>repl_c_string</b> function.
 <A name="ref"><H2>References</h2></A>
 
 <MENU>
-<LI><I>Structure and Interpretation of Computer Programs</I>, by 
+<LI><I>Structure and Interpretation of Computer Programs</I>, by
 <a href="http://www-swiss.ai.mit.edu/~hal/hal.html">Abelson</a>
-and 
-<a href="http://www-swiss.ai.mit.edu/~gjs/gjs.html">Sussman</a>, 
+and
+<a href="http://www-swiss.ai.mit.edu/~gjs/gjs.html">Sussman</a>,
 <a href="http://www-mitpress.mit.edu/">MIT Press</a>.
 
 <LI><a href="http://www.cs.indiana.edu/scheme-repository/">scheme repository

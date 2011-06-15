@@ -68,7 +68,7 @@ following changes:
 
 1.  In MPLAB IDE, click "Configure --> Select Device" and then
 	select the PIC18F87J50
-2.  From the project window, change the linker script to the 
+2.  From the project window, change the linker script to the
 	18f87j50.lkr file
 3.  Open usbcfg.h and uncomment the line that reads,
 	"//#define PIC18F87J50_FS_USB_PIM" and then comment the other
@@ -96,13 +96,13 @@ features.
 #include "system\usb\usb_compile_time_validation.h" // Optional
 
 /** C O N F I G U R A T I O N ************************************************/
-// Note: For a complete list of the available config pragmas and their values, 
-// see the compiler documentation, and/or click "Help --> Topics..." and then 
+// Note: For a complete list of the available config pragmas and their values,
+// see the compiler documentation, and/or click "Help --> Topics..." and then
 // select "PIC18 Config Settings" in the Language Tools section.
 
 #if defined(PIC18F4550_PICDEM_FS_USB)		// Configuration bits for PICDEM FS USB Demo Board
         #pragma config PLLDIV   = 5         // (20 MHz crystal on PICDEM FS USB board)
-        #pragma config CPUDIV   = OSC1_PLL2	
+        #pragma config CPUDIV   = OSC1_PLL2
         #pragma config USBDIV   = 2         // Clock source from 96MHz PLL/2
         #pragma config FOSC     = HSPLL_HS
         #pragma config FCMEN    = OFF
@@ -154,7 +154,7 @@ features.
         #pragma config WDTPS    = 32768
 //      #pragma config WAIT     = OFF		// Commented choices are
 //      #pragma config BW       = 16		// only available on the
-//      #pragma config MODE     = MM		// 80 pin devices in the 
+//      #pragma config MODE     = MM		// 80 pin devices in the
 //      #pragma config EASHFT   = OFF		// family.
         #pragma config MSSPMSK  = MSK5
 //      #pragma config PMPMX    = DEFAULT
@@ -254,7 +254,7 @@ void main(void)
  *                  here.
  *
  *                  User application initialization routine should also be
- *                  called from here.                  
+ *                  called from here.
  *
  * Note:            None
  *****************************************************************************/
@@ -290,7 +290,7 @@ static void InitializeSystem(void)
 
     #else
         #error Double Click this message.  Please make sure the InitializeSystem() function correctly configures your hardware platform.
-		//Also make sure the correct board is selected in usbcfg.h.  If 
+		//Also make sure the correct board is selected in usbcfg.h.  If
 		//everything is correct, comment out the above "#error ..." line
 		//to suppress the error message.
     #endif
@@ -312,7 +312,7 @@ static void InitializeSystem(void)
 //	host is not actively providing power on Vbus. Therefore, implementing this
 //	bus sense feature is optional.  This firmware can be made to use this bus
 //	sense feature by making sure "USE_USB_BUS_SENSE_IO" has been defined in the
-//	usbcfg.h file.    
+//	usbcfg.h file.
     #if defined(USE_USB_BUS_SENSE_IO)
     tris_usb_bus_sense = INPUT_PIN; // See io_cfg.h
     #endif
@@ -325,14 +325,14 @@ static void InitializeSystem(void)
 //	Instead, firmware should check if it is currently self or bus powered, and
 //	respond accordingly.  If the hardware has been configured like demonstrated
 //	on the PICDEM FS USB Demo Board, an I/O pin can be polled to determine the
-//	currently selected power source.  On the PICDEM FS USB Demo Board, "RA2" 
+//	currently selected power source.  On the PICDEM FS USB Demo Board, "RA2"
 //	is used for	this purpose.  If using this feature, make sure "USE_SELF_POWER_SENSE_IO"
 //	has been defined in usbcfg.h, and that an appropriate I/O pin has been mapped
-//	to it in io_cfg.h.    
+//	to it in io_cfg.h.
     #if defined(USE_SELF_POWER_SENSE_IO)
     tris_self_power = INPUT_PIN;
     #endif
-    
+
     mInitializeUSBDriver();         // See usbdrv.h
 //    UserInit();                     // See user.c & .h
 

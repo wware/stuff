@@ -41,7 +41,7 @@ class Match(atom.AtomBase):
             extension_attributes=None, text=None):
         self.text = text
         self.type = type
-        self.line_number = line_number 
+        self.line_number = line_number
         self.extension_elements = extension_elements or []
         self.extension_attributes = extension_attributes or {}
 
@@ -86,20 +86,20 @@ class CodesearchEntry(gdata.GDataEntry):
     _namespace = gdata.GDataEntry._namespace
     _children = gdata.GDataEntry._children.copy()
     _attributes = gdata.GDataEntry._attributes.copy()
-    
+
     _children['{%s}file' % CODESEARCH_NAMESPACE] = ('file', File)
     _children['{%s}package' % CODESEARCH_NAMESPACE] = ('package', Package)
     _children['{%s}match' % CODESEARCH_NAMESPACE] = ('match', [Match])
-    
+
     def __init__(self, author=None, category=None, content=None,
-            atom_id=None, link=None, published=None, 
-            title=None, updated=None, 
-            match=None, 
+            atom_id=None, link=None, published=None,
+            title=None, updated=None,
+            match=None,
             extension_elements=None, extension_attributes=None, text=None):
-        
-        gdata.GDataEntry.__init__(self, author=author, category=category, 
-                content=content, atom_id=atom_id, link=link, 
-                published=published, title=title, 
+
+        gdata.GDataEntry.__init__(self, author=author, category=category,
+                content=content, atom_id=atom_id, link=link,
+                published=published, title=title,
                 updated=updated, text=None)
 
         self.match = match or []
@@ -125,7 +125,7 @@ class CodesearchFeed(gdata.GDataFeed):
     _attributes = gdata.GDataFeed._attributes.copy()
     _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', [CodesearchEntry])
 
-    
+
 def CodesearchFeedFromString(xml_string):
     """Converts an XML string into a CodesearchFeed object.
     Args:

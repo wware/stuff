@@ -116,6 +116,3 @@ int htqs_arg(char *value)
  else
    return(repl_c_string(value,0,0,0));}
 
-
-
-

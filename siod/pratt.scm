@@ -4,17 +4,17 @@
 ;; Siod may be obtained by anonymous FTP to FTP.STD.COM
 ;; Look in the directory pub/gjc
 ;;
-;;                   COPYRIGHT (c) 1990 BY                       
+;;                   COPYRIGHT (c) 1990 BY
 ;;     PARADIGM ASSOCIATES INCORPORATED, CAMBRIDGE, MASSACHUSETTS.
-;;         See the source file SLIB.C for more information. 
+;;         See the source file SLIB.C for more information.
 ;;
 ;;
-;; Based on a theory of parsing presented in:                       
-;;                                                                      
-;;  Pratt, Vaughan R., ``Top Down Operator Precedence,''         
-;;  ACM Symposium on Principles of Programming Languages         
-;;  Boston, MA; October, 1973.                                   
-;;                                                                      
+;; Based on a theory of parsing presented in:
+;;
+;;  Pratt, Vaughan R., ``Top Down Operator Precedence,''
+;;  ACM Symposium on Principles of Programming Languages
+;;  Boston, MA; October, 1973.
+;;
 ;; $Id: pratt.scm,v 1.5 1996/03/01 19:39:36 gjc Exp $
 ;;
 
@@ -35,7 +35,7 @@
 ;; (pl '(if g #.OPEN-PAREN a #.COMMA b #.CLOSE-PAREN then a > b else k * c + a * b))
 ;;  => (if (g a b) (> a b) (+ (* k c) (* a b)))
 ;;
-;; Notes: 
+;; Notes:
 ;;
 ;;   This code must be used with siod.scm loaded, in siod version 2.3
 ;;

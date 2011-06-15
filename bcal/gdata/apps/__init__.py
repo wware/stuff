@@ -30,7 +30,7 @@ APPS_TEMPLATE = '{http://schemas.google.com/apps/2006}%s'
 
 class EmailList(atom.AtomBase):
   """The Google Apps EmailList element"""
-  
+
   _tag = 'emailList'
   _namespace = APPS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -46,11 +46,11 @@ class EmailList(atom.AtomBase):
 
 def EmailListFromString(xml_string):
   return atom.CreateClassFromXMLString(EmailList, xml_string)
-  
+
 
 class Who(atom.AtomBase):
   """The Google Apps Who element"""
-  
+
   _tag = 'who'
   _namespace = gdata.GDATA_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -68,11 +68,11 @@ class Who(atom.AtomBase):
 
 def WhoFromString(xml_string):
   return atom.CreateClassFromXMLString(Who, xml_string)
-  
+
 
 class Login(atom.AtomBase):
   """The Google Apps Login element"""
-  
+
   _tag = 'login'
   _namespace = APPS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -87,9 +87,9 @@ class Login(atom.AtomBase):
   _attributes['hashFunctionName'] = 'hash_function_name'
 
   def __init__(self, user_name=None, password=None, suspended=None,
-               ip_whitelisted=None, hash_function_name=None, 
-               admin=None, change_password=None, agreed_to_terms=None, 
-               extension_elements=None, extension_attributes=None, 
+               ip_whitelisted=None, hash_function_name=None,
+               admin=None, change_password=None, agreed_to_terms=None,
+               extension_elements=None, extension_attributes=None,
                text=None):
     self.user_name = user_name
     self.password = password
@@ -103,14 +103,14 @@ class Login(atom.AtomBase):
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
 
-    
+
 def LoginFromString(xml_string):
     return atom.CreateClassFromXMLString(Login, xml_string)
-    
+
 
 class Quota(atom.AtomBase):
   """The Google Apps Quota element"""
-  
+
   _tag = 'quota'
   _namespace = APPS_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -124,21 +124,21 @@ class Quota(atom.AtomBase):
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
 
-    
+
 def QuotaFromString(xml_string):
     return atom.CreateClassFromXMLString(Quota, xml_string)
 
-    
+
 class Name(atom.AtomBase):
   """The Google Apps Name element"""
 
   _tag = 'name'
   _namespace = APPS_NAMESPACE
   _children = atom.AtomBase._children.copy()
-  _attributes = atom.AtomBase._attributes.copy()  
+  _attributes = atom.AtomBase._attributes.copy()
   _attributes['familyName'] = 'family_name'
   _attributes['givenName'] = 'given_name'
-  
+
   def __init__(self, family_name=None, given_name=None,
                extension_elements=None, extension_attributes=None, text=None):
     self.family_name = family_name
@@ -154,11 +154,11 @@ def NameFromString(xml_string):
 
 class Nickname(atom.AtomBase):
   """The Google Apps Nickname element"""
-  
+
   _tag = 'nickname'
   _namespace = APPS_NAMESPACE
   _children = atom.AtomBase._children.copy()
-  _attributes = atom.AtomBase._attributes.copy() 
+  _attributes = atom.AtomBase._attributes.copy()
   _attributes['name'] = 'name'
 
   def __init__(self, name=None,
@@ -171,11 +171,11 @@ class Nickname(atom.AtomBase):
 
 def NicknameFromString(xml_string):
     return atom.CreateClassFromXMLString(Nickname, xml_string)
-  
+
 
 class NicknameEntry(gdata.GDataEntry):
   """A Google Apps flavor of an Atom Entry for Nickname"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
@@ -184,13 +184,13 @@ class NicknameEntry(gdata.GDataEntry):
   _children['{%s}nickname' % APPS_NAMESPACE] = ('nickname', Nickname)
 
   def __init__(self, author=None, category=None, content=None,
-               atom_id=None, link=None, published=None, 
+               atom_id=None, link=None, published=None,
                title=None, updated=None,
                login=None, nickname=None,
-               extended_property=None, 
+               extended_property=None,
                extension_elements=None, extension_attributes=None, text=None):
 
-    gdata.GDataEntry.__init__(self, author=author, category=category, 
+    gdata.GDataEntry.__init__(self, author=author, category=category,
                               content=content,
                               atom_id=atom_id, link=link, published=published,
                               title=title, updated=updated)
@@ -208,7 +208,7 @@ def NicknameEntryFromString(xml_string):
 
 class NicknameFeed(gdata.GDataFeed, gdata.LinkFinder):
   """A Google Apps Nickname feed flavor of an Atom Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
@@ -216,7 +216,7 @@ class NicknameFeed(gdata.GDataFeed, gdata.LinkFinder):
   _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', [NicknameEntry])
 
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,
@@ -240,7 +240,7 @@ def NicknameFeedFromString(xml_string):
 
 class UserEntry(gdata.GDataEntry):
   """A Google Apps flavor of an Atom Entry"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
@@ -249,18 +249,18 @@ class UserEntry(gdata.GDataEntry):
   _children['{%s}name' % APPS_NAMESPACE] = ('name', Name)
   _children['{%s}quota' % APPS_NAMESPACE] = ('quota', Quota)
   # This child may already be defined in GDataEntry, confirm before removing.
-  _children['{%s}feedLink' % gdata.GDATA_NAMESPACE] = ('feed_link', 
+  _children['{%s}feedLink' % gdata.GDATA_NAMESPACE] = ('feed_link',
                                                        [gdata.FeedLink])
   _children['{%s}who' % gdata.GDATA_NAMESPACE] = ('who', Who)
 
   def __init__(self, author=None, category=None, content=None,
-               atom_id=None, link=None, published=None, 
+               atom_id=None, link=None, published=None,
                title=None, updated=None,
                login=None, name=None, quota=None, who=None, feed_link=None,
-               extended_property=None, 
+               extended_property=None,
                extension_elements=None, extension_attributes=None, text=None):
 
-    gdata.GDataEntry.__init__(self, author=author, category=category, 
+    gdata.GDataEntry.__init__(self, author=author, category=category,
                               content=content,
                               atom_id=atom_id, link=link, published=published,
                               title=title, updated=updated)
@@ -273,15 +273,15 @@ class UserEntry(gdata.GDataEntry):
     self.text = text
     self.extension_elements = extension_elements or []
     self.extension_attributes = extension_attributes or {}
-    
+
 
 def UserEntryFromString(xml_string):
   return atom.CreateClassFromXMLString(UserEntry, xml_string)
 
-  
+
 class UserFeed(gdata.GDataFeed, gdata.LinkFinder):
   """A Google Apps User feed flavor of an Atom Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
@@ -289,7 +289,7 @@ class UserFeed(gdata.GDataFeed, gdata.LinkFinder):
   _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', [UserEntry])
 
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,
@@ -313,24 +313,24 @@ def UserFeedFromString(xml_string):
 
 class EmailListEntry(gdata.GDataEntry):
   """A Google Apps EmailList flavor of an Atom Entry"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
   _children['{%s}emailList' % APPS_NAMESPACE] = ('email_list', EmailList)
   # Might be able to remove this _children entry.
-  _children['{%s}feedLink' % gdata.GDATA_NAMESPACE] = ('feed_link', 
+  _children['{%s}feedLink' % gdata.GDATA_NAMESPACE] = ('feed_link',
                                                        [gdata.FeedLink])
 
   def __init__(self, author=None, category=None, content=None,
-               atom_id=None, link=None, published=None, 
+               atom_id=None, link=None, published=None,
                title=None, updated=None,
                email_list=None, feed_link=None,
-               extended_property=None, 
+               extended_property=None,
                extension_elements=None, extension_attributes=None, text=None):
 
-    gdata.GDataEntry.__init__(self, author=author, category=category, 
+    gdata.GDataEntry.__init__(self, author=author, category=category,
                               content=content,
                               atom_id=atom_id, link=link, published=published,
                               title=title, updated=updated)
@@ -344,11 +344,11 @@ class EmailListEntry(gdata.GDataEntry):
 
 def EmailListEntryFromString(xml_string):
   return atom.CreateClassFromXMLString(EmailListEntry, xml_string)
-  
+
 
 class EmailListFeed(gdata.GDataFeed, gdata.LinkFinder):
   """A Google Apps EmailList feed flavor of an Atom Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
@@ -356,7 +356,7 @@ class EmailListFeed(gdata.GDataFeed, gdata.LinkFinder):
   _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', [EmailListEntry])
 
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,
@@ -372,7 +372,7 @@ class EmailListFeed(gdata.GDataFeed, gdata.LinkFinder):
                              extension_elements=extension_elements,
                              extension_attributes=extension_attributes,
                              text=text)
-                             
+
 
 def EmailListFeedFromString(xml_string):
   return atom.CreateClassFromXMLString(EmailListFeed, xml_string)
@@ -380,7 +380,7 @@ def EmailListFeedFromString(xml_string):
 
 class EmailListRecipientEntry(gdata.GDataEntry):
   """A Google Apps EmailListRecipient flavor of an Atom Entry"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
@@ -388,13 +388,13 @@ class EmailListRecipientEntry(gdata.GDataEntry):
   _children['{%s}who' % gdata.GDATA_NAMESPACE] = ('who', Who)
 
   def __init__(self, author=None, category=None, content=None,
-               atom_id=None, link=None, published=None, 
+               atom_id=None, link=None, published=None,
                title=None, updated=None,
                who=None,
-               extended_property=None, 
+               extended_property=None,
                extension_elements=None, extension_attributes=None, text=None):
 
-    gdata.GDataEntry.__init__(self, author=author, category=category, 
+    gdata.GDataEntry.__init__(self, author=author, category=category,
                               content=content,
                               atom_id=atom_id, link=link, published=published,
                               title=title, updated=updated)
@@ -411,16 +411,16 @@ def EmailListRecipientEntryFromString(xml_string):
 
 class EmailListRecipientFeed(gdata.GDataFeed, gdata.LinkFinder):
   """A Google Apps EmailListRecipient feed flavor of an Atom Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                                                   [EmailListRecipientEntry])
 
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,
@@ -497,7 +497,7 @@ def PropertyEntryFromString(xml_string):
 
 class PropertyFeed(gdata.GDataFeed, gdata.LinkFinder):
   """A Google Apps Property feed flavor of an Atom Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
@@ -505,7 +505,7 @@ class PropertyFeed(gdata.GDataFeed, gdata.LinkFinder):
   _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', [PropertyEntry])
 
   def __init__(self, author=None, category=None, contributor=None,
-               generator=None, icon=None, atom_id=None, link=None, logo=None, 
+               generator=None, icon=None, atom_id=None, link=None, logo=None,
                rights=None, subtitle=None, title=None, updated=None,
                entry=None, total_results=None, start_index=None,
                items_per_page=None, extension_elements=None,

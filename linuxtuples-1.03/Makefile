@@ -37,7 +37,7 @@ CFLAGS		+= -Wall -O3
 endif
 
 SRCS		= tuple.c tuple_server.c tuple_client.c fft.c
-INSTBINS	= tuple_server tuple_client 
+INSTBINS	= tuple_server tuple_client
 INSTLIBS	= linuxtuples.so
 PROGS		= $(INSTBINS) fft $(INSTLIBS)
 

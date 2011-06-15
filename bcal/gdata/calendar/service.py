@@ -16,11 +16,11 @@
 
 """CalendarService extends the GDataService to streamline Google Calendar operations.
 
-  CalendarService: Provides methods to query feeds and manipulate items. Extends 
+  CalendarService: Provides methods to query feeds and manipulate items. Extends
                 GDataService.
 
-  DictionaryToParamList: Function which converts a dictionary into a list of 
-                         URL arguments (represented as strings). This is a 
+  DictionaryToParamList: Function which converts a dictionary into a list of
+                         URL arguments (represented as strings). This is a
                          utility function used in CRUD operations.
 """
 
@@ -98,7 +98,7 @@ class CalendarService(gdata.service.GDataService):
 
   def GetCalendarEventCommentEntry(self, uri):
     return self.Get(uri, converter=gdata.calendar.CalendarEventCommentEntryFromString)
- 
+
   def Query(self, uri, converter=None):
     """Performs a query and returns a resulting feed or entry.
 
@@ -106,11 +106,11 @@ class CalendarService(gdata.service.GDataService):
       feed: string The feed which is to be queried
 
     Returns:
-      On success, a GDataFeed or Entry depending on which is sent from the 
+      On success, a GDataFeed or Entry depending on which is sent from the
         server.
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
@@ -122,107 +122,107 @@ class CalendarService(gdata.service.GDataService):
 
   def CalendarQuery(self, query):
     if isinstance(query, CalendarEventQuery):
-      return self.Query(query.ToUri(), 
+      return self.Query(query.ToUri(),
           converter=gdata.calendar.CalendarEventFeedFromString)
     elif isinstance(query, CalendarListQuery):
-      return self.Query(query.ToUri(), 
+      return self.Query(query.ToUri(),
           converter=gdata.calendar.CalendarListFeedFromString)
     elif isinstance(query, CalendarEventCommentQuery):
-      return self.Query(query.ToUri(), 
+      return self.Query(query.ToUri(),
           converter=gdata.calendar.CalendarEventCommentFeedFromString)
     else:
       return self.Query(query.ToUri())
-    
-  def InsertEvent(self, new_event, insert_uri, url_params=None, 
+
+  def InsertEvent(self, new_event, insert_uri, url_params=None,
                   escape_params=True):
     """Adds an event to Google Calendar.
 
-    Args: 
-      new_event: atom.Entry or subclass A new event which is to be added to 
+    Args:
+      new_event: atom.Entry or subclass A new event which is to be added to
                 Google Calendar.
       insert_uri: the URL to post new events to the feed
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
 
     Returns:
       On successful insert,  an entry containing the event created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     return self.Post(new_event, insert_uri, url_params=url_params,
-                     escape_params=escape_params, 
+                     escape_params=escape_params,
                      converter=gdata.calendar.CalendarEventEntryFromString)
 
-  def InsertCalendarSubscription(self, calendar, url_params=None, 
+  def InsertCalendarSubscription(self, calendar, url_params=None,
                                  escape_params=True):
     """Subscribes the authenticated user to the provided calendar.
-    
-    Args: 
+
+    Args:
       calendar: The calendar to which the user should be subscribed.
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
 
     Returns:
       On successful insert,  an entry containing the subscription created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
-    
+
     insert_uri = '/calendar/feeds/default/allcalendars/full'
     return self.Post(calendar, insert_uri, url_params=url_params,
-                     escape_params=escape_params, 
+                     escape_params=escape_params,
                      converter=gdata.calendar.CalendarListEntryFromString)
 
   def InsertCalendar(self, new_calendar, url_params=None,
                                  escape_params=True):
     """Creates a new calendar.
-    
-    Args: 
+
+    Args:
       new_calendar: The calendar to be created
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
 
     Returns:
       On successful insert,  an entry containing the calendar created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     insert_uri = '/calendar/feeds/default/owncalendars/full'
     response = self.Post(new_calendar, insert_uri, url_params=url_params,
-                         escape_params=escape_params, 
+                         escape_params=escape_params,
                          converter=gdata.calendar.CalendarListEntryFromString)
     return response
 
   def UpdateCalendar(self, calendar, url_params=None,
                                  escape_params=True):
     """Updates a calendar.
-    
-    Args: 
+
+    Args:
       calendar: The calendar which should be updated
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
 
     Returns:
       On successful insert,  an entry containing the calendar created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
@@ -232,29 +232,29 @@ class CalendarService(gdata.service.GDataService):
                          converter=gdata.calendar.CalendarListEntryFromString)
     return response
 
-  def InsertAclEntry(self, new_entry, insert_uri, url_params=None, 
+  def InsertAclEntry(self, new_entry, insert_uri, url_params=None,
                   escape_params=True):
     """Adds an ACL entry (rule) to Google Calendar.
 
-    Args: 
-      new_entry: atom.Entry or subclass A new ACL entry which is to be added to 
+    Args:
+      new_entry: atom.Entry or subclass A new ACL entry which is to be added to
                 Google Calendar.
       insert_uri: the URL to post new entries to the ACL feed
       url_params: dict (optional) Additional URL parameters to be included
-                  in the insertion request. 
+                  in the insertion request.
       escape_params: boolean (optional) If true, the url_parameters will be
                      escaped before they are included in the request.
 
     Returns:
       On successful insert,  an entry containing the ACL entry created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     return self.Post(new_entry, insert_uri, url_params=url_params,
-                         escape_params=escape_params, 
+                         escape_params=escape_params,
                          converter=gdata.calendar.CalendarAclEntryFromString)
 
   def InsertEventComment(self, new_entry, insert_uri, url_params=None,
@@ -273,13 +273,13 @@ class CalendarService(gdata.service.GDataService):
     Returns:
       On successful insert,  an entry containing the comment created
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     return self.Post(new_entry, insert_uri, url_params=url_params,
-        escape_params=escape_params, 
+        escape_params=escape_params,
         converter=gdata.calendar.CalendarEventCommentEntryFromString)
 
   def _RemoveStandardUrlPrefix(self, url):
@@ -288,7 +288,7 @@ class CalendarService(gdata.service.GDataService):
       return url[len(url_prefix) - 1:]
     return url
 
-  def DeleteEvent(self, edit_uri, extra_headers=None, 
+  def DeleteEvent(self, edit_uri, extra_headers=None,
       url_params=None, escape_params=True):
     """Removes an event with the specified ID from Google Calendar.
 
@@ -304,16 +304,16 @@ class CalendarService(gdata.service.GDataService):
       On successful delete,  a httplib.HTTPResponse containing the server's
         response to the DELETE request.
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
-    
+
     edit_uri = self._RemoveStandardUrlPrefix(edit_uri)
     return self.Delete('%s' % edit_uri,
                        url_params=url_params, escape_params=escape_params)
 
-  def DeleteAclEntry(self, edit_uri, extra_headers=None, 
+  def DeleteAclEntry(self, edit_uri, extra_headers=None,
       url_params=None, escape_params=True):
     """Removes an ACL entry at the given edit_uri from Google Calendar.
 
@@ -329,11 +329,11 @@ class CalendarService(gdata.service.GDataService):
       On successful delete,  a httplib.HTTPResponse containing the server's
         response to the DELETE request.
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
-   
+
     edit_uri = self._RemoveStandardUrlPrefix(edit_uri)
     return self.Delete('%s' % edit_uri,
                        url_params=url_params, escape_params=escape_params)
@@ -353,23 +353,23 @@ class CalendarService(gdata.service.GDataService):
     Returns:
       On successful delete, True is returned
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
-    return self.Delete(edit_uri, url_params=url_params, 
+    return self.Delete(edit_uri, url_params=url_params,
                        escape_params=escape_params)
 
-  def UpdateEvent(self, edit_uri, updated_event, url_params=None, 
+  def UpdateEvent(self, edit_uri, updated_event, url_params=None,
                  escape_params=True):
     """Updates an existing event.
 
     Args:
       edit_uri: string The edit link URI for the element being updated
       updated_event: string, atom.Entry, or subclass containing
-                    the Atom Entry which will replace the event which is 
-                    stored at the edit_url 
+                    the Atom Entry which will replace the event which is
+                    stored at the edit_url
       url_params: dict (optional) Additional URL parameters to be included
                   in the update request.
       escape_params: boolean (optional) If true, the url_parameters will be
@@ -379,26 +379,26 @@ class CalendarService(gdata.service.GDataService):
       On successful update,  a httplib.HTTPResponse containing the server's
         response to the PUT request.
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     edit_uri = self._RemoveStandardUrlPrefix(edit_uri)
     return self.Put(updated_event, '%s' % edit_uri,
-                    url_params=url_params, 
-                    escape_params=escape_params, 
+                    url_params=url_params,
+                    escape_params=escape_params,
                     converter=gdata.calendar.CalendarEventEntryFromString)
 
-  def UpdateAclEntry(self, edit_uri, updated_rule, url_params=None, 
+  def UpdateAclEntry(self, edit_uri, updated_rule, url_params=None,
                      escape_params=True):
     """Updates an existing ACL rule.
 
     Args:
       edit_uri: string The edit link URI for the element being updated
       updated_rule: string, atom.Entry, or subclass containing
-                    the Atom Entry which will replace the event which is 
-                    stored at the edit_url 
+                    the Atom Entry which will replace the event which is
+                    stored at the edit_url
       url_params: dict (optional) Additional URL parameters to be included
                   in the update request.
       escape_params: boolean (optional) If true, the url_parameters will be
@@ -408,39 +408,39 @@ class CalendarService(gdata.service.GDataService):
       On successful update,  a httplib.HTTPResponse containing the server's
         response to the PUT request.
       On failure, a RequestError is raised of the form:
-        {'status': HTTP status code from server, 
-         'reason': HTTP reason from the server, 
+        {'status': HTTP status code from server,
+         'reason': HTTP reason from the server,
          'body': HTTP body of the server's response}
     """
 
     edit_uri = self._RemoveStandardUrlPrefix(edit_uri)
     return self.Put(updated_rule, '%s' % edit_uri,
-                    url_params=url_params, 
+                    url_params=url_params,
                     escape_params=escape_params,
                     converter=gdata.calendar.CalendarAclEntryFromString)
 
-  def ExecuteBatch(self, batch_feed, url, 
+  def ExecuteBatch(self, batch_feed, url,
       converter=gdata.calendar.CalendarEventFeedFromString):
     """Sends a batch request feed to the server.
 
-    The batch request needs to be sent to the batch URL for a particular 
-    calendar. You can find the URL by calling GetBatchLink().href on the 
+    The batch request needs to be sent to the batch URL for a particular
+    calendar. You can find the URL by calling GetBatchLink().href on the
     CalendarEventFeed.
 
     Args:
       batch_feed: gdata.calendar.CalendarEventFeed A feed containing batch
-          request entries. Each entry contains the operation to be performed 
-          on the data contained in the entry. For example an entry with an 
-          operation type of insert will be used as if the individual entry 
+          request entries. Each entry contains the operation to be performed
+          on the data contained in the entry. For example an entry with an
+          operation type of insert will be used as if the individual entry
           had been inserted.
       url: str The batch URL for the Calendar to which these operations should
           be applied.
       converter: Function (optional) The function used to convert the server's
-          response to an object. The default value is 
+          response to an object. The default value is
           CalendarEventFeedFromString.
-     
+
     Returns:
-      The results of the batch request's execution on the server. If the 
+      The results of the batch request's execution on the server. If the
       default converter is used, this is stored in a CalendarEventFeed.
     """
     return self.Post(batch_feed, url, converter=converter)
@@ -450,13 +450,13 @@ class CalendarEventQuery(gdata.service.Query):
 
   def __init__(self, user='default', visibility='private', projection='full',
                text_query=None, params=None, categories=None):
-    gdata.service.Query.__init__(self, 
+    gdata.service.Query.__init__(self,
         feed='http://www.google.com/calendar/feeds/%s/%s/%s' % (
-            urllib.quote(user), 
-            urllib.quote(visibility), 
+            urllib.quote(user),
+            urllib.quote(visibility),
             urllib.quote(projection)),
         text_query=text_query, params=params, categories=categories)
-    
+
   def _GetStartMin(self):
     if 'start-min' in self.keys():
       return self['start-min']
@@ -466,7 +466,7 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetStartMin(self, val):
     self['start-min'] = val
 
-  start_min = property(_GetStartMin, _SetStartMin, 
+  start_min = property(_GetStartMin, _SetStartMin,
       doc="""The start-min query parameter""")
 
   def _GetStartMax(self):
@@ -478,7 +478,7 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetStartMax(self, val):
     self['start-max'] = val
 
-  start_max = property(_GetStartMax, _SetStartMax, 
+  start_max = property(_GetStartMax, _SetStartMax,
       doc="""The start-max query parameter""")
 
   def _GetOrderBy(self):
@@ -492,7 +492,7 @@ class CalendarEventQuery(gdata.service.Query):
       raise Error, "Order By must be either 'lastmodified' or 'starttime'"
     self['orderby'] = val
 
-  orderby = property(_GetOrderBy, _SetOrderBy, 
+  orderby = property(_GetOrderBy, _SetOrderBy,
       doc="""The orderby query parameter""")
 
   def _GetSortOrder(self):
@@ -502,14 +502,14 @@ class CalendarEventQuery(gdata.service.Query):
       return None
 
   def _SetSortOrder(self, val):
-    if (val is not 'ascending' and val is not 'descending' 
+    if (val is not 'ascending' and val is not 'descending'
         and val is not 'a' and val is not 'd' and val is not 'ascend'
         and val is not 'descend'):
       raise Error, "Sort order must be either ascending, ascend, " + (
           "a or descending, descend, or d")
     self['sortorder'] = val
 
-  sortorder = property(_GetSortOrder, _SetSortOrder, 
+  sortorder = property(_GetSortOrder, _SetSortOrder,
       doc="""The sortorder query parameter""")
 
   def _GetSingleEvents(self):
@@ -521,7 +521,7 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetSingleEvents(self, val):
     self['singleevents'] = val
 
-  singleevents = property(_GetSingleEvents, _SetSingleEvents, 
+  singleevents = property(_GetSingleEvents, _SetSingleEvents,
       doc="""The singleevents query parameter""")
 
   def _GetFutureEvents(self):
@@ -533,7 +533,7 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetFutureEvents(self, val):
     self['futureevents'] = val
 
-  futureevents = property(_GetFutureEvents, _SetFutureEvents, 
+  futureevents = property(_GetFutureEvents, _SetFutureEvents,
       doc="""The futureevents query parameter""")
 
   def _GetRecurrenceExpansionStart(self):
@@ -545,8 +545,8 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetRecurrenceExpansionStart(self, val):
     self['recurrence-expansion-start'] = val
 
-  recurrence_expansion_start = property(_GetRecurrenceExpansionStart, 
-      _SetRecurrenceExpansionStart, 
+  recurrence_expansion_start = property(_GetRecurrenceExpansionStart,
+      _SetRecurrenceExpansionStart,
       doc="""The recurrence-expansion-start query parameter""")
 
   def _GetRecurrenceExpansionEnd(self):
@@ -558,8 +558,8 @@ class CalendarEventQuery(gdata.service.Query):
   def _SetRecurrenceExpansionEnd(self, val):
     self['recurrence-expansion-end'] = val
 
-  recurrence_expansion_end = property(_GetRecurrenceExpansionEnd, 
-      _SetRecurrenceExpansionEnd, 
+  recurrence_expansion_end = property(_GetRecurrenceExpansionEnd,
+      _SetRecurrenceExpansionEnd,
       doc="""The recurrence-expansion-end query parameter""")
 
   def _SetTimezone(self, val):
@@ -571,11 +571,11 @@ class CalendarEventQuery(gdata.service.Query):
     else:
       return None
 
-  ctz = property(_GetTimezone, _SetTimezone, 
+  ctz = property(_GetTimezone, _SetTimezone,
       doc="""The ctz query parameter which sets report time on the server.""")
 
 
-class CalendarListQuery(gdata.service.Query): 
+class CalendarListQuery(gdata.service.Query):
   """Queries the Google Calendar meta feed"""
 
   def __init__(self, userId=None, text_query=None,
@@ -588,7 +588,7 @@ class CalendarListQuery(gdata.service.Query):
                            text_query=text_query, params=params,
                            categories=categories)
 
-class CalendarEventCommentQuery(gdata.service.Query): 
+class CalendarEventCommentQuery(gdata.service.Query):
   """Queries the Google Calendar event comments feed"""
 
   def __init__(self, feed=None):

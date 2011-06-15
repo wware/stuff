@@ -8,18 +8,18 @@
 #include <limits.h>
 #include <iostream>
 
-//  CONVENTIONS:  
-//                Function names: Each word in a function name begins with 
-//                a capital letter.  An example funcntion name is  
-//                CreateRedTree(a,b,c). Furthermore, each function name 
-//                should begin with a capital letter to easily distinguish 
-//                them from variables. 
-//                                                                     
-//                Variable names: Each word in a variable name begins with 
-//                a capital letter EXCEPT the first letter of the variable 
-//                name.  For example, int newLongInt.  Global variables have 
-//                names beginning with "g".  An example of a global 
-//                variable name is gNewtonsConstant. 
+//  CONVENTIONS:
+//                Function names: Each word in a function name begins with
+//                a capital letter.  An example funcntion name is
+//                CreateRedTree(a,b,c). Furthermore, each function name
+//                should begin with a capital letter to easily distinguish
+//                them from variables.
+//
+//                Variable names: Each word in a variable name begins with
+//                a capital letter EXCEPT the first letter of the variable
+//                name.  For example, int newLongInt.  Global variables have
+//                names beginning with "g".  An example of a global
+//                variable name is gNewtonsConstant.
 
 
 #ifndef MAX_INT

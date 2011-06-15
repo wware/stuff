@@ -19,16 +19,16 @@ II. Troubleshooting
 
     A. Using scheme files as CGI with Apache
        If you have problems using guile-web scripts and see something
-       like: 
+       like:
 
 	     ERROR: In procedure dynamic-link: ERROR: file:
-	     "libgwebsession", message: "file not found" 
+	     "libgwebsession", message: "file not found"
 
        Then you need to add some stuff to httpd.conf. This may be
        slightly different for Apache 2.0 (I don't use it).
 
-	1. Uncomment or add 
-	
+	1. Uncomment or add
+
 		LoadModule env_module /usr/lib/apache/1.3/mod_env.so'
 
 	   to your httpd.conf (or where you put your LoadModule
@@ -43,12 +43,12 @@ II. Troubleshooting
 
        If you are using mod_guile you will have to put:
 
-	  (setenv "LTDL_LIBRARY_PATH" 
+	  (setenv "LTDL_LIBRARY_PATH"
 	    (string-append "$PREFIX/lib:"
 	                   (if (getenv "LTDL_LIBRARY_PATH")
 			      (getenv "LTDL_LIBRARY_PATH")
 			       "")))
-       
+
        in whatever file you set with the GuileInit option in your
        Apache configuartion for mod_guile (remember to change $PREFIX
        to the prefix you installed guile-web to).
@@ -70,14 +70,14 @@ IV. Documentation
 
     Documentation is provided as texinfo. To read the docs run 'info
     guile-web', use Emacs built in info browser, or whatever your
-    favorite info browser is. 
+    favorite info browser is.
 
     If the texinfo documentation is confusing or doesn't explain
-    something thoroughly enough, please send an email to 
+    something thoroughly enough, please send an email to
 
-        clinton [at] unknownlamer.org 
+        clinton [at] unknownlamer.org
 
-    so I can make the documentation better. 
+    so I can make the documentation better.
 
     If there are any features you want added, please send me an email
     and I'll consider it. Same goes for bugs/patches/anything. I could
@@ -86,7 +86,7 @@ IV. Documentation
 V. Compatibility
 
    A. Pre-1.0
-   
+
 	Before 1.0 any incompatible changes will result in the release
 	of a new 0.N.0 release, any changes which do not break
 	compatibility will result in a new 0.0.N release.
@@ -105,7 +105,7 @@ VI. Related Projects
 
     B. Guile-PG  <http://www.glug.org/people/ttn/software/guile-pg/>
        Advanced postgresql interface for Guile. This is THE database
-       interface for Guile. Highly Recommended.    
+       interface for Guile. Highly Recommended.
 
     C. Guile-DBI <http://home.gna.org/guile-dbi/>
        Database Independent Interface for Guile. It works but is not

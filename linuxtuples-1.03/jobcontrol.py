@@ -17,7 +17,7 @@ jobcontrol.py test  -- run some tests to verify that the tuple server is alive""
 ##################################################################################
 ##
 ## Be sure you have set your LINUXTUPLES_HOST and LINUXTUPLES_PORT env vars
-## or add the host and port parms to the linuxtuples.connect function call 
+## or add the host and port parms to the linuxtuples.connect function call
 ## on line 52
 ##
 ##################################################################################
@@ -51,7 +51,7 @@ def main(args):
     if operation not in VALID_OPERATIONS:
         print __doc__
         sys.exit(0)
-        
+
     # conn = linuxtuples.connect("desktop", 27000)
     conn = linuxtuples.connect()
 
@@ -113,9 +113,9 @@ def doDump(conn):
         if len(items) == 0:
             print "( )"
         elif len(items) == 1:
-            print "(%s)" % repr(items.pop(0)) 
+            print "(%s)" % repr(items.pop(0))
         else:
-            print "(%s," % repr(items.pop(0)) 
+            print "(%s," % repr(items.pop(0))
             while 1:
                 if len(items) == 1:
                     print "\t%s)" % repr(items.pop(0))

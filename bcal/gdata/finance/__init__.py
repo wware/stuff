@@ -36,7 +36,7 @@ class Money(atom.AtomBase):
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['amount'] = 'amount'
   _attributes['currencyCode'] = 'currency_code'
-  
+
   def __init__(self, amount=None, currency_code=None, **kwargs):
     self.amount = amount
     self.currency_code = currency_code
@@ -55,7 +55,7 @@ class _Monies(atom.AtomBase):
   _namespace = GF_NAMESPACE
   _children = atom.AtomBase._children.copy()
   _children['{%s}money' % GD_NAMESPACE] = ('money', [Money])
-  
+
   def __init__(self, money=None, **kwargs):
     self.money = money or []
     atom.AtomBase.__init__(self, **kwargs)
@@ -127,7 +127,7 @@ class Symbol(atom.AtomBase):
   _attributes['fullName'] = 'full_name'
   _attributes['exchange'] = 'exchange'
   _attributes['symbol'] = 'symbol'
-  
+
   def __init__(self, full_name=None, exchange=None, symbol=None, **kwargs):
     self.full_name = full_name
     self.exchange = exchange
@@ -157,7 +157,7 @@ class TransactionData(atom.AtomBase):
 
   def __init__(self, type=None, date=None, shares=None,
       notes=None, commission=None, price=None, **kwargs):
-    self.type = type 
+    self.type = type
     self.date = date
     self.shares = shares
     self.notes = notes
@@ -179,7 +179,7 @@ class TransactionEntry(gdata.GDataEntry):
   """
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
-  _children = gdata.GDataEntry._children.copy() 
+  _children = gdata.GDataEntry._children.copy()
   _children['{%s}transactionData' % GF_NAMESPACE] = (
       'transaction_data', TransactionData)
 
@@ -200,7 +200,7 @@ def TransactionEntryFromString(xml_string):
 class TransactionFeed(gdata.GDataFeed):
   """A feed that lists all of the transactions that have been recorded for
   a particular position.
-  
+
   A transaction is a collection of information about an instance of
   buying or selling a particular security. The TransactionFeed lists all
   of the transactions that have been recorded for a particular position
@@ -227,7 +227,7 @@ class TransactionFeedLink(atom.AtomBase):
   _namespace = GD_NAMESPACE
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['href'] = 'href'
-  _children = atom.AtomBase._children.copy() 
+  _children = atom.AtomBase._children.copy()
   _children['{%s}feed' % atom.ATOM_NAMESPACE] = (
       'feed', TransactionFeed)
 
@@ -294,7 +294,7 @@ class PositionEntry(gdata.GDataEntry):
   """
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
-  _children = gdata.GDataEntry._children.copy() 
+  _children = gdata.GDataEntry._children.copy()
   _children['{%s}positionData' % GF_NAMESPACE] = (
       'position_data', PositionData)
   _children['{%s}symbol' % GF_NAMESPACE] = ('symbol', Symbol)
@@ -362,7 +362,7 @@ class PositionFeedLink(atom.AtomBase):
   _namespace = GD_NAMESPACE
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['href'] = 'href'
-  _children = atom.AtomBase._children.copy() 
+  _children = atom.AtomBase._children.copy()
   _children['{%s}feed' % atom.ATOM_NAMESPACE] = (
       'feed', PositionFeed)
 
@@ -426,7 +426,7 @@ class PortfolioEntry(gdata.GDataEntry):
   """
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
-  _children = gdata.GDataEntry._children.copy() 
+  _children = gdata.GDataEntry._children.copy()
   _children['{%s}portfolioData' % GF_NAMESPACE] = (
       'portfolio_data', PortfolioData)
   _children['{%s}feedLink' % GD_NAMESPACE] = (
@@ -466,7 +466,7 @@ class PortfolioEntry(gdata.GDataEntry):
 def PortfolioEntryFromString(xml_string):
   return atom.CreateClassFromXMLString(PortfolioEntry, xml_string)
 
-    
+
 class PortfolioFeed(gdata.GDataFeed):
   """A feed that lists all of the user's portfolios.
 
@@ -482,5 +482,4 @@ class PortfolioFeed(gdata.GDataFeed):
 
 def PortfolioFeedFromString(xml_string):
   return atom.CreateClassFromXMLString(PortfolioFeed, xml_string)
-
 

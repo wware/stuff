@@ -4,7 +4,7 @@
 #
 # $Id: __init__.py 81 2007-10-03 14:41:42Z havard.gulldahl $
 #
-# Copyright 2007 Håvard Gulldahl 
+# Copyright 2007 Håvard Gulldahl
 # Portions copyright 2007 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,21 +20,21 @@
 # limitations under the License.
 
 
-"""Essential attributes of photos in Google Photos/Picasa Web Albums are 
-expressed using elements from the `media' namespace, defined in the 
+"""Essential attributes of photos in Google Photos/Picasa Web Albums are
+expressed using elements from the `media' namespace, defined in the
 MediaRSS specification[1].
 
-Due to copyright issues, the elements herein are documented sparingly, please 
-consult with the Google Photos API Reference Guide[2], alternatively the 
-official MediaRSS specification[1] for details. 
-(If there is a version conflict between the two sources, stick to the 
+Due to copyright issues, the elements herein are documented sparingly, please
+consult with the Google Photos API Reference Guide[2], alternatively the
+official MediaRSS specification[1] for details.
+(If there is a version conflict between the two sources, stick to the
 Google Photos API).
 
 [1]: http://search.yahoo.com/mrss (version 1.1.1)
 [2]: http://code.google.com/apis/picasaweb/reference.html#media_reference
 
-Keep in mind that Google Photos only uses a subset of the MediaRSS elements 
-(and some of the attributes are trimmed down, too): 
+Keep in mind that Google Photos only uses a subset of the MediaRSS elements
+(and some of the attributes are trimmed down, too):
 
 media:content
 media:credit
@@ -57,10 +57,10 @@ YOUTUBE_NAMESPACE = 'http://gdata.youtube.com/schemas/2007'
 
 
 class MediaBaseElement(atom.AtomBase):
-  """Base class for elements in the MEDIA_NAMESPACE. 
+  """Base class for elements in the MEDIA_NAMESPACE.
   To add new elements, you only need to add the element tag name to self._tag
   """
-  
+
   _tag = ''
   _namespace = MEDIA_NAMESPACE
   _children = atom.AtomBase._children.copy()
@@ -83,7 +83,7 @@ class Content(MediaBaseElement):
     <media:content medium="image"> element that specifies a JPEG
     representation of the video, and a <media:content medium="video">
     element that specifies the URL of the video itself.
-  
+
   Attributes:
     url: non-ambigous reference to online object
     width: width of the object frame, in pixels
@@ -94,10 +94,10 @@ class Content(MediaBaseElement):
           verbose way of determining the media type. To set the type member
           in the contructor, use the content_type parameter.
     (optional) fileSize: the size of the object, in bytes
-  
+
   [1]: http://en.wikipedia.org/wiki/Internet_media_type
   """
-  
+
   _tag = 'content'
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['url'] = 'url'
@@ -128,13 +128,13 @@ def ContentFromString(xml_string):
 class Credit(MediaBaseElement):
   """(string) Contains the nickname of the user who created the content,
   e.g. `Liz Bennet'.
-  
+
   This is a user-specified value that should be used when referring to
   the user by name.
 
   Note that none of the attributes from the MediaRSS spec are supported.
   """
-  
+
   _tag = 'credit'
 
 
@@ -148,24 +148,24 @@ class Description(MediaBaseElement):
   attribute).
 
   E.g `A set of photographs I took while vacationing in Italy.'
-  
+
   For `api' projections, the description is in plain text;
   for `base' projections, the description is in HTML.
-  
+
   Attributes:
     type: either `text' or `html'. To set the type member in the contructor,
           use the description_type parameter.
   """
-  
+
   _tag = 'description'
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['type'] = 'type'
-  def __init__(self, description_type=None, 
+  def __init__(self, description_type=None,
       extension_elements=None, extension_attributes=None, text=None):
     MediaBaseElement.__init__(self, extension_elements=extension_elements,
                               extension_attributes=extension_attributes,
                               text=text)
-    
+
     self.type = description_type
 
 
@@ -176,11 +176,11 @@ def DescriptionFromString(xml_string):
 class Keywords(MediaBaseElement):
   """(string) Lists the tags associated with the entry,
   e.g `italy, vacation, sunset'.
-  
+
   Contains a comma-separated list of tags that have been added to the photo, or
   all tags that have been added to photos in the album.
   """
-  
+
   _tag = 'keywords'
 
 
@@ -190,24 +190,24 @@ def KeywordsFromString(xml_string):
 
 class Thumbnail(MediaBaseElement):
   """(attributes) Contains the URL of a thumbnail of a photo or album cover.
-  
-  There can be multiple <media:thumbnail> elements for a given <media:group>; 
-  for example, a given item may have multiple thumbnails at different sizes. 
-  Photos generally have two thumbnails at different sizes; 
-  albums generally have one cropped thumbnail.  
-    
-  If the thumbsize parameter is set to the initial query, this element points 
-  to thumbnails of the requested sizes; otherwise the thumbnails are the 
-  default thumbnail size. 
-  
+
+  There can be multiple <media:thumbnail> elements for a given <media:group>;
+  for example, a given item may have multiple thumbnails at different sizes.
+  Photos generally have two thumbnails at different sizes;
+  albums generally have one cropped thumbnail.
+
+  If the thumbsize parameter is set to the initial query, this element points
+  to thumbnails of the requested sizes; otherwise the thumbnails are the
+  default thumbnail size.
+
   This element must not be confused with the <gphoto:thumbnail> element.
-  
+
   Attributes:
   url:  The URL of the thumbnail image.
   height:  The height of the thumbnail image, in pixels.
   width:  The width of the thumbnail image, in pixels.
   """
-  
+
   _tag = 'thumbnail'
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['url'] = 'url'
@@ -229,16 +229,16 @@ def ThumbnailFromString(xml_string):
 
 class Title(MediaBaseElement):
   """(string) Contains the title of the entry's media content, in plain text.
-  
+
   Attributes:
     type: Always set to plain. To set the type member in the constructor, use
           the title_type parameter.
   """
-  
+
   _tag = 'title'
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['type'] = 'type'
-  def __init__(self, title_type=None, 
+  def __init__(self, title_type=None,
       extension_attributes=None, text=None, extension_elements=None):
     MediaBaseElement.__init__(self, extension_elements=extension_elements,
                               extension_attributes=extension_attributes,
@@ -251,18 +251,18 @@ def TitleFromString(xml_string):
 
 
 class Player(MediaBaseElement):
-  """(string) Contains the embeddable player URL for the entry's media content 
+  """(string) Contains the embeddable player URL for the entry's media content
   if the media is a video.
-  
+
   Attributes:
   url: Always set to plain
   """
-  
+
   _tag = 'player'
   _attributes = atom.AtomBase._attributes.copy()
   _attributes['url'] = 'url'
-  
-  def __init__(self, player_url=None, 
+
+  def __init__(self, player_url=None,
       extension_attributes=None, extension_elements=None):
     MediaBaseElement.__init__(self, extension_elements=extension_elements,
                               extension_attributes=extension_attributes)
@@ -292,7 +292,7 @@ class Category(MediaBaseElement):
   _attributes['scheme'] = 'scheme'
   _attributes['label'] = 'label'
 
-  def __init__(self, term=None, scheme=None, label=None, text=None, 
+  def __init__(self, term=None, scheme=None, label=None, text=None,
                extension_elements=None, extension_attributes=None):
     """Constructor for Category
 
@@ -315,25 +315,25 @@ class Category(MediaBaseElement):
 
 class Group(MediaBaseElement):
   """Container element for all media elements.
-  The <media:group> element can appear as a child of an album, photo or 
+  The <media:group> element can appear as a child of an album, photo or
   video entry."""
 
   _tag = 'group'
   _children = atom.AtomBase._children.copy()
-  _children['{%s}content' % MEDIA_NAMESPACE] = ('content', [Content,]) 
-  _children['{%s}credit' % MEDIA_NAMESPACE] = ('credit', Credit) 
-  _children['{%s}description' % MEDIA_NAMESPACE] = ('description', Description) 
-  _children['{%s}keywords' % MEDIA_NAMESPACE] = ('keywords', Keywords) 
+  _children['{%s}content' % MEDIA_NAMESPACE] = ('content', [Content,])
+  _children['{%s}credit' % MEDIA_NAMESPACE] = ('credit', Credit)
+  _children['{%s}description' % MEDIA_NAMESPACE] = ('description', Description)
+  _children['{%s}keywords' % MEDIA_NAMESPACE] = ('keywords', Keywords)
   _children['{%s}thumbnail' % MEDIA_NAMESPACE] = ('thumbnail', [Thumbnail,])
-  _children['{%s}title' % MEDIA_NAMESPACE] = ('title', Title) 
-  _children['{%s}category' % MEDIA_NAMESPACE] = ('category', [Category,]) 
+  _children['{%s}title' % MEDIA_NAMESPACE] = ('title', Title)
+  _children['{%s}category' % MEDIA_NAMESPACE] = ('category', [Category,])
   _children['{%s}duration' % YOUTUBE_NAMESPACE] = ('duration', Duration)
   _children['{%s}private' % YOUTUBE_NAMESPACE] = ('private', Private)
   _children['{%s}player' % MEDIA_NAMESPACE] = ('player', Player)
 
   def __init__(self, content=None, credit=None, description=None, keywords=None,
-               thumbnail=None, title=None, duration=None, private=None, 
-               category=None, player=None, extension_elements=None, 
+               thumbnail=None, title=None, duration=None, private=None,
+               category=None, player=None, extension_elements=None,
                extension_attributes=None, text=None):
 
     MediaBaseElement.__init__(self, extension_elements=extension_elements,

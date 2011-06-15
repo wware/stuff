@@ -32,38 +32,38 @@ GAN_NAMESPACE = 'http://schemas.google.com/analytics/2009'
 class TableId(gdata.GDataEntry):
   """tableId element."""
   _tag = 'tableId'
-  _namespace = GAN_NAMESPACE  
+  _namespace = GAN_NAMESPACE
 
 class Property(gdata.GDataEntry):
   _tag = 'property'
   _namespace = GAN_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
+
   _attributes['name'] = 'name'
   _attributes['value'] = 'value'
-  
+
   def __init__(self, name=None, value=None, *args, **kwargs):
     self.name = name
     self.value = value
     super(Property, self).__init__(*args, **kwargs)
-    
+
   def __str__(self):
     return self.value
-      
+
   def __repr__(self):
     return self.value
 
 class AccountListEntry(gdata.GDataEntry):
   """The Google Documents version of an Atom Entry"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  _children['{%s}tableId' % GAN_NAMESPACE] = ('tableId', 
+  _children['{%s}tableId' % GAN_NAMESPACE] = ('tableId',
                           [TableId])
-  _children['{%s}property' % GAN_NAMESPACE] = ('property', 
+  _children['{%s}property' % GAN_NAMESPACE] = ('property',
                           [Property])
 
   def __init__(self, tableId=None, property=None,
@@ -87,12 +87,12 @@ def AccountListEntryFromString(xml_string):
 
 class AccountListFeed(gdata.GDataFeed):
   """A feed containing a list of Google Documents Items"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                           [AccountListEntry])
 
 
@@ -120,82 +120,82 @@ class Dimension(gdata.GDataEntry):
   _namespace = GAN_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
+
   _attributes['name'] = 'name'
   _attributes['value'] = 'value'
   _attributes['type'] = 'type'
   _attributes['confidenceInterval'] = 'confidence_interval'
-  
-  def __init__(self, name=None, value=None, type=None, 
+
+  def __init__(self, name=None, value=None, type=None,
                confidence_interval = None, *args, **kwargs):
     self.name = name
     self.value = value
     self.type = type
     self.confidence_interval = confidence_interval
-    super(Dimension, self).__init__(*args, **kwargs)   
-    
+    super(Dimension, self).__init__(*args, **kwargs)
+
   def __str__(self):
     return self.value
 
   def __repr__(self):
-    return self.value 
-    
+    return self.value
+
 class Metric(gdata.GDataEntry):
   _tag = 'metric'
   _namespace = GAN_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
+
   _attributes['name'] = 'name'
   _attributes['value'] = 'value'
   _attributes['type'] = 'type'
   _attributes['confidenceInterval'] = 'confidence_interval'
-  
-  def __init__(self, name=None, value=None, type=None, 
+
+  def __init__(self, name=None, value=None, type=None,
                confidence_interval = None, *args, **kwargs):
     self.name = name
     self.value = value
     self.type = type
     self.confidence_interval = confidence_interval
     super(Metric, self).__init__(*args, **kwargs)
-    
+
   def __str__(self):
     return self.value
 
   def __repr__(self):
     return self.value
-  
+
 class AnalyticsDataEntry(gdata.GDataEntry):
   """The Google Analytics version of an Atom Entry"""
-  
+
   _tag = 'entry'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataEntry._children.copy()
   _attributes = gdata.GDataEntry._attributes.copy()
-  
-  _children['{%s}dimension' % GAN_NAMESPACE] = ('dimension', 
+
+  _children['{%s}dimension' % GAN_NAMESPACE] = ('dimension',
                           [Dimension])
-                          
-  _children['{%s}metric' % GAN_NAMESPACE] = ('metric', 
+
+  _children['{%s}metric' % GAN_NAMESPACE] = ('metric',
                          [Metric])
-                         
+
   def __init__(self, dimension=None, metric=None, *args, **kwargs):
     self.dimension = dimension
     self.metric = metric
-    
+
     super(AnalyticsDataEntry, self).__init__(*args, **kwargs)
 
 class AnalyticsDataFeed(gdata.GDataFeed):
   """A feed containing a list of Google Analytics Data Feed"""
-  
+
   _tag = 'feed'
   _namespace = atom.ATOM_NAMESPACE
   _children = gdata.GDataFeed._children.copy()
   _attributes = gdata.GDataFeed._attributes.copy()
-  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry', 
+  _children['{%s}entry' % atom.ATOM_NAMESPACE] = ('entry',
                           [AnalyticsDataEntry])
-                    
-                         
+
+
 """
 Data Feed
 """
@@ -219,5 +219,5 @@ def AnalyticsDataFeedFromString(xml_string):
       if entry.dimension is not None:
         for dim in entry.dimension:
           entry.__dict__[dim.name.replace('ga:','')] = dim
-        
+
   return feed

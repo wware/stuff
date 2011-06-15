@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -44,15 +44,15 @@ and character decoding/encoding.
 <div class="defun">
 &mdash; Procedure: <b>url:parse</b><var> string<a name="index-url_003aparse-15"></a></var><br>
 <blockquote><p>Parse <var>string</var> and return a url object, with one of the
-following "schemes": HTTP, FTP, mailto, unknown. 
+following "schemes": HTTP, FTP, mailto, unknown.
 </p></blockquote></div>
 <!-- @twerpdoc (url:unparse) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:unparse</b><var> url<a name="index-url_003aunparse-16"></a></var><br>
-<blockquote><p>Return the <var>url</var> object formatted as a string. 
-Note: The username portion is not included! 
+<blockquote><p>Return the <var>url</var> object formatted as a string.
+Note: The username portion is not included!
 </p></blockquote></div>
 
 <h3 class="section">2.2 Low-Level URL Object Construction</h3>
@@ -61,8 +61,8 @@ Note: The username portion is not included!
 <!-- ../source/url.doc -->
 <div class="defun">
 &mdash; Procedure: <b>url:make</b><var> scheme </var>[<var>args...</var>]<var><a name="index-url_003amake-17"></a></var><br>
-<blockquote><p>Construct a url object with specific <var>scheme</var> and other <var>args</var>. 
-The number and meaning of <var>args</var> depends on the <var>scheme</var>. 
+<blockquote><p>Construct a url object with specific <var>scheme</var> and other <var>args</var>.
+The number and meaning of <var>args</var> depends on the <var>scheme</var>.
 </p></blockquote></div>
 <!-- @twerpdoc (url:make-http) -->
 <!-- ../source/url.doc -->
@@ -70,7 +70,7 @@ The number and meaning of <var>args</var> depends on the <var>scheme</var>.
 <div class="defun">
 &mdash; Procedure: <b>url:make-http</b><var> host port path<a name="index-url_003amake_002dhttp-18"></a></var><br>
 <blockquote><p>Construct a HTTP-specific url object with
-<var>host</var>, <var>port</var> and <var>path</var> portions. 
+<var>host</var>, <var>port</var> and <var>path</var> portions.
 </p></blockquote></div>
    <!-- @twerpdoc (url:make-ftp) -->
 <!-- ../source/url.doc -->
@@ -78,7 +78,7 @@ The number and meaning of <var>args</var> depends on the <var>scheme</var>.
 <div class="defun">
 &mdash; Procedure: <b>url:make-ftp</b><var> user host port path<a name="index-url_003amake_002dftp-19"></a></var><br>
 <blockquote><p>Construct a FTP-specific url object with
-<var>user</var>, <var>host</var>, <var>port</var> and <var>path</var> portions. 
+<var>user</var>, <var>host</var>, <var>port</var> and <var>path</var> portions.
 </p></blockquote></div>
    <!-- @twerpdoc (url:make-mailto) -->
 <!-- ../source/url.doc -->
@@ -86,7 +86,7 @@ The number and meaning of <var>args</var> depends on the <var>scheme</var>.
 <div class="defun">
 &mdash; Procedure: <b>url:make-mailto</b><var> address<a name="index-url_003amake_002dmailto-20"></a></var><br>
 <blockquote><p>Construct a mailto-specific url object with
-an <var>address</var> portion. 
+an <var>address</var> portion.
 </p></blockquote></div>
 
 <h3 class="section">2.3 Low-Level URL Object Access</h3>
@@ -95,51 +95,51 @@ an <var>address</var> portion.
 <!-- ../source/url.doc -->
 <div class="defun">
 &mdash; Procedure: <b>url:scheme</b><var> url<a name="index-url_003ascheme-21"></a></var><br>
-<blockquote><p>Extract and return the "scheme" portion of a <var>url</var> object. 
+<blockquote><p>Extract and return the "scheme" portion of a <var>url</var> object.
 <code>url:scheme</code> is an unfortunate term, but it is the technical
-name for that portion of the URL according to RFC 1738.  Sigh. 
+name for that portion of the URL according to RFC 1738.  Sigh.
 </p></blockquote></div>
 <!-- @twerpdoc (url:address) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:address</b><var> url<a name="index-url_003aaddress-22"></a></var><br>
-<blockquote><p>Extract and return the "address" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "address" portion of the <var>url</var> object.
 </p></blockquote></div>
    <!-- @twerpdoc (url:unknown) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:unknown</b><var> url<a name="index-url_003aunknown-23"></a></var><br>
-<blockquote><p>Extract and return the "unknown" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "unknown" portion of the <var>url</var> object.
 </p></blockquote></div>
    <!-- @twerpdoc (url:user) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:user</b><var> url<a name="index-url_003auser-24"></a></var><br>
-<blockquote><p>Extract and return the "user" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "user" portion of the <var>url</var> object.
 </p></blockquote></div>
    <!-- @twerpdoc (url:host) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:host</b><var> url<a name="index-url_003ahost-25"></a></var><br>
-<blockquote><p>Extract and return the "host" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "host" portion of the <var>url</var> object.
 </p></blockquote></div>
    <!-- @twerpdoc (url:port) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:port</b><var> url<a name="index-url_003aport-26"></a></var><br>
-<blockquote><p>Extract and return the "port" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "port" portion of the <var>url</var> object.
 </p></blockquote></div>
    <!-- @twerpdoc (url:path) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:path</b><var> url<a name="index-url_003apath-27"></a></var><br>
-<blockquote><p>Extract and return the "path" portion of the <var>url</var> object. 
+<blockquote><p>Extract and return the "path" portion of the <var>url</var> object.
 </p></blockquote></div>
 
 <h3 class="section">2.4 Character Decoding/Encoding</h3>
@@ -148,14 +148,14 @@ name for that portion of the URL according to RFC 1738.  Sigh.
 <!-- ../source/url.doc -->
 <div class="defun">
 &mdash; Procedure: <b>url:decode</b><var> str<a name="index-url_003adecode-28"></a></var><br>
-<blockquote><p>Re-export <code>url-coding:decode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>. 
+<blockquote><p>Re-export <code>url-coding:decode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>.
 </p></blockquote></div>
 <!-- @twerpdoc (url:encode) -->
 <!-- ../source/url.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>url:encode</b><var> str reserved-chars<a name="index-url_003aencode-29"></a></var><br>
-<blockquote><p>Re-export <code>url-coding:encode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>. 
+<blockquote><p>Re-export <code>url-coding:encode</code>.  See <a href="url_002dcoding.html#url_002dcoding">url-coding</a>.
 </p></blockquote></div>
 
 <!--  -->

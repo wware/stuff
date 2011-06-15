@@ -153,4 +153,3 @@ class TransactionFeed(gdata.data.GDFeed):
   """Describes a Finance transaction feed"""
   entry = [TransactionEntry]
 
-

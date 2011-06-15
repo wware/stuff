@@ -1,7 +1,7 @@
 /**
  * view.java - camera angle, XYZ-to-screen coord translation, perspective
  * Copyright (c) 1997,1998 Will Ware, all rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -10,7 +10,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and other materials provided with the distribution.
- * 
+ *
  * This software is provided "as is" and any express or implied warranties,
  * including, but not limited to, the implied warranties of merchantability
  * or fitness for any particular purpose are disclaimed. In no event shall

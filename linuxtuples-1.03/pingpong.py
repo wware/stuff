@@ -44,4 +44,3 @@ time1 = os.times()[4]
 
 print "Elapsed:", time1 - time0
 
-

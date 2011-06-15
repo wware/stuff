@@ -131,7 +131,7 @@ typedef union _POINTER
         //byte bUpper;
     };
     word _word;                         // bLow & bHigh
-    
+
     //pFunc _pFunc;                       // Usage: ptr.pFunc(); Init: ptr.pFunc = &<Function>;
 
     byte* bRam;                         // Ram byte pointer: 2 bytes pointer pointing

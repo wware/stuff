@@ -57,7 +57,7 @@ LISP regcomp_l(LISP pattern,LISP flags)
  h->m = (regmatch_t *) must_malloc(sizeof(regmatch_t) * h->nmatch);
  no_interrupt(iflag);
  return(result);}
- 
+
 LISP regerror_l(LISP code,LISP ptr)
 {char errbuff[1024];
  regerror(get_c_long(code),get_tc_regex(ptr)->r,errbuff,sizeof(errbuff));

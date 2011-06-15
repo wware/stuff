@@ -8,23 +8,23 @@
 #include<limits.h>
 #include<iostream.h>
 
-//  The interval_tree.h and interval_tree.cc files contain code for 
-//  interval trees implemented using red-black-trees as described in 
-//  the book _Introduction_To_Algorithms_ by Cormen, Leisserson, 
-//  and Rivest.  
+//  The interval_tree.h and interval_tree.cc files contain code for
+//  interval trees implemented using red-black-trees as described in
+//  the book _Introduction_To_Algorithms_ by Cormen, Leisserson,
+//  and Rivest.
 
-//  CONVENTIONS:  
-//                Function names: Each word in a function name begins with 
-//                a capital letter.  An example funcntion name is  
-//                CreateRedTree(a,b,c). Furthermore, each function name 
-//                should begin with a capital letter to easily distinguish 
-//                them from variables. 
-//                                                                     
-//                Variable names: Each word in a variable name begins with 
-//                a capital letter EXCEPT the first letter of the variable 
-//                name.  For example, int newLongInt.  Global variables have 
-//                names beginning with "g".  An example of a global 
-//                variable name is gNewtonsConstant. 
+//  CONVENTIONS:
+//                Function names: Each word in a function name begins with
+//                a capital letter.  An example funcntion name is
+//                CreateRedTree(a,b,c). Furthermore, each function name
+//                should begin with a capital letter to easily distinguish
+//                them from variables.
+//
+//                Variable names: Each word in a variable name begins with
+//                a capital letter EXCEPT the first letter of the variable
+//                name.  For example, int newLongInt.  Global variables have
+//                names beginning with "g".  An example of a global
+//                variable name is gNewtonsConstant.
 
 
 #ifndef MAX_INT
@@ -38,7 +38,7 @@
 // functions GetLowPoint and GetHighPoint.
 //
 // The GetLowPoint should return the lowest point of the interval and
-// the GetHighPoint should return the highest point of the interval.  
+// the GetHighPoint should return the highest point of the interval.
 
 class Interval {
 public:
@@ -107,7 +107,7 @@ protected:
   void FixUpMaxHigh(IntervalTreeNode *);
   void DeleteFixUp(IntervalTreeNode *);
   void CheckMaxHighFields(IntervalTreeNode *) const;
-  int CheckMaxHighFieldsHelper(IntervalTreeNode * y, 
+  int CheckMaxHighFieldsHelper(IntervalTreeNode * y,
 			const int currentHigh,
 			int match) const;
 private:
@@ -119,6 +119,4 @@ private:
 
 
 #endif
-
-
 

@@ -78,7 +78,7 @@ class TestWaveModel(unittest.TestCase):
     self.test_context.waves[self.wave.waveId] = self.wave
     self.test_context.wavelets[self.wavelet.waveletId] = self.wavelet
     self.test_context.blips[self.blip.blipId] = self.blip
-  
+
   def verifySameAttributes(self, source, target):
     for attr_name in dir(source):
       self.assertTrue(hasattr(target, attr_name))
@@ -88,7 +88,7 @@ class TestWaveModel(unittest.TestCase):
     self.verifySameAttributes(self.blip, model.Blip(empty_json))
     self.verifySameAttributes(self.wave, model.Wave(empty_json))
     self.verifySameAttributes(self.wavelet, model.Wavelet(empty_json))
- 
+
   def testWaveFields(self):
     w = self.wave
     self.assertEquals(self.test_wave_data['waveId'], w.waveId)
@@ -193,7 +193,7 @@ class TestWaveModel(unittest.TestCase):
     self.assertEquals(self.wavelet,
                       self.test_context.wavelets[self.wavelet.waveletId])
     self.assertEquals(self.wavelet, self.test_context.GetRootWavelet())
-    
+
 
 if __name__ == '__main__':
   unittest.main()

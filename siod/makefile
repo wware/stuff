@@ -6,7 +6,7 @@
 #       don't forget to setenv LD_LIBRARY_PATH "."
 #       Static executable 'sample' is build for comparison purposes
 #       on some platforms.
-# 
+#
 MANDIR=$(IROOT)/usr/local/man/man1
 BINDIR=$(IROOT)/usr/local/bin
 INCDIR=$(IROOT)/usr/local/include
@@ -161,9 +161,9 @@ sgi:
 
 libsiod.$(SO): $(SIOD_OBJS_COMMON)
 	$(LD) -o libsiod.$(SO) $(LD_LIB_FLAGS) $(SIOD_OBJS_COMMON) \
-                               $(LD_LIB_LIBS) 
+                               $(LD_LIB_LIBS)
 
-siod: siod.o libsiod.$(SO) 
+siod: siod.o libsiod.$(SO)
 	$(CC) -o siod $(LD_EXE_FLAGS) siod.o libsiod.$(SO) $(LD_EXE_LIBS)
 
 sample: $(SAMPLE_OBJS)
@@ -313,10 +313,10 @@ dist: siod_tar.gz
 selfdoc:
 	./selfdoc.scm *.so > selfdoc.txt
 
-# 
+#
 
 WIN95BIN=./release/libsiod.dll ./release/libsiod.lib ./release/siod.exe \
-         ./release/parser_pratt.dll 
+         ./release/parser_pratt.dll
 
 win95bin.zip: $(WIN95BIN)
 	zip -rj win95bin.zip $(WIN95BIN)

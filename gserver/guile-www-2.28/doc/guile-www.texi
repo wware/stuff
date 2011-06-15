@@ -434,12 +434,12 @@ Unrecognized options are ignored.
 @end deffn
 @c @twerpdoc (cgi:form-data?)
 @c ../source/cgi.doc
-@deffn {Procedure} cgi:form-data? 
+@deffn {Procedure} cgi:form-data?
 Return @code{#t} iff there is form data available.
 @end deffn
 @c @twerpdoc (cgi:names)
 @c ../source/cgi.doc
-@deffn {Procedure} cgi:names 
+@deffn {Procedure} cgi:names
 Return a list of variable names in the form.  The order of the
 list is the same as that found in the form for the first occurance
 of each variable and each variable appears at most once.  For example,
@@ -448,7 +448,7 @@ returned list would have order @code{a b c d e}.
 @end deffn
 @c @twerpdoc (cgi:cookie-names)
 @c ../source/cgi.doc
-@deffn {Procedure} cgi:cookie-names 
+@deffn {Procedure} cgi:cookie-names
 Return a list of cookie names.
 @end deffn
 
@@ -570,7 +570,7 @@ to access the uncollated (albeit ordered) form data.
 
 @c @twerpdoc (cgi:nv-pairs)
 @c ../source/cgi.doc
-@deffn {Procedure} cgi:nv-pairs 
+@deffn {Procedure} cgi:nv-pairs
 Fetch the list of @code{(name . value)}, in the same order as found
 in the form data.  A name may appear more than once.  A value is
 either a string, or @code{#f}.
@@ -706,7 +706,7 @@ on one of these.
 @end deffn
 @c @twerpdoc (rfc1123-now)
 @c ../source/utcsec.doc
-@deffn {Procedure} rfc1123-now 
+@deffn {Procedure} rfc1123-now
 The "current time" formatted according to RFC1123.
 @end deffn
 

@@ -35,4 +35,3 @@ if not quiet:
 if args: test.TestBlockModules(args, verbose= not quiet)
 else: test.TestBlockModules(verbose= not quiet)
 
-

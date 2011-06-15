@@ -29,7 +29,7 @@ def print_timing (size, delta, verbose):
             print 'Unable to measure time -- elapsed time too small'
         else:
             print '%.2f K/sec' % (size/delta)
-            
+
 def exerciseBlockCipher(cipher, verbose):
     import string, time
     try:
@@ -448,6 +448,4 @@ def TestBlockModules(args=['aes', 'arc2', 'des', 'blowfish', 'cast', 'des3',
                         for i in ciphertext:
                             if verbose: print hex(ord(i)),
                         if verbose: print
-
-
 

@@ -126,11 +126,11 @@ class YouTubeService(gdata.service.GDataService):
         authenticated actions.
     password: An optional string identifying the user's password.
     source: An optional string identifying the name of your application.
-    server: An optional address of the YouTube API server. gdata.youtube.com 
+    server: An optional address of the YouTube API server. gdata.youtube.com
         is provided as the default value.
     additional_headers: An optional dictionary containing additional headers
         to be passed along with each request. Use to store developer key.
-    client_id: An optional string identifying your application, required for   
+    client_id: An optional string identifying your application, required for
         authenticated requests, along with a developer key.
     developer_key: An optional string value. Register your application at
         http://code.google.com/apis/youtube/dashboard to obtain a (free) key.
@@ -186,7 +186,7 @@ class YouTubeService(gdata.service.GDataService):
     Either a uri or a video_id must be provided.
 
     Args:
-      uri: An optional string representing the URI of the entry that is to 
+      uri: An optional string representing the URI of the entry that is to
           be retrieved.
       video_id: An optional string representing the ID of the video.
 
@@ -624,7 +624,7 @@ class YouTubeService(gdata.service.GDataService):
     #      'reason':'Accepted content types: %s' %
     #          ['video/%s' % (t) for t in YOUTUBE_SUPPORTED_UPLOAD_TYPES]})
 
-    if (isinstance(filename_or_handle, (str, unicode)) 
+    if (isinstance(filename_or_handle, (str, unicode))
         and os.path.exists(filename_or_handle)):
       mediasource = gdata.MediaSource()
       mediasource.setFile(filename_or_handle, content_type)
@@ -928,7 +928,7 @@ class YouTubeService(gdata.service.GDataService):
     if playlist_private:
       playlist_entry.private = gdata.youtube.Private()
 
-    playlist_post_uri = '%s/%s/%s' % (YOUTUBE_USER_FEED_URI, 'default', 
+    playlist_post_uri = '%s/%s/%s' % (YOUTUBE_USER_FEED_URI, 'default',
                                       'playlists')
     return self.Post(playlist_entry, playlist_post_uri,
                      converter=gdata.youtube.YouTubePlaylistEntryFromString)
@@ -1011,7 +1011,7 @@ class YouTubeService(gdata.service.GDataService):
                     converter=gdata.youtube.YouTubePlaylistVideoEntryFromString)
 
   def UpdatePlaylistVideoEntryMetaData(
-      self, playlist_uri, playlist_entry_id, new_video_title, 
+      self, playlist_uri, playlist_entry_id, new_video_title,
       new_video_description, new_video_position):
     """Update the meta data for a YouTubePlaylistVideoEntry.
 
@@ -1066,7 +1066,7 @@ class YouTubeService(gdata.service.GDataService):
     Needs authentication.
 
     Args:
-      username_to_subscribe_to: A string representing the username of the 
+      username_to_subscribe_to: A string representing the username of the
           channel to which we want to subscribe to.
       my_username: An optional string representing the name of the user which
           we want to subscribe. Defaults to currently authenticated user.
@@ -1084,7 +1084,7 @@ class YouTubeService(gdata.service.GDataService):
         category=subscription_category,
         username=subscription_username)
 
-    post_uri = '%s/%s/%s' % (YOUTUBE_USER_FEED_URI, my_username, 
+    post_uri = '%s/%s/%s' % (YOUTUBE_USER_FEED_URI, my_username,
                              'subscriptions')
 
     return self.Post(subscription_entry, post_uri,
@@ -1193,7 +1193,7 @@ class YouTubeService(gdata.service.GDataService):
     return self.Post(contact_entry, contact_post_uri,
                      converter=gdata.youtube.YouTubeContactEntryFromString)
 
-  def UpdateContact(self, contact_username, new_contact_status, 
+  def UpdateContact(self, contact_username, new_contact_status,
                     new_contact_category, my_username='default'):
     """Update a contact, providing a new status and a new category.
 
@@ -1272,7 +1272,7 @@ class YouTubeService(gdata.service.GDataService):
 
   def _SetDeveloperKey(self, developer_key):
     """Setter for Developer Key property.
-    
+
     Sets the developer key in the 'X-GData-Key' header. The actual value that
         is set is 'key=' plus the developer_key that was passed.
     """
@@ -1401,7 +1401,7 @@ class YouTubeVideoQuery(gdata.service.Query):
 
     gdata.service.Query.__init__(self, feed, text_query=text_query,
                                  params=params, categories=categories)
- 
+
   def _GetVideoQuery(self):
     if 'vq' in self:
       return self['vq']
@@ -1472,7 +1472,7 @@ class YouTubeVideoQuery(gdata.service.Query):
                          ' '.join(YOUTUBE_QUERY_VALID_RACY_PARAMETERS))
     self['racy'] = val
 
-  racy = property(_GetRacy, _SetRacy, 
+  racy = property(_GetRacy, _SetRacy,
                   doc="""The racy query parameter""")
 
   def _GetLanguageRestriction(self):
@@ -1534,7 +1534,7 @@ class YouTubeUserQuery(YouTubeVideoQuery):
       feed = "http://%s/feeds/users/%s/%s" % (YOUTUBE_SERVER, username,
                                               feed_type)
     elif feed_type in uploads_favorites_playlists:
-      feed = "http://%s/feeds/users/%s/%s" % (YOUTUBE_SERVER, username, 
+      feed = "http://%s/feeds/users/%s/%s" % (YOUTUBE_SERVER, username,
                                               feed_type)
     else:
       feed = "http://%s/feeds/users" % (YOUTUBE_SERVER)

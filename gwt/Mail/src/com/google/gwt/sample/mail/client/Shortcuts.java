@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -46,7 +46,7 @@ public class Shortcuts extends Composite {
 
   /**
    * Constructs a new shortcuts widget using the specified images.
-   * 
+   *
    * @param images a bundle that provides the images for this widget
    */
   public Shortcuts(Images images) {
@@ -73,7 +73,7 @@ public class Shortcuts extends Composite {
   /**
    * Creates an HTML fragment that places an image & caption together, for use
    * in a group header.
-   * 
+   *
    * @param imageProto an image prototype for an image
    * @param caption the group caption
    * @return the header HTML fragment

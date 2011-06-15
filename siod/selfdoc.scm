@@ -64,7 +64,7 @@
     (subset (lambda (x)
 	      (not (equal? (href table (car x)) (cadr x))))
 	    new)))
- 
+
 (define (++++main extensions)
   (define (display-ids l)
     (mapcar (lambda (x)

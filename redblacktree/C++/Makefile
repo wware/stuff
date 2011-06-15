@@ -10,7 +10,7 @@ LINK	=	g++
 LFLAGS	=	${CFLAGS} -ldl -ltcl
 OBJECTS = interval_tree.o test.o RedBlackTree.o
 
-.PHONY: test clean 
+.PHONY: test clean
 
 test: test.exe
 	./test.exe tree_test.tcl

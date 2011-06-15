@@ -23,12 +23,12 @@ def trimWhiteSpace(str,
         a, b = begin.search(str).regs[0]
         str = str[b:]
     except AttributeError:
-        pass 
+        pass
     try:
         c, d = end.search(str).regs[0]
         str = str[:c]
     except AttributeError:
-        pass 
+        pass
     return str
 
 

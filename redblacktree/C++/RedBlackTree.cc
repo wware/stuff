@@ -49,12 +49,12 @@ RedBlackTree::RedBlackTree()
   nil->red = 0;
   nil->key = MIN_INT;
   nil->storedEntry = NULL;
-  
+
   root = new RedBlackTreeNode;
   root->parent = root->left = root->right = nil;
   root->key = MAX_INT;
   root->red=0;
-  root->storedEntry = NULL;  
+  root->storedEntry = NULL;
 }
 
 /***********************************************************************/
@@ -76,7 +76,7 @@ RedBlackTree::RedBlackTree()
 void RedBlackTree::LeftRotate(RedBlackTreeNode* x)
 {
   RedBlackTreeNode* y;
- 
+
   /*  I originally wrote this function to use the sentinel for */
   /*  nil to avoid checking for nil.  However this introduces a */
   /*  very subtle bug because sometimes this function modifies */
@@ -92,8 +92,8 @@ void RedBlackTree::LeftRotate(RedBlackTreeNode* x)
 
   if (y->left != nil) y->left->parent=x; /* used to use sentinel here */
   /* and do an unconditional assignment instead of testing for nil */
-  
-  y->parent=x->parent;   
+
+  y->parent=x->parent;
 
   /* instead of checking if x->parent is the root as in the book, we */
   /* count on the root sentinel to implicitly take care of this case */
@@ -186,13 +186,13 @@ void RedBlackTree::TreeInsertHelp(RedBlackTreeNode* z)
   /*  This function should only be called by RedBlackTree::Insert */
   RedBlackTreeNode* x;
   RedBlackTreeNode* y;
-    
+
   z->left=z->right=nil;
   y=root;
   x=root->left;
   while( x != nil) {
     y=x;
-    if ( x->key > z->key) { 
+    if ( x->key > z->key) {
       x=x->left;
     } else { /* x->key <= z->key */
       x=x->right;
@@ -200,7 +200,7 @@ void RedBlackTree::TreeInsertHelp(RedBlackTreeNode* z)
   }
   z->parent=y;
   if ( (y == root) ||
-       (y->key > z->key) ) { 
+       (y->key > z->key) ) {
     y->left=z;
   } else {
     y->right=z;
@@ -256,7 +256,7 @@ RedBlackTreeNode * RedBlackTree::Insert(RedBlackEntry * newEntry)
 	x->parent->red=0;
 	x->parent->parent->red=1;
 	RightRotate(x->parent->parent);
-      } 
+      }
     } else { /* case for x->parent == x->parent->parent->right */
              /* this part is just like the section above with */
              /* left and right interchanged */
@@ -274,7 +274,7 @@ RedBlackTreeNode * RedBlackTree::Insert(RedBlackEntry * newEntry)
 	x->parent->red=0;
 	x->parent->parent->red=1;
 	LeftRotate(x->parent->parent);
-      } 
+      }
     }
   }
   root->left->red=0;
@@ -300,9 +300,9 @@ RedBlackTreeNode * RedBlackTree::Insert(RedBlackEntry * newEntry)
 /**/
 /*    Note:  uses the algorithm in _Introduction_To_Algorithms_ */
 /***********************************************************************/
-  
+
 RedBlackTreeNode * RedBlackTree::GetSuccessorOf(RedBlackTreeNode * x) const
-{ 
+{
   RedBlackTreeNode* y;
 
   if (nil != (y = x->right)) { /* assignment to y is intentional */
@@ -345,8 +345,8 @@ RedBlackTreeNode * RedBlackTree::GetPredecessorOf(RedBlackTreeNode * x) const
     return(y);
   } else {
     y=x->parent;
-    while(x == y->left) { 
-      if (y == root) return(nil); 
+    while(x == y->left) {
+      if (y == root) return(nil);
       x=y;
       y=y->parent;
     }
@@ -384,7 +384,7 @@ void RedBlackTreeNode::Print(RedBlackTreeNode * nil,
 }
 
 void RedBlackTree::TreePrintHelper( RedBlackTreeNode* x) const
-{  
+{
   if (x != nil) {
     TreePrintHelper(x->left);
     x->Print(nil,root);
@@ -472,7 +472,7 @@ void RedBlackTree::DeleteFixUp(RedBlackTreeNode* x)
 	LeftRotate(x->parent);
 	w=x->parent->right;
       }
-      if ( (!w->right->red) && (!w->left->red) ) { 
+      if ( (!w->right->red) && (!w->left->red) ) {
 	w->red=1;
 	x=x->parent;
       } else {
@@ -496,7 +496,7 @@ void RedBlackTree::DeleteFixUp(RedBlackTreeNode* x)
 	RightRotate(x->parent);
 	w=x->parent->left;
       }
-      if ( (!w->right->red) && (!w->left->red) ) { 
+      if ( (!w->right->red) && (!w->left->red) ) {
 	w->red=1;
 	x=x->parent;
       } else {
@@ -561,13 +561,13 @@ RedBlackEntry * RedBlackTree::DeleteNode(RedBlackTreeNode * z)
     Assert( (y!=nil),"y is nil in DeleteNode \n");
 #endif
     /* y is the node to splice out and x is its child */
-  
+
     y->left=z->left;
     y->right=z->right;
     y->parent=z->parent;
     z->left->parent=z->right->parent=y;
     if (z == z->parent->left) {
-      z->parent->left=y; 
+      z->parent->left=y;
     } else {
       z->parent->right=y;
     }
@@ -575,7 +575,7 @@ RedBlackEntry * RedBlackTree::DeleteNode(RedBlackTreeNode * z)
       y->red = z->red;
       DeleteFixUp(x);
     } else
-      y->red = z->red; 
+      y->red = z->red;
     delete z;
 #ifdef CHECK_RB_TREE_ASSUMPTIONS
     CheckAssumptions();
@@ -609,10 +609,10 @@ RedBlackEntry * RedBlackTree::DeleteNode(RedBlackTreeNode * z)
 /**/
 /***********************************************************************/
 
-TemplateStack<RedBlackTreeNode *> * RedBlackTree::Enumerate(int low, 
+TemplateStack<RedBlackTreeNode *> * RedBlackTree::Enumerate(int low,
 							    int high)
 {
-  TemplateStack<RedBlackTreeNode *> * enumResultStack = 
+  TemplateStack<RedBlackTreeNode *> * enumResultStack =
     new TemplateStack<RedBlackTreeNode *>(4);
 
   RedBlackTreeNode* x=root->left;
@@ -642,6 +642,4 @@ void RedBlackTree::CheckAssumptions() const
  VERIFY(nil->red == 0);
  VERIFY(root->red == 0);
 }
- 
-
 

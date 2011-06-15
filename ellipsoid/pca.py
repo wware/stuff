@@ -120,7 +120,7 @@ class Ellipsoid:
 
 g = RandomPointGenerator(DIMENSIONS)
 e = Ellipsoid()
-for i in range(300):   
+for i in range(300):
     try:
         x = g.makePoint()
         e.addPoint(x.v)

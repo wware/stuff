@@ -3,14 +3,14 @@
 ;; Purpose:
 ;;  produce pie chart graphics entirely from the query string portion
 ;;  of the URL.
-;;  
+;;
 ;; Usage: /cgi/pichart.scm?radius=50&red=10&green=20&blue=30
 ;;
 ;; Performance notes:
 ;;  Takes 0.080 cpu seconds for case "304 Not Modified"
 ;;  Takes 0.250 cpu seconds for a typical pie charts.
 ;;  That makes the "Not Modified" case important for network bandwith
-;;  but not a dramatic win on the CPU side. 
+;;  but not a dramatic win on the CPU side.
 
 (define (main)
   (let ((if-modified-since (getenv "HTTP_IF_MODIFIED_SINCE"))
@@ -18,7 +18,7 @@
 				      (or (getenv "HTTP_PRAGMA") ""))
 		       t)))
     (if (or no-cache (not if-modified-since))
-	(let ((result (piechart-gif 
+	(let ((result (piechart-gif
 		       (mapcar (lambda (x)
 				 (let ((u (strbreakup x "=")))
 				   (if (not (cdr u))
@@ -57,12 +57,12 @@
     (cyan 0 255 255)
     (magenta 255 0 255)
     (gray 190 190 190)
-    (aquamarine 127 255 212)		
-    (chartreuse 127 255   0)		
-    (gold 255 215   0) 		
-    (sienna 160  82  45)		
-    (hotpink 255 105 180)		
-    (violet 238 130 238)		
+    (aquamarine 127 255 212)
+    (chartreuse 127 255   0)
+    (gold 255 215   0)
+    (sienna 160  82  45)
+    (hotpink 255 105 180)
+    (violet 238 130 238)
     (azure 240 255 255)))
 
 (define (color-name-table x)
@@ -90,7 +90,7 @@
 	     (< (trunc (cadr (assq 'radius args))) 250))
 	(set! radius (trunc (cadr (assq 'radius args)))))
     (set! im (gdImageCreate (* radius 2) (* radius 2)))
-    (set! colors (list (list 'white 
+    (set! colors (list (list 'white
 			     (apply gdImageColorAllocate
 				    (cons im
 					  (color-name-table 'white))))))
@@ -148,7 +148,7 @@
 				 (+ radius (* radius (sin end-theta)))
 				 ci)
 		    (or nofill
-			(gdImageFill im 
+			(gdImageFill im
 				     (+ radius
 					(* (* radius 0.90)
 					   (cos (/ (+ start-theta end-theta)

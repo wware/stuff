@@ -474,4 +474,3 @@ class VideoModerationFeed(gdata.data.GDFeed):
   """Describes a video moderation feed"""
   entry = [VideoModerationEntry]
 
-

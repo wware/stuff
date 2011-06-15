@@ -3,11 +3,11 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FF80FF66" 
+    android:background="#FF80FF66"
     >
 <TextView
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:text="@string/hello"
     android:textSize="20sp"
     android:textColor="#FF000000"
@@ -19,16 +19,16 @@
     android:layout_height="wrap_content"
     >
 <Button android:id="@+id/getfine"
-    android:layout_height="fill_parent" 
-    android:layout_width="0dip" 
-	android:layout_weight="1" 
+    android:layout_height="fill_parent"
+    android:layout_width="0dip"
+	android:layout_weight="1"
     android:textSize="20sp"
     android:text="@string/getfine"
     />
 <Button android:id="@+id/getcoarse"
-    android:layout_height="wrap_content" 
-    android:layout_width="0dip" 
-	android:layout_weight="1" 
+    android:layout_height="wrap_content"
+    android:layout_width="0dip"
+	android:layout_weight="1"
     android:textSize="20sp"
     android:text="@string/getcoarse"
     />
@@ -43,8 +43,8 @@
     android:width="300dip"
     android:id="@+id/message" />
 <TextView
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:textSize="20sp"
     android:textColor="#FF000000"
     android:text="@string/instrucs"

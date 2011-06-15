@@ -81,7 +81,7 @@ void USBCheckBusStatus(void)
      * Bus Attachment & Detachment Detection
      * usb_bus_sense is an i/o pin defined in io_cfg.h
      *************************************************************************/
-    #define USB_BUS_ATTACHED    1			
+    #define USB_BUS_ATTACHED    1
     #define USB_BUS_DETACHED    0
 
     if(usb_bus_sense == USB_BUS_ATTACHED)       // Is USB bus attached?

@@ -2,11 +2,11 @@
 
 /*
 
-;; Based on a theory of parsing presented in:                       
-;;                                                                      
-;;  Pratt, Vaughan R., ``Top Down Operator Precedence,''         
-;;  ACM Symposium on Principles of Programming Languages         
-;;  Boston, MA; October, 1973.                                   
+;; Based on a theory of parsing presented in:
+;;
+;;  Pratt, Vaughan R., ``Top Down Operator Precedence,''
+;;  ACM Symposium on Principles of Programming Languages
+;;  Boston, MA; October, 1973.
 
 */
 
@@ -94,7 +94,7 @@ LISP pratt_read_token(LISP buffer,LISP chars,LISP stream)
    else
      err_token_overflow();
  return(NIL);}
-  
+
 LISP init_parser_pratt(void)
 {init_subr_3("pratt_read_token",pratt_read_token);
  gc_protect_sym(&sym_whitespace,"whitespace");

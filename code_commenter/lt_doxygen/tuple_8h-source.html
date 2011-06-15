@@ -46,7 +46,7 @@
 <a name="l00031"></a>00031 <span class="comment"> *    THE POSSIBILITY OF SUCH DAMAGE.</span>
 <a name="l00032"></a>00032 <span class="comment"> *</span>
 <a name="l00033"></a>00033 <span class="comment"> *****************************************************************/</span>
-<a name="l00034"></a>00034 
+<a name="l00034"></a>00034
 <a name="l00035"></a>00035 <span class="preprocessor">#ifndef TUPLE_H_INCLUDED</span>
 <a name="l00036"></a>00036 <span class="preprocessor"></span><span class="preprocessor">#define TUPLE_H_INCLUDED</span>
 <a name="l00037"></a>00037 <span class="preprocessor"></span>
@@ -68,15 +68,15 @@
 <a name="l00053"></a>00053 <span class="preprocessor">   _DBG_(fprintf(stderr, "%d  " __FILE__ ":%d " fmt, \</span>
 <a name="l00054"></a>00054 <span class="preprocessor">                 debug_counter++, __LINE__, ##a))</span>
 <a name="l00055"></a>00055 <span class="preprocessor"></span>
-<a name="l00056"></a>00056 
+<a name="l00056"></a>00056
 <a name="l00057"></a><a class="code" href="tuple_8h.html#6e4267906923670d579ef822ed5480b8">00057</a> <span class="preprocessor">#define PRINTF(fmt,a...)   \</span>
 <a name="l00058"></a>00058 <span class="preprocessor">   fprintf(stderr, __FILE__ ":%d  " fmt, __LINE__, ##a)</span>
 <a name="l00059"></a>00059 <span class="preprocessor"></span>
-<a name="l00060"></a>00060 
+<a name="l00060"></a>00060
 <a name="l00061"></a><a class="code" href="tuple_8h.html#2da7fe6c5277be25a9bda95f08a85aee">00061</a> <span class="preprocessor">#define PERROR(x) \</span>
 <a name="l00062"></a>00062 <span class="preprocessor">  fprintf(stderr, __FILE__":%d  ", __LINE__); perror(x)</span>
 <a name="l00063"></a>00063 <span class="preprocessor"></span>
-<a name="l00064"></a>00064 
+<a name="l00064"></a>00064
 <a name="l00065"></a><a class="code" href="tuple_8h.html#867679cd8b45e055558d2d809aa97f50">00065</a> <span class="preprocessor">#define TELL(x) \</span>
 <a name="l00066"></a>00066 <span class="preprocessor">   DBGPRINTF(#x " = %d\n", x)</span>
 <a name="l00067"></a>00067 <span class="preprocessor"></span>
@@ -95,7 +95,7 @@
 <a name="l00080"></a>00080         fprintf(stderr, <span class="stringliteral">"%s:%d free %08x\n"</span>, file, line, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>) p);
 <a name="l00081"></a>00081         free(p);
 <a name="l00082"></a>00082 }
-<a name="l00083"></a>00083 
+<a name="l00083"></a>00083
 <a name="l00084"></a>00084 <span class="preprocessor">#define MALLOC(n) mymalloc(n,__FILE__,__LINE__)</span>
 <a name="l00085"></a>00085 <span class="preprocessor"></span><span class="preprocessor">#define FREE(n) myfree(n,__FILE__,__LINE__)</span>
 <a name="l00086"></a>00086 <span class="preprocessor"></span><span class="preprocessor">#else</span>
@@ -116,7 +116,7 @@
 <a name="l00101"></a>00101 <span class="preprocessor">        ((after.tv_sec - before.tv_sec) + \</span>
 <a name="l00102"></a>00102 <span class="preprocessor">        1.0e-6 * (after.tv_usec - before.tv_usec))</span>
 <a name="l00103"></a>00103 <span class="preprocessor"></span>
-<a name="l00104"></a>00104 
+<a name="l00104"></a>00104
 <a name="l00105"></a>00105 <span class="preprocessor">#if 1</span>
 <a name="l00106"></a><a class="code" href="tuple_8h.html#d8b542a23d98fecf1260e3e3ae734bc7">00106</a> <span class="preprocessor"></span><span class="preprocessor">#define SHUTDOWN_SOCKET(S, HOW) \</span>
 <a name="l00107"></a>00107 <span class="preprocessor">        if (shutdown(S, HOW)) \</span>
@@ -127,7 +127,7 @@
 <a name="l00112"></a>00112 <span class="preprocessor"></span><span class="preprocessor">#define SHUTDOWN_SOCKET(S, HOW) ;</span>
 <a name="l00113"></a>00113 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
 <a name="l00114"></a>00114 <span class="preprocessor"></span>
-<a name="l00115"></a>00115 
+<a name="l00115"></a>00115
 <a name="l00116"></a>00116 <span class="comment">/* Environment variables */</span>
 <a name="l00117"></a><a class="code" href="tuple_8h.html#47bddda2ac8cfd9bc56f93c47500a063">00117</a> <span class="preprocessor">#define SERVERNAME_ENVVAR  "LINUXTUPLES_HOST"</span>
 <a name="l00118"></a><a class="code" href="tuple_8h.html#387d5dad7143d8d67f99e5fdf6087406">00118</a> <span class="preprocessor"></span><span class="preprocessor">#define PORTNUMBER_ENVVAR  "LINUXTUPLES_PORT"</span>
@@ -144,7 +144,7 @@
 <a name="l00129"></a><a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5cd7ffe737ad5fb21fbd7499886934910">00129</a>         <a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5cd7ffe737ad5fb21fbd7499886934910">LOG</a> = 7,
 <a name="l00130"></a><a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5765ae4f8f09e8a28e363acc11643ed91">00130</a>         <a class="code" href="tuple_8h.html#548f59aead48d9db88ba19dc42ef1cb5765ae4f8f09e8a28e363acc11643ed91">REPLACE</a> = 8
 <a name="l00131"></a>00131 };
-<a name="l00132"></a>00132 
+<a name="l00132"></a>00132
 <a name="l00137"></a><a class="code" href="structelement.html">00137</a> <span class="keyword">struct </span><a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>
 <a name="l00138"></a>00138 {
 <a name="l00155"></a><a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">00155</a>         <span class="keywordtype">int</span> <a class="code" href="structelement.html#18f1a37a02978730df2716d13411da92">tag</a>;
@@ -162,7 +162,7 @@
 <a name="l00196"></a>00196         }
 <a name="l00197"></a>00197         <a class="code" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">data</a>;
 <a name="l00198"></a>00198 };
-<a name="l00199"></a>00199 
+<a name="l00199"></a>00199
 <a name="l00205"></a><a class="code" href="structtuple.html">00205</a> <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a>
 <a name="l00206"></a>00206 {
 <a name="l00210"></a><a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">00210</a>         <span class="keywordtype">int</span> <a class="code" href="structtuple.html#f477eadb2c2027373a4ea7dadaedf681">num_elts</a>;
@@ -170,14 +170,14 @@
 <a name="l00219"></a><a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">00219</a>         <span class="keyword">struct </span><a class="code" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> *<a class="code" href="structtuple.html#6f1066a9670baccc45e68ee75c3be01d">elements</a>;
 <a name="l00229"></a><a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">00229</a>         <span class="keywordtype">char</span> *<a class="code" href="structtuple.html#38828fbf31067dca7c1d8a17ef43696f">string_space</a>;
 <a name="l00230"></a>00230 };
-<a name="l00231"></a>00231 
+<a name="l00231"></a>00231
 <a name="l00236"></a><a class="code" href="structtuple__list.html">00236</a> <span class="keyword">struct </span><a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a>
 <a name="l00237"></a>00237 {
 <a name="l00238"></a><a class="code" href="structtuple__list.html#0c3e333b19897812ecd80d7ab2f667f1">00238</a>         <span class="keyword">struct </span><a class="code" href="structtuple__list.html" title="Convenience struct, for when somebody needs to make a quick list of tuples.">tuple_list</a> *<a class="code" href="structtuple__list.html#0c3e333b19897812ecd80d7ab2f667f1">next</a>;
 <a name="l00239"></a><a class="code" href="structtuple__list.html#f9ffd0566915864a576125733d5cf2a6">00239</a>         <span class="keyword">struct </span><a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *<a class="code" href="structtuple__list.html#f9ffd0566915864a576125733d5cf2a6">tup</a>;
 <a name="l00240"></a>00240 };
-<a name="l00241"></a>00241 
-<a name="l00242"></a>00242 
+<a name="l00241"></a>00241
+<a name="l00242"></a>00242
 <a name="l00252"></a><a class="code" href="structcontext.html">00252</a> <span class="keyword">struct </span><a class="code" href="structcontext.html" title="The information we need to keep track of a client-server connection.">context</a>
 <a name="l00253"></a>00253 {
 <a name="l00258"></a><a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">00258</a>         <span class="keywordtype">int</span> <a class="code" href="structcontext.html#e609ea99b4c1f37ceb6bc646e083ce4a">id</a>;
@@ -186,9 +186,9 @@
 <a name="l00271"></a><a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">00271</a>         <span class="keywordtype">int</span> <a class="code" href="structcontext.html#ec049d0ac4f036617459e984d3f26480">sock</a>;
 <a name="l00277"></a><a class="code" href="structcontext.html#e5860957518b631e650bef4c8b5e2dc9">00277</a>         pthread_t <a class="code" href="structcontext.html#e5860957518b631e650bef4c8b5e2dc9">thr</a>;
 <a name="l00278"></a>00278 };
-<a name="l00279"></a>00279 
-<a name="l00280"></a>00280 
-<a name="l00281"></a>00281 
+<a name="l00279"></a>00279
+<a name="l00280"></a>00280
+<a name="l00281"></a>00281
 <a name="l00282"></a>00282 <span class="comment">/* ================= tuple.c ================= */</span>
 <a name="l00283"></a><a class="code" href="tuple_8h.html#041b49ecae1ddca1e27f1db8d37ddd25">00283</a> <span class="preprocessor">#define LOGBUFSIZE 32768</span>
 <a name="l00284"></a>00284 <span class="preprocessor"></span>
@@ -223,7 +223,7 @@
 <a name="l00313"></a>00313 <span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="tuple_8c.html#cfae941a81c1e8cc820268a81e169d5a">tuple_int_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keywordtype">int</span> n);
 <a name="l00314"></a>00314 <span class="keyword">extern</span> <span class="keywordtype">double</span> <a class="code" href="tuple_8c.html#a7338a380b05e6e11f16e80105116d66">tuple_double_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keywordtype">int</span> n);
 <a name="l00315"></a>00315 <span class="keyword">extern</span> <span class="keywordtype">char</span> *<a class="code" href="tuple_8c.html#3e4b17fa3a7431f7447098da86d6db88">tuple_string_field</a>(<span class="keyword">struct</span> <a class="code" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> *s, <span class="keywordtype">int</span> *len, <span class="keywordtype">int</span> n);
-<a name="l00316"></a>00316 
+<a name="l00316"></a>00316
 <a name="l00317"></a>00317 <span class="preprocessor">#endif </span><span class="comment">/* TUPLE_H_INCLUDED */</span>
 </pre></div></div>
 <hr size="1"><address style="text-align: right;"><small>Generated on Wed Aug 5 07:43:02 2009 by&nbsp;

@@ -28,7 +28,7 @@ XML_ENTRY_1 = """<?xml version='1.0'?>
   </content>
   <link rel='alternate' type='text/html'
         href='http://www.provider-host.com/123456789'/>
-  <link rel='license' 
+  <link rel='license'
         href='http://creativecommons.org/licenses/by-nc/2.5/rdf'/>
   <g:label>Computer</g:label>
   <g:label>Laptop</g:label>
@@ -48,7 +48,7 @@ TEST_BASE_ENTRY = """<?xml version='1.0'?>
   </content>
   <app:control xmlns:app='http://purl.org/atom/app#'>
     <app:draft>yes</app:draft>
-    <gm:disapproved xmlns:gm='http://base.google.com/ns-metadata/1.0'/>   
+    <gm:disapproved xmlns:gm='http://base.google.com/ns-metadata/1.0'/>
   </app:control>
   <link rel='alternate' type='text/html'
         href='http://www.provider-host.com/123456789'/>
@@ -261,14 +261,14 @@ TEST_AUTHOR = """<?xml version="1.0" encoding="utf-8"?>
 """
 
 TEST_LINK = """<?xml version="1.0" encoding="utf-8"?>
-   <link xmlns="http://www.w3.org/2005/Atom" href="http://www.google.com" 
+   <link xmlns="http://www.w3.org/2005/Atom" href="http://www.google.com"
        rel="test rel" foo1="bar" foo2="rab"/>
 """
 
 TEST_GBASE_ATTRIBUTE = """<?xml version="1.0" encoding="utf-8"?>
    <g:brand type='text' xmlns:g="http://base.google.com/ns/1.0">Digital Camera Battery</g:brand>
 """
-   
+
 
 CALENDAR_FEED = """<?xml version='1.0' encoding='utf-8'?>
 <feed xmlns='http://www.w3.org/2005/Atom'
@@ -843,7 +843,7 @@ xmlns:gCal='http://schemas.google.com/gCal/2005'>
 """
 
 CALENDAR_BATCH_REQUEST = """<?xml version='1.0' encoding='utf-8'?>
-<feed xmlns='http://www.w3.org/2005/Atom' 
+<feed xmlns='http://www.w3.org/2005/Atom'
       xmlns:batch='http://schemas.google.com/gdata/batch'
       xmlns:gCal='http://schemas.google.com/gCal/2005'>
   <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
@@ -866,11 +866,11 @@ CALENDAR_BATCH_REQUEST = """<?xml version='1.0' encoding='utf-8'?>
     <id>http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs</id>
     <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
     <title type='text'>Event updated via batch</title>
-    <link rel='alternate' type='text/html' 
+    <link rel='alternate' type='text/html'
         href='http://www.google.com/calendar/event?eid=dWptMGdvNWR0bmdka3I2dTkxZGNxdmowcXMgaGFyaXNodi50ZXN0QG0' title='alternate' />
-    <link rel='self' type='application/atom+xml' 
+    <link rel='self' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs' />
-    <link rel='edit' type='application/atom+xml' 
+    <link rel='edit' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs/63326098791' />
   </entry>
   <entry>
@@ -879,29 +879,29 @@ CALENDAR_BATCH_REQUEST = """<?xml version='1.0' encoding='utf-8'?>
     <id>http://www.google.com/calendar/feeds/default/private/full/d8qbg9egk1n6lhsgq1sjbqffqc</id>
     <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
     <title type='text'>Event deleted via batch</title>
-    <link rel='alternate' type='text/html' 
+    <link rel='alternate' type='text/html'
         href='http://www.google.com/calendar/event?eid=ZDhxYmc5ZWdrMW42bGhzZ3Exc2picWZmcWMgaGFyaXNodi50ZXN0QG0' title='alternate' />
-    <link rel='self' type='application/atom+xml' 
+    <link rel='self' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/d8qbg9egk1n6lhsgq1sjbqffqc' />
-    <link rel='edit' type='application/atom+xml' 
+    <link rel='edit' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/d8qbg9egk1n6lhsgq1sjbqffqc/63326018324' />
   </entry>
 </feed>
 """
 
 CALENDAR_BATCH_RESPONSE = """<?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns='http://www.w3.org/2005/Atom' 
+<feed xmlns='http://www.w3.org/2005/Atom'
       xmlns:batch='http://schemas.google.com/gdata/batch'
       xmlns:gCal='http://schemas.google.com/gCal/2005'>
   <id>http://www.google.com/calendar/feeds/default/private/full</id>
   <updated>2007-09-21T23:01:00.380Z</updated>
   <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event'></category>
   <title type='text'>Batch Feed</title>
-  <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' 
+  <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml'
       href='http://www.google.com/calendar/feeds/default/private/full' />
-  <link rel='http://schemas.google.com/g/2005#post' type='application/atom+xml' 
+  <link rel='http://schemas.google.com/g/2005#post' type='application/atom+xml'
       href='http://www.google.com/calendar/feeds/default/private/full' />
-  <link rel='http://schemas.google.com/g/2005#batch' type='application/atom+xml' 
+  <link rel='http://schemas.google.com/g/2005#batch' type='application/atom+xml'
       href='http://www.google.com/calendar/feeds/default/private/full/batch' />
   <entry>
     <batch:id>1</batch:id>
@@ -910,11 +910,11 @@ CALENDAR_BATCH_RESPONSE = """<?xml version='1.0' encoding='UTF-8'?>
     <id>http://www.google.com/calendar/feeds/default/private/full/n9ug78gd9tv53ppn4hdjvk68ek</id>
     <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
     <title type='text'>Event inserted via batch</title>
-    <link rel='alternate' type='text/html' 
+    <link rel='alternate' type='text/html'
         href='http://www.google.com/calendar/event?eid=bjl1Zzc4Z2Q5dHY1M3BwbjRoZGp2azY4ZWsgaGFyaXNodi50ZXN0QG0' title='alternate' />
-    <link rel='self' type='application/atom+xml' 
+    <link rel='self' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/n9ug78gd9tv53ppn4hdjvk68ek' />
-    <link rel='edit' type='application/atom+xml' 
+    <link rel='edit' type='application/atom+xml'
       href='http://www.google.com/calendar/feeds/default/private/full/n9ug78gd9tv53ppn4hdjvk68ek/63326098860' />
   </entry>
   <entry>
@@ -924,11 +924,11 @@ CALENDAR_BATCH_RESPONSE = """<?xml version='1.0' encoding='UTF-8'?>
     <id>http://www.google.com/calendar/feeds/default/private/full/glsc0kv2aqa0ff52qi1jo018gc</id>
     <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
     <title type='text'>Event queried via batch</title>
-    <link rel='alternate' type='text/html' 
+    <link rel='alternate' type='text/html'
         href='http://www.google.com/calendar/event?eid=Z2xzYzBrdjJhcWEwZmY1MnFpMWpvMDE4Z2MgaGFyaXNodi50ZXN0QG0' title='alternate' />
-    <link rel='self' type='application/atom+xml' 
+    <link rel='self' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/glsc0kv2aqa0ff52qi1jo018gc' />
-    <link rel='edit' type='application/atom+xml' 
+    <link rel='edit' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/glsc0kv2aqa0ff52qi1jo018gc/63326098791' />
   </entry>
   <entry xmlns:gCal='http://schemas.google.com/gCal/2005'>
@@ -938,11 +938,11 @@ CALENDAR_BATCH_RESPONSE = """<?xml version='1.0' encoding='UTF-8'?>
     <id>http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs</id>
     <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/g/2005#event' />
     <title type='text'>Event updated via batch</title>
-    <link rel='alternate' type='text/html' 
+    <link rel='alternate' type='text/html'
         href='http://www.google.com/calendar/event?eid=dWptMGdvNWR0bmdka3I2dTkxZGNxdmowcXMgaGFyaXNodi50ZXN0QG0' title='alternate' />
-    <link rel='self' type='application/atom+xml' 
+    <link rel='self' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs' />
-    <link rel='edit' type='application/atom+xml' 
+    <link rel='edit' type='application/atom+xml'
         href='http://www.google.com/calendar/feeds/default/private/full/ujm0go5dtngdkr6u91dcqvj0qs/63326098860' />
     <batch:id>3</batch:id>
     <batch:status code='200' reason='Success' />
@@ -1021,7 +1021,7 @@ GBASE_ATTRIBUTE_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
           <gm:value count='64757'>sales</gm:value>
         </gm:attribute>
       </entry>
-""" 
+"""
 
 GBASE_LOCALES_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 <feed xmlns='http://www.w3.org/2005/Atom'
@@ -1029,7 +1029,7 @@ GBASE_LOCALES_FEED = """<?xml version='1.0' encoding='UTF-8'?>
       xmlns:gm='http://base.google.com/ns-metadata/1.0'>
          <id> http://www.google.com/base/feeds/locales/</id>
   <updated>2006-06-13T18:11:40.120Z</updated>
-  <title type="text">Locales</title> 
+  <title type="text">Locales</title>
   <link rel="alternate" type="text/html" href="http://base.google.com"/>
   <link rel="http://schemas.google.com/g/2005#feed" type="application/atom+xml"
 
@@ -1050,10 +1050,10 @@ GBASE_LOCALES_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 
   <title type="text">en_US</title>
   <content type="text">en_US</content>
-  <link rel="self" type="application/atom+xml" 
+  <link rel="self" type="application/atom+xml"
      href="http://www.google.com/base/feeds/locales/en_US"></link>
 
-  <link rel="related" type="application/atom+xml" 
+  <link rel="related" type="application/atom+xml"
      href="http://www.google.com/base/feeds/itemtypes/en_US" title="Item types in en_US"/>
 </entry>
 <entry>
@@ -1062,9 +1062,9 @@ GBASE_LOCALES_FEED = """<?xml version='1.0' encoding='UTF-8'?>
   <category scheme="http://base.google.com/categories/locales" term="en_GB"/>
   <title type="text">en_GB</title>
   <content type="text">en_GB</content>
-  <link rel="related" type="application/atom+xml" 
+  <link rel="related" type="application/atom+xml"
      href="http://www.google.com/base/feeds/itemtypes/en_GB" title="Item types in en_GB"/>
-  <link rel="self" type="application/atom+xml" 
+  <link rel="self" type="application/atom+xml"
      href="http://www.google.com/base/feeds/locales/en_GB"/>
 </entry>
 <entry>
@@ -1073,28 +1073,28 @@ GBASE_LOCALES_FEED = """<?xml version='1.0' encoding='UTF-8'?>
   <category scheme="http://base.google.com/categories/locales" term="de_DE"/>
   <title type="text">de_DE</title>
   <content type="text">de_DE</content>
-  <link rel="related" type="application/atom+xml" 
+  <link rel="related" type="application/atom+xml"
      href="http://www.google.com/base/feeds/itemtypes/de_DE" title="Item types in de_DE"/>
-  <link rel="self" type="application/atom+xml" 
+  <link rel="self" type="application/atom+xml"
      href="http://www.google.com/base/feeds/locales/de_DE"/>
 </entry>
 </feed>"""
 
 GBASE_STRING_ENCODING_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
-<entry xmlns='http://www.w3.org/2005/Atom' xmlns:gm='http://base.google.com/ns-metadata/1.0' 
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:gm='http://base.google.com/ns-metadata/1.0'
        xmlns:g='http://base.google.com/ns/1.0' xmlns:batch='http://schemas.google.com/gdata/batch'>
   <id>http://www.google.com/base/feeds/snippets/17495780256183230088</id>
   <published>2007-12-09T03:13:07.000Z</published>
   <updated>2008-01-07T03:26:46.000Z</updated>
   <category scheme='http://base.google.com/categories/itemtypes' term='Products'/>
   <title type='text'>Digital Camera Cord Fits SONY Cybershot DSC-R1 S40</title>
-  <content type='html'>SONY \xC2\xB7 Cybershot Digital Camera Usb Cable DESCRIPTION 
-      This is a 2.5 USB 2.0 A to Mini B (5 Pin) high quality digital camera 
-      cable used for connecting your Sony Digital Cameras and Camcoders. Backward 
+  <content type='html'>SONY \xC2\xB7 Cybershot Digital Camera Usb Cable DESCRIPTION
+      This is a 2.5 USB 2.0 A to Mini B (5 Pin) high quality digital camera
+      cable used for connecting your Sony Digital Cameras and Camcoders. Backward
       Compatible with USB 2.0, 1.0 and 1.1. Fully  ...</content>
-  <link rel='alternate' type='text/html' 
+  <link rel='alternate' type='text/html'
         href='http://adfarm.mediaplex.com/ad/ck/711-5256-8196-2?loc=http%3A%2F%2Fcgi.ebay.com%2FDigital-Camera-Cord-Fits-SONY-Cybershot-DSC-R1-S40_W0QQitemZ270195049057QQcmdZViewItem'/>
-  <link rel='self' type='application/atom+xml' 
+  <link rel='self' type='application/atom+xml'
         href='http://www.google.com/base/feeds/snippets/17495780256183230088'/>
   <author>
     <name>eBay</name>
@@ -1305,7 +1305,7 @@ USER_ENTRY = """<?xml version="1.0" encoding="UTF-8"?>
 </atom:entry>"""
 
 USER_FEED = """<?xml version="1.0" encoding="UTF-8"?>
-<atom:feed xmlns:atom="http://www.w3.org/2005/Atom" 
+<atom:feed xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:apps="http://schemas.google.com/apps/2006"
   xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
   xmlns:gd="http://schemas.google.com/g/2005">
@@ -1313,18 +1313,18 @@ USER_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         http://apps-apis.google.com/a/feeds/example.com/user/2.0
     </atom:id>
     <atom:updated>1970-01-01T00:00:00.000Z</atom:updated>
-    <atom:category scheme='http://schemas.google.com/g/2005#kind' 
+    <atom:category scheme='http://schemas.google.com/g/2005#kind'
         term='http://schemas.google.com/apps/2006#user'/>
     <atom:title type="text">Users</atom:title>
-    <atom:link rel="next" type="application/atom+xml" 
+    <atom:link rel="next" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/user/2.0?startUsername=john"/>
-    <atom:link rel='http://schemas.google.com/g/2005#feed' 
-        type="application/atom+xml" 
+    <atom:link rel='http://schemas.google.com/g/2005#feed'
+        type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/user/2.0"/>
     <atom:link rel='http://schemas.google.com/g/2005#post'
         type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/user/2.0"/>
-    <atom:link rel="self" type="application/atom+xml" 
+    <atom:link rel="self" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/user/2.0"/>
     <openSearch:startIndex>1</openSearch:startIndex>
     <atom:entry>
@@ -1334,11 +1334,11 @@ USER_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#user'/>
         <atom:title type="text">TestUser</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/user/2.0/TestUser"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/user/2.0/TestUser"/>
-        <gd:who rel='http://schemas.google.com/apps/2006#user.recipient' 
+        <gd:who rel='http://schemas.google.com/apps/2006#user.recipient'
             email="TestUser@example.com"/>
         <apps:login userName="TestUser" suspended="false"/>
         <apps:quota limit="2048"/>
@@ -1355,7 +1355,7 @@ USER_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#user'/>
         <atom:title type="text">JohnSmith</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/user/2.0/JohnSmith"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/user/2.0/JohnSmith"/>
@@ -1382,9 +1382,9 @@ EMAIL_LIST_ENTRY = """<?xml version="1.0" encoding="UTF-8"?>
     <atom:category scheme='http://schemas.google.com/g/2005#kind'
       term='http://schemas.google.com/apps/2006#emailList'/>
     <atom:title type="text">testlist</atom:title>
-    <atom:link rel="self" type="application/atom+xml" 
+    <atom:link rel="self" type="application/atom+xml"
       href="https://apps-apis.google.com/a/feeds/example.com/emailList/2.0/testlist"/>
-    <atom:link rel="edit" type="application/atom+xml" 
+    <atom:link rel="edit" type="application/atom+xml"
       href="https://apps-apis.google.com/a/feeds/example.com/emailList/2.0/testlist"/>
     <apps:emailList name="testlist"/>
     <gd:feedLink rel='http://schemas.google.com/apps/2006#emailList.recipients'
@@ -1392,7 +1392,7 @@ EMAIL_LIST_ENTRY = """<?xml version="1.0" encoding="UTF-8"?>
 </atom:entry>"""
 
 EMAIL_LIST_FEED = """<?xml version="1.0" encoding="UTF-8"?>
-<atom:feed xmlns:atom="http://www.w3.org/2005/Atom" 
+<atom:feed xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
   xmlns:apps="http://schemas.google.com/apps/2006"
   xmlns:gd="http://schemas.google.com/g/2005">
@@ -1403,15 +1403,15 @@ EMAIL_LIST_FEED = """<?xml version="1.0" encoding="UTF-8"?>
     <atom:category scheme='http://schemas.google.com/g/2005#kind'
         term='http://schemas.google.com/apps/2006#emailList'/>
     <atom:title type="text">EmailLists</atom:title>
-    <atom:link rel="next" type="application/atom+xml" 
+    <atom:link rel="next" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0?startEmailListName=john"/>
     <atom:link rel='http://schemas.google.com/g/2005#feed'
-        type="application/atom+xml" 
-        href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0"/>
-    <atom:link rel='http://schemas.google.com/g/2005#post' 
         type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0"/>
-    <atom:link rel="self" type="application/atom+xml" 
+    <atom:link rel='http://schemas.google.com/g/2005#post'
+        type="application/atom+xml"
+        href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0"/>
+    <atom:link rel="self" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0"/>
     <openSearch:startIndex>1</openSearch:startIndex>
     <atom:entry>
@@ -1422,7 +1422,7 @@ EMAIL_LIST_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#emailList'/>
         <atom:title type="text">us-sales</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales"/>
@@ -1438,7 +1438,7 @@ EMAIL_LIST_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#emailList'/>
         <atom:title type="text">us-eng</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-eng"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-eng"/>
@@ -1457,15 +1457,15 @@ EMAIL_LIST_RECIPIENT_ENTRY = """<?xml version="1.0" encoding="UTF-8"?>
     <atom:category scheme='http://schemas.google.com/g/2005#kind'
         term='http://schemas.google.com/apps/2006#emailList.recipient'/>
     <atom:title type="text">TestUser</atom:title>
-    <atom:link rel="self" type="application/atom+xml" 
+    <atom:link rel="self" type="application/atom+xml"
         href="https://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/TestUser%40example.com"/>
-    <atom:link rel="edit" type="application/atom+xml" 
+    <atom:link rel="edit" type="application/atom+xml"
         href="https://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/TestUser%40example.com"/>
     <gd:who email="TestUser@example.com"/>
 </atom:entry>"""
 
 EMAIL_LIST_RECIPIENT_FEED = """<?xml version="1.0" encoding="UTF-8"?>
-<atom:feed xmlns:atom="http://www.w3.org/2005/Atom" 
+<atom:feed xmlns:atom="http://www.w3.org/2005/Atom"
   xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
   xmlns:gd="http://schemas.google.com/g/2005">
     <atom:id>
@@ -1475,15 +1475,15 @@ EMAIL_LIST_RECIPIENT_FEED = """<?xml version="1.0" encoding="UTF-8"?>
     <atom:category scheme='http://schemas.google.com/g/2005#kind'
         term='http://schemas.google.com/apps/2006#emailList.recipient'/>
     <atom:title type="text">Recipients for email list us-sales</atom:title>
-    <atom:link rel="next" type="application/atom+xml" 
+    <atom:link rel="next" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/?startRecipient=terry@example.com"/>
     <atom:link rel='http://schemas.google.com/g/2005#feed'
-        type="application/atom+xml" 
+        type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient"/>
     <atom:link rel='http://schemas.google.com/g/2005#post'
         type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient"/>
-    <atom:link rel="self" type="application/atom+xml" 
+    <atom:link rel="self" type="application/atom+xml"
         href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient"/>
     <openSearch:startIndex>1</openSearch:startIndex>
     <atom:entry>
@@ -1494,7 +1494,7 @@ EMAIL_LIST_RECIPIENT_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#emailList.recipient'/>
         <atom:title type="text">joe@example.com</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/joe%40example.com"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/joe%40example.com"/>
@@ -1508,7 +1508,7 @@ EMAIL_LIST_RECIPIENT_FEED = """<?xml version="1.0" encoding="UTF-8"?>
         <atom:category scheme='http://schemas.google.com/g/2005#kind'
             term='http://schemas.google.com/apps/2006#emailList.recipient'/>
         <atom:title type="text">susan@example.com</atom:title>
-        <atom:link rel="self" type="application/atom+xml" 
+        <atom:link rel="self" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/susan%40example.com"/>
         <atom:link rel="edit" type="application/atom+xml"
             href="http://apps-apis.google.com/a/feeds/example.com/emailList/2.0/us-sales/recipient/susan%40example.com"/>
@@ -1734,7 +1734,7 @@ DOCUMENT_LIST_ACL_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
 
 DOCUMENT_LIST_ACL_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
-         xmlns:gAcl="http://schemas.google.com/acl/2007" 
+         xmlns:gAcl="http://schemas.google.com/acl/2007"
 	 xmlns:batch="http://schemas.google.com/gdata/batch">
 <id>http://docs.google.com/feeds/acl/private/full/spreadsheet%3ApFrmMi8feTQYCgZpwUQ</id>
 <updated>2009-02-22T03:48:25.895Z</updated>
@@ -1794,7 +1794,7 @@ DOCUMENT_LIST_REVISION_FEED = """<?xml version='1.0' encoding='UTF-8'?>
       href="https://docs.google.com/Doc?id=doc_id&amp;revision=2"/>
   <link rel="self" type="application/atom+xml"
       href="https://docs.google.com/feeds/default/private/full/resource_id/revisions/2"/>
-  <link rel='http://schemas.google.com/docs/2007#publish' type='text/html' href='http://docs.google.com/View?docid=dfr4&amp;pageview=1&amp;hgd=1'/>   
+  <link rel='http://schemas.google.com/docs/2007#publish' type='text/html' href='http://docs.google.com/View?docid=dfr4&amp;pageview=1&amp;hgd=1'/>
   <author>
     <name>another_user</name>
     <email>another_user@gmail.com</email>
@@ -1808,18 +1808,18 @@ DOCUMENT_LIST_REVISION_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 
 BATCH_ENTRY = """<?xml version='1.0' encoding='UTF-8'?>
 <entry xmlns="http://www.w3.org/2005/Atom"
-       xmlns:batch="http://schemas.google.com/gdata/batch" 
+       xmlns:batch="http://schemas.google.com/gdata/batch"
        xmlns:g="http://base.google.com/ns/1.0">
   <id>http://www.google.com/base/feeds/items/2173859253842813008</id>
   <published>2006-07-11T14:51:43.560Z</published>
   <updated>2006-07-11T14:51: 43.560Z</updated>
   <title type="text">title</title>
   <content type="html">content</content>
-  <link rel="self" 
-    type="application/atom+xml" 
+  <link rel="self"
+    type="application/atom+xml"
     href="http://www.google.com/base/feeds/items/2173859253842813008"/>
-  <link rel="edit" 
-    type="application/atom+xml" 
+  <link rel="edit"
+    type="application/atom+xml"
     href="http://www.google.com/base/feeds/items/2173859253842813008"/>
   <g:item_type>recipes</g:item_type>
   <batch:operation type="insert"/>
@@ -2063,7 +2063,7 @@ ALBUM_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/" xmlns:gcs="http://schemas.google.com/codesearch/2006" xml:base="http://www.google.com">
 <id>http://www.google.com/codesearch/feeds/search?q=malloc</id>
-<updated>2007-12-19T16:08:04Z</updated> 
+<updated>2007-12-19T16:08:04Z</updated>
 <title type="text">Google Code Search</title>
 <generator version="1.0" uri="http://www.google.com/codesearch">Google Code Search</generator>
 <opensearch:totalResults>2530000</opensearch:totalResults>
@@ -2078,7 +2078,7 @@ CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 <link rel="next" type="application/atom+xml"  href="http://www.google.com/codesearch/feeds/search?q=malloc&amp;start-index=11"/>
 <link rel="alternate" type="text/html" href="http://www.google.com/codesearch?q=malloc"/>
 <entry><id>http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:LDjwp-Iqc7U:84hEYaYsZk8:xDGReDhvNi0&amp;sa=N&amp;ct=rx&amp;cd=1&amp;cs_p=http://www.gnu.org&amp;cs_f=software/autoconf/manual/autoconf-2.60/autoconf.html-002&amp;cs_p=http://www.gnu.org&amp;cs_f=software/autoconf/manual/autoconf-2.60/autoconf.html-002#first</id><updated>2007-12-19T16:08:04Z</updated><author><name>Code owned by external author.</name></author><title type="text">software/autoconf/manual/autoconf-2.60/autoconf.html</title><link rel="alternate" type="text/html" href="http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:LDjwp-Iqc7U:84hEYaYsZk8:xDGReDhvNi0&amp;sa=N&amp;ct=rx&amp;cd=1&amp;cs_p=http://www.gnu.org&amp;cs_f=software/autoconf/manual/autoconf-2.60/autoconf.html-002&amp;cs_p=http://www.gnu.org&amp;cs_f=software/autoconf/manual/autoconf-2.60/autoconf.html-002#first"/><gcs:package name="http://www.gnu.org" uri="http://www.gnu.org"></gcs:package><gcs:file name="software/autoconf/manual/autoconf-2.60/autoconf.html-002"></gcs:file><content type="text/html">&lt;pre&gt;     8:      void *&lt;b&gt;malloc&lt;/b&gt; ();
-        
+
 
 &lt;/pre&gt;</content><gcs:match lineNumber="4" type="text/html">&lt;pre&gt;     #undef &lt;b&gt;malloc&lt;/b&gt;
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="8" type="text/html">&lt;pre&gt;     void *&lt;b&gt;malloc&lt;/b&gt; ();
@@ -2125,7 +2125,7 @@ CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="198" type="text/html">&lt;pre&gt;    register pointer new = &lt;b&gt;malloc&lt;/b&gt; (sizeof (header) + size);
 &lt;/pre&gt;</gcs:match><rights>GPL</rights></entry>
 <entry><id>http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:uhVCKyPcT6k:8juMxxzmUJw:H7_IDsTB2L4&amp;sa=N&amp;ct=rx&amp;cd=4&amp;cs_p=http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2&amp;cs_f=mozilla/xpcom/build/malloc.c&amp;cs_p=http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2&amp;cs_f=mozilla/xpcom/build/malloc.c#first</id><updated>2007-12-19T16:08:04Z</updated><author><name>Code owned by external author.</name></author><title type="text">mozilla/xpcom/build/malloc.c</title><link rel="alternate" type="text/html" href="http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:uhVCKyPcT6k:8juMxxzmUJw:H7_IDsTB2L4&amp;sa=N&amp;ct=rx&amp;cd=4&amp;cs_p=http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2&amp;cs_f=mozilla/xpcom/build/malloc.c&amp;cs_p=http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2&amp;cs_f=mozilla/xpcom/build/malloc.c#first"/><gcs:package name="http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2" uri="http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/mozilla1.7b/src/mozilla-source-1.7b-source.tar.bz2"></gcs:package><gcs:file name="mozilla/xpcom/build/malloc.c"></gcs:file><content type="text/html">&lt;pre&gt;    54:      http://gee.cs.oswego.edu/dl/html/&lt;b&gt;malloc&lt;/b&gt;.html
-        
+
           You may already by default be using a c library containing a &lt;b&gt;malloc&lt;/b&gt;
 
 &lt;/pre&gt;</content><gcs:match lineNumber="4" type="text/html">&lt;pre&gt;/* ---------- To make a &lt;b&gt;malloc&lt;/b&gt;.h, start cutting here ------------ */
@@ -2153,7 +2153,7 @@ CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 &lt;/pre&gt;</gcs:match><rights>GPL</rights></entry>
 <entry><id>http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:GzkwiWG266M:ykuz3bG00ws:2sTvVSif08g&amp;sa=N&amp;ct=rx&amp;cd=6&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2&amp;cs_f=tar-1.14/lib/malloc.c&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2&amp;cs_f=tar-1.14/lib/malloc.c#first</id><updated>2007-12-19T16:08:04Z</updated><author><name>Code owned by external author.</name></author><title type="text">tar-1.14/lib/malloc.c</title><link rel="alternate" type="text/html" href="http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:GzkwiWG266M:ykuz3bG00ws:2sTvVSif08g&amp;sa=N&amp;ct=rx&amp;cd=6&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2&amp;cs_f=tar-1.14/lib/malloc.c&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2&amp;cs_f=tar-1.14/lib/malloc.c#first"/><gcs:package name="http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2" uri="http://ftp.gnu.org/gnu/tar/tar-1.14.tar.bz2"></gcs:package><gcs:file name="tar-1.14/lib/malloc.c"></gcs:file><content type="text/html">&lt;pre&gt;    22: #endif
         #undef &lt;b&gt;malloc&lt;/b&gt;
-        
+
 
 &lt;/pre&gt;</content><gcs:match lineNumber="1" type="text/html">&lt;pre&gt;/* Work around bug on some systems where &lt;b&gt;malloc&lt;/b&gt; (0) fails.
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="23" type="text/html">&lt;pre&gt;#undef &lt;b&gt;malloc&lt;/b&gt;
@@ -2164,7 +2164,7 @@ CODE_SEARCH_FEED = """<?xml version="1.0" encoding="UTF-8"?>
 &lt;/pre&gt;</gcs:match><rights>GPL</rights></entry>
 <entry><id>http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:o_TFIeBY6dY:ktI_dt8wPao:AI03BD1Dz0Y&amp;sa=N&amp;ct=rx&amp;cd=7&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz&amp;cs_f=tar-1.16.1/lib/malloc.c&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz&amp;cs_f=tar-1.16.1/lib/malloc.c#first</id><updated>2007-12-19T16:08:04Z</updated><author><name>Code owned by external author.</name></author><title type="text">tar-1.16.1/lib/malloc.c</title><link rel="alternate" type="text/html" href="http://www.google.com/codesearch?hl=en&amp;q=+malloc+show:o_TFIeBY6dY:ktI_dt8wPao:AI03BD1Dz0Y&amp;sa=N&amp;ct=rx&amp;cd=7&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz&amp;cs_f=tar-1.16.1/lib/malloc.c&amp;cs_p=http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz&amp;cs_f=tar-1.16.1/lib/malloc.c#first"/><gcs:package name="http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz" uri="http://ftp.gnu.org/gnu/tar/tar-1.16.1.tar.gz"></gcs:package><gcs:file name="tar-1.16.1/lib/malloc.c"></gcs:file><content type="text/html">&lt;pre&gt;    21: #include &amp;lt;config.h&amp;gt;
         #undef &lt;b&gt;malloc&lt;/b&gt;
-        
+
 
 &lt;/pre&gt;</content><gcs:match lineNumber="1" type="text/html">&lt;pre&gt;/* &lt;b&gt;malloc&lt;/b&gt;() function that is glibc compatible.
 &lt;/pre&gt;</gcs:match><gcs:match lineNumber="22" type="text/html">&lt;pre&gt;#undef &lt;b&gt;malloc&lt;/b&gt;
@@ -2219,11 +2219,11 @@ YOUTUBE_VIDEO_FEED = """<?xml version='1.0' encoding='UTF-8'?><feed xmlns='http:
 </feed>"""
 
 YOUTUBE_ENTRY_PRIVATE = """<?xml version='1.0' encoding='utf-8'?>
-<entry xmlns='http://www.w3.org/2005/Atom' 
-xmlns:media='http://search.yahoo.com/mrss/' 
-xmlns:gd='http://schemas.google.com/g/2005' 
-xmlns:yt='http://gdata.youtube.com/schemas/2007' 
-xmlns:gml='http://www.opengis.net/gml' 
+<entry xmlns='http://www.w3.org/2005/Atom'
+xmlns:media='http://search.yahoo.com/mrss/'
+xmlns:gd='http://schemas.google.com/g/2005'
+xmlns:yt='http://gdata.youtube.com/schemas/2007'
+xmlns:gml='http://www.opengis.net/gml'
 xmlns:georss='http://www.georss.org/georss'
 xmlns:app='http://purl.org/atom/app#'>
   <id>http://gdata.youtube.com/feeds/videos/UMFI1hdm96E</id>
@@ -2318,7 +2318,7 @@ xmlns:app='http://purl.org/atom/app#'>
     <media:category label='Music'
     scheme='http://gdata.youtube.com/schemas/2007/categories.cat'>
     Music</media:category>
-    <media:category 
+    <media:category
     scheme='http://gdata.youtube.com/schemas/2007/developertags.cat'>
     DeveloperTag1</media:category>
     <media:content url='http://www.youtube.com/v/UMFI1hdm96E'
@@ -2396,9 +2396,9 @@ YOUTUBE_COMMENT_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 
 YOUTUBE_PLAYLIST_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 <feed xmlns='http://www.w3.org/2005/Atom'
-    xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/' 
-    xmlns:media='http://search.yahoo.com/mrss/' 
-    xmlns:yt='http://gdata.youtube.com/schemas/2007' 
+    xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/'
+    xmlns:media='http://search.yahoo.com/mrss/'
+    xmlns:yt='http://gdata.youtube.com/schemas/2007'
     xmlns:gd='http://schemas.google.com/g/2005'>
   <id>http://gdata.youtube.com/feeds/users/andyland74/playlists?start-index=1&amp;max-results=25</id>
   <updated>2008-02-26T00:26:15.635Z</updated>
@@ -2430,10 +2430,10 @@ YOUTUBE_PLAYLIST_FEED = """<?xml version='1.0' encoding='UTF-8'?>
     <link rel='alternate' type='text/html' href='http://www.youtube.com/view_play_list?p=8BCDD04DE8F771B2'/>
     <link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/users/andyland74/playlists/8BCDD04DE8F771B2'/>
     <author>
-      <name>andyland74</name>                              
+      <name>andyland74</name>
       <uri>http://gdata.youtube.com/feeds/users/andyland74</uri>
     </author>
-  </entry>              
+  </entry>
 </feed>"""
 
 YOUTUBE_PLAYLIST_VIDEO_FEED = """<?xml version='1.0' encoding='UTF-8'?><feed xmlns='http://www.w3.org/2005/Atom' xmlns:openSearch='http://a9.com/-/spec/opensearchrss/1.0/' xmlns:gml='http://www.opengis.net/gml' xmlns:georss='http://www.georss.org/georss' xmlns:media='http://search.yahoo.com/mrss/' xmlns:yt='http://gdata.youtube.com/schemas/2007' xmlns:gd='http://schemas.google.com/g/2005'><id>http://gdata.youtube.com/feeds/api/playlists/BCB3BB96DF51B505</id><updated>2008-05-16T12:03:17.000-07:00</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://gdata.youtube.com/schemas/2007#playlist'/><category scheme='http://gdata.youtube.com/schemas/2007/tags.cat' term='videos'/><category scheme='http://gdata.youtube.com/schemas/2007/tags.cat' term='python'/><title type='text'>Test Playlist</title><subtitle type='text'>Test playlist 1</subtitle><logo>http://www.youtube.com/img/pic_youtubelogo_123x63.gif</logo><link rel='alternate' type='text/html' href='http://www.youtube.com/view_play_list?p=BCB3BB96DF51B505'/><link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/playlists/BCB3BB96DF51B505'/><link rel='self' type='application/atom+xml' href='http://gdata.youtube.com/feeds/api/playlists/BCB3BB96DF51B505?start-index=1&amp;max-results=25'/><author><name>gdpython</name><uri>http://gdata.youtube.com/feeds/api/users/gdpython</uri></author><generator version='beta' uri='http://gdata.youtube.com/'>YouTube data API</generator><openSearch:totalResults>1</openSearch:totalResults><openSearch:startIndex>1</openSearch:startIndex><openSearch:itemsPerPage>25</openSearch:itemsPerPage><media:group><media:title type='plain'>Test Playlist</media:title><media:description type='plain'>Test playlist 1</media:description><media:content url='http://www.youtube.com/ep.swf?id=BCB3BB96DF51B505' type='application/x-shockwave-flash' yt:format='5'/></media:group><entry><id>http://gdata.youtube.com/feeds/api/playlists/BCB3BB96DF51B505/B0F29389E537F888</id><updated>2008-05-16T20:54:08.520Z</updated><category scheme='http://schemas.google.com/g/2005#kind' term='http://gdata.youtube.com/schemas/2007#playlist'/><title type='text'>Uploading YouTube Videos with the PHP Client Library</title><content type='text'>Jochen Hartmann demonstrates the basics of how to use the PHP Client Library with the YouTube Data API.
@@ -2610,7 +2610,7 @@ YOUTUBE_CONTACTS_FEED = """<?xml version='1.0' encoding='UTF-8'?><feed xmlns='ht
 </feed>"""
 
 NEW_CONTACT = """<?xml version='1.0' encoding='UTF-8'?>
-<entry xmlns='http://www.w3.org/2005/Atom' 
+<entry xmlns='http://www.w3.org/2005/Atom'
        xmlns:gd='http://schemas.google.com/g/2005'
        xmlns:gContact='http://schemas.google.com/contact/2008'>
   <id>http://www.google.com/m8/feeds/contacts/liz%40gmail.com/base/8411573</id>
@@ -2629,14 +2629,14 @@ NEW_CONTACT = """<?xml version='1.0' encoding='UTF-8'?>
     address='liz@example.org' />
   <gd:phoneNumber rel='http://schemas.google.com/g/2005#work'
     primary='true'>(206)555-1212</gd:phoneNumber>
-  <gd:phoneNumber rel='http://schemas.google.com/g/2005#other' 
+  <gd:phoneNumber rel='http://schemas.google.com/g/2005#other'
     primary='true'>456-123-2133</gd:phoneNumber>
   <gd:phoneNumber rel='http://schemas.google.com/g/2005#home'>(206)555-1213</gd:phoneNumber>
   <gd:extendedProperty name="pet" value="hamster" />
-  <gd:extendedProperty name="cousine"> 
+  <gd:extendedProperty name="cousine">
     <italian />
   </gd:extendedProperty>
-  <gContact:groupMembershipInfo deleted="false" href="http://google.com/m8/feeds/groups/liz%40gmail.com/base/270f" /> 
+  <gContact:groupMembershipInfo deleted="false" href="http://google.com/m8/feeds/groups/liz%40gmail.com/base/270f" />
   <gd:im address='liz@gmail.com'
     protocol='http://schemas.google.com/g/2005#GOOGLE_TALK'
     rel='http://schemas.google.com/g/2005#home' />
@@ -2684,9 +2684,9 @@ CONTACTS_FEED = """<?xml version='1.0' encoding='UTF-8'?>
     <category scheme='http://schemas.google.com/g/2005#kind'
       term='http://schemas.google.com/contact/2008#contact' />
     <title type='text'>Fitzgerald</title>
-    <link rel="http://schemas.google.com/contacts/2008/rel#photo" type="image/*" 
+    <link rel="http://schemas.google.com/contacts/2008/rel#photo" type="image/*"
       href="http://google.com/m8/feeds/photos/media/liz%40gmail.com/c9012de"/>
-    <link rel="http://schemas.google.com/contacts/2008/rel#edit-photo" type="image/*" 
+    <link rel="http://schemas.google.com/contacts/2008/rel#edit-photo" type="image/*"
       href="http://www.google.com/m8/feeds/photos/media/liz%40gmail.com/c9012de/photo4524"/>
     <link rel='self' type='application/atom+xml'
       href='http://www.google.com/m8/feeds/contacts/liz%40gmail.com/full/c9012de' />
@@ -2703,27 +2703,27 @@ CONTACTS_FEED = """<?xml version='1.0' encoding='UTF-8'?>
 
 
 CONTACT_GROUPS_FEED = """<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" 
-  xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/" 
-  xmlns:gContact="http://schemas.google.com/contact/2008" 
-  xmlns:batch="http://schemas.google.com/gdata/batch" 
+<feed xmlns="http://www.w3.org/2005/Atom"
+  xmlns:openSearch="http://a9.com/-/spec/opensearchrss/1.0/"
+  xmlns:gContact="http://schemas.google.com/contact/2008"
+  xmlns:batch="http://schemas.google.com/gdata/batch"
   xmlns:gd="http://schemas.google.com/g/2005">
   <id>jo@gmail.com</id>
   <updated>2008-05-21T21:11:25.237Z</updated>
   <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/contact/2008#group"/>
   <title type="text">Jo's Contact Groups</title>
   <link rel="alternate" type="text/html" href="http://www.google.com/"/>
-  <link rel="http://schemas.google.com/g/2005#feed" 
-    type="application/atom+xml" 
+  <link rel="http://schemas.google.com/g/2005#feed"
+    type="application/atom+xml"
     href="http://google.m/m8/feeds/groups/jo%40gmail.com/thin"/>
-  <link rel="http://schemas.google.com/g/2005#post" 
-      type="application/atom+xml" 
+  <link rel="http://schemas.google.com/g/2005#post"
+      type="application/atom+xml"
       href="http://google.m/m8/feeds/groups/jo%40gmail.com/thin"/>
-  <link rel="http://schemas.google.com/g/2005#batch" 
-      type="application/atom+xml" 
+  <link rel="http://schemas.google.com/g/2005#batch"
+      type="application/atom+xml"
       href="http://googleom/m8/feeds/groups/jo%40gmail.com/thin/batch"/>
-  <link rel="self" 
-      type="application/atom+xml" 
+  <link rel="self"
+      type="application/atom+xml"
       href="http://google.com/m8/feeds/groups/jo%40gmail.com/thin?max-results=25"/>
   <author>
     <name>Jo Brown</name>
@@ -2739,7 +2739,7 @@ CONTACT_GROUPS_FEED = """<?xml version="1.0" encoding="UTF-8"?>
     <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/contact/2008#group"/>
     <title type="text">joggers</title>
     <content type="text">joggers</content>
-    <link rel="self" type="application/atom+xml" 
+    <link rel="self" type="application/atom+xml"
         href="http://google.com/m8/feeds/groups/jo%40gmail.com/thin/270f"/>
     <link rel="edit" type="application/atom+xml"
         href="http://google.com/m8/feeds/groups/jo%40gmail.com/thin/270f/1210770619070000"/>
@@ -2826,7 +2826,7 @@ BLOG_ENTRY = """<entry xmlns='http://www.w3.org/2005/Atom'>
   <link rel='self' type='application/atom+xml'
     href='http://www.blogger.com/feeds/userID/blogs/blogID'>
   </link>
-  <link rel='edit' type='application/atom+xml' 
+  <link rel='edit' type='application/atom+xml'
       href='http://www.blogger.com/feeds/userID/blogs/blogID'>
   </link>
   <author>
@@ -2917,9 +2917,9 @@ BLOG_COMMENTS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom" xmlns:openSear
     <author>
       <name>Blog Author name</name>
     </author>
-    <thr:in-reply-to xmlns:thr='http://purl.org/syndication/thread/1.0' 
-        href='http://blogName.blogspot.com/2007/04/first-post.html' 
-        ref='tag:blogger.com,1999:blog-blogID.post-postID' 
+    <thr:in-reply-to xmlns:thr='http://purl.org/syndication/thread/1.0'
+        href='http://blogName.blogspot.com/2007/04/first-post.html'
+        ref='tag:blogger.com,1999:blog-blogID.post-postID'
         source='http://blogName.blogspot.com/feeds/posts/default/postID'
         type='text/html' />
   </entry>
@@ -2946,9 +2946,9 @@ SITES_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
     <content src="http://www.example.com"/>
     <updated>2007-11-17T18:27:32.543Z</updated>
     <category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/webmasters/tools/2007#site-info"/>
-    <gd:entryLink rel="http://schemas.google.com/webmasters/tools/2007#verification" 
+    <gd:entryLink rel="http://schemas.google.com/webmasters/tools/2007#verification"
       href="https://www.google.com/webmasters/tools/feeds/http%3A%2F%2Fwww%2Eexample%2Ecom%2F/verification" />
-    <gd:entryLink rel="http://schemas.google.com/webmasters/tools/2007#sitemaps" 
+    <gd:entryLink rel="http://schemas.google.com/webmasters/tools/2007#sitemaps"
       href="https://www.google.com/webmasters/tools/feeds/http%3A%2F%2Fwww%2Eexample%2Ecom%2F/sitemaps" />
     <wt:indexed>true</wt:indexed>
     <wt:crawled>2008-09-14T08:59:28.000</wt:crawled>
@@ -2964,14 +2964,14 @@ SITES_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
 </feed>"""
 
 
-SITEMAPS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom" 
+SITEMAPS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
   xmlns:wt="http://schemas.google.com/webmasters/tools/2007">
   <id>http://www.example.com</id>
   <title type="text">http://www.example.com/</title>
   <updated>2006-11-17T18:27:32.543Z</updated>
-  <link rel="self" type="application/atom+xml" 
+  <link rel="self" type="application/atom+xml"
     href="https://www.google.com/webmasters/tools/feeds/http%3A%2F%2Fwww%2Eexample%2Ecom%2F/sitemaps" />
-  <category scheme='http://schemas.google.com/g/2005#kind' 
+  <category scheme='http://schemas.google.com/g/2005#kind'
     term='http://schemas.google.com/webmasters/tools/2007#sitemaps-feed'/>
   <wt:sitemap-mobile>
     <wt:markup-language>HTML</wt:markup-language>
@@ -2985,7 +2985,7 @@ SITEMAPS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
   <entry>
     <id>http://www.example.com/sitemap-index.xml</id>
     <title type="text">http://www.example.com/sitemap-index.xml</title>
-    <category scheme='http://schemas.google.com/g/2005#kind' 
+    <category scheme='http://schemas.google.com/g/2005#kind'
       term='http://schemas.google.com/webmasters/tools/2007#sitemap-regular'/>
     <updated>2006-11-17T18:27:32.543Z</updated>
     <wt:sitemap-type>WEB</wt:sitemap-type>
@@ -2996,7 +2996,7 @@ SITEMAPS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
   <entry>
     <id>http://www.example.com/mobile/sitemap-index.xml</id>
     <title type="text">http://www.example.com/mobile/sitemap-index.xml</title>
-    <category scheme='http://schemas.google.com/g/2005#kind' 
+    <category scheme='http://schemas.google.com/g/2005#kind'
       term='http://schemas.google.com/webmasters/tools/2007#sitemap-mobile'/>
     <updated>2006-11-17T18:27:32.543Z</updated>
     <wt:sitemap-status>StatusValue</wt:sitemap-status>
@@ -3007,7 +3007,7 @@ SITEMAPS_FEED = """<feed xmlns="http://www.w3.org/2005/Atom"
   <entry>
     <id>http://www.example.com/news/sitemap-index.xml</id>
     <title type="text">http://www.example.com/news/sitemap-index.xml</title>
-    <category scheme='http://schemas.google.com/g/2005#kind' 
+    <category scheme='http://schemas.google.com/g/2005#kind'
       term='http://schemas.google.com/webmasters/tools/2007#sitemap-news'/>
     <updated>2006-11-17T18:27:32.543Z</updated>
     <wt:sitemap-status>StatusValue</wt:sitemap-status>

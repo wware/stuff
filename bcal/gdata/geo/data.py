@@ -89,4 +89,3 @@ class W3CPoint(atom.core.XmlElement):
   long = GeoLong
   lat = GeoLat
 
-

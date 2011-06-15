@@ -111,653 +111,653 @@
 	  </div>
 	</div>
 <div style="clear: both;"></div><div class="entry" id="entry-2"><h3><a href="http://willware.blogspot.com/2010/11/making-debian-release-package.html">Making a debian release package</a><div class="lastUpdated">11/06/2010 01:19 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I've been doing a lot with <a href="http://en.wikipedia.org/wiki/Ubuntu_%28operating_system%29">Ubuntu</a> <a href="http://en.wikipedia.org/wiki/Linux">Linux</a> lately, and decided it was time to find out how to put together a <a href="http://en.wikipedia.org/wiki/Deb_%28file_format%29">debian package</a>. Ubuntu shares <a href="http://en.wikipedia.org/wiki/Debian">Debian</a>'s <a href="http://www.debian.org/doc/FAQ/ch-pkg_basics.en.html">package management system</a>, having descended from Debian. I've banged my way through <a href="http://github.com/wware/stuff/tree/master/make-debian-pkg/">the code</a>
- so you don't have to. Here I will just discuss a few highlights. There 
-isn't that much to it. Since this is just an example, I didn't get very 
+ so you don't have to. Here I will just discuss a few highlights. There
+isn't that much to it. Since this is just an example, I didn't get very
 creative with the name or the contents. Running <span class="Apple-style-span"><span class="Apple-style-span">make</span></span> will build <span class="Apple-style-span"><span class="Apple-style-span">foo-bar_1.0_i386.deb</span></span>.<br /><br />First a quick look at the files.<br /><span class="Apple-style-span"><span class="Apple-style-span">./Makefile</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./control</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./copyright</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./postinst</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./prerm</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./usr/bin/say-hello</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./usr/lib/python2.6/foobar.py</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">./usr/share/doc/foo-bar/foobar.txt</span></span><br /><div>The
- three files in the "usr" directory tree will be copied into the target 
-system when you say "dpkg -i foo-bar_1.0_i386.deb". If you then say 
-"dpkg -r foo-bar", those three files will be removed. The postinst and 
-prerm scripts can be used to perform actions after installation and 
-before removal respectively, but here they just print messages to the 
+ three files in the "usr" directory tree will be copied into the target
+system when you say "dpkg -i foo-bar_1.0_i386.deb". If you then say
+"dpkg -r foo-bar", those three files will be removed. The postinst and
+prerm scripts can be used to perform actions after installation and
+before removal respectively, but here they just print messages to the
 console. The real meat is in the two files <span class="Apple-style-span"><a href="http://github.com/wware/stuff/blob/master/make-debian-pkg/control"><span class="Apple-style-span">control</span></a></span> and <span class="Apple-style-span"><a href="http://github.com/wware/stuff/blob/master/make-debian-pkg/Makefile"><span class="Apple-style-span">Makefile</span></a></span>. <span class="Apple-style-span"><span class="Apple-style-span">control</span></span> specifies the package name, version number, dependencies, and other information. <span class="Apple-style-span"><span class="Apple-style-span">Makefile</span></span>
- takes pieces of that information to build makefile variables that will 
-be used in creating the package. There isn't a heck of a lot to say 
-about the process other than there is a special DEBIAN directory with 
-meta-information about the package and how it should be installed and 
-removed.</div><div><br /></div><div>This is the minimal possible 
-example. You can build a deb file this way and install it on an Ubuntu 
-machine. But there are a lot of things that could be improved and 
-cleaned up, and put in better compliance with common practices for 
+ takes pieces of that information to build makefile variables that will
+be used in creating the package. There isn't a heck of a lot to say
+about the process other than there is a special DEBIAN directory with
+meta-information about the package and how it should be installed and
+removed.</div><div><br /></div><div>This is the minimal possible
+example. You can build a deb file this way and install it on an Ubuntu
+machine. But there are a lot of things that could be improved and
+cleaned up, and put in better compliance with common practices for
 making these packages more maintainable. The two big areas are (1) there
  are <a href="http://www.debian.org/doc/debian-policy/ch-controlfields.html">recommendations</a> about additional fields to go into control, and (2) there is a tool called <a href="http://lintian.debian.org/manual/index.html">lintian</a>,
- a sort of lint command for deb packages, whose advice should be 
+ a sort of lint command for deb packages, whose advice should be
 applied. When I build this package, the advice I get is the following:</div><div><div><span class="Apple-style-span"><span class="Apple-style-span">E: foo-bar: changelog-file-missing-in-native-package</span></span></div><div><span class="Apple-style-span"><span class="Apple-style-span">W: foo-bar: third-party-package-in-python-dir usr/lib/python2.6/foobar.py</span></span></div><div><span class="Apple-style-span"><span class="Apple-style-span">W: foo-bar: binary-without-manpage usr/bin/say-hello</span></span></div><div><span class="Apple-style-span"><span class="Apple-style-span">W: foo-bar: maintainer-script-ignores-errors postinst</span></span></div><div><span class="Apple-style-span"><span class="Apple-style-span">W: foo-bar: maintainer-script-ignores-errors prerm</span></span></div></div><div>where "E" and "W" are "Error" and "Warning". So that's not too bad.</div><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-3846440987028950644.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-3"><h3><a href="http://willware.blogspot.com/2010/10/customized-ubuntu-distributions-part_28.html">Customized Ubuntu distributions part three</a><div class="lastUpdated">11/06/2010 01:19 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Apparently
- most of the stuff in my previous posting was the wrong approach. I 
-think I've finally got what I want. All this time, I've been trying to 
-figure out how to do a live Linux CD that (a) includes some code we've 
-been developing at work, and (b) boots very quickly and simply to where 
-the user can use that code. The goal is to provide software tools to a 
+ most of the stuff in my previous posting was the wrong approach. I
+think I've finally got what I want. All this time, I've been trying to
+figure out how to do a live Linux CD that (a) includes some code we've
+been developing at work, and (b) boots very quickly and simply to where
+the user can use that code. The goal is to provide software tools to a
 partner company where everybody's laptop runs Windows, but all our stuff
- is written in Linux.<br /><br />First I tried to build our code in 
-Cygwin using the Windows version of libusb. I found that fraught with 
-complexities of all sorts and eventually decided the Live CD approach 
-sounded a lot easier. Besides, we wanted the Live CD/bootable USB stick 
+ is written in Linux.<br /><br />First I tried to build our code in
+Cygwin using the Windows version of libusb. I found that fraught with
+complexities of all sorts and eventually decided the Live CD approach
+sounded a lot easier. Besides, we wanted the Live CD/bootable USB stick
 anyway for some later plans.<br /><br />Theoretically there are small Linux distributions (the most famous being <a href="http://www.damnsmalllinux.org/">Damn Small Linux</a>)
- that can be used for this sort of thing. As soon as I started getting 
-into that, I found that DSL is no longer maintained, the documentation 
-for it is insufficient and the pieces that do exist contradict one 
+ that can be used for this sort of thing. As soon as I started getting
+into that, I found that DSL is no longer maintained, the documentation
+for it is insufficient and the pieces that do exist contradict one
 another. I struggled to resolve dependency and version issues in porting
- our code to DSL and finally gave up. By that time, I had already 
-discovered how to make an Ubuntu Live CD, and so I delivered one with 
-the first piece of our code to our partner.<br /><br />But I really 
+ our code to DSL and finally gave up. By that time, I had already
+discovered how to make an Ubuntu Live CD, and so I delivered one with
+the first piece of our code to our partner.<br /><br />But I really
 wanted a much shorter boot time. I don't need X Windows or networking or
- OpenOffice or a web browser. I'd prefer to have a development 
-environment on there in case the code required modification but even 
-that is unnecessary.<br /><br />In the past several days I've tinkered 
-with about a dozen Linux distributions claiming to be "small" and found 
-them all deficient in one way or another. I've tried dozens and dozens 
+ OpenOffice or a web browser. I'd prefer to have a development
+environment on there in case the code required modification but even
+that is unnecessary.<br /><br />In the past several days I've tinkered
+with about a dozen Linux distributions claiming to be "small" and found
+them all deficient in one way or another. I've tried dozens and dozens
 of permutations of dumb little tricks involving <a href="http://www.virtualbox.org/">VirtualBox</a> and <a href="http://en.wikipedia.org/wiki/QEMU">QEMU</a> and <a href="http://uck.sourceforge.net/">Ubuntu Customization Kit</a> and burning CD-Rs and <a href="https://help.ubuntu.com/community/Installation/FromUSBStick#Creating%20a%20bootable%20Ubuntu%20USB%20flash%20drive">USB sticks</a>.
  I've looked at what feels like hundreds of different web pages and blog
- postings, each claiming to have an authoritative and trustworthy 
-solution to my problem. Each involves failures to account for 
-discrepancies between versions, or the document I've found is old and 
-inapplicable to what I'm doing, or the author made several minor 
+ postings, each claiming to have an authoritative and trustworthy
+solution to my problem. Each involves failures to account for
+discrepancies between versions, or the document I've found is old and
+inapplicable to what I'm doing, or the author made several minor
 assumptions that don't work in my environment.<br /><br />Currently I'm looking at something called <a href="http://www.ubuntu-mini-remix.org/">Ununtu Mini Remix</a> which looks promising. It's looking very good so far, as I am remastering it with the information on <a href="https://help.ubuntu.com/community/LiveCDCustomization">the Ubuntu help website</a>.
- Adding a shell script to /bin to make sure I can, and adding an "echo 
-HELLO" to /etc/skel/.bashrc to make sure it appears when the disk boots 
-into a bash session.<br /><br />Everything was going great and then 
-mksquashfs got hung up on the proc directory -- AH, this happened 
+ Adding a shell script to /bin to make sure I can, and adding an "echo
+HELLO" to /etc/skel/.bashrc to make sure it appears when the disk boots
+into a bash session.<br /><br />Everything was going great and then
+mksquashfs got hung up on the proc directory -- AH, this happened
 because when you finish a chroot session you must do <a href="https://wiki.archlinux.org/index.php/Change_Root">three umounts</a>
- (dev/pts, proc, sys) even if you weren't aware of having mounted them. 
-Apparently chroot mounts them without telling you. Umount those in the 
-chroot environment, exit, then umount edit/dev, and the mksquashfs goes 
-just dandy.<br /><br />So my two dumb tricks in /bin and 
+ (dev/pts, proc, sys) even if you weren't aware of having mounted them.
+Apparently chroot mounts them without telling you. Umount those in the
+chroot environment, exit, then umount edit/dev, and the mksquashfs goes
+just dandy.<br /><br />So my two dumb tricks in /bin and
 /etc/skel/.bashrc worked like a champ in VirtualBox and now I'm going to
- try to make a bootable USB stick. Ubuntu's Startup Disk Creator likes 
-the file (it's very picky about what ISO files are considered bootable) 
+ try to make a bootable USB stick. Ubuntu's Startup Disk Creator likes
+the file (it's very picky about what ISO files are considered bootable)
 and the USB stick works great in my Windows laptop. Now we make the <a href="http://www.rovio.com/index.php?page=angry-birds">Angry Birds</a> WHEEEE noise, however dumb some people might find the game. The next step is to make my tweaks into a Deb file using <a href="http://tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/">this HOWTO</a> so they go in painlessly.<br /><br />Grazie mille to Fabrizio Balliano for creating Ubuntu Mini Remix.<br /><br /><div id=":2mr" class="Il"><div class="zg"><div><div class="O-L zm J-bMcfAe-JW"><img src="wills-blog_files/favicons.png" class="O-L-Zl" /><br /><div class="O-L-Jm"><div class="O-L-Jm-K0"><a target="_blank" href="http://www.ubuntu-mini-remix.org/" class="zn"><span class="Apple-style-span"><span class="Apple-style-span">Ubuntu Mini Remix - The tiny Ubuntu you can build on!</span></span></a></div></div><div class="O-L-JC"><div class="O-L-JC-K0"><span class="Apple-style-span"><span class="Apple-style-span">165MB
  Ubuntu livecd containing only the minimal Ubuntu package set. Wonderful
  as a rescue disk or as a base for Ubuntu derivative creation.</span></span></div></div></div></div></div></div><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-4035845410778289106.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-4"><h3><a href="http://willware.blogspot.com/2010/10/customized-ubuntu-distributions-part.html">Customized Ubuntu distributions part two</a><div class="lastUpdated">11/06/2010 01:19 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Turns out I was mostly still spinning my wheels here -- move on to part three of this tale for the solution to the problem.<br /><br />After a brief visit to the world of <a href="http://www.damnsmalllinux.org/">Damn Small Linux</a> and
- subsequent narrow escape from eternal damnation, I returned to Ubuntu 
+ subsequent narrow escape from eternal damnation, I returned to Ubuntu
 with the idea of reducing the size (not as big a priority as I initially
- thought), speeding up the boot time, and running a program when the 
+ thought), speeding up the boot time, and running a program when the
 user logs into X.<br /><br />First a quick note about the 9.10/10.04 UCK
  thing. What's working well for me is to run UCK on a box that has 10.04
  installed, and apply it to a 9.10 ISO. Do not attempt to run UCK inside
- a VMware instance, it's just a lot of pain. You can run the resulting 
-ISO in QEMU but don't forget the "-boot d" argument.<br /><br />To 
-shrink the distro, I removed OpenOffice, Ubuntu Docs, and Evolution. 
+ a VMware instance, it's just a lot of pain. You can run the resulting
+ISO in QEMU but don't forget the "-boot d" argument.<br /><br />To
+shrink the distro, I removed OpenOffice, Ubuntu Docs, and Evolution.
 Things I added included autoconf, emacs, git, guile, and openssh-server.<br /><br />The low-hanging fruit for speeding up boot time is to bring up networking as a background process, described <a href="http://www.dotkam.com/2008/08/06/speed-up-ubuntu-boot-time-by-starting-networking-on-the-background/">here</a>. Doing this in Ubuntu 9.10 means editing /etc/init.d/networking, adding "&amp;" here:<br /><span class="Apple-style-span"><span class="Apple-style-span">case "$1" in</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">start)</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">        /lib/init/upstart-job networking start <span class="Apple-style-span"><b>&amp;</b></span></span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">        ;;</span></span><br /><div>People have given a <a href="http://lightningcrash.blogspot.com/2007/08/making-ubuntu-boot-in-19-seconds.html">lot</a> <a href="http://arstechnica.com/open-source/news/2009/06/ubuntu-aims-for-ten-second-boot-time.ars">of</a> <a href="http://www.extremetech.com/article2/0,2845,2114124,00.asp">thought</a>
  to other approaches to speed up Ubuntu's boot time, and maybe I'll blog
- more about that as I investigate it further. I really need to dig 
-deeper into the boot time topic. It will likely warrant another blog 
-post.</div><br />Having an app start immediately when the user logs in 
-is somewhat interesting. The X session startup stuff is all in 
-/etc/X11/Xsession.d/ and the main thing here 
-is /etc/X11/Xsession.d/40x11-common_xsessionrc where we find a call to 
-the user's ".xsessionrc" file. The user's directory is populated from 
+ more about that as I investigate it further. I really need to dig
+deeper into the boot time topic. It will likely warrant another blog
+post.</div><br />Having an app start immediately when the user logs in
+is somewhat interesting. The X session startup stuff is all in
+/etc/X11/Xsession.d/ and the main thing here
+is /etc/X11/Xsession.d/40x11-common_xsessionrc where we find a call to
+the user's ".xsessionrc" file. The user's directory is populated from
 /etc/skel, so the trick here is to create /etc/skel/.xsessionrc:<br /><span class="Apple-style-span">export LC_ALL=C</span><br /><span class="Apple-style-span"><span class="Apple-style-span">${HOME}/hello.sh &amp;</span></span><br /><div>where hello.sh is a sample shell script just to make sure I've got the principle down pat:</div><span class="Apple-style-span">#!/bin/sh</span><br /><span class="Apple-style-span"><span class="Apple-style-span">sleep 2   # wait for other xinit stuff to finish</span></span><br /><span class="Apple-style-span"><span class="Apple-style-span">xterm -geometry 120x50+0+0 -e "echo HELLO WORLD; sleep 5"</span></span><br /><div><br />Hmm...
- that worked for a bit, then stopped working. I've since discovered 
-another file, /etc/gdm/PreSession/Default, which seems more relevant. 
-But that starts the app just a little too early, before the user is 
-actually logged into the X session, so maybe I should put a time delay 
+ that worked for a bit, then stopped working. I've since discovered
+another file, /etc/gdm/PreSession/Default, which seems more relevant.
+But that starts the app just a little too early, before the user is
+actually logged into the X session, so maybe I should put a time delay
 in my app? Annoying.</div><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-6704216602634587721.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-5"><h3><a href="http://willware.blogspot.com/2010/10/fun-with-customized-ubuntu.html">Fun with customized Ubuntu distributions</a><div class="lastUpdated">11/06/2010 01:19 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">At <a href="http://www.litl.com/">work</a> we have an interesting problem. We are working with some companies in <a href="http://en.wikipedia.org/wiki/Taiwan">Taiwan</a>. Obviously there's a language difference, but there is another difference as well. We are an <a href="http://en.wikipedia.org/wiki/Ubuntu_%28operating_system%29">Ubuntu</a> <a href="http://en.wikipedia.org/wiki/Linux">Linux</a> shop, and they all have <a href="http://en.wikipedia.org/wiki/Microsoft_Windows">Windows</a> laptops. Periodically we have bits of test code that they need to use, and the <a href="http://en.wikipedia.org/wiki/Operating_system">OS</a> gulf needs to be overcome.<br /><br />My first whack at this issue was to try to use <a href="http://www.cygwin.com/">Cygwin</a> to rebuild our tools from source on a Windows platform. But after I'd spent a few days dealing with <a href="http://github.com/wware/stuff/tree/master/libusb-pbatard/">libusb</a>, and making not a whole lot of progress, a co-worker suggested a <a href="http://en.wikipedia.org/wiki/Booting">bootable</a> <a href="http://en.wikipedia.org/wiki/USB_flash_drive">USB stick</a>.
  The Taiwanese folks get to keep their Windows laptops, but with a quick
  reboot they can temporarily use Linux machines just like ours. So I set
- about learning the art of bootable USB sticks, which in Ubuntu 9.10 is 
+ about learning the art of bootable USB sticks, which in Ubuntu 9.10 is
 pretty painless. (This is not the case with Ubuntu 10.04. If you need to
  do this, stick with 9.10.)<br /><br />Not to keep you in suspense, the two magical things are<br /><ul><li><a href="http://uck.sourceforge.net/">Ubuntu Customization Kit</a>, (sudo apt-get install uck) which produces an ISO file suitable for burning a CD or DVD which you can boot from, and<br /></li><li>USB
- Startup Disk Creator (already present in your System&gt;Administration 
-menu) which puts that ISO file onto a USB stick and makes the stick 
+ Startup Disk Creator (already present in your System&gt;Administration
+menu) which puts that ISO file onto a USB stick and makes the stick
 bootable.<br /></li></ul>These are amazingly easy-to-use tools, given the complexity of what they're doing. In the bad old days, the <a href="http://www.knoppix.net/">Knoppix distribution</a>
- existed solely for the purpose of rendering this feat possible for 
+ existed solely for the purpose of rendering this feat possible for
 mortals. That said, I learned a few tricks about these things which I'll
  pass along here. Do NOT use Ubuntu 10.04, as there is <a href="https://bugs.launchpad.net/uck/+bug/544555">a serious bug</a>
- in that version of UCK plus a handful of annoying behavioral oddities. 
+ in that version of UCK plus a handful of annoying behavioral oddities.
 These are fixed in a future UCK release, but that's not available in the
  Ubuntu 10.04 repositories.  In order to produce a USB stick which could
- be used with a Windows laptop to produce another bootable USB stick, I 
-put a copy of the ISO file onto the USB stick. The instructions for 
+ be used with a Windows laptop to produce another bootable USB stick, I
+put a copy of the ISO file onto the USB stick. The instructions for
 copying the USB stick then go like this. <br /><ul><li>Boot into Windows and insert the first USB stick. Copy the ISO file somewhere memorable. Restart the laptop.<br /></li><li>Boot into Ubuntu using the USB stick. Once you're booted, insert the second USB stick.<br /></li><li>Bring
- up USB Startup Disk Creator. The original ISO file on the first USB 
-stick (from which you are now running) will not be visible in the file 
+ up USB Startup Disk Creator. The original ISO file on the first USB
+stick (from which you are now running) will not be visible in the file
 system. But the Windows hard drive will be readable, so dig around in it
- to find the ISO file copy you just used. Use that as the source, and 
+ to find the ISO file copy you just used. Use that as the source, and
 select the 2nd USB stick as the destination. Push the button.<br /></li><li>Once that installation is complete, copy the ISO file from the Windows hard drive onto the second USB stick. Voila, a copy.<br /></li></ul>Using
- the first part (making an ISO image) I was able to produce a DVD with 
+ the first part (making an ISO image) I was able to produce a DVD with
 some of our tools for the Taiwanese folks to use. I set up <a href="http://en.wikipedia.org/wiki/Traditional_Chinese_characters">Traditional Chinese</a>
- and English as languages, with the default to boot into Traditional 
-Chinese. But then because it had some of our source code, I encrypted 
-this entire 725 MB file, which is ironic given that Ubuntu is open 
+ and English as languages, with the default to boot into Traditional
+Chinese. But then because it had some of our source code, I encrypted
+this entire 725 MB file, which is ironic given that Ubuntu is open
 source. But there had to be a way to encrypt only the proprietary stuff.<br /><br />On
- the next boot image I send them (which will be a USB stick, not a DVD, 
-since USB sticks are oh so much sexier), the contents of the stick will 
-be open source, and the proprietary stuff will be pulled down from a 
-little tarball on some handy little server. The thing that pulls down 
+ the next boot image I send them (which will be a USB stick, not a DVD,
+since USB sticks are oh so much sexier), the contents of the stick will
+be open source, and the proprietary stuff will be pulled down from a
+little tarball on some handy little server. The thing that pulls down
 the tarball and handles security is my little <a href="http://github.com/wware/stuff/tree/master/tarball-runner/">tarball runner script</a>. The new ISO is at <a href="http://willware.net/tbr-disk.iso">http://willware.net/tbr-disk.iso</a>, and if you need to share some closed-source Linux code with people in China or Taiwan, feel free to use it.<br /><br />To
- use this bit of cleverness, build some code on your Linux box, package 
-it up as a tarball (including a run.sh shell script at the root level, 
+ use this bit of cleverness, build some code on your Linux box, package
+it up as a tarball (including a run.sh shell script at the root level,
 in case you need to do installation stuff), and if necessary, encrypt it
  using (<a href="http://github.com/wware/stuff/tree/master/twofishmodule-0.7/">my tweaked version</a> of) the <a href="http://en.wikipedia.org/wiki/Twofish">Twofish</a> algorithm found on <a href="http://sourceforge.net/projects/twofish-py/">Sourceforge</a>. Then post it to the Internet and email the password only to your intended recipients.<br /><br />If I find the time and energy, I'll package up the tarball runner and the Twofish module as a <a href="http://en.wikipedia.org/wiki/Deb_%28file_format%29">Deb package</a> to make the installation painless.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-9030532760775313386.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-6"><h3><a href="http://willware.blogspot.com/2010/10/preliminary-things-from-life-extesion.html">Preliminary things from the Life Extesion Conference</a><div class="lastUpdated">10/10/2010 06:02 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">This weekend I'm attending <a href="http://twitter.com/lifeext">Christine Peterson</a>'s <a href="http://lifeextensionconference.com/">Life Extension Conference</a>
  in San Francisco. Chris wanted to put together information that is both
- scientifically valid and actionable, so she lined up a lot of really 
-high-quality speakers. One thing I learned pretty quickly is that there 
-are a large number of areas of expertise, generally interrelated, all 
+ scientifically valid and actionable, so she lined up a lot of really
+high-quality speakers. One thing I learned pretty quickly is that there
+are a large number of areas of expertise, generally interrelated, all
 pretty deep. I'll try to do a series of blog postings about these topics
  so this one will just skim a few highlights.<br /><br />Here are some very quick bits of advice.<br /><ul><li>Completely stop eating sugar.<br /><li>Exercise.<br /><li>Eat spinach and other leafy greens, take vitamin D and drink green tea.<br /><li>The health of your brain is crucial to your overall health. Meditation is better for your brain than puzzles and games.<br /><li>Intermittent fasting (e.g. 24 hours every 2 or 3 day) is good for you.<br /></li></li></li></li></li></ul>The
- popular aging theory that our bodies wear out over time is false. We 
-know this because there are animals and plants thousands of years old 
-which may die from accidents or mishaps, but they do not age 
+ popular aging theory that our bodies wear out over time is false. We
+know this because there are animals and plants thousands of years old
+which may die from accidents or mishaps, but they do not age
 biologically.  <a href="http://www.worldscibooks.com/lifesci/5457.html">Michael Rose</a>
  has been breeding long-lived "Methuselah" fruit flies for over 30 years
- and he discussed his approach. There were a lot of great talks but I 
+ and he discussed his approach. There were a lot of great talks but I
 found this one clarified some bsic information about aging for me.<br /><br />Simplistically
- assume that flies always begin reproducing at age A and always stop 
-reproducing at age B. Any heritable cause of death that takes effect 
-before age A will be strongly selected against, and any heritable cause 
-of death that takes effect after age B will face no selection pressure 
-at all. What Rose did was to tinker with A and B, delaying both, and 
-discardiing the flies who didn't live very long, and he did this from 
-1980 to the present day. I think I'll have more to say about this when 
-I've gone over my notes more, but a few quick things about these 
-Methuselah flies.<br /><br />We couldn't do this in 1980 but we can now 
-sequence the DNA of these flies and compare it to the DNA of normal 
-flies. What you see is that there are a lot of teeny differences widely 
-spread over the genome. This leads me to think that there's no silver 
-bullet longevity gene, but rather a lot of small tweaks that address a 
+ assume that flies always begin reproducing at age A and always stop
+reproducing at age B. Any heritable cause of death that takes effect
+before age A will be strongly selected against, and any heritable cause
+of death that takes effect after age B will face no selection pressure
+at all. What Rose did was to tinker with A and B, delaying both, and
+discardiing the flies who didn't live very long, and he did this from
+1980 to the present day. I think I'll have more to say about this when
+I've gone over my notes more, but a few quick things about these
+Methuselah flies.<br /><br />We couldn't do this in 1980 but we can now
+sequence the DNA of these flies and compare it to the DNA of normal
+flies. What you see is that there are a lot of teeny differences widely
+spread over the genome. This leads me to think that there's no silver
+bullet longevity gene, but rather a lot of small tweaks that address a
 large number of heritable causes of death.<br /><br />More stuff to come
- as I sift through my notes. Chris has talked about posting all the 
+ as I sift through my notes. Chris has talked about posting all the
 slides online and making the presentation videos available as a DVD.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-9033345956883092599.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-7"><h3><a href="http://willware.blogspot.com/2010/09/tim-bls-talk-on-linked-data.html">Tim BL's talk on Linked Data</a><div class="lastUpdated">09/17/2010 01:34 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I'm part way through watching <a href="http://www.ted.com/talks/tim_berners_lee_on_the_next_web.html">Tim Berners-Lee's TED talk</a> from February 2009 about <a href="http://en.wikipedia.org/wiki/Linked_Data">Linked Data</a>.
- He talks a bit about his motivation for inventing the Web, which was 
+ He talks a bit about his motivation for inventing the Web, which was
 that the data he encountered at CERN was in all different formats and on
- all different computer architectures and he spent a huge fraction of 
+ all different computer architectures and he spent a huge fraction of
 his time writing code to translate one format to another. He talks about
- how much of the world's data is still locked up in a million 
-disconnected little islands, and how many of the world's most urgent 
-problems require that data be made available across the boundaries 
-between corporations, organizations, laboratories, universities, and 
-nations. It's a very eloquent talk, reminding me in places of David 
+ how much of the world's data is still locked up in a million
+disconnected little islands, and how many of the world's most urgent
+problems require that data be made available across the boundaries
+between corporations, organizations, laboratories, universities, and
+nations. It's a very eloquent talk, reminding me in places of David
 Gelernter's prophetic book <a href="http://www.amazon.com/Mirror-Worlds-Software-Universe-Shoebox-How/dp/019507906X">Mirror Worlds</a>.<br /><br /><a href="http://richard.cyganiak.de/2007/10/lod/lod-datasets_2009-07-14.png"><img width="400px" src="wills-blog_files/lod-datasets_2009-07-14.png" /></a><br /><br />What's
- remarkable about the Linked Data idea is that, as much as people tend 
+ remarkable about the Linked Data idea is that, as much as people tend
 to dismiss the whole semantic web vision, it really is making <a href="http://linkeddata.org/">remarkable progress</a>. The diagram above shows several interlinked websites with large and mutually compatible data sets.<br /><ul><li><a href="http://dbpedia.org/About">DBPedia</a> aims to extract linked data from Wikipedia and make it publicly available.<br /><li><a href="http://www.mpi-inf.mpg.de/yago-naga/yago/">YAGO</a>
- is a huge semantic knowledge base. Currently, YAGO knows more than 2 
-million entities (like persons, organizations, cities, etc.). It knows 
+ is a huge semantic knowledge base. Currently, YAGO knows more than 2
+million entities (like persons, organizations, cities, etc.). It knows
 20 million facts about these entities.<br /><li><a href="http://www.lexvo.org/">Lexvo.org</a>
- brings information about languages, words, characters, and other human 
+ brings information about languages, words, characters, and other human
 language-related entities to the Linked Data Web and Semantic Web.<br /><li>The <a href="http://www.opencalais.com/">Calais</a>
- web service is an API that accepts unstructured text (like news 
-articles, blog postings, etc.), processes them using natural language 
-processing and machine learning algorithms, and returns RDF-formatted 
-entities, facts and events. It takes about 0.5 to 1.0 second depending 
+ web service is an API that accepts unstructured text (like news
+articles, blog postings, etc.), processes them using natural language
+processing and machine learning algorithms, and returns RDF-formatted
+entities, facts and events. It takes about 0.5 to 1.0 second depending
 on how big a document you send and the size of your pipe. <br /><li><a href="http://www.freebase.com/">Freebase</a>
- is an open repository of structured data of more than 12 million 
-entities. An entity is a single person, place, or thing. Freebase 
+ is an open repository of structured data of more than 12 million
+entities. An entity is a single person, place, or thing. Freebase
 connects entities together as a graph.<br /><li><a href="http://linkedct.org/index.html">LinkedCT</a> is a website full of linked data about past and present clinical trials.<br /></li></li></li></li></li></li></ul>Berners-Lee has <a href="http://www.w3.org/DesignIssues/LinkedData">recommended</a> a very small set of Linked Data principles. <ul><li>Use URIs as names for things.<br /><li>Use HTTP URIs so that people can look up those names.<br /><li>When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL)<br /><li>Include links to other URIs so that they can discover more things.<br /></li></li></li></li></ul><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-9131898484105776513.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-8"><h3><a href="http://willware.blogspot.com/2010/09/set-theory-owl-and-semantic-web.html">Set theory, OWL, and the Semantic Web</a><div class="lastUpdated">09/17/2010 01:34 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Despite my interest in semantic web technology, there is one area I've had a little mental block about, which is <a href="http://en.wikipedia.org/wiki/Web_Ontology_Language">OWL</a>.
- If you just sit down and try to read the available technical 
-information about OWL, it's clear as mud. Imagine my surprise when 
+ If you just sit down and try to read the available technical
+information about OWL, it's clear as mud. Imagine my surprise when
 clarity dawned in the form of the book <a href="http://www.amazon.com/Semantic-Web-Dummies-Jeffrey-Pollock/dp/0470396792">Semantic Web for Dummies</a> by Jeffrey Pollock, who explains in Chapter 8 that OWL amounts to set theory. The book is surprisingly good, I recommend it.<br /><br />I attended elementary school in the 1960s, when the U.S. was trying a stupid educational experiment called <a href="http://en.wikipedia.org/wiki/New_Matht">New Math</a>.
- The basic premise was that little kids needed to know axiomatic set 
-theory, in order for the U.S. to raise a generation of uber math geeks 
+ The basic premise was that little kids needed to know axiomatic set
+theory, in order for the U.S. to raise a generation of uber math geeks
 who could outperform the Soviet engineers who put <a href="http://en.wikipedia.org/wiki/Sputnik">Sputnik</a> into
- orbit. If only I'd taken more seriously all this nonsense about unions 
-and intersections and empty sets, I might have avoided all that trouble 
-with schoolyard bullies. Oh wait.... Anyway, in order to fulfill this 
+ orbit. If only I'd taken more seriously all this nonsense about unions
+and intersections and empty sets, I might have avoided all that trouble
+with schoolyard bullies. Oh wait.... Anyway, in order to fulfill this
 obviously pointless requirement, our teacher would spend the first three
- weeks of every school year drilling us on exercises in set theory and 
-then move on to whatever math we actually really needed to learn for 
-that year. The take-home lesson was that intersection was preferable to 
+ weeks of every school year drilling us on exercises in set theory and
+then move on to whatever math we actually really needed to learn for
+that year. The take-home lesson was that intersection was preferable to
 union, because writing the result of a union operation meant I had to do
  more writing and it made my hand hurt. In retrospect it's amazing that I
  retained any interest in mathematics.<br /><br />Set theory came into vogue as guys like <a href="http://en.wikipedia.org/wiki/David_Hilbert">David Hilbert</a> and <a href="http://en.wikipedia.org/wiki/Bertrand_Russell">Bertrand Russell</a>
- were fishing around for a formal bedrock on which to place the edifice 
-of mathematics. The hope was to establish a mathematics that was 
-essentially automatable, in the belief that as a result it would be 
-infallible. So they went around formalizing the definitions of various 
-mathematical objects by injecting bits of set theory. One of the more 
+ were fishing around for a formal bedrock on which to place the edifice
+of mathematics. The hope was to establish a mathematics that was
+essentially automatable, in the belief that as a result it would be
+infallible. So they went around formalizing the definitions of various
+mathematical objects by injecting bits of set theory. One of the more
 successful examples was to use <a href="http://en.wikipedia.org/Dedekind_cut">Dedekind cuts</a> to define the real numbers in terms of the rational numbers.<br /><br />Hopes of the infallibility of mathematics' new foundation were dashed by <a href="http://en.wikipedia.org/wiki/Kurt_G%C3%B6del">Kurt Godel</a>'s
- brilliant incompleteness theorem, described as “the most signal paper 
-in logic in two thousand years.” It was possible to define mathematical 
-ideas in set theoretic terms, and to formalize the axioms, and to 
+ brilliant incompleteness theorem, described as “the most signal paper
+in logic in two thousand years.” It was possible to define mathematical
+ideas in set theoretic terms, and to formalize the axioms, and to
 automate the proof process, but at a cost. Godel proved the existence of
- mathematical truths that were formally undecidable -- they could 
+ mathematical truths that were formally undecidable -- they could
 neither be proved nor disproved. Hilbert had hoped that once mathematics
- was formalized, no stone would be left unturned, and all true 
-mathematical statements would be provable. The story of Godel's theorem 
-(not the history, just an outline of the proof itself) is a wonderful 
+ was formalized, no stone would be left unturned, and all true
+mathematical statements would be provable. The story of Godel's theorem
+(not the history, just an outline of the proof itself) is a wonderful
 story, well told in Hofstatder's book <a href="http://en.wikipedia.org/wiki/G%C3%B6del,_Escher,_Bach">Godel, Escher, Bach</a>.<br /><br />But getting back to semantic web stuff. Here are some basic ideas of OWL.<br /><ul><li>Everything is an instance of owl:Thing. Think of it as a base class like java.lang.Object.</li><li>Within an ontology, you have "instances", "classes", and "properties".</li><li>"Classes" are essentially sets. "Individuals" are elements of sets.</li><li>A "property" expresses some relationship between two individuals.</li><li>OWL includes representations for:</li><ul><li>unions and intersections of classes (sets)</li><li>the idea that a set is a subset of another</li><li>the idea that two sets are disjoint</li><li>the idea that two sets are the same set</li><li>the idea that two instances are the same instance</li></ul><li>Properties can by symmetric (like "sibling") or transitive (like "equals")</li><li>A
  property can be "functional", or a function in a mathematical sense. If
- p is functional, and you assert that p(x)=y and p(x)=z, then the 
+ p is functional, and you assert that p(x)=y and p(x)=z, then the
 reasoning engine will conclude that y=z.</li><li>One property can be declared to be the inverse of another.</li><li>One can declare a property to have specific classes (sets) as its domain and range.</li></ul>It
- would be really nice if, at this point, I had some brilliantly 
-illustrative examples of OWL hacking ready to include here. Hopefully 
+ would be really nice if, at this point, I had some brilliantly
+illustrative examples of OWL hacking ready to include here. Hopefully
 those will be forthcoming.<br /><ul></ul><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-4411384230784907873.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-9"><h3><a href="http://willware.blogspot.com/2010/08/setting-up-small-electronics-lab.html">Setting up a small electronics lab</a><div class="lastUpdated">09/17/2010 01:36 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent"><img align="right" src="wills-blog_files/09263-4_i_ma.jpg" />At <a href="http://www.litl.com/">Litl</a>, I will be setting up a small electrical engineering lab. What should I get? There's a lot of great stuff at <a href="http://www.sparkfun.com/">SparkFun</a>, and more at <a href="http://www.digikey.com/">Digi-Key</a>.<br /><br />Here's my shopping list, all from Sparkfun. No, I'm not a fan boy. Thanks for asking. <br /><ul><a href="http://www.blogger.com/post-create.g?blogID=9667563"></a><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=8794">Diagonal cutters</a>, $2<br /></li><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=9141">Multimeter</a>, $15<br /></li><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=762">USB Bit Whacker</a>, GPIO on the end of a USB cable, $25<br /></li><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=9263">MSO-19</a> USB oscilloscope and logic analyzer, $250, looks pretty <a href="http://www.linkinstruments.com/MSO-19%20Electronics%20Learning%20Lab%20supplement.pdf">cool</a><br /></li><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=9139">Jumper wires</a>, $25<br /></li><li><a href="http://www.sparkfun.com/commerce/product_info.php?products_id=9034">nRF24LU1+ breakout board</a>, $35<br /></li><li>Total $352, which seems pretty reasonable for all that cool stuff.<br /></li></ul>Honorable mention, stuff that is not a near-term priority. Most of these are entirely non-work-related toys that just look fun.<br /><ul><li><a href="http://www.gssteched.com/R-ECG1.html">EKG kit</a>, $45<br /></li><li><a href="http://www.totalphase.com/products/beagle_usb12/">USB protocol analyzer</a>, $400<br /></li><li><a href="http://store.makerbot.com/cupcake-cnc/cupcake-cnc-deluxe-kit.html">Makerbot</a>, $950, maybe later<br /></li><li><a href="http://www.trossenrobotics.com/bioloid-zigbee-wireless-module-set.aspx">Pair of Zigbee modules</a>, $50<br /></li><li>IRobot's <a href="http://store.irobot.com/product/index.jsp?productId=2591901&amp;mr:referralID=NA&amp;mr:trackingCode=10BC9975-E481-DE11-B7F3-0019B9C043EB">Create robotics development platform</a>, $300<br /></li><li><a href="http://www.nerdkits.com/store/">NerdKit</a>, $80<br /></li></ul><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-123978383479865925.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-10"><h3><a href="http://willware.blogspot.com/2010/08/in-taiwan-next-week.html">In Taiwan next week</a><div class="lastUpdated">08/21/2010 09:22 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I'm not a big traveler generally speaking, but my new job with <a href="http://www.litl.com/">Litl</a> is bringing me to <a href="http://en.wikipedia.org/wiki/Taipei">Taipei</a> and <a href="http://en.wikipedia.org/wiki/Hsinchu">Hsinchu</a> in <a href="http://en.wikipedia.org/wiki/Taiwan">Taiwan</a> for a few days next week. I'm excited and a little nervous. I've tried to pick up a few words of <a href="http://en.wikipedia.org/wiki/Standard_Mandarin">Mandarin</a> over the past week using <a href="http://en.wikipedia.org/wiki/Rosetta_Stone_%28software%29">Rosetta Stone</a>, but it's a tough language for an American with only dim memories of high school French.<br /><br />Hopefully I'll be posting some cool pictures soon, if I get a chance to wander anywhere interesting.<br /><br />Tuesday evening<br /><br />What
  the heck is Tuesday when you're 12 time zones from home? Here in Taiwan
- it's 8:30 PM. Back home in Massachusetts, it's 8:30 AM on Wednesday 
-morning. Between the time difference and the jet lag, not a lot of luck 
+ it's 8:30 PM. Back home in Massachusetts, it's 8:30 AM on Wednesday
+morning. Between the time difference and the jet lag, not a lot of luck
 in reasoning about time.<br /><br />I'm doing very slightly better with language, strangely. I've identified two glyphs. <a href="http://www.chinavista.com/experience/hanzi/zi.gif">One</a> (字) looks like a seven digit with a horizontal line through it. It's pronounced "tze" (the vowel is a <a href="http://en.wikipedia.org/wiki/Schwa">schwa</a>)
- and I've seen it occur at the ends of several words or small phrases 
-but I don't know its meaning. The other, I can't remember now because 
-I'm too jet-lagged. Another thing this morning was that I identified a 
-glyph that I believe is a very recent invention without any of the 
-historical roots of the other characters. It's an outline of the Red 
-Cross symbols, with crossbars along the top and bottom edges, and my 
+ and I've seen it occur at the ends of several words or small phrases
+but I don't know its meaning. The other, I can't remember now because
+I'm too jet-lagged. Another thing this morning was that I identified a
+glyph that I believe is a very recent invention without any of the
+historical roots of the other characters. It's an outline of the Red
+Cross symbols, with crossbars along the top and bottom edges, and my
 guess is that it indicates a hospital. Some of the <a href="http://en.wikipedia.org/wiki/Chinese_character#Formation_of_characters">mechanics</a> of how these characters are formed is fascinating.<br /><br />Today
  I visited Hsinchu with a couple of other engineers, one also from Litl,
- and one from Motorola. We did a bunch of debug on some boards that a 
-contractor is designing for us.<br /><br />I'm surprised how normal 
-things feel in Taiwan. I had expected it to feel more alien. But 
-everything kinda fits and makes sense. It's interesting to be immersed 
+ and one from Motorola. We did a bunch of debug on some boards that a
+contractor is designing for us.<br /><br />I'm surprised how normal
+things feel in Taiwan. I had expected it to feel more alien. But
+everything kinda fits and makes sense. It's interesting to be immersed
 in a culture that's a little different but not very, and a language that
- is thoroughly alien. (Though I suppose the clicking languages of 
+ is thoroughly alien. (Though I suppose the clicking languages of
 Australian aborigines would be even more alien.)<br /><br />Friday evening, Taiwan time<br /><br />你
-好 East Coast folks! I should be back in about 24 hours. Just in time to 
-liberate the cat from cat jail and spend the rest of Saturday morning 
-napping.<br /><br />I really wish I'd gotten an earlier start on 
-learning some Chinese and applied myself more diligently. It was 
-frustrating to look around and see and hear all this interesting 
+好 East Coast folks! I should be back in about 24 hours. Just in time to
+liberate the cat from cat jail and spend the rest of Saturday morning
+napping.<br /><br />I really wish I'd gotten an earlier start on
+learning some Chinese and applied myself more diligently. It was
+frustrating to look around and see and hear all this interesting
 language and understand nearly none of it. Oh well, there should be more
- opportunities. I'm given to understand that my work will bring me to 
+ opportunities. I'm given to understand that my work will bring me to
 mainland China before too long.<br /><br />I also wish I'd thought to take more photos. I just totally spaced on the fact that I'd brought along a camera.<br /><br />Saturday evening, back home<br /><br />Still
  a bit dazed about time zones. Spent 18 hours on airplanes getting home,
- with a layover in SF long enough to stroll around Fisherman's Wharf. 
-Both airplanes were useless for sleeping so I needed to nap. Gonna try 
+ with a layover in SF long enough to stroll around Fisherman's Wharf.
+Both airplanes were useless for sleeping so I needed to nap. Gonna try
 to use melatonin to get my biorhythms resynchronized.<br /><br />I think
- I was mistaken in thinking the Red-Cross-like character was a recent 
-invention. I later saw other usages that were inconsistent with that 
-theory. It just doesn't feel calligraphic to me in the same way as the 
+ I was mistaken in thinking the Red-Cross-like character was a recent
+invention. I later saw other usages that were inconsistent with that
+theory. It just doesn't feel calligraphic to me in the same way as the
 rest of the written language.<br /><br />Here's something humorous: most
- of the comments to most of my blog postings are in Chinese, with a 
+ of the comments to most of my blog postings are in Chinese, with a
 string of periods, each an HTML link to some Chinese porn sight. They're
- doing this to try to crank up the Google ratings of their porn 
-industry, obviously. The same is true of this posting, there is 
-currently one comment from a friend in Kolkata and four of these 
-porn-site-promoting comments. It just seems kinda funny that they're in 
+ doing this to try to crank up the Google ratings of their porn
+industry, obviously. The same is true of this posting, there is
+currently one comment from a friend in Kolkata and four of these
+porn-site-promoting comments. It just seems kinda funny that they're in
 response to a posting about visiting Taiwan. I dunno, it sounded funnier
  when I first thought of it. If anybody knows how to block such comments
- on one's blog without blocking any legitimate comments from the same 
+ on one's blog without blocking any legitimate comments from the same
 geographical area, I'd love to hear about it.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-5027296825382384370.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-11"><h3><a href="http://willware.blogspot.com/2010/08/this-google-verizon-deal-and-net.html">This Google-Verizon deal and Net Neutrality and all that...</a><div class="lastUpdated">08/12/2010 11:07 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Like
- everybody else, I'm disappointed with Google on this one. The stuff 
+ everybody else, I'm disappointed with Google on this one. The stuff
 about the wired Internet is good, it's actually a stronger stance on net
- neutrality than has existed to date. But the wireless Internet is now 
+ neutrality than has existed to date. But the wireless Internet is now
 supposed to be the Wild West of high tech, a lawless place where anybody
- big enough can do anything they want. Google should know better. But 
-Google is not the important party in all this.<br /><br />My feelings 
-about Verizon are very different. Verizon paid for the network (having 
-purchased it from its builders and/or previous owners) and now pays to 
-maintain it. When the network in my neighborhood goes down, the trucks 
-that come to fix it are Verizon trucks. It's fair and reasonable for 
-Verizon to decide which packets its network will carry, and how those 
+ big enough can do anything they want. Google should know better. But
+Google is not the important party in all this.<br /><br />My feelings
+about Verizon are very different. Verizon paid for the network (having
+purchased it from its builders and/or previous owners) and now pays to
+maintain it. When the network in my neighborhood goes down, the trucks
+that come to fix it are Verizon trucks. It's fair and reasonable for
+Verizon to decide which packets its network will carry, and how those
 packets will be prioritized.<br /><br />What would not be fair or reasonable would be to allow Verizon to block other efforts to build traffic-bearing networks.<br /><br />I
- would love to see a parallel Internet built by hobbyists and local 
+ would love to see a parallel Internet built by hobbyists and local
 communities and small businesses. A few years back there was a wonderful
  book called <a href="http://oreilly.com/catalog/9780596005023"><i>Building Wireless Community Networks</i></a>
- by Rob Flickinger. It seemed to me that Flickinger envisioned a 
-nation-wide and perhaps world-wide community network. Maybe I was 
-projecting my own hopes, but I like to think he might have shared that 
-sentiment.<br /><br />The right response to the Google-Verizon deal is 
-not to complain about Google's duplicity. They are a publicly traded 
+ by Rob Flickinger. It seemed to me that Flickinger envisioned a
+nation-wide and perhaps world-wide community network. Maybe I was
+projecting my own hopes, but I like to think he might have shared that
+sentiment.<br /><br />The right response to the Google-Verizon deal is
+not to complain about Google's duplicity. They are a publicly traded
 company, with all that entails. The right response is to start building a
- network that isn't supported by already-large corporations, where 
-individuals and small new companies don't need to worry about policy 
+ network that isn't supported by already-large corporations, where
+individuals and small new companies don't need to worry about policy
 decisions by the Googles and Verizons of the world.<br /><br />Maybe this should replace Amateur Radio, which has been in decline since the Internet came along.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-6075721741483632331.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-12"><h3><a href="http://willware.blogspot.com/2010/07/evolution-and-randomness.html">Evolution and randomness</a><div class="lastUpdated">08/01/2010 11:59 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Lately
  I've been watching a video of Richard Dawkins reading from his new book
  "The Greatest Show on Earth". As always, he is fascinating and lucid.<br /><br /><br /><br />Sometimes people criticize evolution on the grounds that "it's all about randomness". They ask questions like this:<br /><blockquote>If
- I spread a bunch of airplane parts on a football field, and a tornado 
+ I spread a bunch of airplane parts on a football field, and a tornado
 comes around and stirs up all the parts, what is the likelihood that the
  result will be a correctly assembled, functioning airplane? This is the
- same likelihood that the human body (or the eye, or the brain, or the 
-hand) could have arisen out of evolution, a process characterized 
+ same likelihood that the human body (or the eye, or the brain, or the
+hand) could have arisen out of evolution, a process characterized
 entirely by randomness.</blockquote>Evolution consists of two parts. One
- is variation, which can be random but need not be, and the other is 
-selection, which is not random at all. The part of evolution that is 
-random, the point mutations and crossovers among chromosomes, is not 
-where its explanatory power resides. If that were the whole story, then 
-complex forms really would be no more likely than working airplanes 
-popping out of tornadoes. These random bits of variation merely supply 
-the variety upon which the filter of selection operates.<br /><br />It 
-is in selection that the explanatory power of evolution resides. 
-Selection is the non-random part of evolution, where the signal (this 
-trait works) is separated from the noise (that trait doesn't work). It 
-is because selection is consistent and non-random that we see the 
-re-appearance of traits at very different times and places in the 
+ is variation, which can be random but need not be, and the other is
+selection, which is not random at all. The part of evolution that is
+random, the point mutations and crossovers among chromosomes, is not
+where its explanatory power resides. If that were the whole story, then
+complex forms really would be no more likely than working airplanes
+popping out of tornadoes. These random bits of variation merely supply
+the variety upon which the filter of selection operates.<br /><br />It
+is in selection that the explanatory power of evolution resides.
+Selection is the non-random part of evolution, where the signal (this
+trait works) is separated from the noise (that trait doesn't work). It
+is because selection is consistent and non-random that we see the
+re-appearance of traits at very different times and places in the
 history of life. Tyrannosaurus Rex and my cat both have sharp claws. Are
  cats direct ancestors of T. Rex, and did those sharp-claw genes somehow
- survive tens of millions of years unmodified? No, but they are both 
-hunting predators faced with problems that sharp claws solve. Likewise, 
-complex eyes with focusing lenses have independently evolved dozens of 
-times, because clear vision is useful.<br /><br />Randomness in the 
-physical world is of two types, fundamental randomness and consequent 
-randomness. Fundamental randomness is the stuff of quantum mechanics. 
+ survive tens of millions of years unmodified? No, but they are both
+hunting predators faced with problems that sharp claws solve. Likewise,
+complex eyes with focusing lenses have independently evolved dozens of
+times, because clear vision is useful.<br /><br />Randomness in the
+physical world is of two types, fundamental randomness and consequent
+randomness. Fundamental randomness is the stuff of quantum mechanics.
 When particles appear to act randomly, are there <a href="http://en.wikipedia.org/wiki/Hidden_variable_theory">hidden variables</a> which,
- if we could see them, we'd be able to see through the apparent 
-randomness to an underlying determinism? If there aren't, then the 
-universe includes a component of fundamental randomness -- some things 
-are just random and there's nothing you can do about it. My 
-understanding is that it's still an open question among physicists 
+ if we could see them, we'd be able to see through the apparent
+randomness to an underlying determinism? If there aren't, then the
+universe includes a component of fundamental randomness -- some things
+are just random and there's nothing you can do about it. My
+understanding is that it's still an open question among physicists
 whether fundamental randomness exists in the universe, but the weight of
  opinion favors it, as experimentation has ruled out <a href="http://en.wikipedia.org/wiki/Local_hidden_variable_theory">local hidden variables</a> and only non-local hidden variables remain as a possibility.<br /><br />Consequent randomness is the appearance of randomness among things that are individually deterministic. A <a href="http://en.wikipedia.org/wiki/Cryptographic_hash_function">cryptographic hash algorithm</a>
- is a good example. If we feed this deterministic process with a 
-deterministic input sequence (e.g. 1, 2, 3, 4, 5...) what we get is an 
-output sequence of large integers that look entirely random. They pass 
-every statistical test of randomness with flying colors. Yet in some 
-important sense they aren't random at all, because we can start the 
-input sequence over and we get exactly the same output sequence 
-repeated. So we have apparent randomness arising from deterministic 
+ is a good example. If we feed this deterministic process with a
+deterministic input sequence (e.g. 1, 2, 3, 4, 5...) what we get is an
+output sequence of large integers that look entirely random. They pass
+every statistical test of randomness with flying colors. Yet in some
+important sense they aren't random at all, because we can start the
+input sequence over and we get exactly the same output sequence
+repeated. So we have apparent randomness arising from deterministic
 pieces in a <a href="http://en.wikipedia.org/wiki/Rube_Goldberg_machine">complicated Rube Goldberg fashion</a>.<br /><br />Consequent
- randomness can easily arise where there is a mixing of data with 
-different explanations or from different domains. Peoples' cholesterol 
-levels and their telephone numbers are unrelated, so if telephone 
+ randomness can easily arise where there is a mixing of data with
+different explanations or from different domains. Peoples' cholesterol
+levels and their telephone numbers are unrelated, so if telephone
 numbers are put in order of the person's cholesterol level, the sequence
- appears random.<br /><br />Often people object to evolution on the 
-grounds that it requires fundamental randomness, and these same people 
-often find the notion of fundamental randomness personally abhorrent, 
-and so they accept this situation as a disproof of the theory of 
-evolution. In fact, evolution works just fine when variation is driven 
-by consequent randomness. All genetic algorithms running on computers 
-work this way.<br /><br />In his talk above, Dawkins discusses a much 
-better potential disproof of evolution, for which he thinks the 
-creationists ought to be scrambling to find evidence. If we found 
-fossils in the wrong geological strata, for instance a rabbit fossil 
+ appears random.<br /><br />Often people object to evolution on the
+grounds that it requires fundamental randomness, and these same people
+often find the notion of fundamental randomness personally abhorrent,
+and so they accept this situation as a disproof of the theory of
+evolution. In fact, evolution works just fine when variation is driven
+by consequent randomness. All genetic algorithms running on computers
+work this way.<br /><br />In his talk above, Dawkins discusses a much
+better potential disproof of evolution, for which he thinks the
+creationists ought to be scrambling to find evidence. If we found
+fossils in the wrong geological strata, for instance a rabbit fossil
 among dinosaur fossils or trilobite fossils, then the case for evolution
- would be significantly weakened. Such fossils, which Dawkins calls 
-"anachronistic", have never been found among the many hundreds of 
-thousands of fossils recorded in natural history museums and 
-universities around the world. While we may find gaps in the fossil 
+ would be significantly weakened. Such fossils, which Dawkins calls
+"anachronistic", have never been found among the many hundreds of
+thousands of fossils recorded in natural history museums and
+universities around the world. While we may find gaps in the fossil
 record, we never find such temporal discrepancies.<br /><br />So why do I
- personally believe in evolution? I have two answers to that. The first 
-is that the entire process can be done on a computer. It's a standard 
-thing, people have been doing it for years, it reliably solves hard 
-problems, it's a classic technique in computer science. For me to 
-disbelieve in the efficacy of genetic algorithms would be akin to an 
-auto mechanic whose personal convictions prevent him believing in the 
-inflation of tires, while his colleagues inflate tires on a daily or 
-weekly basis in the shop around him.<br /><br />Second, the fundamental 
-idea of evolution is so simple. It has so few parts. There are only a 
+ personally believe in evolution? I have two answers to that. The first
+is that the entire process can be done on a computer. It's a standard
+thing, people have been doing it for years, it reliably solves hard
+problems, it's a classic technique in computer science. For me to
+disbelieve in the efficacy of genetic algorithms would be akin to an
+auto mechanic whose personal convictions prevent him believing in the
+inflation of tires, while his colleagues inflate tires on a daily or
+weekly basis in the shop around him.<br /><br />Second, the fundamental
+idea of evolution is so simple. It has so few parts. There are only a
 very small number of places it could possibly go wrong. If it went wrong
- in one of those places, no malicious cabal or conspiracy of 
-evolutionary biologists could cover up its failure for long. The logic 
+ in one of those places, no malicious cabal or conspiracy of
+evolutionary biologists could cover up its failure for long. The logic
 of evolution is simply too simple and too compelling to be incorrect.<br /><br />Objectors
- to evolution are sometimes motivated by the fear that it rules out the 
-possibility of an afterlife. Having lost loved ones and myself being 
-mortal, I have some appreciation for this concern. Personally I cannot 
+ to evolution are sometimes motivated by the fear that it rules out the
+possibility of an afterlife. Having lost loved ones and myself being
+mortal, I have some appreciation for this concern. Personally I cannot
 rule out the possibility of a universe of <a href="http://en.wikipedia.org/wiki/Dualism_%28philosophy_of_mind%29">Cartesian dualism</a>, and in fact I very much hope it's the case. As far as I am aware the strongest arguments against dualism are <a href="http://en.wikipedia.org/wiki/Occam%27s_razor">Occam's razor</a>
- and Dennett's objection that in a dualist universe, a philosopher like 
-himself would have no hope of understanding or explaining anything 
-because everything would be arbitrary. I also appreciate Dennett's 
-position, but it seems to me to lack imagination -- perhaps there is a 
+ and Dennett's objection that in a dualist universe, a philosopher like
+himself would have no hope of understanding or explaining anything
+because everything would be arbitrary. I also appreciate Dennett's
+position, but it seems to me to lack imagination -- perhaps there is a
 dualism that is lawful, understandable, and explainable, and which could
  ultimately become part of science, but which also allows for some piece
  of a person's mind or personality that outlasts the physical body. Then
- it might be possible that such minds and physical bodies might undergo 
+ it might be possible that such minds and physical bodies might undergo
 parallel processes of evolution as organisms increase in complexity over
  billions of years.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-6508527702107581767.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-13"><h3><a href="http://willware.blogspot.com/2010/07/android-app-share-your-location.html">Android app: share your location</a><div class="lastUpdated">07/29/2010 11:33 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">In
  December I wrote a very lame Android app. It had a couple of buttons, a
- date picker, and a green background. The buttons incremented and 
+ date picker, and a green background. The buttons incremented and
 decremented a counter. Clay Shirky's<a href="http://www.youtube.com/watch?v=qu7ZpWecIS8"> talk on cognitive surplus</a> referred to <a href="http://icanhascheezburger.com/">LOLcats</a>
- as the minimal creative act, the feeblest teeny quantum of effort one 
-can make in a creative direction. He only said that because he wasn't 
+ as the minimal creative act, the feeblest teeny quantum of effort one
+can make in a creative direction. He only said that because he wasn't
 familiar with my first Android app.<br /><br />My second app, written over the last few days, is way cooler. So much so that I'm willing to post <a href="http://github.com/wware/stuff/tree/master/android_apps/LocationSender/">the source code</a>, risking public humiliation. Good thing nobody ever reads this blog.<br /><br />This
- app actually serves a purpose. The Motorola Droid phone can find your 
-location using its GPS receiver, but there is no convenient way to then 
-share that location information with a friend (via email, SMS, Twitter, 
-or what have you). The app determines your location, converts it to a 
-Google Maps URL, and then you copy/paste it into an email, a SMS 
+ app actually serves a purpose. The Motorola Droid phone can find your
+location using its GPS receiver, but there is no convenient way to then
+share that location information with a friend (via email, SMS, Twitter,
+or what have you). The app determines your location, converts it to a
+Google Maps URL, and then you copy/paste it into an email, a SMS
 message, or a tweet.<br /><br /><div class="separator"><a href="http://3.bp.blogspot.com/_D8UbavaesGg/TFJD1Bf6q-I/AAAAAAAAApU/Bf1X9teHFZ8/s1600/location.png"><img border="0" src="wills-blog_files/location.png" /></a></div>When
  I tweet a location from my Droid phone it looks like this. I don't know
  if that location bit appearing under the tweet (which allowed me to pop
- up the map) came from the location I tweeted, or whether it was some 
+ up the map) came from the location I tweeted, or whether it was some
 kind of metadata that the phone's Twitter client somehow attached to the
  tweet separately.<br /><br />If you have some strange urge to try this on your own Android phone, you can download <a href="http://willware.net/Location%20Sender.apk">the unsigned APK file</a>, load it onto your phone's SD card, and install it with AppInstaller, available in the Android app market.<br /><br />The interesting things I ran into with this app are mostly in the <a href="http://github.com/wware/stuff/blob/master/android_apps/LocationSender/src/net/willware/locationsender/LocationSender.java">single Java source file</a>.
- I learned that you need to make sure that your onPause and onResume 
+ I learned that you need to make sure that your onPause and onResume
 methods call the parent. I think (not sure) it's a bad idea to call <a href="http://developer.android.com/reference/android/location/LocationManager.html#removeUpdates%28android.location.LocationListener%29">removeUpdates()</a> on a <a href="http://developer.android.com/reference/android/location/LocationListener.html">LocationListener</a> more than once.<br /><br />Still
- tinkering and figuring my way around Android's JSR-179 implementation. 
-Interesting cool stuff. I look forward to writing an Android client for 
+ tinkering and figuring my way around Android's JSR-179 implementation.
+Interesting cool stuff. I look forward to writing an Android client for
 some sort of web-accessible database thing that I'd probably throw up on
- App Engine at some point, when I can come up with a worthwhile 
+ App Engine at some point, when I can come up with a worthwhile
 application.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-6830444305509399972.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-14"><h3><a href="http://willware.blogspot.com/2010/06/website-design-lessons-learned-part-1.html">Website design, lessons learned, part 1</a><div class="lastUpdated">07/05/2010 11:34 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I recently got a fortune cookie that said something along these lines:<br /><blockquote>Skillful actions come from experience. Experience comes from unskillful actions.</blockquote>Maybe
- I can share some experience and save somebody a little grief. I 
-anticipate I'll post more things along these lines so I'm calling this 
-"part 1".<br /><br />I've spent some months building a Django website. 
+ I can share some experience and save somebody a little grief. I
+anticipate I'll post more things along these lines so I'm calling this
+"part 1".<br /><br />I've spent some months building a Django website.
 The website has been growing more complex and the requirement has been a
  moving target, so I have been developing practices accordingly.<br /><br />The
- first thing is automated testing. We all know it's good, but we don't 
+ first thing is automated testing. We all know it's good, but we don't
 always remember just how good. Plan your test strategy early.<br /><br />Django's templating system works well with nested Python dictionaries, so a data structure like<br /><div>  {"foo":</div><div>     {"bar":</div><div>         {"baz": "some content here"},</div><div>       ... }</div><div>   ... }</div>can be included in an HTML page with a notation like this.<br /><div>  Let's put {{ foo.bar.baz }} in our web page.</div>Python
- dictionaries are essentially the same as JSON data structures. So all 
-my view functions produce nested Python dictionaries, which can either 
-be plugged into HTML templates, or returned as JSON if "json=1" is 
-present in the HTTP request parameters. In the short term, the JSON 
-output makes it very easy to write automated tests that don't have to 
+ dictionaries are essentially the same as JSON data structures. So all
+my view functions produce nested Python dictionaries, which can either
+be plugged into HTML templates, or returned as JSON if "json=1" is
+present in the HTTP request parameters. In the short term, the JSON
+output makes it very easy to write automated tests that don't have to
 scrape HTML to find the content. In the longer term, I'll want JSON when
- I move to AJAX some day.<br /><br />The second topic is URL design. 
-I've discovered a new way to write spaghetti code -- I've produced a 
-profusion of URLs as I've grown the functionality rapidly. Each URL 
-("/foo/", "/bar/", "/profile/", etc) has an entry in urls.py and a 
-function in views.py. If you're careless about planning, these tend to 
-sprawl.<br /><br />I think the right thing is to draw something like a 
-state machine diagram for your website. The nodes are the URLs, each 
-mapping to a HTML page. The edges are the actions users take to go from 
-page to page, clicking buttons or controls or submitting HTML forms. 
-Somewhere in there you need notations for the stuff happening in the 
-back end, things being fetched from the DB or stored, various 
-computations being done, various complex data structures being 
-constructed. My thoughts on how to construct a proper state diagram are 
+ I move to AJAX some day.<br /><br />The second topic is URL design.
+I've discovered a new way to write spaghetti code -- I've produced a
+profusion of URLs as I've grown the functionality rapidly. Each URL
+("/foo/", "/bar/", "/profile/", etc) has an entry in urls.py and a
+function in views.py. If you're careless about planning, these tend to
+sprawl.<br /><br />I think the right thing is to draw something like a
+state machine diagram for your website. The nodes are the URLs, each
+mapping to a HTML page. The edges are the actions users take to go from
+page to page, clicking buttons or controls or submitting HTML forms.
+Somewhere in there you need notations for the stuff happening in the
+back end, things being fetched from the DB or stored, various
+computations being done, various complex data structures being
+constructed. My thoughts on how to construct a proper state diagram are
 not yet complete.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-3889437049532031871.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-15"><h3><a href="http://willware.blogspot.com/2010/05/saint-saens-symphony-no-3-in-c-minor.html">Saint-Saëns' Symphony No. 3 in C minor</a><div class="lastUpdated">05/13/2010 10:14 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Sections <a href="http://www.youtube.com/watch?v=4bV11c91D4k">1</a>, <a href="http://www.youtube.com/watch?v=_-KEVlAbyk8">2</a>, <a href="http://www.youtube.com/watch?v=ic8-5XvpHhc">3</a>, <a href="http://www.youtube.com/watch?v=TCKiZRWyv20">4</a> on Youtube, <a href="http://en.wikipedia.org/wiki/Symphony_No._3_%28Saint-Sa%C3%ABns%29">Wikipedia article</a> <br /><br />The <b>Symphony No. 3 in <a title="C minor" href="http://en.wikipedia.org/wiki/C_minor">C minor</a></b>, <a title="Opus number" href="http://en.wikipedia.org/wiki/Opus_number">Op.</a> 78, was completed by <a title="Camille Saint-Saëns" href="http://en.wikipedia.org/wiki/Camille_Saint-Sa%C3%ABns">Camille Saint-Saëns</a> in 1886 at what was probably the artistic zenith of his career. It is also popularly known as the "<i>Organ Symphony</i>", even though it is not a true <a title="Symphony for organ" href="http://en.wikipedia.org/wiki/Symphony_for_organ" class="mw-redirect">symphony for organ</a>, but simply an orchestral symphony where two sections out of four use the <a title="Pipe organ" href="http://en.wikipedia.org/wiki/Pipe_organ">pipe organ</a>. The French title of the work is more accurate: <i>Symphonie No. 3 "avec orgue"</i> (with organ).<br /><br />Of composing the work Saint-Saëns said that he had <i>"given everything to it I was able to give."</i>
- The composer seemed to know it would be his last attempt at the 
-symphonic form, and he wrote the work almost as a type of "history" of 
-his own career: virtuoso piano passages, brilliant orchestral writing 
-characteristic of the Romantic period, and the sound of a 
-cathedral-sized pipe organ. The work was dedicated to Saint-Saëns's 
+ The composer seemed to know it would be his last attempt at the
+symphonic form, and he wrote the work almost as a type of "history" of
+his own career: virtuoso piano passages, brilliant orchestral writing
+characteristic of the Romantic period, and the sound of a
+cathedral-sized pipe organ. The work was dedicated to Saint-Saëns's
 friend <a title="Franz Liszt" href="http://en.wikipedia.org/wiki/Franz_Liszt">Franz Liszt</a>, who died that year, on July 31, 1886.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-1986864281662130632.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-16"><h3><a href="http://willware.blogspot.com/2010/05/enjoyed-steampunk-festival-later-got.html">Enjoyed a Steampunk Festival, later got an idea of my own</a><div class="lastUpdated">06/17/2010 11:30 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">On Saturday I went to the <a href="http://www.crmi.org/steampunk2010.pdf">New England Steampunk Festival</a>
- in Waltham, Massachusetts. It was delightful. A lot of people in 
-Victorian dress with complicated goggles, and elaborate gadgets hanging 
+ in Waltham, Massachusetts. It was delightful. A lot of people in
+Victorian dress with complicated goggles, and elaborate gadgets hanging
 off their belts or strapped to their backs. I took some pictures and did
  some twittering while I was there.<br /><br />Steampunk has its <a href="http://theclockworkcentury.com/?p=165">apologists</a>,
- but I'm not sure it needs them. I heard a few complaints that some 
-gadgets were simply props and did nothing, and some gadgets were built 
-with obviously modern pieces. To the first I'd say that steampunk is a 
-style, not a technology (the enthusiasts are very clear on this, and 
-unashamedly use the word "prop" for their toys) and to the second, I'd 
-say that you can't expect them all to be equally skilled and ambitious, 
-and if they're having fun and not hurting anyone, is it really so 
+ but I'm not sure it needs them. I heard a few complaints that some
+gadgets were simply props and did nothing, and some gadgets were built
+with obviously modern pieces. To the first I'd say that steampunk is a
+style, not a technology (the enthusiasts are very clear on this, and
+unashamedly use the word "prop" for their toys) and to the second, I'd
+say that you can't expect them all to be equally skilled and ambitious,
+and if they're having fun and not hurting anyone, is it really so
 terrible that you can see the plastic Coke bottle cap on their ray-gun?<br /><br />I'm
  surprised that there aren't more steampunk graphic novels. That strikes
- me as a natural fit. I also wish they weren't quite so obsessed with 
-"airships", the way Fifties sci-fi was obsessed with flying saucers and 
+ me as a natural fit. I also wish they weren't quite so obsessed with
+"airships", the way Fifties sci-fi was obsessed with flying saucers and
 robots.<br /><br /><i>Attending Steampunk Festival, Charles River Museum of Industry and Innovation, Waltham MA</i><br /><br /><i>Steam engines http://twitgoo.com/u4fvs</i><br /><br /><img width="400px" src="wills-blog_files/ejy0wn.jpg" /><br /><br /><i>More steampunk stuff http://twitgoo.com/u4g12</i><br /><br /><img width="400px" src="wills-blog_files/16igmq8.jpg" /><br /><br /><i>The guy calls it a "spirit harvester" http://twitgoo.com/u4g74</i><br /><br /><img width="400px" src="wills-blog_files/2usweg1.jpg" /><br /><br /><i>Best costume imho http://twitgoo.com/u4gb6</i><br /><br />I later found this woman's <a href="http://www.blogger.com/post-edit.g?blogID=9667563&amp;postID=4320732620851109477">blog</a>, mostly a compendium of sci-fi and fantasy events happening around New England. Useful and interesting.<br /><br /><img width="400px" src="wills-blog_files/4710344429_ae141a3bb0_b_d.jpg" /><br /><br /><i>Won a piece of optometry equipment in the raffle at the New England Steampunk Festival in Waltham MA http://twitgoo.com/u4yn5</i><br /><br /><img width="400px" src="wills-blog_files/qs8w2h.jpg" /><br /><br />The
  next day I was thinking about pipe organs, and about all the cool stuff
- I saw on Saturday, and it occurred to me that it would be feasible 
-(even for me) to build a small USB-controlled pipe organ rank. My one 
-area of uncertainty is the solenoid valves, it seems difficult to find 
+ I saw on Saturday, and it occurred to me that it would be feasible
+(even for me) to build a small USB-controlled pipe organ rank. My one
+area of uncertainty is the solenoid valves, it seems difficult to find
 them at a price that's affordable if I want to put in fifty-or-so pipes.<br /><br /><img width="400px" src="wills-blog_files/4710344439_4bb2c9061e_b_d.jpg" /><br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-4320732620851109477.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-17"><h3><a href="http://willware.blogspot.com/2010/04/autosci-talk-at-bar-camp-boston.html">Autosci talk at Bar Camp Boston</a><div class="lastUpdated">05/13/2010 10:15 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Yesterday I had fun giving a talk on the <a href="http://willware.blogspot.com/search/label/automation%20of%20science">automation of science</a> at <a href="http://www.barcampboston.org/">Bar Camp Boston</a>.
- I was very fortunate to (A) have very little to say myself, so that I 
+ I was very fortunate to (A) have very little to say myself, so that I
 quickly got out of the way for others to discuss, and (B) have some very
- smart people in the room who got the idea immediately, some of them 
+ smart people in the room who got the idea immediately, some of them
 able to give the scientist's-eye view of this idea.<br /><br />Discussion
- centered around a few topics. One was how comprehensive a role would 
-computers play in the entire scientific process. There seemed to be 
-consensus that computers could easily identify statistical patterns in 
-data, could perform symbolic regression in cases of limited complexity 
-and not too many variables, but that in the creation of scientific 
-theories and hypotheses, there are necessary intuitive leaps that a 
-machine can't make. Personally I believe that's true but I imagine that 
-computers might demonstrate an ability to make leaps we can't make as 
+ centered around a few topics. One was how comprehensive a role would
+computers play in the entire scientific process. There seemed to be
+consensus that computers could easily identify statistical patterns in
+data, could perform symbolic regression in cases of limited complexity
+and not too many variables, but that in the creation of scientific
+theories and hypotheses, there are necessary intuitive leaps that a
+machine can't make. Personally I believe that's true but I imagine that
+computers might demonstrate an ability to make leaps we can't make as
 humans, and I have no idea what those leaps would look like because they
- would be the product of an alien intelligence. If no such leaps occur, 
-at least the collection of tools available to human scientists will 
+ would be the product of an alien intelligence. If no such leaps occur,
+at least the collection of tools available to human scientists will
 hopefully have grown in a useful direction.<br /><br />Another topic was
- the willingness of scientists to provide semantic markup for research 
+ the willingness of scientists to provide semantic markup for research
 literature. Only those expert in the field are qualified to provide such
- markup since it requires an in-depth understanding of the field as a 
+ markup since it requires an in-depth understanding of the field as a
 whole, and the paper's reasoning process in particular. It's also likely
- to be a lot of work, at least initially, and there is as yet no 
-incentive to offer scientists in exchange for such work. The notion of 
-posting papers on some kind of wiki and hoping that semantic markup 
-could be crowd-sourced was quickly dismissed. Crowd-sourcing doesn't 
-work when there is a very precise correct answer and the number of 
-people with that answer is very small.<br /><br />There has been a lot 
-of Twitter traffic around Bar Camp Boston, and I was able to find a few 
+ to be a lot of work, at least initially, and there is as yet no
+incentive to offer scientists in exchange for such work. The notion of
+posting papers on some kind of wiki and hoping that semantic markup
+could be crowd-sourced was quickly dismissed. Crowd-sourcing doesn't
+work when there is a very precise correct answer and the number of
+people with that answer is very small.<br /><br />There has been a lot
+of Twitter traffic around Bar Camp Boston, and I was able to find a few
 comments on my talk afterward. It looks like people enjoyed it and found
  it stimulating and engaging, so that's very cool. It turned out to be a
  good limbering-up for an immediately following talk on Wolfram Alpha. I
  found one particularly evocative tweet:<br /><blockquote>Has anyone approached a CS journal to have their content semantically marked up? #BCBos @BarCampBoston</blockquote>Thinking
- about that question, I realized that computer science is the right 
-branch of science to begin this stuff, and that the way to make it most 
-palatable to scientists is to publish papers that demonstrate how to do 
-semantic markup as easily as possible at time of publication (not as a 
+ about that question, I realized that computer science is the right
+branch of science to begin this stuff, and that the way to make it most
+palatable to scientists is to publish papers that demonstrate how to do
+semantic markup as easily as possible at time of publication (not as a
 later retrofit), how a scientist can benefit himself or herself by doing
- that work, and how to do interesting stuff with the markup of papers 
+ that work, and how to do interesting stuff with the markup of papers
 that have already been published. My quick guess is that some sort of <a href="http://en.wikipedia.org/wiki/Literate_programming">literate programming</a> approach (<a href="http://en.literateprograms.org/LiteratePrograms:Welcome">wiki</a>) is appropriate. So lots to think about.<br /><br />If you attended my talk, thanks very much for being there. I had a lot of fun, and hope you did too.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-5544181378403545293.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-18"><h3><a href="http://willware.blogspot.com/2010/04/formal-system-for-euclids-elements.html">A Formal System For Euclid's Elements</a><div class="lastUpdated">05/13/2010 10:15 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I came across this tidbit on the <a href="http://lambda-the-ultimate.org/node/3899">Lambda the Ultimate</a> website. It's a pointer to a juicy <a href="http://journals.cambridge.org/repo_A674ohNM">paper</a> by some Carnegie Mellon folks.<br /><blockquote><b>Abstract.</b>
- We present a formal system, E, which provides a faithful model of the 
-proofs in Euclid’s Elements, including the use of diagrammatic 
+ We present a formal system, E, which provides a faithful model of the
+proofs in Euclid’s Elements, including the use of diagrammatic
 reasoning.</blockquote>"Diagrammatic reasoning" is the interesting part.
- People have recognized the Elements as an exemplar of rigorous 
-reasoning for many centuries, but it took some time for the question to 
-emerge, "are the diagrams a necessary component of the logical 
+ People have recognized the Elements as an exemplar of rigorous
+reasoning for many centuries, but it took some time for the question to
+emerge, "are the diagrams a necessary component of the logical
 argument?" Liebniz believed they were not:<br /><blockquote>...it is not
  the figures which furnish the proof with geometers, though the style of
  the exposition may make you think so. The force of the demonstration is
- independent of the figure drawn, which is drawn only to facilitate the 
-knowledge of our meaning, and to fix the attention; it is the universal 
-propositions, i.e. the definitions, axioms, and theorems already 
-demonstrated, which make the reasoning, and which would sustain it 
-though the figure were not there.</blockquote>The authors note that 
-"there is no [historical] chain linking our contemporary diagrams with 
-the ones that Euclid actually drew; it is likely that, over the years, 
-diagrams were often reconstructed from the text". Their abstract seems 
-to say that the design of E recognizes some essential role for the 
-diagrams, so I assume one must exist. I haven't finished reading the 
+ independent of the figure drawn, which is drawn only to facilitate the
+knowledge of our meaning, and to fix the attention; it is the universal
+propositions, i.e. the definitions, axioms, and theorems already
+demonstrated, which make the reasoning, and which would sustain it
+though the figure were not there.</blockquote>The authors note that
+"there is no [historical] chain linking our contemporary diagrams with
+the ones that Euclid actually drew; it is likely that, over the years,
+diagrams were often reconstructed from the text". Their abstract seems
+to say that the design of E recognizes some essential role for the
+diagrams, so I assume one must exist. I haven't finished reading the
 paper yet. But the whole thing is very interesting.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-24908434859405047.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-19"><h3><a href="http://willware.blogspot.com/2010/04/learning-to-live-with-software.html">Learning to live with software specifications</a><div class="lastUpdated">05/13/2010 10:15 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">We
- software developers have a knee-jerk hatred of specifications. Rather 
-than write a document describing work we plan to do, we would rather 
-throw together a quick prototype and grow it into the final system. We 
+ software developers have a knee-jerk hatred of specifications. Rather
+than write a document describing work we plan to do, we would rather
+throw together a quick prototype and grow it into the final system. We
 sometimes feel like specs are for liberal-arts sissies and pointy-haired
- bosses. Our prehistoric brains want us to dismiss specifications as a 
+ bosses. Our prehistoric brains want us to dismiss specifications as a
 waste of time or even an intentional misdirection of energy.<br /><br />The
- truth of it is that specs build consensus between developers, testers, 
-tech writers, managers, and customers. They make sure everybody agrees 
-about what to build, how to test it, how to write a user manual for it, 
+ truth of it is that specs build consensus between developers, testers,
+tech writers, managers, and customers. They make sure everybody agrees
+about what to build, how to test it, how to write a user manual for it,
 and what the priorities are.<br /><br />The Agile guys talk about the <a href="http://www.ambysoft.com/essays/whyAgileWorksFeedback.html">exponentially increasing cost</a>
- of fixing a bug. The later in the process you find that bug, the more 
-troublesome and expensive it is to fix it. Fixing bugs in code is hard, 
+ of fixing a bug. The later in the process you find that bug, the more
+troublesome and expensive it is to fix it. Fixing bugs in code is hard,
 even prototype code, and fixing text is easy.<br /><br />Let's learn to trick our brains to work around our reluctance. The <a href="http://headfirstlabs.com/">Head-First books</a> always start with a <a href="http://www.headfirstlabs.com/readme.php">great little explanation</a>
- about how our prehistoric brain circuitry divvies up our attention, 
-classifying things as interesting or boring, and determines what sticks 
+ about how our prehistoric brain circuitry divvies up our attention,
+classifying things as interesting or boring, and determines what sticks
 in our memories. Sesame Street learned how to make stuff sticky by<br /><ul><li>repetition<br /></li><li>lighting up more brain circuitry<br /></li><li>infusing the topic with emotional content<br /></li><li>relating it to things that were already sticky</li></ul>One
- way to infuse your spec with emotional content would be to make it a 
-turf war. That hooks into all our brain circuitry for tribes and feuds. 
-But turf wars are traumatic and damaging to people and projects, so 
-let's not do this.<br /><br />To light up more brain circuitry, sketch 
-out pieces of the spec on a big whiteboard. Draw a lot of pictures and 
-diagrams. Use different colored markers. Get a few people together and 
-generate consensus (not a turf war), and ask them to help identify 
+ way to infuse your spec with emotional content would be to make it a
+turf war. That hooks into all our brain circuitry for tribes and feuds.
+But turf wars are traumatic and damaging to people and projects, so
+let's not do this.<br /><br />To light up more brain circuitry, sketch
+out pieces of the spec on a big whiteboard. Draw a lot of pictures and
+diagrams. Use different colored markers. Get a few people together and
+generate consensus (not a turf war), and ask them to help identify
 issues that you forgot. That meeting is called a <a href="http://philip.greenspun.com/software/design-review">design review</a>, like a code review for specs.<br /><br />Who should write and own the spec?  Part three of Joel Spolsky's great four-part (<a href="http://www.joelonsoftware.com/articles/fog0000000036.html">1</a>, <a href="http://www.joelonsoftware.com/articles/fog0000000035.html">2</a>, <a href="http://www.joelonsoftware.com/articles/fog0000000034.html">3</a>, <a href="http://www.joelonsoftware.com/articles/fog0000000033.html">4</a>)
- article answers this question, drawing on his experience at Microsoft. 
+ article answers this question, drawing on his experience at Microsoft.
 One person should write and own the spec, and the programmers should <i>not</i> report to that person. At Microsoft, that person is a program manager.<br /><br />It's important to differentiate between <br /><ul><li>a
- functional spec (what the user sees and experiences, what the customer 
-wants) dealing with features, screens, dialog boxes, UI and UX, work 
-flow </li><li>and a technical spec (the stuff under the hood) dealing 
-with system components, data structures and algorithms, communication 
-protocols, database schemas, tools, languages, test methodologies, and 
+ functional spec (what the user sees and experiences, what the customer
+wants) dealing with features, screens, dialog boxes, UI and UX, work
+flow </li><li>and a technical spec (the stuff under the hood) dealing
+with system components, data structures and algorithms, communication
+protocols, database schemas, tools, languages, test methodologies, and
 external dependencies which may have hard-to-predict schedule impacts</li></ul>Write the functional spec first, then the technical spec, then the code. If you love <a href="http://en.wikipedia.org/wiki/Test-driven_development">test-driven development</a> then write the specs, then the tests, then the code.<br /><br />Joel's article includes some great points on <a href="http://www.joelonsoftware.com/articles/fog0000000033.html">keeping the spec readable</a>. <br /><ul><li>Use humor. It helps people stay awake.<br /></li><li>Write simply, clearly, and briefly. Don't pontificate.<br /></li><li>Re-read your own spec, many times. Eat your own literary dogfood. If you can't stay awake, nobody else will either.<br /></li><li>Avoid working to a template unless politically necessary.</li></ul>How do you know when the spec is done? <br /><ul><li>The
  functional spec is done when the system can be designed, built, tested,
- and deployed without asking more questions about the user interface or 
-user experience.<br /></li><li>The technical spec is done when each 
-component of the system can be designed, built, tested, and deployed 
+ and deployed without asking more questions about the user interface or
+user experience.<br /></li><li>The technical spec is done when each
+component of the system can be designed, built, tested, and deployed
 without asking more questions about the rest of the system.</li></ul>This
  doesn't mean that these documents can never be updated or renegotiated.
  But the goal is to aim for as little subsequent change as possible.<br /><br />I
- am still sorely tempted by the idea of a quick prototype, an 
-"executable spec" that exposes bugs in design or logical consistency. 
-Maybe it's OK to co-develop this with the spec, or tinker with it on 
+ am still sorely tempted by the idea of a quick prototype, an
+"executable spec" that exposes bugs in design or logical consistency.
+Maybe it's OK to co-develop this with the spec, or tinker with it on
 one's own time, or consider it as a first phase of the coding. I'm still
- sorting this out. The basic rationale of a spec, that fixing bugs in 
-text is easier and cheaper than fixing bugs in code, still needs to be 
+ sorting this out. The basic rationale of a spec, that fixing bugs in
+text is easier and cheaper than fixing bugs in code, still needs to be
 observed.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-4714209650371859159.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-20"><h3><a href="http://willware.blogspot.com/2010/04/dont-covet-apples-new-ipad.html">Don't covet Apple's new iPad</a><div class="lastUpdated">05/13/2010 10:16 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Back in the days of its founding, <a href="http://en.wikipedia.org/wiki/Apple_Inc.">Apple</a> championed hobbyists and experimenters, even including <a href="http://en.wikipedia.org/wiki/Circuit_diagram">circuit board schematics</a> with the Apple ][+ to help people who wanted to tinker with the electronics. Not so now. <a href="http://en.wikipedia.org/wiki/Cory_Doctorow">Cory Doctorow</a> (brilliant guy, read his <a href="http://en.wikipedia.org/wiki/Down_and_Out_in_the_Magic_Kingdom">Disneyland sci-fi novel</a>) recently <a href="http://www.boingboing.net/2010/04/02/why-i-wont-buy-an-ipad-and-think-you-shouldnt-either.html">blogged</a> about how Apple has switched its loyalty to the <a href="http://www.cbojar.net/issues/copyright/">DRM-and-eternal-copyright crowd</a>, and like the <a href="http://en.wikipedia.org/wiki/IPhone">iPhone</a>, the <a href="http://en.wikipedia.org/wiki/IPad">iPad</a> reflects this. Consequently, the common temptation to covet an iPad is an evil one.<br /><br />I like my <a href="http://en.wikipedia.org/wiki/Android_%28operating_system%29">Android</a> phone (a <a href="http://en.wikipedia.org/wiki/Motorola_Droid">Motorola Droid</a> from <a href="http://en.wikipedia.org/wiki/Verizon_Wireless">Verizon</a>) except for the PHONE part, the one thing it does poorly. Every <a href="http://www.android.com/market/">other function</a>, I adore. Also I'd like a bigger keyboard and screen, maybe <a href="http://en.wikipedia.org/wiki/Amazon_Kindle">Kindle</a> size. So: Android tablet with bigger keyboard and screen, and no phone (therefore no messy dependency on <a href="http://en.wikipedia.org/wiki/List_of_mobile_network_operators">mobile carriers</a>).<br /><br />I wouldn't want to try to build a tablet from scratch, but <a href="http://www.alwaysinnovating.com/touchbook/">the Touch Book</a> from <a href="http://www.alwaysinnovating.com/home/index.htm">AlwaysInnovating</a> looks good. The tablet piece (sans keyboard, which makes it a netbook) is $300, loaded with their custom <a href="http://en.wikipedia.org/wiki/Linux">Linux OS</a>. The OS can be replaced with <a href="http://en.wikipedia.org/wiki/Ubuntu_%28operating_system%29">Ubuntu</a>, Android, <a href="http://en.wikipedia.org/wiki/Google_Chrome_OS">Chrome</a>, etc. An <a href="http://en.wikipedia.org/wiki/Secure_Digital">SD card</a> makes it easy to get apps and files onto and off the tablet. There's a <a href="http://www.alwaysinnovating.com/wiki/index.php/Main_Page">wiki</a> to help developers get up to speed.<br /><br />In another video, the inventor shows how to <a href="http://www.youtube.com/watch?v=PK6jVxd_o14">enable route tracking</a> on Google Maps by popping off the back cover and plugging a <a href="http://en.wikipedia.org/wiki/Global_Positioning_System">GPS</a> receiver into an internal <a href="http://en.wikipedia.org/wiki/Universal_Serial_Bus">USB</a> connector. I am currently between jobs, but this is going on my shopping list for later.<br /><br /><div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-689542686747991666.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-21"><h3><a href="http://willware.blogspot.com/2010/04/all-web-app-frameworks-lead-to-rome.html">All web app frameworks lead to Rome</a><div class="lastUpdated">04/10/2010 11:43 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Earlier I <a href="http://willware.blogspot.com/2009/08/i-blinked-and-web-apps-advanced-ten.html">blogged</a>
- about how it seemed like web app development had just zoomed past me. 
-Since then, I've buckled down and actually started to study this stuff. 
+ about how it seemed like web app development had just zoomed past me.
+Since then, I've buckled down and actually started to study this stuff.
 My earlier posting only talked about the <a href="http://en.wikipedia.org/wiki/Presentation_Layer">presentation layer</a>, <a href="http://en.wikipedia.org/wiki/HTML">HTML</a>, <a href="http://en.wikipedia.org/wiki/JavaScript">Javascript</a>, and <a href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">CSS</a>. I still have more to learn about those, but the really interesting stuff happens on the server.<br /><br />In December I went to a two-day session on <a href="http://en.wikipedia.org/wiki/Hibernate_%28Java%29">Hibernate</a> and <a href="http://en.wikipedia.org/wiki/Spring_Framework">Spring</a>,
- and it was full of mysterious jargon that made me sleepy: dependency 
-injection, inversion of control, aspects, object-relational mapping, 
-convention over configuration, blah blah blah. I kept at it, though, 
+ and it was full of mysterious jargon that made me sleepy: dependency
+injection, inversion of control, aspects, object-relational mapping,
+convention over configuration, blah blah blah. I kept at it, though,
 looking at <a href="http://en.wikipedia.org/wiki/Ruby_on_Rails">Rails</a> and later <a href="http://en.wikipedia.org/wiki/Django_%28web_framework%29">Django</a>. I'm now waist-deep in building a MySQL-backed Django site. What I learned is that (A) all these web app frameworks are <a href="http://en.wikipedia.org/wiki/Category:Web_application_frameworks">remarkably similar</a> to one another, and (B) those jargon terms are a lot simpler than they seem.<br /><br /><a href="http://en.wikipedia.org/wiki/Inversion_of_control">Inversion of control</a> means that the framework makes calls into your app code, rather than you calling the framework from a main() function. <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency injection</a> is a set of tricks to minimize dependencies between different Java source files. <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">Aspects</a> are Java tricks that you can do by wrapping your methods in other methods with the same signatures, a lot like <a href="http://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators">decorators</a> in Python. <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">Object-relational mapping</a>
- is creating classes to represent your DB tables: each instance 
+ is creating classes to represent your DB tables: each instance
 represents a row, each column is represented by a setter and getter. The
  <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC pattern</a>
- gives the lay of the land for all these frameworks, and all the 
+ gives the lay of the land for all these frameworks, and all the
 presentation stuff I talked about before is limited to the "view" piece.<br /><br />As
- I find my footing in the basics, I start to notice where the 
-interesting bits of more advanced topics pop up. If I put a Django app 
+ I find my footing in the basics, I start to notice where the
+interesting bits of more advanced topics pop up. If I put a Django app
 and a <a href="http://en.wikipedia.org/wiki/MediaWiki">Mediawiki</a> on the same server, can I do a <a href="http://en.wikipedia.org/wiki/Single_sign-on">single sign-on</a> for both of them? I think I can, by writing an <a href="http://wiki.case.edu/CaseWiki:External_Authentication">AuthPlugin extension</a> to make the Mediawiki accept Django's <a href="http://en.wikipedia.org/wiki/Authentication">authentication</a> <a href="http://en.wikipedia.org/wiki/HTTP_cookie">cookie</a>.<br /><br />Don't ask Django to serve a PHP page because it doesn't include a <a href="http://en.wikipedia.org/wiki/PHP">PHP</a> interpreter (what mod_php does for <a href="http://en.wikipedia.org/wiki/Apache_HTTP_Server">Apache</a>). Your Apache config file must deal with PHP files before <a href="http://docs.djangoproject.com/en/dev/howto/deployment/modwsgi/">routing to Django</a>.<br /><pre><span></span></pre><pre><span>    AliasMatch /([^/]*\.php) ..../phpdir/$1<br />    WSGIScriptAlias / ..../djangodir/django.wsgi</span></pre><pre><span></span></pre><br />One thing I haven't quite understood is why the Django community seems to love <a href="http://www.prototypejs.org/">Prototype</a> and hate <a href="http://jquery.com/">jQuery</a>.
- Is that just because Prototype is included in the standard Django 
+ Is that just because Prototype is included in the standard Django
 package? Is it purely historical, with jQuery the abandoned but superior
  <a href="http://en.wikipedia.org/wiki/Betamax">Betamax</a> to Prototype's <a href="http://en.wikipedia.org/wiki/VHS">VHS</a>?<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-8821837866109123157.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-22"><h3><a href="http://willware.blogspot.com/2010/03/new-fpga-board-to-play-with.html">A new FPGA board to play with</a><div class="lastUpdated">05/03/2010 11:57 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent"><div class="separator"><a href="http://2.bp.blogspot.com/_D8UbavaesGg/S5q8uZIYlRI/AAAAAAAAAmY/UQ6cIWY-h1k/s1600-h/fpgaboardsmall.jpg"><img border="0" width="200" height="147" src="wills-blog_files/fpgaboardsmall.jpg" /></a></div><a href="http://www.digilentinc.com/">Digilent</a>, a partner of <a href="http://www.xilinx.com/">Xilinx</a>, makes eval boards for Xilinx <a href="http://en.wikipedia.org/wiki/Field-programmable_gate_array">FPGA</a>s. I bought one and plan to <a href="http://willware.blogspot.com/2006/11/verilogfpga-tools-for-linux.html">hack some Verilog</a> with it. My <a href="http://willware.blogspot.com/2007/08/software-defined-radio-board-stalled.html">past experiments</a> involved a board of my own design with a FPGA and a <a href="http://en.wikipedia.org/wiki/Universal_Serial_Bus">USB</a>-enabled <a href="http://en.wikipedia.org/wiki/Microcontroller">microcontroller</a>. I successfully programmed the microcontroller over the USB cable to wiggle <a href="http://en.wikipedia.org/wiki/General_Purpose_Input/Output">GPIO</a> pins, which should have allowed me to program the FPGA via <a href="http://en.wikipedia.org/wiki/Joint_Test_Action_Group">JTAG</a>. But for some reason, JTAG programming of the FPGA didn't work. This time the JTAG programming pins will be wired directly to <a href="http://en.wikipedia.org/wiki/Parallel_port">parallel port pins </a>and there is a <a href="http://parapin.sourceforge.net/">Linux library</a> for programming them, so I should have better luck this time. Fewer unknowns and variables, more easily probed.<br /><br /><a href="http://static.sparkfun.com/images/products/08938-01.jpg"><img border="0" width="200" height="200" src="wills-blog_files/08938-01.jpg" /></a>Attention (hey, shiny!) deficit break: I stumbled across a <a href="http://www.sparkfun.com/commerce/product_info.php?products_id=8938">couple</a> <a href="http://www.usbee.com/sx.html">of</a> very affordable logic analyzers. Amazing stuff, just the thing for debugging errant JTAG signals.<br /><br /><a href="http://www.sourceware.org/ml/binutils/2002-02/msg00813.html">Some nice folks</a> have released a <a href="http://www.opencores.org/project,pci">PCI soft core</a> under the LGPL. I'm not ready to tackle that yet, but hope to get there before too long. Speaking of PCI, <a href="http://enterpoint.co.uk/moelbryn/rs1_2_718x336.jpg"><img border="0" width="200" height="93" src="wills-blog_files/rs1_2_718x336.jpg" /></a><br /><a href="http://enterpoint.co.uk/moelbryn/raggedstone1.html">here</a> is a nice FPGA board for a PCI bus slot from <a href="http://enterpoint.co.uk/">Enterpoint</a> in the UK. They <a href="http://enterpoint.co.uk/ipproducts/pci_core_32mhz_32bit.html">also</a>
  have a PCI soft core but the licensing is a bit pricey for a hobbyist. I
  wonder if the LGPLed PCI core would work on the Enterpoint board.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-3117228079229878514.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-23"><h3><a href="http://willware.blogspot.com/2010/03/ta-65-safety-claims.html">TA-65 safety claims</a><div class="lastUpdated">03/11/2010 09:57 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">Earlier I <a href="http://willware.blogspot.com/2010/02/telomeres-and-aging.html">posted</a> about TA-65, a telomerase activator, which some hope could reverse some of the effects of aging. <a href="http://knol.google.com/k/amiya-sarkar/-/2046yetiokw52/0#">Amiya Sarkar</a> is a doctor in Calcutta who writes a fascinating <a href="http://physiology-physics.blogspot.com/">blog</a>
- on physiology and physics. He and I have emailed back and forth for a 
-couple years now, starting with a very cool idea he had for an 
-inexpensive open-source electrocardiogram. (One of these days we really 
-need to get that project back on track.)<br /><br />Amiya expressed the 
-concern that any telomerase activator could be viewed as a potential 
-cancer risk. Cancerous cells use telomerase to support the unlimited 
-replication that characterizes cancer. The folks at Sierra Sciences 
-openly recognize this concern, and give reasons why they believe it's a 
+ on physiology and physics. He and I have emailed back and forth for a
+couple years now, starting with a very cool idea he had for an
+inexpensive open-source electrocardiogram. (One of these days we really
+need to get that project back on track.)<br /><br />Amiya expressed the
+concern that any telomerase activator could be viewed as a potential
+cancer risk. Cancerous cells use telomerase to support the unlimited
+replication that characterizes cancer. The folks at Sierra Sciences
+openly recognize this concern, and give reasons why they believe it's a
 red herring, on <a href="http://sierrasciences.com/science/index.html">this</a> webpage:<br /><blockquote>In
- most cases (85–95%), cancers accomplish this indefinite cell division 
-by turning on telomerase. For this reason, forcing telomerase to turn 
-off throughout the body has been suggested as a cure for cancer, and 
-there are several telomerase inhibitor drugs presently being tested in 
+ most cases (85–95%), cancers accomplish this indefinite cell division
+by turning on telomerase. For this reason, forcing telomerase to turn
+off throughout the body has been suggested as a cure for cancer, and
+there are several telomerase inhibitor drugs presently being tested in
 clinical trials.<br /><br />So, anti-aging scientists must be out of their minds to want to turn the telomerase gene on, right?<br /><br />No!
- Although telomerase is necessary for cancers to extend their lifespan, 
+ Although telomerase is necessary for cancers to extend their lifespan,
 telomerase does not cause cancer. This has been repeatedly demonstrated:
- at least seven assays for cancer have been performed on 
-telomerase-positive human cells: the soft agar assay, the contact 
-inhibition assay, the mouse xenograft assay, the karyotype assay, the 
-serum inhibition assay, the gene expression assay, and the checkpoint 
+ at least seven assays for cancer have been performed on
+telomerase-positive human cells: the soft agar assay, the contact
+inhibition assay, the mouse xenograft assay, the karyotype assay, the
+serum inhibition assay, the gene expression assay, and the checkpoint
 analysis assay. All reported negative results...<br /><br />Paradoxically,
- even though cells require telomerase to become dangerous cancers, 
-turning on telomerase may actually prevent cancer. This is not just 
-because the risk of chromosome rearrangements is reduced, but also 
-because telomerase can extend the lifespan of our immune cells, 
+ even though cells require telomerase to become dangerous cancers,
+turning on telomerase may actually prevent cancer. This is not just
+because the risk of chromosome rearrangements is reduced, but also
+because telomerase can extend the lifespan of our immune cells,
 improving their ability to seek out and destroy cancer cells.</blockquote>In support of this, they list several papers.<br /><ul><li>Jiang,
- X.-R. et al. Telomerase expression in human somatic cells does not 
-induce changes associated with a transformed phenotype. Nature Genet., 
-21, 111–114 (1999)<br /></li><li>Morales, C.P., et. al. Absence of 
-cancer-associated changes in human fibroblasts immortalized with 
+ X.-R. et al. Telomerase expression in human somatic cells does not
+induce changes associated with a transformed phenotype. Nature Genet.,
+21, 111–114 (1999)<br /></li><li>Morales, C.P., et. al. Absence of
+cancer-associated changes in human fibroblasts immortalized with
 telomerase. Nature Genet., 21, 115–118 (1999)<br /></li><li>Harley, C. B. Telomerase is not an oncogene. Oncogene 21(4): 494-502 (2002).</li></ul>From
  other writings on their website, and from their postings to Twitter and
- Facebook, it's clear that the Sierra Sciences folks are 100% confident 
-that telomerase activators pose zero cancer risk. They are in a much 
+ Facebook, it's clear that the Sierra Sciences folks are 100% confident
+that telomerase activators pose zero cancer risk. They are in a much
 better position to know about this than I. But if I started taking TA-65
- and they were somehow mistaken, they wouldn't be the ones at risk for 
-cancer.  I hope to find out about those seven assays and try to read 
-those three papers in my <i>abundant</i> spare time, and maybe discuss 
+ and they were somehow mistaken, they wouldn't be the ones at risk for
+cancer.  I hope to find out about those seven assays and try to read
+those three papers in my <i>abundant</i> spare time, and maybe discuss
 the matter with my doctor. (My present circumstances do not permit me to
- afford TA-65 even if I decide I want it.) Wouldn't it be cool if the 
+ afford TA-65 even if I decide I want it.) Wouldn't it be cool if the
 Sierra Sciences people turn out to be correct...<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-304245146291514088.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-24"><h3><a href="http://willware.blogspot.com/2010/02/learning-ruby-on-rails.html">Learning Ruby on Rails</a><div class="lastUpdated">04/10/2010 11:44 PM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">I'm learning <a href="http://en.wikipedia.org/wiki/Ruby_on_Rails">Ruby on Rails</a> to help a friend with his website and to be able to put it on my resume, and keeping <a href="http://en.wikipedia.org/wiki/User:WillWare/Learning_Ruby_on_Rails">notes</a> as I go.<br /><br />I've
- gotten the thing to do typical CGI script stuff, and now I'm figuring 
-out how database access works. One big surprise is that as Rails 
-advanced to version 2.0, one of the basic commands for setting up 
+ gotten the thing to do typical CGI script stuff, and now I'm figuring
+out how database access works. One big surprise is that as Rails
+advanced to version 2.0, one of the basic commands for setting up
 database access changed. Google "rails 2.0 scaffolding" for details.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-1060806472132018966.gif" /></div></div></div><div style="clear: both;"></div><div class="entry" id="entry-25"><h3><a href="http://willware.blogspot.com/2010/02/jena-node-versus-rdfnode.html">Jena: Node versus RDFNode</a><div class="lastUpdated">04/18/2010 08:39 AM</div></h3><div xml:base="http://willware.blogspot.com/feeds/posts/default" class="feedEntryContent">The <a href="http://jena.sourceforge.net/javadoc/index.html">Jena code</a> has two representations for nodes in an RDF graph. One is the class <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/graph/Node.html">Node</a>, which has several subclasses: Node_Variable, Node_Literal, Node_URI, etc. The other is the interface <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/RDFNode.html">RDFNode</a>, which has many subinterfaces: Literal, Resource, Property, etc.<br /><br />These
- two node representations have very different roles and very different 
-idiomatic usages, and this doesn't appear to be spelled out in the Jena 
+ two node representations have very different roles and very different
+idiomatic usages, and this doesn't appear to be spelled out in the Jena
 documentation anywhere. RDFNode is in the <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/package-summary.html">com.hp.hpl.jena.rdf.model</a> package, where Node is in the <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/graph/package-frame.html">com.hp.hpl.jena.graph</a> package, but I don't think the packaging by itself is a big enough hint.<br /><br />The <a href="http://jena.sourceforge.net/documentation.html">Jena tutorials</a> mostly talk only about the RDFNode variants, usually instantiating them by calling a "create" method on the <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/Model.html">Model</a>. The poorly documented distinction between RDFNode and Node extends to the distinction between Model and <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/graph/Graph.html">Graph</a>, and between <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/Statement.html">Statement</a> and <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/graph/Triple.html">Triple</a>.<br /><br />Since this information didn't appear in the documentation, we need to look at the <a href="http://tech.groups.yahoo.com/group/jena-dev/message/38299">Jena mailing list</a> to find it.<br /><blockquote>A
- key difference between Resource and Node is that Resources know which 
-model they are in, and Nodes are general. That's what makes 
-resource.getProperty() work. Now in a query that is not a concept that 
+ key difference between Resource and Node is that Resources know which
+model they are in, and Nodes are general. That's what makes
+resource.getProperty() work. Now in a query that is not a concept that
 has any meaning in the general case and patterns can span graphs.<br /><br />We
- have found that Model/Statement/RDFNode (the API) works as an 
-application interface but it's not the right thing for storage 
-abstractions and the Graph/Triple/Node (the SPI) works better where the 
-regularity is more valuable. That is, we have split the 
+ have found that Model/Statement/RDFNode (the API) works as an
+application interface but it's not the right thing for storage
+abstractions and the Graph/Triple/Node (the SPI) works better where the
+regularity is more valuable. That is, we have split the
 application-facing design from the sub-system-facing design.</blockquote>So an instance of RDFNode is associated with a specific Model, where an instance of Node is free-floating, and is used to build <a href="http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/reasoner/rulesys/Rule.html">Rule</a>s,
- which are also model-independent. The two representations can be 
-connected by URIs. If you have a Node and a Model, and you want the 
-corresponding RDFNode, do this (or use createProperty or createLiteral 
+ which are also model-independent. The two representations can be
+connected by URIs. If you have a Node and a Model, and you want the
+corresponding RDFNode, do this (or use createProperty or createLiteral
 as needed):<br /><blockquote><pre>Resource r = model.createResource(uri1);</pre></blockquote>and if you have an RDFNode, you can do this to get a Node:<br /><blockquote><pre>Node uriNode = Node.createURI(<br />        ((Resource)rdfNode).getURI());<br /></pre></blockquote>So
- I can understand that there are two very different appropriate 
-interfaces for writing Jena apps and for interfacing to a storage 
-system. What I don't get is why I would ever see the latter while 
-writing an application. If I define a Rule, I need to deal in Nodes. 
+ I can understand that there are two very different appropriate
+interfaces for writing Jena apps and for interfacing to a storage
+system. What I don't get is why I would ever see the latter while
+writing an application. If I define a Rule, I need to deal in Nodes.
 Presumably this is because I've been <a href="http://code.google.com/p/wware-autosci/source/browse/semweb/java/net/willware/semweb/JenaUtil.java#390">constructing Rules programmatically</a> rather than just reading them in from a file. Maybe I should stick with the latter.<div class="blogger-post-footer"><img width="1" height="1" alt="" src="wills-blog_files/9667563-5867098962881060310.gif" /></div></div></div><div style="clear: both;"></div></div>
     </div>
   </body>

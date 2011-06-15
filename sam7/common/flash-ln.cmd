@@ -15,7 +15,7 @@
 ENTRY(_init_reset)
 
 /* RAM address range for the AT91SAM7S256 minus the amount used by SAM-BA */
-MEMORY 
+MEMORY
 {
 	flash : ORIGIN = 0x00000000, LENGTH = 256K
 	ram   : ORIGIN = 0x00202000, LENGTH = 56K

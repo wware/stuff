@@ -38,13 +38,13 @@
  * CDC RS-232 Emulation Tutorial Instructions:
  ******************************************************************************
  * Refer to Application Note AN956 for explanation of the CDC class.
- * 
+ *
  * First take a look at Exercise_Example() and study how functions are called.
- * 
+ *
  * There are five exercises, each one has a solution in the CDC\user\solutions.
  * Scroll down and look for Exercise_01,_02,_03,_04, and _05.
  * Instructions on what to do is inside each function.
- * 
+ *
  *****************************************************************************/
 
 /** I N C L U D E S **********************************************************/
@@ -102,10 +102,10 @@ void UserInit(void)
  * Note:            None
  *****************************************************************************/
 void ProcessIO(void)
-{   
+{
 	char err = 1;
 	char bytesIn = 0;
-	static char LastPacketByte = 'A';   
+	static char LastPacketByte = 'A';
 	char bad = 0;
 	char i = 0;
 
@@ -115,7 +115,7 @@ void ProcessIO(void)
 
 	// Pull in some new data if there is new data to pull in
 	bytesIn = getsUSBUSART(input_buffer, 32);
-	
+
 	if (bytesIn > 0)
 	{
 		// Check to see that all bytes are present
@@ -150,7 +150,7 @@ void ProcessIO(void)
 			output_buffer[0] = err;
 			output_buffer[1] = 0x00;
 			putsUSBUSART(output_buffer);
-		}		
+		}
 	}
 
 }//end ProcessIO
@@ -158,7 +158,7 @@ void ProcessIO(void)
 //void Exercise_Example(void)
 //{
 //    static byte start_up_state = 0;
-//    
+//
 //    if(start_up_state == 0)
 //    {
 //        if(Switch2IsPressed())
@@ -188,7 +188,7 @@ void ProcessIO(void)
 //            start_up_state++;
 //        }
 //    }
-//    
+//
 //}//end Exercise_Example
 
 void Exercise_01(void)
@@ -208,11 +208,11 @@ void Exercise_01(void)
      * transfer or not. When it is ready, the value will equal CDC_TX_READY,
      * or use macro: mUSBUSARTIsTxTrfReady()
      */
-     
+
     /* Insert code here - 3 lines */
 
     /* End */
-    
+
 }//end Exercise_01
 
 rom char ex02_string[]={"Type in a string here.\r\n"};
@@ -239,7 +239,7 @@ void Exercise_02(void)
     /* Insert code here - 3 lines*/
 
     /* End */
-    
+
 }//end Exercise_02
 
 void Exercise_03(void)
@@ -258,7 +258,7 @@ void Exercise_03(void)
     /* Insert code here - 3 lines */
 
     /* End */
-    
+
 }//end Exercise_03
 
 void Exercise_04(void)
@@ -282,11 +282,11 @@ void Exercise_04(void)
      * transfer or not. When it is ready, the value will equal CDC_TX_READY,
      * or use macro: mUSBUSARTIsTxTrfReady()
      */
-    
+
     /* Insert code here - 7 lines */
 
     /* End */
-	
+
 }//end Exercise_04
 
 /******************************************************************************
@@ -310,7 +310,7 @@ void Exercise_04(void)
 void BlinkUSBStatus(void)
 {
     static word led_count=0;
-    
+
     if(led_count == 0)led_count = 10000U;
     led_count--;
 
@@ -349,7 +349,7 @@ void BlinkUSBStatus(void)
             if(led_count==0)
             {
 				mLED_1_Toggle();
-//                mLED_2 = !mLED_1;       // Alternate blink                
+//                mLED_2 = !mLED_1;       // Alternate blink
             }//end if
         }//end if(...)
     }//end if(UCONbits.SUSPND...)

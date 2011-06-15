@@ -214,4 +214,3 @@ class SitesFeed(gdata.data.GDFeed):
   """Describes a sites feed"""
   entry = [SiteEntry]
 
-

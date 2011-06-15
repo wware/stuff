@@ -150,7 +150,7 @@ class AtomPubClient(object):
 
   def modify_request(self, http_request):
     """Changes the HTTP request before sending it to the server.
-    
+
     Sets the User-Agent HTTP header and fills in the HTTP host portion
     of the URL if one was not included in the request (for this it uses
     the self.host member if one is set). This method is called in

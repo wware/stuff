@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -35,7 +35,7 @@ Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 <h2 class="chapter">11 (www server-utils cgi-prep)</h2>
 
 <p>Often the server cannot do everything by itself, and makes use of
-external programs invoked in a <dfn>common gateway interface</dfn> environment. 
+external programs invoked in a <dfn>common gateway interface</dfn> environment.
 These programs are also known as <dfn>CGI scripts</dfn>.
 
    <p>The <code>(www server-utils cgi-prep)</code> module provide a procedure to set up
@@ -73,28 +73,28 @@ otherwise noted.
 <li><code>http-accept-types</code> (list of strings)
 </ul>
 
-        <p>If <var>name</var> is not recognized, signal "unrecognized key" error. 
+        <p>If <var>name</var> is not recognized, signal "unrecognized key" error.
 Encapsulation includes <var>name</var><code>=</code><var>value</var> formatting.
 
         <p>The closure accepts these commands:
 
           <dl>
-<dt><code>name value</code><dd>Encapsulate an additional binding. 
+<dt><code>name value</code><dd>Encapsulate an additional binding.
 <var>name</var> and <var>value</var> are as above.
 
           <br><dt><code>#:clear!</code><dd>Drop the additional bindings.  Note that initial bindings can
 never be dropped (you can always create a new closure).
 
           <br><dt><code>#:environ-list</code><dd>Return a list of strings suitable for passing to <code>environ</code>
-or as the second argument to <code>execle</code>. 
+or as the second argument to <code>execle</code>.
 </dl>
 
-        <p>Any other command results in a "bad command" error. 
+        <p>Any other command results in a "bad command" error.
 </p></blockquote></div>
 
 <h3 class="heading">example</h3>
 
-<p>Following is a simple example of how to use <code>cgi-environment-manager</code>. 
+<p>Following is a simple example of how to use <code>cgi-environment-manager</code>.
 A more realistic example would include port and connection management,
 input validation, error handling, logging, etc.  First, we set up the
 manager with more-or-less constant bindings.
@@ -111,7 +111,7 @@ from the <a href="parse_002drequest.html#parse_002drequest">parse-request</a> mo
      (define UPATH (list-ref (read-first-line PORT) 1))
      (define QMARK (string-index UPATH #\?))
      (define CGI (substring UPATH 0 QMARK))
-     
+
      (M 'script-name CGI)
      (M 'query-string (substring UPATH (1+ QMARK)))
 </pre>
@@ -123,7 +123,7 @@ afterwards.
        (if (zero? pid)
            (execle CGI (M #:environ-list) (list CGI)) ; child
            (waitpid pid)))                            ; parent
-     
+
      (M #:clear!)
 </pre>
    <p class="noindent">Now we can re-use <code>M</code> for another connection.

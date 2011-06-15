@@ -56,7 +56,7 @@
  * USB Endpoint Definitions
  * USB Standard EP Address Format: DIR:X:X:X:EP3:EP2:EP1:EP0
  * This is used in the descriptors. See autofiles\usbdsc.c
- * 
+ *
  * NOTE: Do not use these values for checking against USTAT.
  * To check against USTAT, use values defined in "system\usb\usbdrv\usbdrv.h"
  *****************************************************************************/

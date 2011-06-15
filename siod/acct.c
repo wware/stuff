@@ -14,7 +14,7 @@ static void init_acct_version(void)
 
 /* decode various accounting structures */
 
-/* I could not find any include file for this structure, only documentation 
+/* I could not find any include file for this structure, only documentation
    for it in the "man acct" */
 
 struct tacct
@@ -178,6 +178,4 @@ void init_acct(void)
  init_subr_1("decode_tacct",ldecode_tacct);
 #endif
  init_acct_version();}
-
- 
 

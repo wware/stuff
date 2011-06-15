@@ -52,4 +52,3 @@ class NotebookListFeed(gdata.data.GDFeed):
   """Describes a notebook list feed."""
   entry = [NotebookListEntry]
 
-

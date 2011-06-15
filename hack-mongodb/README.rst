@@ -28,7 +28,7 @@ I am interested in the possibility of an isomorphism between RDF triples and a
 subset of Mongo documents, e.g.::
 
  http://example.com/alpha http://example.com/bravo http://example.com/charlie.
- 
+
  {
      "_id": ....,
      "subject": "http://example.com/alpha",

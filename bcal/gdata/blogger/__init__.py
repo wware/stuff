@@ -199,4 +199,3 @@ class CommentFeed(gdata.GDataFeed):
 def CommentFeedFromString(xml_string):
   return atom.CreateClassFromXMLString(CommentFeed, xml_string)
 
-

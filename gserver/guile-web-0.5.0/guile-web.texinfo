@@ -53,14 +53,14 @@ Texts.
 @end ifinfo
 
 @menu
-* Introduction::                
-* hash-dash reader extension::  
-* Session Management::          
-* Object Serialization::        
-* Misc DB Utils::               
-* XHTML Generation::            
-* Page Templates::              
-* GNU Free Documentation License::  
+* Introduction::
+* hash-dash reader extension::
+* Session Management::
+* Object Serialization::
+* Misc DB Utils::
+* XHTML Generation::
+* Page Templates::
+* GNU Free Documentation License::
 @end menu
 
 @node Introduction, hash-dash reader extension, Top, Top
@@ -89,12 +89,12 @@ return the text block as a string. For example:
 ;;; output page header
 (define (header title)
 (for-each display
-  (list 
+  (list
     #-
     <?xml version="1.0" encoding="utf-8"?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    
+
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
       <head>
         <title>-# title #-</title>
@@ -104,7 +104,7 @@ return the text block as a string. For example:
 (header "foobar")
 @end example
 
-That will create a xhtml 1.0 header. 
+That will create a xhtml 1.0 header.
 
 @node Session Management, Object Serialization, hash-dash reader extension, Top
 @chapter Session Management
@@ -155,8 +155,8 @@ session. You should only have to change this if you want to use more
 than one session cookie for a domain (e.g. you have multiple users
 using your domain for hosting). Of course, it is probably good to just
 set this to a more descriptive name than the default libcgi name
-anyway. 
-@emph{before} @code{session:start}. 
+anyway.
+@emph{before} @code{session:start}.
 
 @item @code{session:register-var name value}@*
 This registers @code{name} (which must be a symbol)
@@ -207,12 +207,12 @@ When you serialize an object you transform the object into a
 representation suitable for storing in a file (usually). The serialize
 module exports several functions for serializing and unserializing
 GOOPS objects. Note that every SMOB has a GOOPS class associated with
-it once GOOPS is loaded (?). 
+it once GOOPS is loaded (?).
 
 Note that this module is really meant for internal usage by the
 session mananger, but since you have to add your own serializers for
 user defined types, I figured I may as well may the entire API public
-(someone might find it useful). 
+(someone might find it useful).
 
 @itemize @bullet
 @item Generic @code{%serialize (item <type>) serial-table}@*
@@ -268,7 +268,7 @@ These are only useful if you are using SimpleSQL, available from
 be merged into it). The problem with simplesql is that it returns a
 list of vectors that is very difficult to use. This module defines a
 set of procedures that converts the result of a @code{simplesql-query}
-into a much nicer form. We will call this data type an @dfn{assoc}. 
+into a much nicer form. We will call this data type an @dfn{assoc}.
 
 @itemize @bullet
 
@@ -277,10 +277,10 @@ This converts the result of a @code{simplesql-query} into the form
 used by the module. This returns the new assoc.
 
 @item @code{db:numrows? assoc}@*
-This returns the number of rows in assoc. 
+This returns the number of rows in assoc.
 
 @item @code{db:fetch-row assoc row-num}@*
-This fetches the hash table at @code{row-num} in @code{assoc}. 
+This fetches the hash table at @code{row-num} in @code{assoc}.
 
 @item @code{db:get hash-table key}@*
 This returns the data associated with the key @code{key} in the hash
@@ -430,7 +430,7 @@ chooses (e.g. a simple parse-and-display script could @code{(for-each
 display (template:parse ...))}). This will call @code{template:error}
 when an error occurs.
 
-@item @code{template:error @var{fmt} . @var{args}}, Whenever an error 
+@item @code{template:error @var{fmt} . @var{args}}, Whenever an error
 occurs, @code{template:parse} calls this procedure with a format
 string (@var{fmt}) usable by @code{simple-format} along with the
 @var{args} to @code{simple-format}. Anything returned by this
@@ -458,9 +458,9 @@ An example script that parses a page:
 ;;; page.scm
 (use-modules (web template))
 
-(let 
+(let
   (
-   ;; open template 
+   ;; open template
    (my-file (open-input-file "page.tmpl"))
 
    ;; Create a command table
@@ -481,7 +481,7 @@ An example script that parses a page:
   ;; Parse page and write it to page.out
   (for-each (lambda (x) (display x page-out))
             (template:parse my-procs my-file))
-  
+
   (close-port page-out))
 
 @end example
@@ -493,7 +493,7 @@ The page used by the script:
 Tra la la!
 [[This will be inside of square brackets]
 2 + 2 = [add 2 2]. I think that [cool Clinton]! He has a Camaro and
-wrote Guile-Web so he deserves mad props. 
+wrote Guile-Web so he deserves mad props.
 
 Only he's not a hip-hop kid so he doesn't think that 2 + 2 = [add 2 3]
 or anything. Yeah. Also, this example really isn't that great.

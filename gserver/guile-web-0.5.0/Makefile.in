@@ -244,7 +244,7 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libgwebsession.la: $(libgwebsession_la_OBJECTS) $(libgwebsession_la_DEPENDENCIES) 
+libgwebsession.la: $(libgwebsession_la_OBJECTS) $(libgwebsession_la_DEPENDENCIES)
 	$(LINK) -rpath $(libdir) $(libgwebsession_la_LDFLAGS) $(libgwebsession_la_OBJECTS) $(libgwebsession_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -311,8 +311,8 @@ distclean-libtool:
 	TEXINPUTS="$(am__TEXINFO_TEX_DIR)$(PATH_SEPARATOR)$$TEXINPUTS" \
 	MAKEINFO='$(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I $(srcdir)' \
 	$(TEXI2PDF) `test -f '$<' || echo '$(srcdir)/'`$<
-guile-web.dvi: guile-web.texinfo 
-guile-web.pdf: guile-web.texinfo 
+guile-web.dvi: guile-web.texinfo
+guile-web.pdf: guile-web.texinfo
 TEXI2DVI = texi2dvi
 
 TEXI2PDF = $(TEXI2DVI) --pdf --batch

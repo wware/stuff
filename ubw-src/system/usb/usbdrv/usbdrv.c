@@ -92,7 +92,7 @@ void USBCheckBusStatus(void)
         if(UCONbits.USBEN == 1)                 // Is the module on?
             USBModuleDisable();                 // Is on, disable it
     }//end if(usb_bus_sense...)
-    
+
     /*
      * After enabling the USB module, it takes some time for the voltage
      * on the D+ or D- line to rise high enough to get out of the SE0 condition.
@@ -213,12 +213,12 @@ void USBSoftDetach(void)
  *                  ADDRESS_PENDING -> ADDRESSED -> CONFIGURED -> READY
  *****************************************************************************/
 void USBDriverService(void)
-{   
+{
     /*
      * Pointless to continue servicing if USB cable is not even attached.
      */
     if(usb_device_state == DETACHED_STATE) return;
-    
+
     /*
      * Task A: Service USB Activity Interrupt
      */
@@ -227,9 +227,9 @@ void USBDriverService(void)
 
     /*
      * Pointless to continue servicing if the device is in suspend mode.
-     */    
+     */
     if(UCONbits.SUSPND==1) return;
-            
+
     /*
      * Task B: Service USB Bus Reset Interrupt.
      * When bus reset is received during suspend, ACTVIF will be set first,
@@ -237,7 +237,7 @@ void USBDriverService(void)
      * This is why URSTIF is checked after ACTVIF.
      */
     if(UIRbits.URSTIF && UIEbits.URSTIE)    USBProtocolResetHandler();
-    
+
     /*
      * Task C: Service other USB interrupts
      */
@@ -263,7 +263,7 @@ void USBDriverService(void)
          * It ignores all other EP transactions.
          */
         USBCtrlEPService();
-        
+
         /*
          * Other EP can be serviced later by responsible device class firmware.
          * Each device driver knows when an OUT or IN transaction is ready by
@@ -276,7 +276,7 @@ void USBDriverService(void)
          */
         UIRbits.TRNIF = 0;
     }//end if(UIRbits.TRNIF && UIEbits.TRNIE)
-    
+
 }//end USBDriverService
 
 /******************************************************************************
@@ -290,7 +290,7 @@ void USBDriverService(void)
  *
  * Side Effects:    None
  *
- * Overview:        
+ * Overview:
  *
  * Note:            None
  *****************************************************************************/
@@ -317,7 +317,7 @@ void USBSuspend(void)
      *                          because ACTIVIE=0.
      *                          If this routine clears the only ACTIVIF,
      *                          then it can never get out of the suspend
-     *                          mode.             
+     *                          mode.
      */
     UIEbits.ACTVIE = 1;                     // Enable bus activity interrupt
     UIRbits.IDLEIF = 0;
@@ -327,7 +327,7 @@ void USBSuspend(void)
      * At this point the PIC can go into sleep,idle, or
      * switch to a slower clock, etc.
      */
-    
+
     /* Modifiable Section */
     PIR2bits.USBIF = 0;
     PIE2bits.USBIE = 1;                     // Set USB wakeup source
@@ -348,13 +348,13 @@ void USBSuspend(void)
  *
  * Side Effects:    None
  *
- * Overview:        
+ * Overview:
  *
  * Note:            None
  *****************************************************************************/
 void USBWakeFromSuspend(void)
 {
-    /* 
+    /*
      * If using clock switching, this is the place to restore the
      * original clock frequency.
      */
@@ -404,24 +404,24 @@ void USBWakeFromSuspend(void)
 void USBRemoteWakeup(void)
 {
     static word delay_count;
-    
+
     if(usb_stat.RemoteWakeup == 1)          // Check if RemoteWakeup function
     {                                       // has been enabled by the host.
         USBWakeFromSuspend();               // Unsuspend USB modue
         UCONbits.RESUME = 1;                // Start RESUME signaling
 
         /* Modifiable Section */
-        
+
         delay_count = 1800U;                // Set RESUME line for 1-13 ms
         do
         {
             delay_count--;
-        }while(delay_count);        
-        
+        }while(delay_count);
+
         /* End Modifiable Section */
-        
+
         UCONbits.RESUME = 0;
-    }//endif 
+    }//endif
 }//end USBRemoteWakeup
 
 /******************************************************************************
@@ -445,7 +445,7 @@ void USBRemoteWakeup(void)
 void USB_SOF_Handler(void)
 {
     /* Callback routine here */
-    
+
     UIRbits.SOFIF = 0;
 }//end USB_SOF_Handler
 
@@ -554,7 +554,7 @@ void USBProtocolResetHandler(void)
     UIR = 0;                        // Clears all USB interrupts
     UEIE = 0b10011111;              // Unmask all USB error interrupts
     UIE = 0b01111011;               // Enable all interrupts except ACTVIE
-    
+
     UADDR = 0x00;                   // Reset to default address
     mDisableEP1to15();              // Reset all non-EP0 UEPn registers
     UEP0 = EP_CTRL|HSHK_EN;         // Init EP0 as a Ctrl EP, see usbdrv.h
@@ -564,7 +564,7 @@ void USBProtocolResetHandler(void)
 
     UCONbits.PKTDIS = 0;            // Make sure packet processing is enabled
     USBPrepareForNextSetupTrf();    // Declared in usbctrltrf.c
-    
+
     usb_stat.RemoteWakeup = 0;      // Default status flag to disable
     usb_active_cfg = 0;             // Clear active configuration
     usb_device_state = DEFAULT_STATE;

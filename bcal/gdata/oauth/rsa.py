@@ -53,15 +53,15 @@ class OAuthSignatureMethod_RSA_SHA1(oauth.OAuthSignatureMethod):
 
     # Pull the private key from the certificate
     privatekey = keyfactory.parsePrivateKey(cert)
-    
+
     # Convert base_string to bytes
     #base_string_bytes = cryptomath.createByteArraySequence(base_string)
-    
+
     # Sign using the key
     signed = privatekey.hashAndSign(base_string)
-  
+
     return binascii.b2a_base64(signed)[:-1]
-  
+
   def check_signature(self, oauth_request, consumer, token, signature):
     decoded_sig = base64.b64decode(signature);
 

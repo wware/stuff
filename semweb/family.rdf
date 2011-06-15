@@ -18,30 +18,30 @@
     <owl:imports rdf:resource="http://www.w3.org/2000/01/rdf-schema"/>
     <owl:imports rdf:resource="http://www.w3.org/2002/07/owl"/>
   </owl:Ontology>
-  
+
   <!--
       Classes and properties:
       MoveTo (subclass of bio:Event)
-      
+
       foaf:Person
       gender -> literal ("male" or "female")
-      
+
       bio:Marriage
       ended -> bio:Event
       child -> foaf:Person
     -->
-  
+
   <!-- Classes -->
-  
+
   <rdfs:Class
      rdf:about="http://willware.net/family.rdf/MoveTo"
      rdfs:comment="An event involving a change of residence.">
     <rdfs:subClassOf rdf:resource="http://purl.org/vocab/bio/0.1/Event"/>
     <rdfs:isDefinedBy rdf:resource="http://willware.net/family.rdf"/>
   </rdfs:Class>
-  
+
   <!-- Properties -->
-  
+
   <rdf:Property
      rdf:about="http://willware.net/family.rdf/gender"
      rdfs:label="gender"
@@ -53,7 +53,7 @@
 	 What about people who get sex change operations, or are born with
 	 both sets of plumbing? -->
   </rdf:Property>
-  
+
   <rdf:Property
      rdf:about="http://willware.net/family.rdf/ended"
      rdfs:label="ended"
@@ -62,7 +62,7 @@
     <rdfs:domain rdf:resource="http://purl.org/vocab/bio/0.1/Marriage"/>
     <rdfs:range rdf:resource="http://purl.org/vocab/bio/0.1/Event"/>
   </rdf:Property>
-  
+
   <rdf:Property
      rdf:about="http://willware.net/family.rdf/child"
      rdfs:label="child"
@@ -71,5 +71,5 @@
     <rdfs:domain rdf:resource="http://purl.org/vocab/bio/0.1/Marriage"/>
     <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
   </rdf:Property>
-  
+
 </rdf:RDF>

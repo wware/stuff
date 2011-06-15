@@ -22,7 +22,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>element Struct Reference</h1><!-- doxytag: class="element" -->The representation of a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> in C code, in both the server and a C client.  
+<h1>element Struct Reference</h1><!-- doxytag: class="element" -->The representation of a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> in C code, in both the server and a C client.
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="tuple_8h-source.html">tuple.h</a>&gt;</code>
@@ -52,7 +52,7 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-The representation of a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> in C code, in both the server and a C client. 
+The representation of a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a> in C code, in both the server and a C client.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00137">137</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 <hr><h2>Field Documentation</h2>
 <a class="anchor" name="18f1a37a02978730df2716d13411da92"></a><!-- doxytag: member="element::tag" ref="18f1a37a02978730df2716d13411da92" args="" -->
@@ -68,7 +68,7 @@ The representation of a <a class="el" href="structtuple.html" title="An ordered 
 
 <p>
 Data type for this <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>. The values are `i' for integer, `d' for double, `?' for wildcard, and `s' for string. Because the Intel architecture is little-endian, the ASCII character occupies the first byte in memory (and the first one to be shipped over the network) and the other three bytes are zeroes. That sounds inefficient, but if I declare ``char tag'', the storage size for ``struct element'' is still 12 bytes. The knowledge that those three bytes are zeroes could, in future, be used to compress the network protocol.<p>
-Since I'm only concerned with Linux running on Intel hardware, it's safe to say this is a four-byte little-endian field. 
+Since I'm only concerned with Linux running on Intel hardware, it's safe to say this is a four-byte little-endian field.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00155">155</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="py__linuxtuples_8c-source.html#l00315">LinuxTuple_to_PyTuple()</a>, <a class="el" href="tuple_8c-source.html#l00292">make_tuple_internal()</a>, <a class="el" href="tuple_8c-source.html#l00134">print_element()</a>, <a class="el" href="tuple_8c-source.html#l00189">print_element_stderr()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00256">PyTuple_to_LinuxTuple()</a>, <a class="el" href="tuple_8c-source.html#l00626">recv_tuple()</a>, <a class="el" href="tuple_8c-source.html#l00501">send_tuple()</a>, <a class="el" href="tuple_8c-source.html#l01265">tuple_double_field()</a>, <a class="el" href="tuple_8c-source.html#l01244">tuple_int_field()</a>, <a class="el" href="tuple_8c-source.html#l01286">tuple_string_field()</a>, <a class="el" href="tuple_8c-source.html#l01309">tuple_tuple_field()</a>, and <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>.</p>
@@ -87,7 +87,7 @@ Since I'm only concerned with Linux running on Intel hardware, it's safe to say 
 <div class="memdoc">
 
 <p>
-Integer value for a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>. Four bytes on an Intel Linux box. 
+Integer value for a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>. Four bytes on an Intel Linux box.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00167">167</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="py__linuxtuples_8c-source.html#l00315">LinuxTuple_to_PyTuple()</a>, <a class="el" href="tuple__client_8c-source.html#l00057">main()</a>, <a class="el" href="tuple_8c-source.html#l00292">make_tuple_internal()</a>, <a class="el" href="tuple_8c-source.html#l00134">print_element()</a>, <a class="el" href="tuple_8c-source.html#l00189">print_element_stderr()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00256">PyTuple_to_LinuxTuple()</a>, <a class="el" href="tuple_8c-source.html#l01244">tuple_int_field()</a>, and <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>.</p>
@@ -106,7 +106,7 @@ Integer value for a <a class="el" href="structtuple.html" title="An ordered sequ
 <div class="memdoc">
 
 <p>
-Double-precision floating-point value for a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>. Eight bytes on an Intel Linux box. 
+Double-precision floating-point value for a <a class="el" href="structtuple.html" title="An ordered sequence of data values: integers, floats, strings. If this is a template...">tuple</a> <a class="el" href="structelement.html" title="The representation of a tuple element in C code, in both the server and a C client...">element</a>. Eight bytes on an Intel Linux box.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00172">172</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="py__linuxtuples_8c-source.html#l00315">LinuxTuple_to_PyTuple()</a>, <a class="el" href="tuple_8c-source.html#l00292">make_tuple_internal()</a>, <a class="el" href="tuple_8c-source.html#l00134">print_element()</a>, <a class="el" href="tuple_8c-source.html#l00189">print_element_stderr()</a>, <a class="el" href="py__linuxtuples_8c-source.html#l00256">PyTuple_to_LinuxTuple()</a>, <a class="el" href="tuple_8c-source.html#l01265">tuple_double_field()</a>, and <a class="el" href="tuple_8c-source.html#l00396">tuples_match()</a>.</p>
@@ -125,7 +125,7 @@ Double-precision floating-point value for a <a class="el" href="structtuple.html
 <div class="memdoc">
 
 <p>
-A pointer to the memory space for a string. 
+A pointer to the memory space for a string.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00184">184</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="py__linuxtuples_8c-source.html#l00315">LinuxTuple_to_PyTuple()</a>, and <a class="el" href="tuple_8c-source.html#l00501">send_tuple()</a>.</p>
@@ -144,7 +144,7 @@ A pointer to the memory space for a string.
 <div class="memdoc">
 
 <p>
-The length of a string. We do not depend on zero-termination bytes for strings, because we want to be able to use strings to move arbitrary binary data around. Strings can be large. 
+The length of a string. We do not depend on zero-termination bytes for strings, because we want to be able to use strings to move arbitrary binary data around. Strings can be large.
 <p>Definition at line <a class="el" href="tuple_8h-source.html#l00192">192</a> of file <a class="el" href="tuple_8h-source.html">tuple.h</a>.</p>
 
 <p>Referenced by <a class="el" href="py__linuxtuples_8c-source.html#l00315">LinuxTuple_to_PyTuple()</a>.</p>
@@ -156,7 +156,7 @@ The length of a string. We do not depend on zero-termination bytes for strings, 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct { ... } 
+          <td class="memname">struct { ... }
 		 <a class="el" href="structelement.html#da7388185bb465de085afe680dbe1b62">element::s</a>          </td>
         </tr>
       </table>
@@ -193,7 +193,7 @@ The length of a string. We do not depend on zero-termination bytes for strings, 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">union { ... } 
+          <td class="memname">union { ... }
 	 <a class="el" href="structelement.html#7b9a87cae905c10989c5f31d8465ceb4">element::data</a>          </td>
         </tr>
       </table>

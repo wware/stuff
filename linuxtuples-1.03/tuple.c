@@ -3,11 +3,11 @@
  * LinuxTuples - an open-source tuple system for Linux clusters
  * Copyright (c) 2003, Will Ware <wware@alum.mit.edu>
  * All rights reserved.
- * 
+ *
  *    Redistribution and use in source and binary forms, with or
  *    without modification, are permitted provided that the following
  *    conditions are met:
- * 
+ *
  *    + Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *
@@ -64,10 +64,10 @@
  *
  * Doxygen likes LaTeX-flavored math:
  * \f[
- * |I_2|=\left| \int_{0}^T \psi(t) 
- * \left\{ 
+ * |I_2|=\left| \int_{0}^T \psi(t)
+ * \left\{
  * u(a,t)-
- * \int_{\gamma(t)}^a 
+ * \int_{\gamma(t)}^a
  * \frac{d\theta}{k(\theta,t)}
  * \int_{a}^\theta
  * c(\xi)u_t(\xi,t)\,d\xi
@@ -124,7 +124,7 @@ get_server_portnumber(struct context *ctx)
 }
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -282,7 +282,7 @@ print_tuple_stderr(struct tuple *s)
 }
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -319,7 +319,7 @@ make_tuple_internal(char *fmt, va_list ap)
 		switch (*fmt++) {
 		case '?':
 			/*
-			 * nothing from the va_arg list 
+			 * nothing from the va_arg list
 			 */
 			break;
 		case 'i':
@@ -338,14 +338,14 @@ make_tuple_internal(char *fmt, va_list ap)
 			s = va_arg(ap, char *);
 			if (*fmt == '#') {
 				/*
-				 * string with length 
+				 * string with length
 				 */
 				len = va_arg(ap, int);
 				fmt++;
 			}
 			else {
 				/*
-				 * zero-terminated string 
+				 * zero-terminated string
 				 */
 				len = strlen(s);
 			}
@@ -442,7 +442,7 @@ tuples_match(struct tuple *s, struct tuple *t)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -461,7 +461,7 @@ random_int(void)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -523,7 +523,7 @@ send_tuple(struct context *ctx, struct tuple *t)
 		//fprintf(stderr,"Sending elt %c\n", e->tag);
 		if (e->tag == 's') {
 			/*
-			 * translate pointers into indexes 
+			 * translate pointers into indexes
 			 */
 			if (send_chunk(ctx, (char *) &e->tag, sizeof(int))) {
 				PERROR("send_chunk failed");
@@ -583,7 +583,7 @@ recv_chunk(struct context *ctx, char *buf, int size)
 	 * clients to stop running (Broken pipe) if the server stops,
 	 * or at least pass an error message up to whoever called
 	 * down here.
-	 * 
+	 *
 	 * I had intended to use MSG_NOSIGNAL as a mask argument to
 	 * recv() for this purpose, but it turns out that the signal
 	 * only kills that thread, not the whole server, and that's
@@ -634,7 +634,7 @@ recv_tuple(struct context *ctx)
 	}
 
 	/*
-	 * return code for non-blocking gets and reads 
+	 * return code for non-blocking gets and reads
 	 */
 	if (num_elts == -1) {
 		return (struct tuple *) -1;
@@ -692,7 +692,7 @@ recv_tuple(struct context *ctx)
 		}
 
 		/*
-		 * translate index values to pointers 
+		 * translate index values to pointers
 		 */
 		for (i = 0; i < num_elts; i++) {
 			if (s->elements[i].tag == 's') {
@@ -710,7 +710,7 @@ recv_tuple(struct context *ctx)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -740,7 +740,7 @@ open_client_socket(struct context *ctx)
 #endif
 
 	/*
-	 * convert server name to dotted quad 
+	 * convert server name to dotted quad
 	 */
 	struct hostent *he = gethostbyname(ctx->peername);
 	if (he == NULL) {
@@ -748,13 +748,13 @@ open_client_socket(struct context *ctx)
 		return 1;
 	}
 	assert(he->h_addrtype == AF_INET);
-	
+
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = ((struct in_addr *)he->h_addr_list[0])->s_addr;
 	addr.sin_port = htons(ctx->portnumber);
 
-	if (connect(ctx->sock, (struct sockaddr *) &addr, sizeof(struct sockaddr_in)) < 0) 
+	if (connect(ctx->sock, (struct sockaddr *) &addr, sizeof(struct sockaddr_in)) < 0)
 	{
 		PERROR("connect failed");
 		// When the system is flooded with lingering TIME_WAIT
@@ -1043,7 +1043,7 @@ read_nb_tuple(struct tuple *template_tuple, struct context *ctx)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 
@@ -1096,7 +1096,7 @@ dump_tuple_space(struct tuple_list *templates, struct context *ctx)
 		struct tuple_list *x = malloc(sizeof(struct tuple_list));
 		if (x == NULL) {
 			/*
-			 * ? ? ? ? 
+			 * ? ? ? ?
 			 */
 		}
 		x->tup = recv_tuple(ctx);
@@ -1193,7 +1193,7 @@ tuple_server_log(FILE * stream, struct context *ctx)
 		if (close(ctx->sock))
 		{
 			PERROR("close failed");
-		}	
+		}
 		ctx->sock=0;
 		ctx->id=0;
 		PERROR("send_chunk failed");
@@ -1219,7 +1219,7 @@ tuple_server_log(FILE * stream, struct context *ctx)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */
 
 /**
@@ -1324,5 +1324,5 @@ tuple_tuple_field(struct tuple *s, int n)
 
 
 /*
- * ----------------------------------------------------------- 
+ * -----------------------------------------------------------
  */

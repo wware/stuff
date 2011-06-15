@@ -38,13 +38,13 @@ public class GenealogyModel extends InfModelImpl {
 
     private static final boolean verbose = true;
     private static boolean USE_RETE = true;
-    
+
     public static final String familyRdf = "http://willware.net/family.rdf";
     public static final String waresRdf = "http://willware.net/wares.rdf";
 
 //    private static final Reasoner defaultReasoner =
 //        ReasonerRegistry.getRDFSSimpleReasoner();
-    
+
     /**
      * This is just a convenience class for packaging up queries in a
      * way that's a little less cumbersome. Because it's a little more
@@ -99,7 +99,7 @@ public class GenealogyModel extends InfModelImpl {
 
         /* Let's make up some arbitrary rules. First we need to register some prefixes.
          * http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/reasoner/rulesys/Rule.html
-         * 
+         *
          * This is where we get to tinker with some inference engine stuff and make
          * some deductions.
          */
@@ -129,7 +129,7 @@ public class GenealogyModel extends InfModelImpl {
             + "        (?marriage rdf:type bio:Marriage)"
             + "        notEqual(?who, ?other)"
             + " -> (?who foaf:knows ?other)]"
-            // A male parent is a father. 
+            // A male parent is a father.
             + "[rule5: (?kid family:parent ?elder)"
             + "        (?elder family:gender 'male')"
             + " -> (?kid family:father ?elder)]"
@@ -159,11 +159,11 @@ public class GenealogyModel extends InfModelImpl {
         GenealogyModel gm = new GenealogyModel(graph);
         return gm.think(ruleReasoner);
     }
-    
+
     private GenealogyModel(InfGraph graph) {
         super(graph);
     }
-    
+
     public void mergeFrom(Model otherguy) {
         Graph g = getGraph();
         ExtendedIterator<Triple> iter = otherguy.getGraph().find(null, null, null);
@@ -171,7 +171,7 @@ public class GenealogyModel extends InfModelImpl {
             g.add(iter.next());
         }
     }
-    
+
     /**
      * Dump all the triplet statements in the model to standard output in
      * human-readable form, subject-predicate-object. Format them as
@@ -180,11 +180,11 @@ public class GenealogyModel extends InfModelImpl {
     public void dump() {
         dump(this);
     }
-    
+
     public static void dump(Graph graph) {
         ExtendedIterator<Triple> iter = graph.find(null, null, null);
         int n = 0;
-        
+
         // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             n++;
@@ -192,7 +192,7 @@ public class GenealogyModel extends InfModelImpl {
             Node subject = tr.getSubject(); // get the subject
             Node predicate = tr.getPredicate(); // get the predicate
             Node object = tr.getObject(); // get the object
-            
+
             System.out.print(subject.toString() + " " +
                     predicate.toString() + " ");
             if (object instanceof Resource) {
@@ -205,12 +205,12 @@ public class GenealogyModel extends InfModelImpl {
         }
         System.out.println("There were " + n + " triplets.");
     }
-    
+
     public static void dump(Model model) {
         // list the statements in the Model
         StmtIterator iter = model.listStatements();
         int n = 0;
-        
+
         // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             n++;
@@ -218,7 +218,7 @@ public class GenealogyModel extends InfModelImpl {
             Resource subject = stmt.getSubject(); // get the subject
             Property predicate = stmt.getPredicate(); // get the predicate
             RDFNode object = stmt.getObject(); // get the object
-            
+
             String suri = subject.getURI();
             if (suri == null)
                 System.out.print(subject.toString());
@@ -236,7 +236,7 @@ public class GenealogyModel extends InfModelImpl {
         System.out.println("There were " + n + " triplets.");
         System.out.println("====================================");
     }
-    
+
     /**
      * Query the model for situations satisfying the queryString and print them
      * in a sort of SQL-response kind of way.
@@ -245,19 +245,19 @@ public class GenealogyModel extends InfModelImpl {
     public void query(String queryString) {
         query(queryString, null);
     }
-    
+
     /**
      */
     public void query(Query wq) {
         query(wq, null);
     }
-    
+
     /**
      */
     public void query(Query wq, QueryProcessor prb) {
         query(wq.toString(), prb);
     }
-    
+
     /**
      * Query the model for situations satisfying the queryString (which might be
      * something like "W, whose name is X, is the father of Y, whose name is Z")
@@ -281,7 +281,7 @@ public class GenealogyModel extends InfModelImpl {
         }
     	qe.close();
     }
-    
+
     /**
      * Sift through the current model looking for seeAlso documents,
      * put them all into a list and then fetch those documents to grow
@@ -329,7 +329,7 @@ public class GenealogyModel extends InfModelImpl {
             }
         }
     }
-    
+
     private Reasoner reasoner;
 
     public GenealogyModel think() {
@@ -344,7 +344,7 @@ public class GenealogyModel extends InfModelImpl {
         gm.reasoner = reasoner;
         return gm;
     }
-    
+
     public ValidityReport validate() {
         ValidityReport validity = super.validate();
         if (validity.isValid()) {

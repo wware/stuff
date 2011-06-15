@@ -24,8 +24,8 @@
               android:orientation="vertical"
 	      android:background="#004080">
 
-  <TextView android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
+  <TextView android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:text="Sprint time"
 	    android:textSize="25sp"/>
 
@@ -38,28 +38,28 @@
     <Button android:id="@+id/sprint_decrement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="-" 
+	    android:text="-"
             android:textSize="60sp" />
 
     <TextView android:id="@+id/timepicker_sprint_input"
               android:layout_width="200px"
               android:layout_height="wrap_content"
-              android:gravity="center" 
+              android:gravity="center"
               android:textSize="60sp" />
 
     <Button android:id="@+id/sprint_increment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="+" 
+	    android:text="+"
             android:textSize="60sp" />
 
   </LinearLayout>
 
-  <TextView android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
+  <TextView android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:text="Rest time"
 	    android:textSize="25sp"/>
- 
+
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -69,28 +69,28 @@
     <Button android:id="@+id/rest_decrement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="-" 
+	    android:text="-"
             android:textSize="60sp" />
 
     <TextView android:id="@+id/timepicker_rest_input"
               android:layout_width="200px"
               android:layout_height="wrap_content"
-              android:gravity="center" 
+              android:gravity="center"
               android:textSize="60sp" />
 
     <Button android:id="@+id/rest_increment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="+" 
+	    android:text="+"
             android:textSize="60sp" />
 
   </LinearLayout>
 
-  <TextView android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
+  <TextView android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:text="Number of sprints"
 	    android:textSize="25sp"/>
- 
+
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -100,19 +100,19 @@
     <Button android:id="@+id/num_decrement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="-" 
+	    android:text="-"
             android:textSize="60sp" />
 
     <TextView android:id="@+id/timepicker_numsprints_input"
               android:layout_width="200px"
               android:layout_height="wrap_content"
-              android:gravity="center" 
+              android:gravity="center"
               android:textSize="60sp" />
 
     <Button android:id="@+id/num_increment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="+" 
+	    android:text="+"
             android:textSize="60sp" />
 
   </LinearLayout>

@@ -156,4 +156,3 @@ class MediaGroup(atom.core.XmlElement):
   thumbnail = [MediaThumbnail]
   text = [MediaText]
 
-

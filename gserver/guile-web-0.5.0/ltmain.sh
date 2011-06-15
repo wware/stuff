@@ -107,7 +107,7 @@ if test "${LANG+set}" = set; then
 fi
 
 # Make sure IFS has a sensible default
-: ${IFS=" 	
+: ${IFS="
 "}
 
 if test "$build_libtool_libs" != yes && test "$build_old_libs" != yes; then

@@ -10,7 +10,7 @@
 	This sample is to assist implementers developing to the
 Cryptographic API Profile for AES Candidate Algorithm Submissions.
 Please consult this document as a cross-reference.
-	
+
 	ANY CHANGES, WHERE APPROPRIATE, TO INFORMATION PROVIDED IN THIS FILE
 MUST BE DOCUMENTED. CHANGES ARE ONLY APPROPRIATE WHERE SPECIFIED WITH
 THE STRING "CHANGE POSSIBLE". FUNCTION CALLS AND THEIR PARAMETERS
@@ -88,7 +88,7 @@ typedef	unsigned long DWORD;		/* 32-bit unsigned quantity */
 typedef DWORD fullSbox[4][256];
 
 /* The structure for key information */
-typedef struct 
+typedef struct
 	{
 	BYTE direction;					/* Key used for encrypting or decrypting? */
 #if ALIGN32
@@ -119,7 +119,7 @@ typedef struct
 	} keyInstance;
 
 /* The structure for cipher information */
-typedef struct 
+typedef struct
 	{
 	BYTE  mode;						/* MODE_ECB, MODE_CBC, or MODE_CFB1 */
 #if ALIGN32
@@ -178,7 +178,7 @@ string into the binary key32, and calls reKey().  To initialize the
 keyInstance state, use a 'dummy' call to makeKey(); i.e., set the
 keyMaterial parameter to NULL.  Then use reKey() for all key changes.
 Similarly, cipherInit takes an IV string in ASCII hex, so a dummy setup
-call with a null IV string will skip the ASCII parse.  
+call with a null IV string will skip the ASCII parse.
 
 Note that CFB mode is not well tested nor defined by AES, so using the
 Twofish MODE_CFB it not recommended.  If you wish to implement a CFB mode,
@@ -219,7 +219,7 @@ int TestTwofish(int mode,int keySize) /* keySize must be 128, 192, or 256 */
 		return 1;				/* 'dummy' setup for a 128-bit key */
 	if (cipherInit(&ci,mode,NULL) != TRUE)
 		return 1;				/* 'dummy' setup for cipher */
-	
+
 	for (i=0;i<keySize/32;i++)	/* select key bits */
 		ki.key32[i]=0x10003 * rand();
 	reKey(&ki);					/* run the key schedule */
@@ -237,7 +237,7 @@ int TestTwofish(int mode,int keySize) /* keySize must be 128, 192, or 256 */
 
 	for (i=0;i<byteCnt;i++)		/* generate test data */
 		plainText[i]=(BYTE) rand();
-	
+
 	/* encrypt the bytes */
 	if (blockEncrypt(&ci,&ki, plainText,byteCnt*8,cipherText) != byteCnt*8)
 		return 1;
@@ -247,11 +247,11 @@ int TestTwofish(int mode,int keySize) /* keySize must be 128, 192, or 256 */
 		memcpy(ci.iv32,iv,sizeof(ci.iv32));
 
 	if (blockDecrypt(&ci,&ki,cipherText,byteCnt*8,decryptOut) != byteCnt*8)
-		return 1;				
-	
+		return 1;
+
 	/* make sure the decrypt output matches original plaintext */
 	if (memcmp(plainText,decryptOut,byteCnt))
-		return 1;		
+		return 1;
 
 	return 0;					/* tests passed! */
 	}

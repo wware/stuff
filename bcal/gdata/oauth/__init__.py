@@ -45,7 +45,7 @@ class OAuthConsumer(object):
         self.secret = secret
 
 # OAuthToken is a data type that represents an End User via either an access
-# or request token.     
+# or request token.
 class OAuthToken(object):
     # access tokens and request tokens
     key = None
@@ -78,11 +78,11 @@ class OAuthToken(object):
 class OAuthRequest(object):
     '''
     OAuth parameters:
-        - oauth_consumer_key 
+        - oauth_consumer_key
         - oauth_token
         - oauth_signature_method
-        - oauth_signature 
-        - oauth_timestamp 
+        - oauth_signature
+        - oauth_timestamp
         - oauth_nonce
         - oauth_version
         ... any additional parameters, as defined by the Service Provider.
@@ -159,7 +159,7 @@ class OAuthRequest(object):
         parts = urlparse.urlparse(self.http_url)
         url_string = '%s://%s%s' % (parts[0], parts[1], parts[2]) # scheme, netloc, path
         return url_string
-        
+
     # set the signature parameter to the result of build_signature
     def sign_request(self, signature_method, consumer, token):
         # set the signature method
@@ -252,7 +252,7 @@ class OAuthRequest(object):
             params[param_parts[0]] = urllib.unquote(param_parts[1].strip('\"'))
         return params
     _split_header = staticmethod(_split_header)
-    
+
     # util function: turn url string into parameters, has to do some unescaping
     def _split_url_string(param_str):
         parameters = cgi.parse_qs(param_str, keep_blank_values=False)
@@ -322,12 +322,12 @@ class OAuthServer(object):
     # authorize a request token
     def authorize_token(self, token, user):
         return self.data_store.authorize_request_token(token, user)
-    
+
     # get the callback url
     def get_callback(self, oauth_request):
         return oauth_request.get_parameter('oauth_callback')
 
-    # optional support for the authenticate header   
+    # optional support for the authenticate header
     def build_authenticate_header(self, realm=''):
         return {'WWW-Authenticate': 'OAuth realm="%s"' % realm}
 
@@ -479,7 +479,7 @@ class OAuthSignatureMethod_HMAC_SHA1(OAuthSignatureMethod):
 
     def get_name(self):
         return 'HMAC-SHA1'
-        
+
     def build_signature_base_string(self, oauth_request, consumer, token):
         sig = (
             escape(oauth_request.get_normalized_http_method()),

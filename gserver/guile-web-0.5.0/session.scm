@@ -24,7 +24,7 @@
   #:use-module (web serialize)
   #:use-module (oop goops)
   #:use-module (srfi srfi-17) ; generalized set
-  ) 
+  )
 
 ;; Load session:_* functions (the C interface to libcgi's sessions)
 (load-extension "libgwebsession" "scgi_session_init")

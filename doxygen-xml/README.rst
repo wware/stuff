@@ -17,10 +17,10 @@ be. The usage of this library was like this::
          functionList.find('nrf_interrupt')])
  needed_functions.extendedCallTree(functionList)
  needed_functions.sort()
- 
+
  disposable = filter(lambda x: x not in needed_functions, functionList)
  disposable.sort()
- 
+
  print 'GET RID OF THESE'
  for x in disposable:
      print x

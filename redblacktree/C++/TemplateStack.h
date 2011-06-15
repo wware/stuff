@@ -27,7 +27,7 @@ using namespace std;
 //
 // ********************************************************
 //
-//  See the html documentation in gui.html for detailed 
+//  See the html documentation in gui.html for detailed
 //  instructions on how to use this template.
 //
 // ********************************************************
@@ -41,17 +41,17 @@ class TemplateStack {
 	maxSize(size) ,
 	arrayData ( (Type *) SafeMalloc(sizeof(Type) * maxSize) ) {
     }
-    
+
  TemplateStack(TemplateStack const & originalStack)
      : currentSize(originalStack.currentSize) ,
 	maxSize(originalStack.maxSize),
-	arrayData( (Type *) SafeMalloc(sizeof(Type) * maxSize) ) 
+	arrayData( (Type *) SafeMalloc(sizeof(Type) * maxSize) )
 	    {
 		int k = 0;
 		while (k < currentSize)
 		    arrayData[k] = originalStack.arrayData[k++];
 	    }
-    
+
     TemplateStack const & operator=(TemplateStack const & stackToCopy)
 	{
 	    currentSize = stackToCopy.currentSize;
@@ -65,37 +65,37 @@ class TemplateStack {
 	    }
 	    return *this;
 	}
-    
+
     ~TemplateStack()
 	{ // if arrayData hasn't been freed we must free it
 	    if (arrayData != NULL)
 		free(arrayData);
 	}
-    
+
     void Destroy(void (*DestFunc)(Type) )
     //  DestFunc is called on each item in the stack, then arrayData is freed
     {
 	int k=0;
 	int j=currentSize;
-	
-	while ( k < j) 
+
+	while ( k < j)
 	    DestFunc(arrayData[k++]);
 	free(arrayData);
 	arrayData = NULL;
 	currentSize = 0;
     }
-    
+
     inline Type & operator[](int k) const
     {
 #ifdef DEBUG_ASSERT
 	Assert((k < maxSize) && (k >= 0),
 	       "request for out of range element in TemplateStack::operator[]");
-	if (k > currentSize) 
+	if (k > currentSize)
 	    printf("Warning uninitialized element accesed in TemplateStack::operator[]\n");
 #endif
 	return arrayData[k];
     }
-    
+
     void Push(Type newInfo)
     {
 	if (currentSize == maxSize) {
@@ -105,8 +105,8 @@ class TemplateStack {
 	}
 	arrayData[currentSize] = newInfo;
 	currentSize += 1;
-    }    
-    
+    }
+
     void Push(const TemplateStack<Type> & stackToAdd)
     {
 	if ( currentSize + stackToAdd.Size() > maxSize ) {
@@ -116,9 +116,9 @@ class TemplateStack {
 	}
 	for (int i = 0, k = stackToAdd.Size(); i < k ;)
 	    arrayData[currentSize++] = stackToAdd[i++];
-	
+
     }
-    
+
     void Push(const TemplateStack<Type> * const stackToAdd)
     {
 	if ( currentSize + stackToAdd->Size() > maxSize ) {
@@ -129,25 +129,25 @@ class TemplateStack {
 	Type * dataToAdd = stackToAdd->GetAddressOfArray();
 	for (int i = 0, k = stackToAdd->Size(); i < k ;)
 	    arrayData[currentSize++] = dataToAdd[i++];
-	
+
     }
-    
+
     inline Type * Member(Type const & possibleMemberOfStack)
     {
-	for (int k=0; k < currentSize; k++) 
+	for (int k=0; k < currentSize; k++)
 	    if (possibleMemberOfStack == arrayData[k])
 		return &(arrayData[k]);
 	return NULL;
     }
-    
+
     inline int GetIndexOf(Type const & possibleMemberOfStack) const
     {
-	for (int k=0; k < currentSize; k++) 
+	for (int k=0; k < currentSize; k++)
 	    if (possibleMemberOfStack == arrayData[k])
 		return k;
 	return -1;
     }
-    
+
     inline Type Pop()
     {
 #ifdef DEBUG_ASSERT
@@ -155,7 +155,7 @@ class TemplateStack {
 #endif
 	return(arrayData[--currentSize]);
     }
-    
+
     inline Type * Top() const
     {
 #ifdef DEBUG_ASSERT
@@ -163,12 +163,12 @@ class TemplateStack {
 #endif
 	return((&arrayData[(currentSize - 1)]));
     }
-    
+
     inline Type * Bottom() const
     {
 	return(&(arrayData[0]));
     }
-    
+
     inline void DeleteTop()
     {
 #ifdef DEBUG_ASSERT
@@ -176,7 +176,7 @@ class TemplateStack {
 #endif
 	currentSize--;
     }
-    
+
     inline int Empty() const
     {
 	return(currentSize == 0);
@@ -185,12 +185,12 @@ class TemplateStack {
     {
 	return(currentSize);
     }
-    
-    inline int Size() const 
+
+    inline int Size() const
     {
 	return currentSize;
     }
-    
+
     inline int IndexOfTop() const
     {
 #ifdef DEBUG_ASSERT
@@ -198,43 +198,43 @@ class TemplateStack {
 #endif
 	return (currentSize-1);
     }
-    
-    inline Type & ItemAtTop() const 
+
+    inline Type & ItemAtTop() const
     {
 #ifdef DEBUG_ASSERT
 	VERIFY(currentSize >0);
 #endif
 	return arrayData[currentSize-1];
     }
-    
-    inline int Capacity() const 
+
+    inline int Capacity() const
     {
 	return maxSize;
     }
-    
+
     inline void SwapTwoElements(int first , int second)
     {
 #ifdef DEBUG_ASSERT
 	VERIFY( (first >= 0) && (first < currentSize)) ;
-	VERIFY( (second >= 0) && (second < currentSize) );      
+	VERIFY( (second >= 0) && (second < currentSize) );
 	VERIFY(first != second);
 #endif
 	Type temp = arrayData[first];
 	arrayData[first] = arrayData[second];
 	arrayData[second] = temp;
     }
-    
+
     inline Type * GetAddressOfArray() const { return arrayData; }
-    
+
     inline void Clear() { currentSize = 0;} // clears the TemplateStack
-    
-    inline void Clear(void (*DestFunc)(Type ) ) 
+
+    inline void Clear(void (*DestFunc)(Type ) )
     { // calls DestFunc on everything in the array and then clears it
 	for (int k=0; k < currentSize; k++)
 	    DestFunc(arrayData[k]);
 	currentSize = 0;
     }
-    
+
     void InsertAtPosition(const  int position,
 			  const  int size,
 			  const Type * arrayToInsert)
@@ -242,7 +242,7 @@ class TemplateStack {
 #ifdef DEBUG_ASSERT
 	Assert( (position >= 0) && (position < currentSize),
 		"In TemplateStack::InsertAtPosition: position out of range");
-#endif 
+#endif
 	if ((size + currentSize) >= maxSize) {
 	    maxSize += size;
 	    arrayData = SpecialRealloc(arrayData,
@@ -255,8 +255,8 @@ class TemplateStack {
 	    arrayData[k++]=arrayToInsert[j++];
 	currentSize+=size;
     }
-    
-    
+
+
     void InsertAtPosition(const int position, const Type itemToInsert)
     {
 #ifdef DEBUG_ASSERT
@@ -267,35 +267,35 @@ class TemplateStack {
 	    maxSize *= 2;
 	    arrayData = SpecialRealloc(arrayData,
 				       sizeof(Type)*maxSize);
-	} 
-	for (int k = currentSize; k > position; ) 
+	}
+	for (int k = currentSize; k > position; )
 	    arrayData[k] = arrayData[--k];
 	arrayData[position]=itemToInsert;
 	currentSize++;
     }
-    
+
     inline void RemoveAtIndex(int position)
     {
 #ifdef DEBUG_ASSERT
 	Assert( ( (position >= 0) && (position < currentSize) ) ,
 		"Error in TemplateStack::RemoveIndex: position out of range");
-#endif     
+#endif
 	if (position != --currentSize)
 	    arrayData[position] = arrayData[currentSize];
     }
-    
-    
-    void DeleteAtPosition(int position) 
+
+
+    void DeleteAtPosition(int position)
     {
 #ifdef DEBUG_ASSERT
 	Assert( ( (position >= 0) && (position < currentSize) ) ,
 		"Error in TemplateStack::Delete: position out of range");
-#endif      
+#endif
 	for (int k = position; k < (currentSize-1);)
 	    arrayData[k] = arrayData[++k];
 	currentSize--;
     }
-    
+
     void DeleteAtPosition(const int position, const int size)
     {
 #ifdef DEBUG_ASSERT
@@ -308,7 +308,7 @@ class TemplateStack {
 	    arrayData[k] = arrayData[k+=size];
 	currentSize-=size;
     }
-    
+
     inline void SetCurrentSize(const int newSize)
     {
 #ifdef DEBUG_ASSERT
@@ -316,47 +316,47 @@ class TemplateStack {
 #endif
 	currentSize = newSize;
     }
-    
+
     inline void ForEachItemDo(void (*function)(Type)) const
     {
 	for (int i = 0; i < currentSize; i++)
 	    function(arrayData[i]);
     }
-    
+
     inline void ForEachItemDo(void (*function)(Type, void * controller),
-			      void *controller) const 
+			      void *controller) const
     {
 	for (int i = 0; i < currentSize; i++)
 	    function(arrayData[i],controller);
     }
-    
+
  protected:
     int currentSize;
     int maxSize;
     Type * arrayData;
-    
+
  private:
-    
-    inline Type * SpecialRealloc(Type * arrayData, int size) 
+
+    inline Type * SpecialRealloc(Type * arrayData, int size)
     {
 #if defined(WARN_WHEN_RESIZE)
 	cerr << "Warning doing resize in TemplateStack" << endl;
-#elif defined(DO_NOT_ALLOW_RESIZE)  
+#elif defined(DO_NOT_ALLOW_RESIZE)
 	exitprogram("Resizing in TemplateStack when DO_NOT_ALLOW_RESIZE is defined",1);
 #endif
-	if (NULL == (arrayData = (Type *) 
+	if (NULL == (arrayData = (Type *)
 		     realloc(arrayData,size)))
-	    { 
+	    {
 		printf("realloc failed for TemplateStack from %s\n",__FILE__);
-		printf("exiting\n"); 
+		printf("exiting\n");
 		ExitProgramMacro("Error in TemplateStack::SpecialRealloc");
-	    } 
+	    }
 	return(arrayData);
     }
 };
 
 template <class Type>
-ostream & operator<<(ostream & s, TemplateStack<Type> & theStack) 
+ostream & operator<<(ostream & s, TemplateStack<Type> & theStack)
 {
     s << "TemplateStack has currentSize = " << theStack.currentSize << endl;
     s << "maxSize = " << theStack.maxSize << endl;

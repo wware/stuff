@@ -84,7 +84,7 @@ void USBCheckCDCRequest(void)
      */
     if((SetupPkt.bIntfID != CDC_COMM_INTF_ID)&&
        (SetupPkt.bIntfID != CDC_DATA_INTF_ID)) return;
-    
+
     switch(SetupPkt.bRequest)
     {
         case SEND_ENCAPSULATED_COMMAND:
@@ -142,7 +142,7 @@ void CDCInitEP(void)
 
     cdc_trf_state = CDC_TX_READY;
     cdc_rx_len = 0;
-    
+
     CDC_COMM_UEP = EP_IN|HSHK_EN;               // Enable 1 Comm pipe
     CDC_DATA_UEP = EP_OUT_IN|HSHK_EN;           // Enable 2 data pipes
 
@@ -198,7 +198,7 @@ void CDCInitEP(void)
 byte getsUSBUSART(unsigned char *buffer, byte len)
 {
     cdc_rx_len = 0;
-    
+
     if(!mCDCUsartRxIsBusy())
     {
         /*
@@ -207,7 +207,7 @@ byte getsUSBUSART(unsigned char *buffer, byte len)
          */
         if(len > CDC_BULK_BD_OUT.Cnt)
             len = CDC_BULK_BD_OUT.Cnt;
-        
+
         /*
          * Copy data from dual-ram buffer to user's buffer
          */
@@ -220,9 +220,9 @@ byte getsUSBUSART(unsigned char *buffer, byte len)
         CDC_BULK_BD_OUT.Cnt = sizeof(cdc_data_rx);
         mUSBBufferReady(CDC_BULK_BD_OUT);
     }
-    
+
     return cdc_rx_len;
-    
+
 }
 
 /**
@@ -268,7 +268,7 @@ void putsUSBUSART(unsigned char *data)
      * Use a state machine instead.
      */
     if(cdc_trf_state != CDC_TX_READY) return;
-    
+
     /*
      * While loop counts the number of bytes to send including the
      * null character.
@@ -279,12 +279,12 @@ void putsUSBUSART(unsigned char *data)
         len++;
         if(len == 256) break;       // Break loop once max len is reached.
     }while(*data++);
-    
+
     /*
      * Re-adjust pointer to its initial location
      */
     data-=len;
-    
+
 	// BPS - 05/04/2006 I don't want the NULL at the end.
 	len--;
     /*
@@ -339,7 +339,7 @@ void putrsUSBUSART(const rom unsigned char *data)
      * Use a state machine instead.
      */
     if(cdc_trf_state != CDC_TX_READY) return;
-    
+
     /*
      * While loop counts the number of bytes to send including the
      * null character.
@@ -350,7 +350,7 @@ void putrsUSBUSART(const rom unsigned char *data)
         len++;
         if(len == 255) break;       // Break loop once max len is reached.
     }while(*data++);
-    
+
     /*
      * Re-adjust pointer to its initial location
      */
@@ -358,7 +358,7 @@ void putrsUSBUSART(const rom unsigned char *data)
 
 	// BPS - 05/04/2006 I don't want the NULL at the end.
 	len--;
-    
+
     /*
      * Second piece of information (length of data to send) is ready.
      * Call mUSBUSARTTxRom to setup the transfer.
@@ -379,7 +379,7 @@ void putrsUSBUSART(const rom unsigned char *data)
 void CDCTxService(void)
 {
     byte byte_to_send;
-    
+
     if(mCDCUsartTxIsBusy()) return;
     /*
      * Completing stage is necessary while [ mCDCUSartTxIsBusy()==1 ].
@@ -388,12 +388,12 @@ void CDCTxService(void)
      */
     if(cdc_trf_state == CDC_TX_COMPLETING)
         cdc_trf_state = CDC_TX_READY;
-    
+
     /*
      * If CDC_TX_READY state, nothing to do, just return.
      */
     if(cdc_trf_state == CDC_TX_READY) return;
-    
+
     /*
      * If CDC_TX_BUSY_ZLP state, send zero length packet
      */
@@ -421,9 +421,9 @@ void CDCTxService(void)
          * Subtract the number of bytes just about to be sent from the total.
          */
     	cdc_tx_len = cdc_tx_len - byte_to_send;
-    	        
+
         pCDCDst.bRam = (byte*)&cdc_data_tx; // Set destination pointer
-        
+
         if(cdc_mem_type == _ROM)            // Determine type of memory source
         {
             while(byte_to_send)
@@ -444,7 +444,7 @@ void CDCTxService(void)
                 byte_to_send--;
             }
         }
-        
+
         /*
          * Lastly, determine if a zero length packet state is necessary.
          * See explanation in USB Specification 2.0: Section 5.8.3
@@ -456,9 +456,9 @@ void CDCTxService(void)
             else
                 cdc_trf_state = CDC_TX_COMPLETING;
         }
-            
+
     }
-    
+
     /*
      * Both CDC_TX_BUSY and CDC_TX_BUSY_ZLP states use the following macro
      */

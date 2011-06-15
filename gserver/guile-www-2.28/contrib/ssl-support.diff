@@ -30,14 +30,14 @@ directory doesn't seem to have been touched since February.
 +;; means that I don't understand Guile's module system.
 +
 +(define-public (https-via-lynx host ip-port path)
-+  (let ((p (open-pipe 
++  (let ((p (open-pipe
 +            (format
 +             ;; We set TERM to prevent lynx from complaining about an
 +             ;; unknown terminal type.
-+             "TERM=vt100 lynx -source https://~a~a/~a" 
-+             host 
-+             (if ip-port (format ":~a" ip-port) "") 
-+             path) 
++             "TERM=vt100 lynx -source https://~a~a/~a"
++             host
++             (if ip-port (format ":~a" ip-port) "")
++             path)
 +            OPEN_READ)))
 +    (let loop ((one-line (read-line p 'concat))
 +               (lines '()))
@@ -57,7 +57,7 @@ directory doesn't seem to have been touched since February.
    (vector 'ftp user host port path))
  (define-public (url:make-mailto address)
    (vector 'mailto address))
- 
+
  (define http-regexp (make-regexp "^http://([^:/]+)(:([0-9]+))?(/(.*))?$"))
 +(define https-regexp (make-regexp "^https://([^:/]+)(:([0-9]+))?(/(.*))?$"))
  (define ftp-regexp
@@ -74,20 +74,20 @@ directory doesn't seem to have been touched since February.
 +                         (cond ((match:substring m 3) => string->number)
 +                               (else #f))
 +                         (match:substring m 5))))
- 
+
     ((regexp-exec ftp-regexp url)
      => (lambda (m)
 --- Makefile.am.~1.1.~	Mon Jun 16 16:17:20 1997
 +++ Makefile.am	Wed Aug 15 10:05:10 2001
 @@ -3,5 +3,5 @@
  AUTOMAKE_OPTIONS = foreign
- 
+
  gwwwdir = $(datadir)/guile/www
 -gwww_DATA = cgi.scm http.scm main.scm url.scm wwwcat
 +gwww_DATA = cgi.scm http.scm https.scm main.scm url.scm wwwcat
 
 
--- 
+--
 PGP Fingerprint: 3E7B A3F3 96CA 8958 ACC5  C8BD 6337 0041 C01C 5276
 
 _______________________________________________

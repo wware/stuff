@@ -17,8 +17,8 @@
   pre.smallexample { font-size:smaller }
   pre.smalllisp    { font-size:smaller }
   span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+  span.roman { font-family:serif; font-weight:normal; }
+  span.sansserif { font-family:sans-serif; font-weight:normal; }
 --></style>
 </head>
 <body>
@@ -53,11 +53,11 @@ an integer.  Use <code>(car (hostent:addr-list (gethost </code><var>host</var><c
 to compute the ipaddr of <var>host</var> (a string).
 
           <br><dt><code>PF_UNIX</code><dd><code>(AF_UNIX </code><var>filename</var><code>)</code>, made, for example, by<br>
-<code>(list AF_UNIX "/tmp/foo-control")</code>. 
+<code>(list AF_UNIX "/tmp/foo-control")</code>.
 </dl>
 
         <p>Note that <code>PF_foo</code> and <code>AF_foo</code> are names of variables
-that have constant values, not symbols. 
+that have constant values, not symbols.
 </p></blockquote></div>
 <!-- @twerpdoc (http:open) -->
 <!-- ../source/http.doc -->
@@ -65,7 +65,7 @@ that have constant values, not symbols.
 <div class="defun">
 &mdash; Procedure: <b>http:open</b><var> host </var>[<var>port</var>]<var><a name="index-http_003aopen-2"></a></var><br>
 <blockquote><p>Return an HTTP connection (a socket) to <var>host</var> (a string) on TCP
-port <var>port</var> (default 80 if unspecified). 
+port <var>port</var> (default 80 if unspecified).
 </p></blockquote></div>
    <!-- @twerpdoc (http:request) -->
 <!-- ../source/http.doc -->
@@ -75,7 +75,7 @@ port <var>port</var> (default 80 if unspecified).
 <blockquote><p>Submit an HTTP request using <var>method</var> and <var>url</var>, wait
 for a response, and return the response as an HTTP message object.
 
-        <p><var>method</var> is the name of some HTTP method, e.g. "GET" or "POST". 
+        <p><var>method</var> is the name of some HTTP method, e.g. "GET" or "POST".
 <var>url</var> is a url object returned by <code>url:parse</code>.  Optional
 args <var>headers</var> and <var>body</var> are lists of strings that comprise
 the lines of an HTTP message.  The strings should not end with
@@ -86,7 +86,7 @@ automatically and should not be supplied.  Here are two examples:
      <pre class="example">          (http:request "get" parsed-url
             (list "User-Agent: Anonymous/0.1"
                   "Content-Type: text/plain"))
-          
+
           (http:request "post" parsed-url
             (list "User-Agent: Fred/0.1"
                   "Content-Type: application/x-www-form-urlencoded")
@@ -97,7 +97,7 @@ automatically and should not be supplied.  Here are two examples:
         <p>As a special case (demonstrated in the second example above), when
 Content-Type is <code>application/x-www-form-urlencoded</code> and there is
 only one line in the body, the final &lsquo;<samp><span class="samp">CRLF</span></samp>&rsquo; is omitted and the
-Content-Length is adjusted accordingly. 
+Content-Length is adjusted accordingly.
 </p></blockquote></div>
 
 <h3 class="section">1.2 Low-Level HTTP Message Object Access</h3>
@@ -106,21 +106,21 @@ Content-Length is adjusted accordingly.
 <!-- ../source/http.doc -->
 <div class="defun">
 &mdash; Procedure: <b>http:message-version</b><var> msg<a name="index-http_003amessage_002dversion-4"></a></var><br>
-<blockquote><p>Return the HTTP version in use in HTTP message <var>msg</var>. 
+<blockquote><p>Return the HTTP version in use in HTTP message <var>msg</var>.
 </p></blockquote></div>
 <!-- @twerpdoc (http:message-status-code) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:message-status-code</b><var> msg<a name="index-http_003amessage_002dstatus_002dcode-5"></a></var><br>
-<blockquote><p>Return the status code returned in HTTP message <var>msg</var>. 
+<blockquote><p>Return the status code returned in HTTP message <var>msg</var>.
 </p></blockquote></div>
    <!-- @twerpdoc (http:message-status-text) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:message-status-text</b><var> msg<a name="index-http_003amessage_002dstatus_002dtext-6"></a></var><br>
-<blockquote><p>Return the text of the status line from HTTP message <var>msg</var>. 
+<blockquote><p>Return the text of the status line from HTTP message <var>msg</var>.
 </p></blockquote></div>
    <!-- @twerpdoc (http:message-status-ok?) -->
 <!-- ../source/http.doc -->
@@ -128,21 +128,21 @@ Content-Length is adjusted accordingly.
 <div class="defun">
 &mdash; Procedure: <b>http:message-status-ok?</b><var> msg<a name="index-http_003amessage_002dstatus_002dok_003f-7"></a></var><br>
 <blockquote><p>Return <code>#t</code> iff status code of <var>msg</var>
-indicates a successful request. 
+indicates a successful request.
 </p></blockquote></div>
    <!-- @twerpdoc (http:status-ok?) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:status-ok?</b><var> status<a name="index-http_003astatus_002dok_003f-8"></a></var><br>
-<blockquote><p>Return <code>#t</code> iff <var>status</var> (a string) begins with "2". 
+<blockquote><p>Return <code>#t</code> iff <var>status</var> (a string) begins with "2".
 </p></blockquote></div>
    <!-- @twerpdoc (http:message-body) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:message-body</b><var> msg<a name="index-http_003amessage_002dbody-9"></a></var><br>
-<blockquote><p>Return the body of the HTTP message <var>msg</var>. 
+<blockquote><p>Return the body of the HTTP message <var>msg</var>.
 </p></blockquote></div>
 
    <p>An HTTP message header is represented by a pair.  The <span class="sc">car</span> is a
@@ -163,7 +163,7 @@ symbols are case-sensitive.
 <!-- ../source/http.doc -->
 <div class="defun">
 &mdash; Procedure: <b>http:message-headers</b><var> msg<a name="index-http_003amessage_002dheaders-10"></a></var><br>
-<blockquote><p>Return a list of the headers from HTTP message <var>msg</var>. 
+<blockquote><p>Return a list of the headers from HTTP message <var>msg</var>.
 </p></blockquote></div>
    <!-- @twerpdoc (http:message-header) -->
 <!-- ../source/http.doc -->
@@ -171,7 +171,7 @@ symbols are case-sensitive.
 <div class="defun">
 &mdash; Procedure: <b>http:message-header</b><var> header msg<a name="index-http_003amessage_002dheader-11"></a></var><br>
 <blockquote><p>Return the header field named <var>header</var> from HTTP message <var>msg</var>,
-or <code>#f</code> if no such header is present in the message. 
+or <code>#f</code> if no such header is present in the message.
 </p></blockquote></div>
 
 <h3 class="section">1.3 Common Messages</h3>
@@ -180,23 +180,23 @@ or <code>#f</code> if no such header is present in the message.
 <!-- ../source/http.doc -->
 <div class="defun">
 &mdash; Procedure: <b>http:head</b><var> url<a name="index-http_003ahead-12"></a></var><br>
-<blockquote><p>Submit an http request using the <code>HEAD</code> method on the <var>url</var>. 
-The <code>Host</code> header is automatically included. 
+<blockquote><p>Submit an http request using the <code>HEAD</code> method on the <var>url</var>.
+The <code>Host</code> header is automatically included.
 </p></blockquote></div>
 <!-- @twerpdoc (http:get) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:get</b><var> url<a name="index-http_003aget-13"></a></var><br>
-<blockquote><p>Submit an http request using the <code>GET</code> method on the <var>url</var>. 
-The <code>Host</code> header is automatically included. 
+<blockquote><p>Submit an http request using the <code>GET</code> method on the <var>url</var>.
+The <code>Host</code> header is automatically included.
 </p></blockquote></div>
    <!-- @twerpdoc (http:post-form) -->
 <!-- ../source/http.doc -->
 
 <div class="defun">
 &mdash; Procedure: <b>http:post-form</b><var> url extra-headers fields<a name="index-http_003apost_002dform-14"></a></var><br>
-<blockquote><p>Submit an http request using the <code>POST</code> method on the <var>url</var>. 
+<blockquote><p>Submit an http request using the <code>POST</code> method on the <var>url</var>.
 <var>extra-headers</var> is a list of extra headers, each a string of form
 "<var>name</var>: <var>value</var> <small class="dots">...</small>".
 
@@ -220,7 +220,7 @@ to the http request.
 
         <p>Note that <var>source</var> is used directly without further processing;
 it is the caller's responsibility to ensure that the MIME type and
-transfer encoding specified describe <var>source</var> accurately. 
+transfer encoding specified describe <var>source</var> accurately.
 </p></blockquote></div>
 
 <!--  -->
