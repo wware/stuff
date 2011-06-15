@@ -1,41 +1,4 @@
 /*
- * Copy the heap_2.c code from FreeRTOS, and then add the defrag stuff.
- * Apologies to FreeRTOS folks about violating some of your coding conventions.
- */
-
-#define portBYTE_ALIGNMENT 4
-#define portBYTE_ALIGNMENT_MASK ((1 << portBYTE_ALIGNMENT) - 1)
-#define configUSE_MALLOC_FAILED_HOOK 0
-#define configTOTAL_HEAP_SIZE 4096
-#define pdFALSE 0
-#define pdTRUE 1
-
-#include <stdio.h>
-
-typedef int portBASE_TYPE;
-
-static void vTaskSuspendAll(void) { }
-static void xTaskResumeAll(void) { }
-
-static int defragEnabled = 0;
-
-void enableDefrag(int yesPlease)
-{
-    defragEnabled = 1;
-}
-
-// VERBOSITY
-#if 0
-#define SHOW_FREE_LIST 1
-#define COMMENT(x)     printf(x)
-#define COMMENT1(x,a)  printf(x,a)
-#else
-#define SHOW_FREE_LIST 0
-#define COMMENT(x)     ((void*) 0)
-#define COMMENT1(x,a)  ((void*) 0)
-#endif
-
-/*
     FreeRTOS V7.0.1 - Copyright (C) 2011 Real Time Engineers Ltd.
 
 
@@ -103,12 +66,12 @@ all the API functions to use the MPU wrappers.  That should only be done when
 task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-//#include "FreeRTOS.h"
-//#include "task.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-/* The free list is actually two linked lists, both running through every unallocated block.
+/* The free list is actually two linked lists, both running through all unallocated blocks.
    The first list orders the free blocks by size, the number of bytes available for allocation
    starting with the smallest, and is used for parsimonious allocation. The second list orders
    free blocks by physical memory address, and is used to determine when a freed block is
@@ -120,9 +83,9 @@ typedef struct A_BLOCK_LINK
     size_t xBlockSize;                          /*<< The size of the free block. */
 } xBlockLink;
 
-static xBlockLink xStartAddr;
+static xBlockLink xStartAddr;  /* must precede heap in physical memory */
 
-/* Allocate the memory for the heap.  The struct is used to force byte
+/* Allocate the memory for the heap.  The union is used to force byte
    alignment without using any non-portable code. */
 static union xRTOS_HEAP
 {
@@ -138,7 +101,7 @@ static const unsigned short heapSTRUCT_SIZE = ( sizeof( xBlockLink ) + portBYTE_
 #define heapMINIMUM_BLOCK_SIZE  ( ( size_t ) ( heapSTRUCT_SIZE * 2 ) )
 
 /* Create a couple of list links to mark the start and end of the list. */
-static xBlockLink xStartSize, xEnd;
+static xBlockLink xStartSize, xEnd;  /* xEnd must follow heap in physical memory */
 
 /* Keeps track of the number of free bytes remaining, but says nothing about
    fragmentation. */
@@ -146,109 +109,75 @@ static size_t xFreeBytesRemaining = configTOTAL_HEAP_SIZE;
 
 /* STATIC FUNCTIONS ARE DEFINED AS MACROS TO MINIMIZE THE FUNCTION CALL DEPTH. */
 
-static void showFreeList(void)
-{
-    xBlockLink *pxIterator;
-    printf("\nFree list sorted by size, first is xStartSize\n");
-    for( pxIterator = &xStartSize;
-         ;
-         pxIterator = pxIterator->pxNextSizeBlock )
-    {
-        printf("Block %p, size %d\n", pxIterator, pxIterator->xBlockSize);
-        if (pxIterator == &xEnd) break;
-    }
-    printf("Free list sorted by address, first is xStartAddr\n");
-    for( pxIterator = &xStartAddr;
-         ;
-         pxIterator = pxIterator->pxNextAddrBlock )
-    {
-        printf("Block %p, size %d\n", pxIterator, pxIterator->xBlockSize);
-        if (pxIterator == &xEnd) break;
-    }
-    printf("\n");
-}
-
 /*
  * Insert a block into the list of free blocks - which is ordered by size of
  * the block.  Small blocks at the start of the list and large blocks at the end
  * of the list.
  */
-static void prvInsertBlockIntoFreeList(xBlockLink *pxBlockToInsert)
-{
-    xBlockLink *pxIterator;
-    size_t xBlockSize;
-
-    xBlockSize = pxBlockToInsert->xBlockSize;
-
-    /* Iterate through the size-ordered list until a block is found that
-       has a larger size than the block we are inserting. */
-    for( pxIterator = &xStartSize;
-         pxIterator->pxNextSizeBlock->xBlockSize < xBlockSize;
-         pxIterator = pxIterator->pxNextSizeBlock )
-    {
-        /* There is nothing to do here - just iterate to the correct position. */
+#define prvInsertBlockIntoFreeList(pxBlockToInsert)                    \
+    {                                                                   \
+        xBlockLink *pxIterator;                                         \
+        size_t xBlockSize;                                              \
+                                                                        \
+        xBlockSize = pxBlockToInsert->xBlockSize;                       \
+                                                                        \
+        /* Iterate through the size-ordered list until a block is found that has a larger size */ \
+        /* than the block we are inserting. */                          \
+        for( pxIterator = &xStartSize; pxIterator->pxNextSizeBlock->xBlockSize < xBlockSize; pxIterator = pxIterator->pxNextSizeBlock ) \
+        {                                                               \
+            /* There is nothing to do here - just iterate to the correct position. */ \
+        }                                                               \
+                                                                        \
+        /* Update the size-ordered list to include the block being inserted in the correct */ \
+        /* position. */                                                 \
+        pxBlockToInsert->pxNextSizeBlock = pxIterator->pxNextSizeBlock; \
+        pxIterator->pxNextSizeBlock = pxBlockToInsert;                  \
+                                                                        \
+        /* Iterate through the address-ordered list until a block is found that */ \
+        /* has a larger size than the block we are inserting. */        \
+        for ( pxIterator = &xStartAddr;                                 \
+              pxIterator->pxNextAddrBlock != &xEnd &&                   \
+                  (int) pxIterator->pxNextAddrBlock < (int) pxBlockToInsert; \
+              pxIterator = pxIterator->pxNextAddrBlock )                \
+        {                                                               \
+            /* There is nothing to do here - just iterate to the correct position. */ \
+        }                                                               \
+                                                                        \
+        /* Update the address-ordered list to include the block being inserted in the correct position. */ \
+        pxBlockToInsert->pxNextAddrBlock = pxIterator->pxNextAddrBlock; \
+        pxIterator->pxNextAddrBlock = pxBlockToInsert;                  \
     }
-
-    /* Update the size-ordered list to include the block being inserted in the correct position. */
-    pxBlockToInsert->pxNextSizeBlock = pxIterator->pxNextSizeBlock;
-    pxIterator->pxNextSizeBlock = pxBlockToInsert;
-
-    /* Iterate through the address-ordered list until a block is found that
-       has a larger size than the block we are inserting. */
-    for ( pxIterator = &xStartAddr;
-          pxIterator->pxNextAddrBlock != &xEnd &&
-              (int) pxIterator->pxNextAddrBlock < (int) pxBlockToInsert;
-          pxIterator = pxIterator->pxNextAddrBlock )
-    {
-        /* There is nothing to do here - just iterate to the correct position. */
-    }
-
-    /* Update the address-ordered list to include the block being inserted in the correct position. */
-    pxBlockToInsert->pxNextAddrBlock = pxIterator->pxNextAddrBlock;
-    pxIterator->pxNextAddrBlock = pxBlockToInsert;
-#if SHOW_FREE_LIST
-    showFreeList();
-#endif
-}
 
 /*-----------------------------------------------------------*/
 
-static void prvHeapInit(void)
-{
-    xBlockLink *pxFirstFreeBlock;
-
-    /* xStartSize is used to hold a pointer to the first item in
-       the list of free blocks.  The void cast is used to
-       prevent compiler warnings. */
-    xStartSize.pxNextSizeBlock = ( void * ) xHeap.ucHeap;
-    xStartSize.xBlockSize = ( size_t ) 0;
-    xStartAddr.pxNextAddrBlock = ( void * ) xHeap.ucHeap;
-
-    /* xEnd is used to mark the end of the list of free blocks. */
-    xEnd.xBlockSize = configTOTAL_HEAP_SIZE;
-    xEnd.pxNextSizeBlock = NULL;
-    xEnd.pxNextAddrBlock = NULL;
-
-    /* To start with there is a single free block that
-       is sized to take up the entire heap space. */
-    pxFirstFreeBlock = ( void * ) &xHeap.ucHeap;
-    pxFirstFreeBlock->xBlockSize = configTOTAL_HEAP_SIZE;
-    pxFirstFreeBlock->pxNextSizeBlock = &xEnd;
-    pxFirstFreeBlock->pxNextAddrBlock = &xEnd;
-
-    if ((int)&xHeap >= (int)&xEnd) {
-        printf("OUCH, xEnd must be higher in memory than the heap\n");
+#define prvHeapInit()                                                   \
+    {                                                                   \
+        xBlockLink *pxFirstFreeBlock;                                   \
+                                                                        \
+        /* xStartSize is used to hold a pointer to the first item in the list of free */ \
+        /* blocks.  The void cast is used to prevent compiler warnings. */ \
+        xStartSize.pxNextSizeBlock = ( void * ) xHeap.ucHeap;           \
+        xStartSize.xBlockSize = ( size_t ) 0;                           \
+                                                                        \
+        xStartAddr.pxNextAddrBlock = ( void * ) xHeap.ucHeap;           \
+        /* xEnd is used to mark the end of the list of free blocks. */  \
+        xEnd.xBlockSize = configTOTAL_HEAP_SIZE;                        \
+        xEnd.pxNextSizeBlock = NULL;                                    \
+        xEnd.pxNextAddrBlock = NULL;                                    \
+                                                                        \
+        /* To start with there is a single free block that is sized to take up the \
+           entire heap space. */                                        \
+        pxFirstFreeBlock = ( void * ) xHeap.ucHeap;                     \
+        pxFirstFreeBlock->xBlockSize = configTOTAL_HEAP_SIZE;           \
+        pxFirstFreeBlock->pxNextSizeBlock = &xEnd;                      \
+        pxFirstFreeBlock->pxNextAddrBlock = &xEnd;                      \
     }
-    if ((int)&xHeap <= (int)&xStartAddr) {
-        printf("OUCH, xStartAddr must be lower in memory than the heap\n");
-    }
-}
 
 /*-----------------------------------------------------------*/
 
 void *pvPortMalloc( size_t xWantedSize )
 {
-    xBlockLink *pxBlock;
+    xBlockLink *pxBlock, *pxPreviousSizeBlock, *pxNewBlockLink;
     static portBASE_TYPE xHeapHasBeenInitialised = pdFALSE;
     void *pvReturn = NULL;
 
@@ -258,7 +187,6 @@ void *pvPortMalloc( size_t xWantedSize )
            initialisation to setup the list of free blocks. */
         if ( xHeapHasBeenInitialised == pdFALSE )
         {
-            printf("Initializing heap\n");
             prvHeapInit();
             xHeapHasBeenInitialised = pdTRUE;
         }
@@ -281,7 +209,7 @@ void *pvPortMalloc( size_t xWantedSize )
         {
             /* Blocks are stored in byte order - traverse the list from the start
                (smallest) block until one of adequate size is found. */
-            xBlockLink *pxPreviousSizeBlock = &xStartSize;
+            pxPreviousSizeBlock = &xStartSize;
             pxBlock = xStartSize.pxNextSizeBlock;
             while ( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextSizeBlock ) )
             {
@@ -304,6 +232,7 @@ void *pvPortMalloc( size_t xWantedSize )
 
                 /* This block is being returned for use so must be taken our of the
                    list of free blocks. */
+                DBGPRINTF1("pxBlock = %p\n", pxBlock);
                 pxPreviousSizeBlock->pxNextSizeBlock = pxBlock->pxNextSizeBlock;
                 pxPreviousAddrBlock->pxNextAddrBlock = pxBlock->pxNextAddrBlock;
 
@@ -313,17 +242,19 @@ void *pvPortMalloc( size_t xWantedSize )
                     /* This block is to be split into two.  Create a new block
                        following the number of bytes requested. The void cast is
                        used to prevent byte alignment warnings from the compiler. */
-                    xBlockLink *pxNewBlockLink = ( void * ) ( ( ( unsigned char * ) pxBlock ) + xWantedSize );
+                    pxNewBlockLink = ( void * ) ( ( ( unsigned char * ) pxBlock ) + xWantedSize );
 
-                    /* Calculate the sizes of two blocks split from the single block. */
+                    /* Calculate the sizes of two blocks split from the single
+                       block. */
                     pxNewBlockLink->xBlockSize = pxBlock->xBlockSize - xWantedSize;
+                    DBGPRINTF1("xWantedSize = %d\n", xWantedSize);
                     pxBlock->xBlockSize = xWantedSize;
 
                     /* Insert the new block into the list of free blocks. */
-                    prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
-                    /* Splitting blocks incurs allocation cost of one struct size. */
-                    xFreeBytesRemaining -= heapSTRUCT_SIZE;
+                    DBGPRINTF1("New block at %p\n", pxNewBlockLink);
+                    prvInsertBlockIntoFreeList( pxNewBlockLink );
                 }
+                DBGPRINTF1("Actual allocation is %d\n", pxBlock->xBlockSize);
 
                 xFreeBytesRemaining -= pxBlock->xBlockSize;
             }
@@ -331,7 +262,7 @@ void *pvPortMalloc( size_t xWantedSize )
     }
     xTaskResumeAll();
 
-#if configUSE_MALLOC_FAILED_HOOK == 1
+#if( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
         if( pvReturn == NULL )
         {
@@ -347,24 +278,21 @@ void *pvPortMalloc( size_t xWantedSize )
 
 #define START_OF_HEAP      ((xBlockLink*) &xHeap)
 #define END_OF_HEAP        ((xBlockLink*) (((char*)&xHeap) + configTOTAL_HEAP_SIZE))
-//#define END_OF_BLOCK(blk)  ((xBlockLink*) (((char*)blk) + heapSTRUCT_SIZE + blk->xBlockSize))
 #define END_OF_BLOCK(blk)  ((xBlockLink*) (((char*)blk) + blk->xBlockSize))
 
-static void remove_from_free_list(xBlockLink *victim, xBlockLink *previousByAddr)
-{
-    xBlockLink *previousBySize, *successorBySize;
-
-    previousByAddr->pxNextAddrBlock = victim->pxNextAddrBlock;
-
-    previousBySize = &xStartSize;
-    while (previousBySize->pxNextSizeBlock != NULL) {
-        successorBySize = previousBySize->pxNextSizeBlock;
-        if (successorBySize->xBlockSize >= victim->xBlockSize)
-            break;
-        previousBySize = successorBySize;
+#define prvRemoveFromFreeList(victim, previousByAddr)                   \
+    {                                                                   \
+        xBlockLink *previousBySize, *successorBySize;                   \
+        previousByAddr->pxNextAddrBlock = victim->pxNextAddrBlock;      \
+        previousBySize = &xStartSize;                                   \
+        while (previousBySize->pxNextSizeBlock != NULL) {               \
+            successorBySize = previousBySize->pxNextSizeBlock;          \
+            if (successorBySize->xBlockSize >= victim->xBlockSize)      \
+                break;                                                  \
+            previousBySize = successorBySize;                           \
+        }                                                               \
+        previousBySize->pxNextSizeBlock = victim->pxNextSizeBlock;      \
     }
-    previousBySize->pxNextSizeBlock = victim->pxNextSizeBlock;
-}
 
 void vPortFree( void *pv )
 {
@@ -382,41 +310,29 @@ void vPortFree( void *pv )
 
         vTaskSuspendAll();
         {
-            if (defragEnabled) {
-                xBlockLink *previousPrevious, *previous, *successor;
+            xBlockLink *previousPrevious, *previous, *successor;
 
-                previousPrevious = NULL;
-                previous = &xStartAddr;
-                while (previous->pxNextAddrBlock != &xEnd) {
-                    successor = previous->pxNextAddrBlock;
-                    if ((unsigned int) successor >= (unsigned int) pxLink)
-                        break;
-                    previousPrevious = previous;
-                    previous = successor;
-                }
+            previousPrevious = NULL;
+            previous = &xStartAddr;
+            while (previous->pxNextAddrBlock != &xEnd) {
+                successor = previous->pxNextAddrBlock;
+                if ((unsigned int) successor >= (unsigned int) pxLink)
+                    break;
+                previousPrevious = previous;
+                previous = successor;
+            }
 
-                COMMENT1("pxLink %p\n", pxLink);
-                COMMENT1("pxLink->xBlockSize %d\n", pxLink->xBlockSize);
-                COMMENT1("END_OF_BLOCK(pxLink) %p\n", END_OF_BLOCK(pxLink));
-                COMMENT1("successor %p\n", successor);
-                COMMENT1("&xEnd %p\n", &xEnd);
-                COMMENT1("successor != &xEnd ? %s\n",
-                         (successor != &xEnd) ? "yes" : "no");
-                COMMENT1("END_OF_BLOCK(pxLink) == successor ? %s\n",
-                         (END_OF_BLOCK(pxLink) == successor) ? "yes" : "no");
+            if (successor != &xEnd && END_OF_BLOCK(pxLink) == successor) {
+                /* contiguous with successor, so they can be merged */
+                prvRemoveFromFreeList(successor, previous);
+                pxLink->xBlockSize += successor->xBlockSize;
+            }
 
-                if (successor != &xEnd && END_OF_BLOCK(pxLink) == successor) {
-                    COMMENT("contiguous with successor, so they can be merged\n");
-                    remove_from_free_list(successor, previous);
-                    pxLink->xBlockSize += successor->xBlockSize;
-                }
-
-                if (previous != &xStartAddr && END_OF_BLOCK(previous) == pxLink) {
-                    COMMENT("contiguous with predecessor, so they can be merged\n");
-                    remove_from_free_list(previous, previousPrevious);
-                    previous->xBlockSize += pxLink->xBlockSize;
-                    pxLink = previous;
-                }
+            if (previous != &xStartAddr && END_OF_BLOCK(previous) == pxLink) {
+                /* contiguous with predecessor, so they can be merged */
+                prvRemoveFromFreeList(previous, previousPrevious);
+                previous->xBlockSize += pxLink->xBlockSize;
+                pxLink = previous;
             }
 
             prvInsertBlockIntoFreeList( ( ( xBlockLink * ) pxLink ) );
