@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <!-- Inherit our applications main module.                      -->
+  <inherits name='net.willware.tryit.Tryit'/>
+
+  <!-- Specify the path to any remote services.                   -->
+  <servlet path="/tryit/greet" class="net.willware.tryit.server.GreetingServiceImpl" />
+
+</module>
