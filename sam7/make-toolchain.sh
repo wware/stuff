@@ -15,6 +15,9 @@ ROOT=`pwd`
 SRCDIR=$ROOT/src
 BUILDDIR=$ROOT/build
 PREFIX=/opt/gnu-arm
+#PREFIX=/opt/gnu-arm-eabi
+OBJTYPE=elf
+#OBJTYPE=none-eabi
 
 GCC_VERSION=4.4.0
 GCC_URL=http://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VERSION}/gcc-core-${GCC_VERSION}.tar.bz2
@@ -32,7 +35,7 @@ GDB_VERSION=6.8
 GDB_URL=ftp://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.bz2
 GDB_DIR=gdb-${GDB_VERSION}
 
-echo "Building an arm-elf cross-compiler:
+echo "Building an arm-${OBJTYPE} cross-compiler:
 
   Prefix: $PREFIX
   Sources: $SRCDIR
@@ -104,7 +107,7 @@ export PATH=$PREFIX/bin:$PATH
 mkdir -p $BUILDDIR/$BINUTILS_DIR
 cd $BUILDDIR/$BINUTILS_DIR
 
-$SRCDIR/$BINUTILS_DIR/configure --target=arm-elf --prefix=$PREFIX \
+$SRCDIR/$BINUTILS_DIR/configure --target=arm-${OBJTYPE} --prefix=$PREFIX \
     --disable-werror --enable-interwork --enable-multilib --with-float=soft \
     && make all install
 ) || exit 1
@@ -113,6 +116,7 @@ $SRCDIR/$BINUTILS_DIR/configure --target=arm-elf --prefix=$PREFIX \
 # Stage 2: Patch the GCC multilib rules, then build the gcc compiler only
 #
 (
+# I dunno what happens to EABI with this
 MULTILIB_CONFIG=$SRCDIR/$GCC_DIR/gcc/config/arm/t-arm-elf
 
 echo "
@@ -123,7 +127,7 @@ MULTILIB_DIRNAMES += normal interwork
 mkdir -p $BUILDDIR/$GCC_DIR
 cd $BUILDDIR/$GCC_DIR
 
-$SRCDIR/$GCC_DIR/configure --target=arm-elf --prefix=$PREFIX \
+$SRCDIR/$GCC_DIR/configure --target=arm-${OBJTYPE} --prefix=$PREFIX \
     --with-gmp=/usr/lib --with-mpfr=/usr/lib \
     --enable-interwork --enable-multilib --with-float=soft --nfp \
     --enable-languages="c" --with-newlib \
@@ -139,7 +143,7 @@ $SRCDIR/$GCC_DIR/configure --target=arm-elf --prefix=$PREFIX \
 mkdir -p $BUILDDIR/$NEWLIB_DIR
 cd $BUILDDIR/$NEWLIB_DIR
 
-$SRCDIR/$NEWLIB_DIR/configure --target=arm-elf --prefix=$PREFIX \
+$SRCDIR/$NEWLIB_DIR/configure --target=arm-${OBJTYPE} --prefix=$PREFIX \
     --enable-interwork --enable-multilib --with-float=soft \
     && make all install
 ) || exit 1
@@ -160,7 +164,7 @@ make all install
 mkdir -p $BUILDDIR/$GDB_DIR
 cd $BUILDDIR/$GDB_DIR
 
-$SRCDIR/$GDB_DIR/configure --target=arm-elf --prefix=$PREFIX \
+$SRCDIR/$GDB_DIR/configure --target=arm-${OBJTYPE} --prefix=$PREFIX \
     --disable-werror --enable-interwork --enable-multilib --with-float=soft \
     && make all install
 ) || exit 1
