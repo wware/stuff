@@ -14,26 +14,25 @@
 ROOT=`pwd`
 SRCDIR=$ROOT/src
 BUILDDIR=$ROOT/build
-#PREFIX=$ROOT/install
 PREFIX=/opt/gnu-arm
 
-GCC_URL=http://ftp.gnu.org/pub/gnu/gcc/gcc-4.4.0/gcc-core-4.4.0.tar.bz2
 GCC_VERSION=4.4.0
+GCC_URL=http://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VERSION}/gcc-core-${GCC_VERSION}.tar.bz2
 GCC_DIR=gcc-$GCC_VERSION
 
-BINUTILS_URL=http://ftp.gnu.org/gnu/binutils/binutils-2.19.1.tar.bz2
 BINUTILS_VERSION=2.19.1
-BINUTILS_DIR=binutils-$BINUTILS_VERSION
+BINUTILS_URL=http://ftp.gnu.org/gnu/binutils/binutils-${BINUTILS_VERSION}.tar.bz2
+BINUTILS_DIR=binutils-${BINUTILS_VERSION}
 
-NEWLIB_URL=ftp://sources.redhat.com/pub/newlib/newlib-1.17.0.tar.gz
 NEWLIB_VERSION=1.17.0
-NEWLIB_DIR=newlib-$NEWLIB_VERSION
+NEWLIB_URL=ftp://sources.redhat.com/pub/newlib/newlib-${NEWLIB_VERSION}.tar.gz
+NEWLIB_DIR=newlib-${NEWLIB_VERSION}
 
-GDB_URL=ftp://ftp.gnu.org/gnu/gdb/gdb-6.8.tar.bz2
 GDB_VERSION=6.8
-GDB_DIR=gdb-$GDB_VERSION
+GDB_URL=ftp://ftp.gnu.org/gnu/gdb/gdb-${GDB_VERSION}.tar.bz2
+GDB_DIR=gdb-${GDB_VERSION}
 
-echo "I will build an arm-elf cross-compiler:
+echo "Building an arm-elf cross-compiler:
 
   Prefix: $PREFIX
   Sources: $SRCDIR
@@ -85,7 +84,6 @@ cd $SRCDIR
 ensure_source $GCC_URL
 ensure_source $BINUTILS_URL
 ensure_source $NEWLIB_URL
-#rboissat: Adding GNU gdb
 ensure_source $GDB_URL
 
 # ... And unpack the sources.
@@ -118,10 +116,8 @@ $SRCDIR/$BINUTILS_DIR/configure --target=arm-elf --prefix=$PREFIX \
 MULTILIB_CONFIG=$SRCDIR/$GCC_DIR/gcc/config/arm/t-arm-elf
 
 echo "
-
 MULTILIB_OPTIONS += mno-thumb-interwork/mthumb-interwork
 MULTILIB_DIRNAMES += normal interwork
-
 " >> $MULTILIB_CONFIG
 
 mkdir -p $BUILDDIR/$GCC_DIR
@@ -180,5 +176,4 @@ Build complete! To use your new toolchain:
       source $ROOT/env.sh
 
   - Or, just add $PREFIX/bin to your PATH manually.
-
 "
