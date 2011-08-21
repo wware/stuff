@@ -15,9 +15,8 @@ ROOT=`pwd`
 SRCDIR=$ROOT/src
 BUILDDIR=$ROOT/build
 PREFIX=/opt/gnu-arm
-#PREFIX=/opt/gnu-arm-eabi
 OBJTYPE=elf
-#OBJTYPE=none-eabi
+#OBJTYPE=linux-eabi
 
 GCC_VERSION=4.4.0
 GCC_URL=http://ftp.gnu.org/pub/gnu/gcc/gcc-${GCC_VERSION}/gcc-core-${GCC_VERSION}.tar.bz2
