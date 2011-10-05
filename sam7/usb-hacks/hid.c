@@ -1,4 +1,6 @@
-#include "usb_descriptors.h"
+#include "board.h"
+#include "usb.h"
+#include "descriptors.h"
 
 /*
  * Check directories in /sys/bus/usb/devices to find the one with
@@ -74,7 +76,7 @@ static const short hid_report[] = {
     0x0281, //    3 Button bits
     0x0195, //    Report Count (1)
     0x0575, //    Report Size (5)
-    0x0181, //    5 bits of padding
+    0x0381, //    5 bits of padding
     0x0105, //    Generic desktop
     0x3009, //    Usage (X)
     0x3109, //    Usage(Y)
@@ -87,15 +89,16 @@ static const short hid_report[] = {
 };
 const char *hidReportDescriptor = (const char *) hid_report;
 const int hidReportDescriptorSize = sizeof(hid_report);
+const int hidReportSize = 3;
 
 // Check http://www.usb.org/developers/hidpage/#Class_Definition
-static const char dev_desc[] = {
+static const char dev_desc_hid[] = {
     /* Device descriptor */
     0x12,   // bLength
     0x01,   // bDescriptorType
     0x10,   // bcdUSBL
     0x01,   //
-    0x00,   // bDeviceClass:
+    0x00,   // bDeviceClass:  HID
     0x00,   // bDeviceSubclass:
     0x00,   // bDeviceProtocol:
     0x08,   // bMaxPacketSize0
@@ -113,11 +116,16 @@ static const char dev_desc[] = {
     0x03,   // iSerial
     0x01    // bNumConfigs
 };
-const char *devDescriptor = dev_desc;
-const int devDescriptorSize = sizeof(dev_desc);
+const char *devDescriptor = dev_desc_hid;
+const int devDescriptorSize = sizeof(dev_desc_hid);
 
-static const char cfg_desc[] = {
+static const char cfg_desc_hid[] = {
     /* ============== CONFIGURATION 1 =========== */
+    /*
+     * Does this mean there could be more than one configuration?
+     * Could the same gadget have a HID config and a CDC/ACM config?
+     * Curious.
+     */
     /* Configuration 1 descriptor */
     0x09,   // CbLength
     0x02,   // CbDescriptorType
@@ -154,14 +162,14 @@ static const char cfg_desc[] = {
     /* Endpoint 1 descriptor */
     0x07,   // bLength
     0x05,   // bDescriptorType
-    0x81,   // bEndpointAddress, Endpoint 01 - OUT
+    0x81,   // bEndpointAddress, Endpoint 01 - IN
     0x03,   // bmAttributes      INT
-    0x04,   // wMaxPacketSize: 3 bytes (button, x, y)
+    0x03,   // wMaxPacketSize: 3 bytes (button, x, y)
     0x00,
     0x0A    // bInterval
 };
-const char *cfgDescriptor = cfg_desc;
-const int cfgDescriptorSize = sizeof(cfg_desc);
+const char *cfgDescriptor = cfg_desc_hid;
+const int cfgDescriptorSize = sizeof(cfg_desc_hid);
 
 // en_US = 0409
 static const char lang_desc[] = {
@@ -214,3 +222,29 @@ static const char serial_desc[] = {
 };
 const char *serialStringDescriptor = serial_desc;
 const int serialStringDescriptorSize = sizeof(serial_desc);
+
+void usb_open(struct _AT91S_USBDEV *usbdev)
+{
+    AT91F_USBDEV_Open(usbdev, AT91C_BASE_UDP, 1);
+}
+
+static int count = 0;
+static int direction = 0;
+
+void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
+{
+    char x;
+    if (count & 64) {
+        // LED on, mouse moving left
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, LED1);
+        x = -2;
+    } else {
+        // LED off, mouse moving right
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, LED1);
+        x = 2;
+    }
+    count++;
+    char buttons = 0;
+    char hid_report[] = { buttons, x, 0 };  // three bytes as promised
+    usbDevice->SendReport(usbDevice, hid_report, hidReportSize);
+}

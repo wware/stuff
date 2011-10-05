@@ -7,11 +7,10 @@
 * fitness for any particular purpose, or against the infringements of
 * intellectual property rights of others.
 *----------------------------------------------------------------------------
-* File Name           : h64_board.h
-* Object              : AT91SAM7S Evaluation Board Features Definition File.
 *
-* Creation            : JPP   16/Jun/2004
-*----------------------------------------------------------------------------
+*  This is an external memory map for the Olimex SAM7S64 header board
+*  available from Sparkfun.
+*
 */
 #ifndef h64_board_h_included
 #define h64_board_h_included

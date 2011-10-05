@@ -10,17 +10,11 @@ a getting-started `article by Adam Pierce`_.
 
 A hugely important piece of doing SAM7 development is getting the toolchain to
 work.  I'm working on Ubuntu 10.04 (Lucid) and I've modified a script for this
-purpose; see `make-toolchain.sh`_.  I modded Adam Pierce's LED blinker
+purpose; see `make-toolchain.py`_.  I modded Adam Pierce's LED blinker
 demo a bit to work with the resulting toolchain.  It can run out of RAM or flash.
 See ARMBlinkExample/Makefile for details.
 
-.. _make-toolchain.sh: https://github.com/wware/stuff/blob/master/sam7/make-toolchain.sh
-
-Relevant datasheet at
-http://www.atmel.com/dyn/resources/prod_documents/doc6175.pdf.
-
-Sam-I-Am info is available at
-http://claymore.engineer.gvsu.edu/~steriana/Software/Sam_I_Am/
+.. _make-toolchain.py: https://github.com/wware/stuff/blob/master/sam7/make-toolchain.py
 
 I also got a USB/HID mouse demo working so that the two buttons on Sparkfun's P256
 board cause the cursor to move left and right.
@@ -46,3 +40,15 @@ are a lot of them and they're complicated. The idea would be something like
 you could make some standardized use of each thing, and if you needed to dig
 in and learn more about it, there would be some kind of helpful support for
 doing that.
+
+Resources
+---------
+
+* http://www.doctort.org/adam/nerd-notes/getting-started-with-the-olimex-sam7-p256.html
+  - Adam Pierce's article mentioned above
+* http://frank.circleofcurrent.com/mcu_proj_db/ - a nice list of various
+  people's projects using ARM processors and microcontrollers
+* http://www.atmel.com/dyn/resources/prod_documents/doc6175.pdf -
+  AT91SAM7S datasheet
+* http://claymore.engineer.gvsu.edu/~steriana/Software/Sam_I_Am/ -
+  Sam-I-Am website
