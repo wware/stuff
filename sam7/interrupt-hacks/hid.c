@@ -1,4 +1,4 @@
-#include "board.h"
+#include "Board.h"
 #include "usb.h"
 #include "descriptors.h"
 
@@ -229,7 +229,6 @@ void usb_open(struct _AT91S_USBDEV *usbdev)
 }
 
 static int count = 0;
-static int direction = 0;
 
 void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
 {
@@ -245,6 +244,6 @@ void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
     }
     count++;
     char buttons = 0;
-    char hid_report[] = { buttons, x, 0 };  // three bytes as promised
-    usbDevice->SendReport(usbDevice, hid_report, hidReportSize);
+    char hid_report_bytes[] = { buttons, x, 0 };  // three bytes as promised
+    usbDevice->SendReport(usbDevice, hid_report_bytes, hidReportSize);
 }

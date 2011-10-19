@@ -33,8 +33,9 @@
 #define  INT_FLASH          0x00000000
 #define  INT_FLASH_REMAP    0x01000000
 
-#define  FLASH_PAGE_NB		1024
-#define  FLASH_PAGE_SIZE	256
+#define  FLASH_PAGE_NB		512
+#define  FLASH_PAGE_LOCK    32
+#define  FLASH_PAGE_SIZE	128
 
 #define USB_DP_PUP   (1<<16)
 #define USB_DM_PUP   (1<<8)
@@ -45,6 +46,7 @@
 #define LED1            AT91C_PIO_PA8
 #define LED2            0  /* no second LED */
 #define LED_MASK        (LED1|LED2)
+#define NB_LEB			1
 
 /*------------------*/
 /* USART Definition */
@@ -64,7 +66,7 @@
 /*--------------*/
 
 #define EXT_OSC         18432000   // External oscillator MAINCK, not actually used
-#define MCK             48054841
+#define MCK             48054857
 #define MCKKHz          (MCK/1000)
 
 #endif /* h64_board_h_included */

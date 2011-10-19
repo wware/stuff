@@ -70,7 +70,7 @@ class Package:
         if self.name == 'gcc':
             cmd = '(cd %s; make all install)' % self.blddir
             do_cmd(cmd)
-        
+
 
 binutils = Package('binutils',
                    '2.19.1',

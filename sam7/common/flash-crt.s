@@ -373,11 +373,11 @@ AT91F_Undef_Handler:
 
 
 AT91F_Default_FIQ_handler:
-	b	AT91F_Default_FIQ_handler
+	mov	pc, lr
 
 AT91F_Default_IRQ_handler:
-	b	AT91F_Default_IRQ_handler
+	mov	pc, lr
 
 AT91F_Spurious_handler:
-	b	AT91F_Spurious_handler
+	mov	pc, lr
 .end

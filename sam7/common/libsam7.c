@@ -93,7 +93,8 @@ static void delay(unsigned char y)
 
 static unsigned char led_state;
 
-// LED1 is green, LED2 is yellow
+// Olimex proto board: LED1 is green, LED2 is yellow
+// Olimex header board: LED1 is green, no LED2
 
 void led_init(void)
 {
