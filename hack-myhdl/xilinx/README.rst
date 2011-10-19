@@ -42,6 +42,12 @@ a potentially expensive USB-JTAG interface. From the nexys2prog docs:
 
 Also useful: http://ixo-jtag.sourceforge.net/nexys2-linux-howto.html
 
+I've posted the nexys2prog_ and urjtag_ tarballs for download on Google Docs.
+
+.. _nexys2prog: https://docs.google.com/leaf?id=0B656IJ3nlMSMYjU5ZWJjOGQtYmY1NS00ODcxLWFjYWYtZjk4YjRhOGYzZjNk
+
+.. _urjtag: https://docs.google.com/leaf?id=0B656IJ3nlMSMNzZjNDRmZDctMGM5Yy00OWFmLWIwNTUtZjc2ZDk1YjFhNjU2
+
 The nexys2prog script depends upon your having installed the Xilinx IDE.
 
 Here's how to install nexys2prog on an Ubuntu 10.04 system::
