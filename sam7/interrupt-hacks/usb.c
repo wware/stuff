@@ -1,440 +1,270 @@
-//*----------------------------------------------------------------------------
-//*      ATMEL Microcontroller Software Support  -  ROUSSET  -
-//*----------------------------------------------------------------------------
-//* The software is delivered "AS IS" without warranty or condition of any
-//* kind, either express, implied or statutory. This includes without
-//* limitation any warranty or condition with respect to merchantability or
-//* fitness for any particular purpose, or against the infringements of
-//* intellectual property rights of others.
-//*----------------------------------------------------------------------------
-//* File Name           : usb.c
-//* Object              : Handle CDC or HID enumeration, other USB stuff
-//*----------------------------------------------------------------------------
+/* usb.c -- AT91SAM7 usb core
+**
+** Copyright 2006, Brian Swetland.  All rights reserved.
+** See provided LICENSE file or http://frotz.net/LICENSE for details.
+*/
 
 #include "Board.h"
 #include "descriptors.h"
 #include "usb.h"
 
-typedef unsigned char  uchar;
-typedef unsigned short ushort;
-typedef unsigned int   uint;
 
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-
-static uchar AT91F_UDP_IsConfigured(AT91PS_USBDEV pUsbdev);
-static uint AT91F_CDC_Read(AT91PS_USBDEV pUsbdev, char *pData, uint length);
-static uint AT91F_CDC_Write(AT91PS_USBDEV pUsbdev, const char *pData, uint length);
-static void AT91F_HID_SendReport(AT91PS_USBDEV, char *report, int length);
-static void setup_packet_handler(AT91PS_USBDEV pUsbdev);
-
-typedef struct {
-    unsigned int dwDTERRate;
-    char bCharFormat;
-    char bParityType;
-    char bDataBits;
-} AT91S_CDC_LINE_CODING, *AT91PS_CDC_LINE_CODING;
-
-AT91S_CDC_LINE_CODING line = {
-    115200, // baudrate
-    0,      // 1 Stop Bit
-    0,      // None Parity
-    8       // 8 Data bits
+static usb_info USB = {
+    .ctl_out_data = 0,
+    .ctl_out_count = 0,
+    .new_address = 0,
 };
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_USBDEV_Open
-//* \brief
-//*----------------------------------------------------------------------------
-AT91PS_USBDEV AT91F_USBDEV_Open(AT91PS_USBDEV pUsbdev, AT91PS_UDP pUdp, unsigned char cdcHid)
+void reset_endpoints(void)
 {
-    // Set the PLL USB Divider
-    // writes to FFFFFC2C, divider should divide by 2
-    AT91C_BASE_CKGR->CKGR_PLLR |= AT91C_CKGR_USBDIV_1 ;
+    AT91UDP *udp = AT91UDP_ADDR;
+    /* reset endpoints */
+    //udp->RST_EP = UDP_EP0 | UDP_EP1 | UDP_EP2 | UDP_EP3;
+    udp->RST_EP = UDP_EP0 | UDP_EP1;
+    udp->RST_EP = 0;
 
-    // Specific Chip USB Initialisation
-    // Enables the 48MHz USB clock UDPCK and System Peripheral USB Clock
-    AT91C_BASE_PMC->PMC_SCER = AT91C_PMC_UDP;
-    AT91C_BASE_PMC->PMC_PCER = (1 << AT91C_ID_UDP);
+    USB.ctl_out_count = 0;
+    USB.new_address = 0;
 
-    // Enable UDP PullUp on D+ line
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, USB_DP_PUP);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, USB_DP_PUP);
-#ifdef USB_DM_PUP
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, USB_DM_PUP);
-    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, USB_DM_PUP);
+    udp->CSR0 = UDP_TYPE_CONTROL | UDP_EPEDS;
+
+    /* disable non-control endpoints */
+    udp->CSR1 = 0;
+    udp->CSR2 = 0;
+    udp->CSR3 = 0;
+}
+
+
+/* PLL must be configured to provide 48MHz USBCLK */
+void usb_init()
+{
+    AT91UDP *udp = AT91UDP_ADDR;
+    AT91PMC *pmc = AT91PMC_ADDR;
+    //usb_info *usb = &USB;
+
+    /* enable the usb bus and peripheral clocks */
+    pmc->SCER = PMC_UDP;
+    pmc->PCER = (1 << PID_UDP);
+
+    /* unconfigured, address = 0, function disabled */
+    udp->GLB_STAT = 0;
+    udp->FADDR = 0;
+
+    reset_endpoints();
+
+    /* enable transciever */
+    udp->TXVC = 0;
+    udp->IDR = 0xffffffff;
+    udp->IER = (UDP_ENDBUSRES | UDP_EP0INT | UDP_EP1INT | UDP_EP3INT);
+
+#if 0
+    pio_set(PIN_USB_PULLUP, 0);
+    for (n = 0; n < 100; n++);
+    pio_set(PIN_USB_PULLUP, 1);
 #endif
-    pUsbdev->pUdp = pUdp;
-    pUsbdev->cdcOrHid = cdcHid;   // 1: HID, 0: CDC/ACM
-    pUsbdev->currentConfiguration = 0;
-    pUsbdev->currentConnection    = 0;
-    pUsbdev->currentRcvBank       = AT91C_UDP_RX_DATA_BK0;
-    pUsbdev->IsConfigured = AT91F_UDP_IsConfigured;
-    pUsbdev->Write        = AT91F_CDC_Write;
-    pUsbdev->Read         = AT91F_CDC_Read;
-    pUsbdev->SendReport   = AT91F_HID_SendReport;
-    return pUsbdev;
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_UDP_IsConfigured
-//* \brief Test if the device is configured and handle enumeration
-//*----------------------------------------------------------------------------
-static uchar AT91F_UDP_IsConfigured(AT91PS_USBDEV pUsbdev)
+static inline void ctl_ack(AT91UDP * udp)
 {
-    AT91PS_UDP pUDP = pUsbdev->pUdp;
-    AT91_REG isr = pUDP->UDP_ISR;
-
-    if (isr & AT91C_UDP_ENDBUSRES) {
-        // handle an end-of-bus-reset interrupt
-        pUDP->UDP_ICR = AT91C_UDP_ENDBUSRES;
-        // reset all endpoints
-        pUDP->UDP_RSTEP  = 0xf;
-        pUDP->UDP_RSTEP  = 0;
-        // Enable the function
-        pUDP->UDP_FADDR = AT91C_UDP_FEN;
-        // Configure endpoint 0
-        pUDP->UDP_CSR[0] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_CTRL);
-    }
-    else if (isr & AT91C_UDP_EPINT0) {
-        // handle an endpoint zero interrupt
-        pUDP->UDP_ICR = AT91C_UDP_EPINT0;
-        setup_packet_handler(pUsbdev);
-    }
-    return pUsbdev->currentConfiguration;
+    udp->CSR0 |= UDP_TXPKTRDY;
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_CDC_Read
-//* \brief Read available data from Endpoint OUT
-//*----------------------------------------------------------------------------
-static uint AT91F_CDC_Read(AT91PS_USBDEV pUsbdev, char *pData, uint length)
+static inline void ctl_stall(AT91UDP * udp)
 {
-    AT91PS_UDP pUdp = pUsbdev->pUdp;
-    uint packetSize;
-    uint nbBytesRcv = 0;
-    uint currentReceiveBank = pUsbdev->currentRcvBank;
-    while (length) {
-        if ( !AT91F_UDP_IsConfigured(pUsbdev) )
-            break;
-        if (pUdp->UDP_CSR[CDC_EP_OUT] & currentReceiveBank) {
-            packetSize = MIN(pUdp->UDP_CSR[CDC_EP_OUT] >> 16, length);
-            length -= packetSize;
-            if (packetSize < CDC_EP_OUT_SIZE)
-                length = 0;
-            while (packetSize--)
-                pData[nbBytesRcv++] = pUdp->UDP_FDR[CDC_EP_OUT];
-            // See doc6175.pdf sections 35.5.2.7 and 35.6.10
-            // clear the current bank bit (BANK 0 or BANK 1)
-            pUdp->UDP_CSR[CDC_EP_OUT] &= ~currentReceiveBank;
-            // wait for synchronization
-            while ((pUdp->UDP_CSR[CDC_EP_OUT] & currentReceiveBank)
-                   == currentReceiveBank);
-            if (currentReceiveBank == AT91C_UDP_RX_DATA_BK0)
-                currentReceiveBank = AT91C_UDP_RX_DATA_BK1;
-            else
-                currentReceiveBank = AT91C_UDP_RX_DATA_BK0;
-        }
-    }
-    pUsbdev->currentRcvBank = currentReceiveBank;
-    return nbBytesRcv;
+    udp->CSR0 |= UDP_FORCESTALL;
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_USBDEV_Write
-//* \brief Send through endpoint 2
-//*----------------------------------------------------------------------------
-static uint AT91F_CDC_Write(AT91PS_USBDEV pUsbdev, const char *pData, uint length)
+static void ctl_send_packet(usb_info * usb, AT91UDP * udp)
 {
-    AT91PS_UDP pUdp = pUsbdev->pUdp;
-    uint cpt = 0;
+    unsigned len = usb->ctl_out_count > 8 ? 8 : usb->ctl_out_count;
 
-    // Send the first packet
-    cpt = MIN(length, CDC_EP_IN_SIZE);
-    length -= cpt;
-    while (cpt--) pUdp->UDP_FDR[CDC_EP_IN] = *pData++;
-    pUdp->UDP_CSR[CDC_EP_IN] |= AT91C_UDP_TXPKTRDY;
-
-    while (length) {
-        // Fill the second bank
-        cpt = MIN(length, CDC_EP_IN_SIZE);
-        length -= cpt;
-        while (cpt--) pUdp->UDP_FDR[CDC_EP_IN] = *pData++;
-        // Wait for the the first bank to be sent
-        while ( !(pUdp->UDP_CSR[CDC_EP_IN] & AT91C_UDP_TXCOMP) )
-            if ( !AT91F_UDP_IsConfigured(pUsbdev) ) return length;
-        pUdp->UDP_CSR[CDC_EP_IN] &= ~(AT91C_UDP_TXCOMP);
-        while (pUdp->UDP_CSR[CDC_EP_IN] & AT91C_UDP_TXCOMP);
-        pUdp->UDP_CSR[CDC_EP_IN] |= AT91C_UDP_TXPKTRDY;
-    }
-    // Wait for the end of transfer
-    while ( !(pUdp->UDP_CSR[CDC_EP_IN] & AT91C_UDP_TXCOMP) )
-        if ( !AT91F_UDP_IsConfigured(pUsbdev) ) return length;
-    pUdp->UDP_CSR[CDC_EP_IN] &= ~(AT91C_UDP_TXCOMP);
-    while (pUdp->UDP_CSR[CDC_EP_IN] & AT91C_UDP_TXCOMP);
-
-    return length;
+    usb->ctl_out_count -= len;
+    while (len--)
+	udp->FDR0 = *usb->ctl_out_data++;
+    udp->CSR0 |= UDP_TXPKTRDY;
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_HID_SendCoordinates
-//* \brief Send Data through endpoint 1
-//*----------------------------------------------------------------------------
-static void AT91F_HID_SendReport(AT91PS_USBDEV pHid, char *report, int reportSize)
+static void ctl_send(usb_info * usb, AT91UDP * udp,
+		     unsigned char *data, unsigned len, unsigned reqlen)
 {
-    AT91PS_UDP pUdp = pHid->pUdp;
+    if (len > reqlen)
+	len = reqlen;
+    if (len > 64)
+	len = 64;
 
-    // Send report to the host
-    while (reportSize--)
-        *((volatile char *) (pUdp->UDP_FDR + HID_EP_IN)) = *report++;
-    pUdp->UDP_CSR[HID_EP_IN] |= AT91C_UDP_TXPKTRDY;
+    usb->ctl_out_data = data;
+    usb->ctl_out_count = len;
 
-    // Wait for the end of transmission
-    while ( !(pUdp->UDP_CSR[HID_EP_IN] & AT91C_UDP_TXCOMP) )
-        pHid->IsConfigured(pHid);
-
-    // Clear AT91C_UDP_TXCOMP flag for endpoint 1
-    if (pUdp->UDP_CSR[HID_EP_IN] & AT91C_UDP_TXCOMP) {
-        pUdp->UDP_CSR[HID_EP_IN] &= ~AT91C_UDP_TXCOMP;
-        // then wait for it to be recognized as cleared
-        while (pUdp->UDP_CSR[HID_EP_IN] & AT91C_UDP_TXCOMP);
-    }
+    ctl_send_packet(usb, udp);
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_USB_SendData
-//* \brief Send Data through the control endpoint
-//*----------------------------------------------------------------------------
-static void AT91F_USB_SendData(AT91PS_UDP pUdp, const char *pData, uint length)
+typedef struct {
+    unsigned char type;
+    unsigned char request;
+    unsigned short value;
+    unsigned short index;
+    unsigned short length;
+} __attribute__ ((packed)) setup_msg;
+
+#define STD_SET_ADDRESS               0x0500
+#define STD_GET_DESCRIPTOR            0x0680
+#define STD_GET_CONFIGURATION         0x0880
+#define STD_SET_CONFIGURATION         0x0900
+#define STD_CLEAR_FEATURE_ENDPOINT    0x0102
+#define STD_SET_INTERFACE             0x0B01
+
+static void usb_ep0(usb_info * usb, AT91UDP * udp)
 {
-    uint cpt = 0;
-    AT91_REG csr;
+    unsigned n, i;
+    setup_msg setup;
 
-    do {
-        cpt = MIN(length, 8);
-        length -= cpt;
+    n = udp->CSR0;
 
-        while (cpt--)
-            pUdp->UDP_FDR[0] = *pData++;
+    if (n & UDP_RX_DATA_BK1) {
+	return;
+    }
+    if (n & UDP_RX_DATA_BK0) {
+	ACK_EVENT(udp->CSR0, UDP_RX_DATA_BK0);
+	return;
+    }
+    if (n & UDP_TXCOMP) {
+	ACK_EVENT(udp->CSR0, UDP_TXCOMP);
+	while ((udp->CSR0 & UDP_TXCOMP));
+	if (usb->new_address) {
+	    udp->FADDR = UDP_FEN | usb->new_address;	// BUG overflow?
+	    udp->GLB_STAT = UDP_FADDEN;
+	    usb->new_address = 0;
+	}
+	if (usb->ctl_out_count) {
+	    ctl_send_packet(usb, udp);
+	}
+	return;
+    }
+    if (n & UDP_STALLSENT) {
+	ACK_EVENT(udp->CSR0, UDP_STALLSENT | UDP_FORCESTALL);
+	while ((udp->CSR0 & (UDP_STALLSENT | UDP_FORCESTALL)));
+	return;
+    }
+    if (n & UDP_RXSETUP) {
+	unsigned char *x = (unsigned char *) &setup;
+	for (i = 0; i < 8; i++)
+	    *x++ = udp->FDR0;
 
-        if (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) {
-            pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
-            while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
-        }
+	if (setup.type & 0x80) {
+	    udp->CSR0 |= UDP_DIR;
+	    while (!(udp->CSR0 & UDP_DIR));	// BUG race?
+	}
 
-        pUdp->UDP_CSR[0] |= AT91C_UDP_TXPKTRDY;
-        do {
-            csr = pUdp->UDP_CSR[0];
-            // Data IN stage has been stopped by a status OUT
-            if (csr & AT91C_UDP_RX_DATA_BK0) {
-                pUdp->UDP_CSR[0] &= ~(AT91C_UDP_RX_DATA_BK0);
-                return;
-            }
-        } while ( !(csr & AT91C_UDP_TXCOMP) );
+	ACK_EVENT(udp->CSR0, UDP_RXSETUP);
+	while ((udp->CSR0 & UDP_RXSETUP));	// BUG race?
 
-    } while (length);
+	switch ((setup.request << 8) | setup.type) {
+	case STD_SET_ADDRESS:
+	    if ((setup.value == 0) || (setup.value > 127)) {
+		ctl_stall(udp);
+	    } else {
+		ctl_ack(udp);
+		usb->new_address = setup.value;
+	    }
+	    break;
 
-    if (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) {
-        pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
-        while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
+	case STD_SET_CONFIGURATION:
+	    ctl_ack(udp);  // send a zero length packet
+	    if (setup.value) {
+		udp->GLB_STAT = UDP_CONFG;
+                /* reset endpoints */
+                // TODO: some kind of endpoint mask
+                //udp->RST_EP = UDP_EP0 | UDP_EP1 | UDP_EP2 | UDP_EP3;
+                udp->RST_EP = UDP_EP0 | UDP_EP1;
+                udp->RST_EP = 0;
+		usb_status(1);
+	    } else {
+		udp->GLB_STAT = UDP_FADDEN;
+		usb_status(0);
+	    }
+            usbSetConfiguration(udp, setup.value);
+	    break;
+
+	case STD_SET_INTERFACE:
+	    if ((setup.value != 0) || (setup.index != 0)) {
+		ctl_stall(udp);
+	    } else {
+		udp->RST_EP = UDP_EP1 | UDP_EP3;
+		udp->RST_EP = 0;
+		ctl_ack(udp);
+	    }
+	    break;
+
+	case STD_GET_DESCRIPTOR:
+	    if (setup.value == 0x100) {
+		ctl_send(usb, udp, devDescriptor, devDescriptorSize,
+			 setup.length);
+	    } else if (setup.value == 0x200) {
+		ctl_send(usb, udp, cfgDescriptor, cfgDescriptorSize,
+			 setup.length);
+	    } else {
+		ctl_stall(udp);
+	    }
+	    break;
+
+	default:
+	    ctl_stall(udp);
+	    return;
+	}
+	return;
     }
 }
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_USB_SendZlp
-//* \brief Send zero length packet through the control endpoint
-//*----------------------------------------------------------------------------
-void AT91F_USB_SendZlp(AT91PS_UDP pUdp)
+extern void usb_ep1(usb_info * usb, AT91UDP * udp);
+extern void usb_ep2(usb_info * usb, AT91UDP * udp);
+extern void usb_ep3(usb_info * usb, AT91UDP * udp);
+
+void usb_poll()
 {
-    pUdp->UDP_CSR[0] |= AT91C_UDP_TXPKTRDY;
-    while ( !(pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) );
-    pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
-    while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
-}
+    AT91UDP *udp = AT91UDP_ADDR;
+    usb_info *usb = &USB;
+    unsigned n;
 
-//*----------------------------------------------------------------------------
-//* \fn    AT91F_USB_SendStall
-//* \brief Stall the control endpoint
-//*----------------------------------------------------------------------------
-void AT91F_USB_SendStall(AT91PS_UDP pUdp)
-{
-    pUdp->UDP_CSR[0] |= AT91C_UDP_FORCESTALL;
-    while ( !(pUdp->UDP_CSR[0] & AT91C_UDP_ISOERROR) );
-    pUdp->UDP_CSR[0] &= ~(AT91C_UDP_FORCESTALL | AT91C_UDP_ISOERROR);
-    while (pUdp->UDP_CSR[0] & (AT91C_UDP_FORCESTALL | AT91C_UDP_ISOERROR));
-}
+    /* ignore SOF, suspend, resume, wake, etc */
+    for (;;) {
+	n = udp->
+	    ISR & (UDP_ENDBUSRES | UDP_EP0INT | UDP_EP1INT | UDP_EP2INT | UDP_EP3INT);
+	if (n == 0)
+	    return;
 
-//*----------------------------------------------------------------------------
-//* \fn    setup_packet_handler
-//* \brief This function is a callback invoked when a SETUP packet is received
-//*----------------------------------------------------------------------------
-static void setup_packet_handler(AT91PS_USBDEV pUsbdev)
-{
-    AT91PS_UDP pUDP = pUsbdev->pUdp;
-    uchar bmRequestType, bRequest;
-    ushort wValue, wIndex, wLength, wStatus;
+	if (n & UDP_EP1INT) {
+	    usb_ep1(usb, udp);
+	    continue;
+	}
+	if (n & UDP_EP2INT) {
+	    usb_ep2(usb, udp);
+	    continue;
+	}
+	if (n & UDP_EP3INT) {
+	    usb_ep3(usb, udp);
+	    continue;
+	}
 
-    if ( !(pUDP->UDP_CSR[0] & AT91C_UDP_RXSETUP) )
-        return;
-
-    bmRequestType = pUDP->UDP_FDR[0];
-    bRequest      = pUDP->UDP_FDR[0];
-    wValue        = (pUDP->UDP_FDR[0] & 0xFF);
-    wValue       |= (pUDP->UDP_FDR[0] << 8);
-    wIndex        = (pUDP->UDP_FDR[0] & 0xFF);
-    wIndex       |= (pUDP->UDP_FDR[0] << 8);
-    wLength       = (pUDP->UDP_FDR[0] & 0xFF);
-    wLength      |= (pUDP->UDP_FDR[0] << 8);
-
-    if (bmRequestType & 0x80) {
-        pUDP->UDP_CSR[0] |= AT91C_UDP_DIR;
-        while ( !(pUDP->UDP_CSR[0] & AT91C_UDP_DIR) );
+	/* we handle ep0 *after* the data endpoints because
+	   we want to make sure we empty the data FIFOs before
+	   doing something like resetting the data toggle
+	   with a SET_INTERFACE request (as linux does when it
+	   closes a usb device).
+	 */
+	if (n & UDP_EP0INT) {
+	    usb_ep0(usb, udp);
+	    continue;
+	}
+	if (n & UDP_ENDBUSRES) {
+	    /* done with reset, enable the part for io */
+	    reset_endpoints();
+	    udp->FADDR = UDP_FEN;
+	    udp->ICR = UDP_ENDBUSRES;
+	    udp->IDR = 0xffffffff;
+	    udp->IER =
+		(UDP_ENDBUSRES | UDP_EP0INT | UDP_EP1INT | UDP_EP3INT);
+	    continue;
+	}
     }
-    pUDP->UDP_CSR[0] &= ~AT91C_UDP_RXSETUP;
-    while ( (pUDP->UDP_CSR[0]  & AT91C_UDP_RXSETUP)  );
 
-    // Handle supported standard device request Cf Table 9-3 in USB specification Rev 1.1
-    switch ((bRequest << 8) | bmRequestType) {
-    case STD_GET_DESCRIPTOR:
-        if (wValue == 0x100) {     // Return Device Descriptor
-            AT91F_USB_SendData(pUDP, devDescriptor,
-                               MIN(devDescriptorSize, wLength));
-        }
-        else if (wValue == 0x200) { // Return Configuration Descriptor
-            AT91F_USB_SendData(pUDP, cfgDescriptor,
-                               MIN(cfgDescriptorSize, wLength));
-        }
-
-        // String descriptors are special
-        else if (wValue == 0x300)
-            AT91F_USB_SendData(pUDP, languageStringDescriptor,
-                               MIN(languageStringDescriptorSize, wLength));
-        else if (wValue == 0x301)
-            AT91F_USB_SendData(pUDP, vendorStringDescriptor,
-                               MIN(vendorStringDescriptorSize, wLength));
-        else if (wValue == 0x302)
-            AT91F_USB_SendData(pUDP, productStringDescriptor,
-                               MIN(productStringDescriptorSize, wLength));
-        else if (wValue == 0x303)
-            AT91F_USB_SendData(pUDP, serialStringDescriptor,
-                               MIN(serialStringDescriptorSize, wLength));
-
-        else
-            AT91F_USB_SendStall(pUDP);
-        break;
-    case STD_SET_ADDRESS:
-        AT91F_USB_SendZlp(pUDP);
-        pUDP->UDP_FADDR = (AT91C_UDP_FEN | wValue);
-        pUDP->UDP_GLBSTATE  = (wValue) ? AT91C_UDP_FADDEN : 0;
-        break;
-    case STD_SET_CONFIGURATION:
-        pUsbdev->currentConfiguration = wValue;
-        AT91F_USB_SendZlp(pUDP);
-        pUDP->UDP_GLBSTATE  = (wValue) ? AT91C_UDP_CONFG : AT91C_UDP_FADDEN;
-        if (pUsbdev->cdcOrHid) {
-            // HID -> only one endpoint
-            pUDP->UDP_CSR[1] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN) : 0;
-        } else {
-            // CDC -> three endpoints
-            pUDP->UDP_CSR[1] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_OUT) : 0;
-            pUDP->UDP_CSR[2] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN)  : 0;
-            pUDP->UDP_CSR[3] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_INT_IN)   : 0;
-        }
-        break;
-    case STD_GET_CONFIGURATION:
-        AT91F_USB_SendData(pUDP, (char *) &(pUsbdev->currentConfiguration),
-                           sizeof(pUsbdev->currentConfiguration));
-        break;
-    case STD_GET_STATUS_ZERO:
-        wStatus = 0;
-        AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
-        break;
-    case STD_GET_STATUS_INTERFACE:
-        wStatus = 0;
-        AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
-        break;
-    case STD_GET_STATUS_ENDPOINT:
-        wStatus = 0;
-        wIndex &= 0x0F;
-        if ((pUDP->UDP_GLBSTATE & AT91C_UDP_CONFG) && (wIndex <= 3)) {
-            wStatus = (pUDP->UDP_CSR[wIndex] & AT91C_UDP_EPEDS) ? 0 : 1;
-            AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
-        }
-        else if ((pUDP->UDP_GLBSTATE & AT91C_UDP_FADDEN) && (wIndex == 0)) {
-            wStatus = (pUDP->UDP_CSR[wIndex] & AT91C_UDP_EPEDS) ? 0 : 1;
-            AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
-        }
-        else
-            AT91F_USB_SendStall(pUDP);
-        break;
-    case STD_SET_FEATURE_ZERO:
-        AT91F_USB_SendStall(pUDP);
-        break;
-    case STD_SET_FEATURE_INTERFACE:
-        AT91F_USB_SendZlp(pUDP);
-        break;
-    case STD_SET_FEATURE_ENDPOINT:
-        wIndex &= 0x0F;
-        if ((wValue == 0) && wIndex && (wIndex <= 3)) {
-            pUDP->UDP_CSR[wIndex] = 0;
-            AT91F_USB_SendZlp(pUDP);
-        }
-        else
-            AT91F_USB_SendStall(pUDP);
-        break;
-    case STD_CLEAR_FEATURE_ZERO:
-        AT91F_USB_SendStall(pUDP);
-        break;
-    case STD_CLEAR_FEATURE_INTERFACE:
-        AT91F_USB_SendZlp(pUDP);
-        break;
-    case STD_CLEAR_FEATURE_ENDPOINT:
-        wIndex &= 0x0F;
-        if ((wValue == 0) && wIndex && (wIndex <= 3)) {
-            if (wIndex == 1)
-                pUDP->UDP_CSR[1] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_OUT);
-            else if (wIndex == 2)
-                pUDP->UDP_CSR[2] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN);
-            else if (wIndex == 3) {
-                if (pUsbdev->cdcOrHid)
-                    pUDP->UDP_CSR[3] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_ISO_IN);
-                else
-                    pUDP->UDP_CSR[3] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_INT_IN);
-            }
-            AT91F_USB_SendZlp(pUDP);
-        }
-        else
-            AT91F_USB_SendStall(pUDP);
-        break;
-
-	// handle HID class requests
-    case STD_GET_HID_DESCRIPTOR:
-        if (wValue == 0x2200)
-            AT91F_USB_SendData(pUDP, hidReportDescriptor,
-                               MIN(hidReportDescriptorSize, wLength));
-        else
-            AT91F_USB_SendStall(pUDP);
-        break;
-
-    case STD_SET_IDLE:
-        AT91F_USB_SendZlp(pUDP);
-        break;
-
-        // handle CDC class requests
-    case SET_LINE_CODING:
-        while ( !(pUDP->UDP_CSR[0] & AT91C_UDP_RX_DATA_BK0) );
-        pUDP->UDP_CSR[0] &= ~(AT91C_UDP_RX_DATA_BK0);
-        AT91F_USB_SendZlp(pUDP);
-        break;
-    case GET_LINE_CODING:
-        AT91F_USB_SendData(pUDP, (char *) &line, MIN(sizeof(line), wLength));
-        break;
-    case SET_CONTROL_LINE_STATE:
-        pUsbdev->currentConnection = wValue;
-        AT91F_USB_SendZlp(pUDP);
-        break;
-
-    default:
-        AT91F_USB_SendStall(pUDP);
-        break;
-    }
 }

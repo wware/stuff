@@ -2,12 +2,12 @@
 #include "usb.h"
 #include "descriptors.h"
 
-const char *hidReportDescriptor = (void*) 0;
-const int hidReportDescriptorSize = 0;
-const int hidReportSize = 0;
+unsigned char *hidReportDescriptor = (void*) 0;
+unsigned int hidReportDescriptorSize = 0;
+unsigned int hidReportSize = 0;
 
 // Check http://www.usb.org/developers/hidpage/#Class_Definition
-static const char dev_desc_cdc[] = {
+static unsigned char dev_desc_cdc[] = {
     /* Device descriptor */
     0x12,   // bLength
     0x01,   // bDescriptorType
@@ -31,10 +31,10 @@ static const char dev_desc_cdc[] = {
     0x03,   // iSerial
     0x01    // bNumConfigs
 };
-const char *devDescriptor = dev_desc_cdc;
-const int devDescriptorSize = sizeof(dev_desc_cdc);
+unsigned char *devDescriptor = dev_desc_cdc;
+unsigned int devDescriptorSize = sizeof(dev_desc_cdc);
 
-static const char cfg_desc_cdc[] = {
+static unsigned char cfg_desc_cdc[] = {
     /* ============== CONFIGURATION 1 =========== */
     /* Configuration 1 descriptor */
     0x09,   // CbLength
@@ -124,20 +124,20 @@ static const char cfg_desc_cdc[] = {
     0x00,
     0x00    // bInterval
 };
-const char *cfgDescriptor = cfg_desc_cdc;
-const int cfgDescriptorSize = sizeof(cfg_desc_cdc);
+unsigned char *cfgDescriptor = cfg_desc_cdc;
+unsigned int cfgDescriptorSize = sizeof(cfg_desc_cdc);
 
 // en_US = 0409
-static const char lang_desc[] = {
+static unsigned char lang_desc[] = {
     // Language ID
     4,      // bLength
     0x03,   // bDescriptorType = string
     0x09, 0x04, // little-endian
 };
-const char *languageStringDescriptor = lang_desc;
-const int languageStringDescriptorSize = sizeof(lang_desc);
+unsigned char *languageStringDescriptor = lang_desc;
+unsigned int languageStringDescriptorSize = sizeof(lang_desc);
 
-static const char vendor_desc[] = {
+static unsigned char vendor_desc[] = {
     12,     // bLength
     0x03,   // bDescriptorType = string
     'W', 0, // unicode is two bytes
@@ -146,10 +146,10 @@ static const char vendor_desc[] = {
     'r', 0,
     'e', 0,
 };
-const char *vendorStringDescriptor = vendor_desc;
-const int vendorStringDescriptorSize = sizeof(vendor_desc);
+unsigned char *vendorStringDescriptor = vendor_desc;
+unsigned int vendorStringDescriptorSize = sizeof(vendor_desc);
 
-static const char product_desc[] = {
+static unsigned char product_desc[] = {
     26,     // bLength
     0x03,   // bDescriptorType = string
     'C', 0,
@@ -165,11 +165,11 @@ static const char product_desc[] = {
     'c', 0,
     'k', 0,
 };
-const char *productStringDescriptor = product_desc;
-const int productStringDescriptorSize = sizeof(product_desc);
+unsigned char *productStringDescriptor = product_desc;
+unsigned int productStringDescriptorSize = sizeof(product_desc);
 
 // serial numbers are NOT allowed to include periods
-static const char serial_desc[] = {
+static unsigned char serial_desc[] = {
     14,     // bLength
     0x03,   // bDescriptorType = string
     '3', 0,
@@ -179,13 +179,89 @@ static const char serial_desc[] = {
     '5', 0,
     '9', 0,
 };
-const char *serialStringDescriptor = serial_desc;
-const int serialStringDescriptorSize = sizeof(serial_desc);
+unsigned char *serialStringDescriptor = serial_desc;
+unsigned int serialStringDescriptorSize = sizeof(serial_desc);
 
-void usb_open(struct _AT91S_USBDEV *usbdev)
+void usbSetConfiguration (AT91UDP *udp, ushort wValue)
 {
-    AT91F_USBDEV_Open(usbdev, AT91C_BASE_UDP, 0);
+    udp->CSR1 =
+        (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_OUT) :
+        0;
+    udp->CSR2 =
+        (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN) :
+        0;
+    udp->CSR3 =
+        (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_INT_IN) : 0;
 }
+
+
+// data coming from the host
+static unsigned usb_bulk_recv(void *data, unsigned len)
+{
+    if (len == 0)
+        return 0;
+    // TODO: write data into whatever buffer is receiving
+    return 1;
+}
+
+// data going back to the host
+static unsigned usb_bulk_send(void *data)
+{
+    // TODO: write whatever bytes are available into data, and return
+    // the number of bytes that got written
+    return 0;
+}
+
+static void usb_bulk_io(usb_info * usb, AT91UDP * udp)
+{
+    unsigned n;
+    unsigned char *x;
+
+    if (udp->CSR1 & UDP_TXPKTRDY) {
+	return;
+    }
+#if WITH_FASTER_USB
+    n = usb_bulk_send(&x);
+#else
+    n = usb_bulk_send(x = usb->xmit);
+#endif
+    if (n == 0)
+	return;
+
+    while (n-- > 0) {
+	udp->FDR1 = *x++;
+    }
+    udp->CSR1 |= UDP_TXPKTRDY;
+}
+
+void usb_ep1(usb_info * usb, AT91UDP * udp)
+{
+}
+
+void usb_ep2(usb_info * usb, AT91UDP * udp)
+{
+}
+
+void usb_ep3(usb_info * usb, AT91UDP * udp)
+{
+    unsigned n, i, len;
+    unsigned char *x = usb->recv;
+
+    n = udp->CSR3;
+
+    if (n & UDP_RX_DATA_BK0) {
+	len = (n >> 16) & 0x3ff;
+	for (i = 0; i < len; i++)
+	    *x++ = udp->FDR3;
+	ACK_EVENT(udp->CSR3, UDP_RX_DATA_BK0);
+	if (usb_bulk_recv(usb->recv, len)) {
+	    usb_bulk_io(usb, udp);
+	}
+    }
+}
+
+
+
 
 #define BUFSIZE 255
 static char ch[BUFSIZE];
@@ -204,11 +280,6 @@ void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
      * That's lovely, except the Read function gets stuck if you
      * don't alternate it with Write function calls. I dunno why.
      */
-    if (1) {
-        n = usbDevice->Read(usbDevice, ch, BUFSIZE);
-        usbDevice->Write(usbDevice, ch, n);
-    } else {
-        usbDevice->Read(usbDevice, ch, BUFSIZE);
-        usbDevice->Write(usbDevice, "Here is a log statement!\n", 25);
-    }
+    //n = usbDevice->Read(usbDevice, ch, BUFSIZE);
+    //usbDevice->Write(usbDevice, ch, n);
 }

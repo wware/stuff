@@ -22,19 +22,23 @@
 
 extern void init_timer(void);
 extern void wait(unsigned long time);
-extern void init_extint (void);
 extern void usb_open(struct _AT91S_USBDEV *usbdev);
-extern void main_loop_iteration(struct _AT91S_USBDEV *usbdev);
+extern void main_loop_iteration(void);
 
-struct _AT91S_USBDEV   usbDevice;
-AT91S_PIO * pPIO = AT91C_BASE_PIOA;         /* Global Pointer to PIO */
 
 /*** Main Program ***/
 
-volatile int dummyRead;  // don't optimize me away!
+static isOnline;
+
+void usb_status(unsigned online)
+{
+    isOnline = online;
+}
 
 int main (void)
 {
+    AT91S_PIO * pPIO = AT91C_BASE_PIOA;         /* Global Pointer to PIO */
+
     led_init();
 
     // System peripherals are those appearing inside the "System Controller" block in
@@ -53,26 +57,16 @@ int main (void)
     pPIO->PIO_OWER = LED1;                    /* LED1 ODSR Write Enable  */
 
     init_timer();                            /* Initialize Timer */
-    //init_extint();                            /* Initialize External Interrupt */
-
-    usb_open(&usbDevice);
 
     /* Wait for the end of enumeration
      * When running Linux in a VM on the Macbook, this finishes after you make
      * the choice of whether the device will connect to OSX or Linux.
      */
-    while (!usbDevice.IsConfigured(&usbDevice));
+    while (!isOnline);
 
-    while (0) {
-        wait(40000);
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, LED1);
-        wait(40000);
-        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, LED1);
-    }
     while (1) {
         // Check enumeration
-        if (usbDevice.IsConfigured(&usbDevice)) {
-            main_loop_iteration(&usbDevice);
-        }
+        if (isOnline)
+            main_loop_iteration();
     }
 }

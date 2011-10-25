@@ -43,23 +43,23 @@
 #define CDC_EP_IN_SIZE 64
 
 // #define HID_REPORT_SIZE 3
-extern const int hidReportSize;
-extern const char *hidReportDescriptor;
-extern const int hidReportDescriptorSize;
+extern unsigned int hidReportSize;
+extern unsigned char *hidReportDescriptor;
+extern unsigned int hidReportDescriptorSize;
 
-extern const char *cfgDescriptor;
-extern const int cfgDescriptorSize;
-extern const char *devDescriptor;
-extern const int devDescriptorSize;
-extern const char *languageStringDescriptor;
-extern const char *vendorStringDescriptor;
-extern const char *productStringDescriptor;
-extern const char *serialStringDescriptor;
+extern unsigned char *cfgDescriptor;
+extern unsigned int cfgDescriptorSize;
+extern unsigned char *devDescriptor;
+extern unsigned int devDescriptorSize;
+extern unsigned char *languageStringDescriptor;
+extern unsigned char *vendorStringDescriptor;
+extern unsigned char *productStringDescriptor;
+extern unsigned char *serialStringDescriptor;
 
-extern const int languageStringDescriptorSize;
-extern const int vendorStringDescriptorSize;
-extern const int productStringDescriptorSize;
-extern const int serialStringDescriptorSize;
+extern unsigned int languageStringDescriptorSize;
+extern unsigned int vendorStringDescriptorSize;
+extern unsigned int productStringDescriptorSize;
+extern unsigned int serialStringDescriptorSize;
 
 #endif // USB_DESCRIPTORS_H
 

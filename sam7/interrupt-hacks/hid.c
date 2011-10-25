@@ -60,7 +60,7 @@
  *   Item(Main  ): End Collection, data=none
  */
 
-static const short hid_report[] = {
+static unsigned short hid_report[] = {
     0x0105, // Usage Page (Generic Desktop)
     0x0209, // Usage (Mouse)
     0x01A1, // Collection (Application)
@@ -87,12 +87,12 @@ static const short hid_report[] = {
     0x0681, //    2 position bytes
     0xC0C0
 };
-const char *hidReportDescriptor = (const char *) hid_report;
-const int hidReportDescriptorSize = sizeof(hid_report);
-const int hidReportSize = 3;
+unsigned char *hidReportDescriptor = (unsigned char *) hid_report;
+unsigned int hidReportDescriptorSize = sizeof(hid_report);
+unsigned int hidReportSize = 3;
 
 // Check http://www.usb.org/developers/hidpage/#Class_Definition
-static const char dev_desc_hid[] = {
+static unsigned char dev_desc_hid[] = {
     /* Device descriptor */
     0x12,   // bLength
     0x01,   // bDescriptorType
@@ -116,10 +116,10 @@ static const char dev_desc_hid[] = {
     0x03,   // iSerial
     0x01    // bNumConfigs
 };
-const char *devDescriptor = dev_desc_hid;
-const int devDescriptorSize = sizeof(dev_desc_hid);
+unsigned char *devDescriptor = dev_desc_hid;
+unsigned int devDescriptorSize = sizeof(dev_desc_hid);
 
-static const char cfg_desc_hid[] = {
+static unsigned char cfg_desc_hid[] = {
     /* ============== CONFIGURATION 1 =========== */
     /*
      * Does this mean there could be more than one configuration?
@@ -168,20 +168,20 @@ static const char cfg_desc_hid[] = {
     0x00,
     0x0A    // bInterval
 };
-const char *cfgDescriptor = cfg_desc_hid;
-const int cfgDescriptorSize = sizeof(cfg_desc_hid);
+unsigned char *cfgDescriptor = cfg_desc_hid;
+unsigned int cfgDescriptorSize = sizeof(cfg_desc_hid);
 
 // en_US = 0409
-static const char lang_desc[] = {
+static unsigned char lang_desc[] = {
     // Language ID
     4,      // bLength
     0x03,   // bDescriptorType = string
     0x09, 0x04, // little-endian
 };
-const char *languageStringDescriptor = lang_desc;
-const int languageStringDescriptorSize = sizeof(lang_desc);
+unsigned char *languageStringDescriptor = lang_desc;
+unsigned int languageStringDescriptorSize = sizeof(lang_desc);
 
-static const char vendor_desc[] = {
+static unsigned char vendor_desc[] = {
     12,     // bLength
     0x03,   // bDescriptorType = string
     'W', 0, // unicode is two bytes
@@ -190,10 +190,10 @@ static const char vendor_desc[] = {
     'r', 0,
     'e', 0,
 };
-const char *vendorStringDescriptor = vendor_desc;
-const int vendorStringDescriptorSize = sizeof(vendor_desc);
+unsigned char *vendorStringDescriptor = vendor_desc;
+unsigned int vendorStringDescriptorSize = sizeof(vendor_desc);
 
-static const char product_desc[] = {
+static unsigned char product_desc[] = {
     20,     // bLength
     0x03,   // bDescriptorType = string
     'H', 0,
@@ -206,11 +206,11 @@ static const char product_desc[] = {
     's', 0,
     'e', 0,
 };
-const char *productStringDescriptor = product_desc;
-const int productStringDescriptorSize = sizeof(product_desc);
+unsigned char *productStringDescriptor = product_desc;
+unsigned int productStringDescriptorSize = sizeof(product_desc);
 
 // serial numbers are NOT allowed to include periods
-static const char serial_desc[] = {
+static unsigned char serial_desc[] = {
     14,     // bLength
     0x03,   // bDescriptorType = string
     '3', 0,
@@ -220,17 +220,33 @@ static const char serial_desc[] = {
     '5', 0,
     '9', 0,
 };
-const char *serialStringDescriptor = serial_desc;
-const int serialStringDescriptorSize = sizeof(serial_desc);
+unsigned char *serialStringDescriptor = serial_desc;
+unsigned int serialStringDescriptorSize = sizeof(serial_desc);
 
-void usb_open(struct _AT91S_USBDEV *usbdev)
+void usbSetConfiguration(AT91UDP * udp, ushort wValue)
 {
-    AT91F_USBDEV_Open(usbdev, AT91C_BASE_UDP, 1);
+    udp->CSR1 =
+        wValue ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN) : 0;
 }
 
 static int count = 0;
+unsigned char nextOutgoingReport[3];
 
-void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
+void usb_ep1(usb_info * usb, AT91UDP * udp)
+{
+    unsigned n = udp->CSR1;
+
+    if (n & UDP_TXCOMP) {
+	ACK_EVENT(udp->CSR1, UDP_TXCOMP);
+        // Send report to the host
+        int i;
+        for (i = 0; i < 3; i++)
+            *((volatile char *) udp->FDR1) = nextOutgoingReport[i];
+        udp->CSR1 |= AT91C_UDP_TXPKTRDY;
+    }
+}
+
+void main_loop_iteration(void)
 {
     char x;
     if (count & 64) {
@@ -244,6 +260,8 @@ void main_loop_iteration(struct _AT91S_USBDEV *usbDevice)
     }
     count++;
     char buttons = 0;
-    char hid_report_bytes[] = { buttons, x, 0 };  // three bytes as promised
-    usbDevice->SendReport(usbDevice, hid_report_bytes, hidReportSize);
+    // TODO: avoid simultaneous access with usb_ep1, with lock or semaphore
+    nextOutgoingReport[0] = buttons;
+    nextOutgoingReport[1] = x;
+    nextOutgoingReport[2] = 0;
 }
