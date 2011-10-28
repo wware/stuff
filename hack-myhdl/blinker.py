@@ -4,11 +4,6 @@ from myhdl import Signal, delay, Simulation, always_comb, \
     instance, intbv, bin, toVerilog, toVHDL, always, now
 
 
-def bitsWide(n, orig=0):
-    # it won't synthesize if you don't spell all this out
-    return Signal(intbv(orig)[n:])
-
-
 # On the NEXYS 2 board, the available clock is 50 MHz. If I
 # divide it by 3125000, that's 16 Hertz, and when I use that
 # to sweep back and forth on the eight LEDs, that will take
@@ -21,10 +16,10 @@ DIVIDER = 3125000
 
 def blinker(clk, button, leds, numLeds):
 
-    dividerCounter = bitsWide(22)
-    counter = bitsWide(numLeds, 0)
-    advance = bitsWide(1)
-    direction = bitsWide(1, 1)
+    dividerCounter = Signal(intbv(0)[22:])
+    counter = Signal(intbv(0)[numLeds:])
+    advance = Signal(bool(0))
+    direction = Signal(bool(1))
 
     @always(clk.posedge)
     def div():
@@ -61,9 +56,9 @@ class TestGrayCodeProperties(unittest.TestCase):
     def testSingleBitChange(self):
         """Check sequence for width of 4"""
         NUMLEDS = 4
-        clk = Signal(0)
-        button = Signal(1)
-        leds = Signal(intbv(0))
+        clk = Signal(bool(0))
+        button = Signal(bool(1))
+        leds = Signal(intbv(0)[NUMLEDS:])
 
         def clkdriver(clk):
             for i in range(30 * DIVIDER):
