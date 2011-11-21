@@ -4,20 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.WindowManager.LayoutParams;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.os.Handler;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.util.Log;
 import android.media.MediaPlayer;
 import android.media.AudioManager;
 import android.graphics.LightingColorFilter;
@@ -25,8 +17,11 @@ import android.graphics.LightingColorFilter;
 public class MusicKeyboard extends Activity
 {
     private ConnectableButton keys[];
-    private static final String TAG = "MusicKeyboard";
+    //private static final String TAG = "MusicKeyboard";
     private static MusicKeyboard myself;
+    
+    public static final int SCREEN_HEIGHT = 904;  // why not 929 or 924?
+    public static final int SCREEN_WIDTH = 600;
 
     // deprecated
     public static final int DEFAULT_DURATION = 30;
@@ -60,21 +55,20 @@ public class MusicKeyboard extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         int i, j, n;
-        int[] white_keys = new int[] { 0, 2, 4, 5, 7, 9, 11, 12 };
         super.onCreate(savedInstanceState);
         myself = this;
         setContentView(R.layout.main);
 
-        LinearLayout background = (LinearLayout)findViewById(R.id.background);
+        //LinearLayout background = (LinearLayout)findViewById(R.id.background);
         LinearLayout keyboard = (LinearLayout)findViewById(R.id.keyboard);
-        keys = new ConnectableButton[32];
+        keys = new ConnectableButton[28];
         for (i = n = 0; i < 4; i++) {
             LinearLayout column = new LinearLayout(this);
             column.setOrientation(LinearLayout.VERTICAL);
-            for (j = 0; j < 8; j++, n++) {
+            for (j = 0; j < 7; j++, n++) {
                 ConnectableButton button = new ConnectableButton(this);
-                button.setWidth(78);
-                button.setHeight(60);
+                button.setWidth(SCREEN_WIDTH / 4);
+                button.setHeight(SCREEN_HEIGHT / 7);
                 //button.setText("" + n);
                 if (j == 1 || j == 3 || j == 6) {
                     button.getBackground()
@@ -93,11 +87,11 @@ public class MusicKeyboard extends Activity
         for (i = 0; i < pitches.length; i++)
             generators[i] = new ToneGenerator(i);
         final int OFFSET = 0;
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < 7; i++) {
             keys[i].setToneGenerator(generators[i + OFFSET]);
-            keys[8 + i].setToneGenerator(generators[i + 7 + OFFSET]);
-            keys[16 + i].setToneGenerator(generators[i + 12 + OFFSET]);
-            keys[24 + i].setToneGenerator(generators[i + 19 + OFFSET]);
+            keys[7 + i].setToneGenerator(generators[i + 7 + OFFSET]);
+            keys[14 + i].setToneGenerator(generators[i + 12 + OFFSET]);
+            keys[21 + i].setToneGenerator(generators[i + 19 + OFFSET]);
         }
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -138,7 +132,6 @@ public class MusicKeyboard extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
         switch (item.getItemId()) {
             /*
             case R.id.settings_menu_item:
