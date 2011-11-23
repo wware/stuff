@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:id="@+id/background"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:orientation="vertical"
+	      android:background="#80C0C0">
+
+  <EditText android:id="@+id/password_field"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_marginBottom="10px"
+            android:textStyle="bold"
+            android:inputType="textPassword"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="#C0C080"
+            android:textColor="#000000" />
+
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:id="@+id/widget31"
+	      android:layout_width="fill_parent"
+	      android:layout_height="300px"
+	      android:fillViewport="true">
+
+    <EditText android:id="@+id/input_window"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="top"
+              android:background="#C0C0C0"
+              android:textColor="#000000" />
+
+  </ScrollView>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/keyboard"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+    <Button android:id="@+id/encrypt_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Encrypt"/>
+
+    <Button android:id="@+id/decrypt_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Decrypt"/>
+
+    <Button android:id="@+id/paste_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paste"/>
+
+    <Button android:id="@+id/copy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Copy"/>
+
+    <Button android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"/>
+
+  </LinearLayout>
+
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:id="@+id/widget31"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent"
+	      android:fillViewport="true">
+
+    <TextView android:id="@+id/output_window"
+	      android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="top"
+              android:textSize="18sp"
+              android:background="#C0C0C0"
+              android:textColor="#000000" />
+
+  </ScrollView>
+
+</LinearLayout>
