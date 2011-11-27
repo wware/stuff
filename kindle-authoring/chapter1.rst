@@ -5,6 +5,9 @@ I've wanted to create Kindle content for a while, and I've finally found out
 how to do it, thanks to this blog post:
 http://longair.net/blog/2010/10/04/the-guardian-on-your-kindle/
 
+Also see
+https://github.com/mhl/guardian-for-kindle/blob/master/make-guardian-ebook.py
+
 You need to pick up Kindlegen from Amazon, and use Kompozer to create some
 HTML files. See the Makefile in this directory for more info about the
 process.

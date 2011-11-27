@@ -1,16 +1,16 @@
 KINDLEGEN=/usr/local/kindlegen/kindlegen
 
-.SUFFIXES: .opf .ncx .mobi ;
+.SUFFIXES: .opf .ncx .mobi .rst .xhtml ;
 
 .opf.mobi:
 	$(KINDLEGEN) $(@:.mobi=.opf)
 
-all: wills-ubuntu-notes.mobi wills-blog.mobi
+all: foo.mobi
 
-wills-blog.mobi: \
-	wills-blog.ncx \
-	wills-blog.xhtml \
-	wills-blog-cover.png
+CHAPTERS=chapter1 chapter2 chapter3
+
+foo.mobi: make-index.py $(CHAPTERS:=.rst) cover-pic.png
+	python make-index.py $(CHAPTERS)
 
 clean:
-	rm -f *~ *.mobi
+	rm -f *~ *.mobi *.ncx *.opf *.xhtml
