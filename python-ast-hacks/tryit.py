@@ -1,5 +1,6 @@
 import ast             # /usr/lib/python2.6/ast.py
 import compiler.ast    # /usr/lib/python2.6/compiler/ast.py
+import dis
 import pprint
 
 
@@ -106,4 +107,6 @@ class NodeVisitor(object):
     #def visit_Tuple(self, node, childResults):
     #    pass
 
-pprint.pprint(NodeVisitor().visit(tree))
+# pprint.pprint(NodeVisitor().visit(tree))
+
+print dis.dis(NodeVisitor)
