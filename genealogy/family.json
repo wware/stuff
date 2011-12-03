@@ -1,0 +1,66 @@
+[
+  {
+    "name": "William Bates Ware",
+    "birth": {
+      "date": "1959/02/25",
+      "place": "New Haven, CT"
+    },
+    "father": "@BobWare2",
+    "marriage": {
+      "reference": "@WillWare-SueBauter-2001/10/27",
+      "date": "2001/10/27",
+      "place": "Newton, MA"
+    }
+  },
+  {
+    "reference": "@BobWare2",
+    "name": "Robert Hayden Ware Jr.",
+    "birth": {
+      "data": "1927/06/07",
+      "place": "Kansas City, MO"
+    },
+    "death": {
+      "date": "2009/01/23",
+      "place": "Boston, MA"
+    },
+    "father": "@Hayden",
+    "mother": "@Winifred"
+  },
+  {
+    "reference": "@Hayden",
+    "name": "Robert Hayden Ware",
+    "birth": {
+      "data": "1900/05/06",
+      "place": "MI"
+    },
+    "marriages": [
+      {
+        "reference": "@RHW1-WinifiedWilson-1925",
+	"date": "1925/01/03",
+	"place": "New York"
+      },
+      {
+        "reference": "@RHW1-JosephineAllen-1936",
+	"date": "1936/06/06",
+	"place": "Kansas City, MO"
+      }
+    ],
+    "death": {
+      "date": "1961/12"
+    },
+    "father": "@",
+    "mother": "@"
+  },
+  {
+    "name": "Susan Laura Bauter",
+    "birth": {
+      "date": "1949/03/27",
+      "place": "Joliet, IL"
+    },
+    "death": {
+      "date": "2003/09/22",
+      "place": "Orlando, FL"
+    },
+    "marriage": "@WillWare-SueBauter-2001/10/27"
+  }
+]
