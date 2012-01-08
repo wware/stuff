@@ -32,7 +32,7 @@ public class IntervalTrainer extends Activity implements Runnable
     private LinearLayout background;
     private final IntervalTrainer myself = this;
 
-    static final int PICK_DURATION_REQUEST = 0;
+    private static final int PICK_DURATION_REQUEST = 0;
 
     public static final int DEFAULT_SPRINT_DURATION = 30;
     private static volatile int sprintDuration = DEFAULT_SPRINT_DURATION;
