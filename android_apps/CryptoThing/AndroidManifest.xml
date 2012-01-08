@@ -16,6 +16,13 @@
       </intent-filter>
     </activity>
 
+    <activity android:name=".app.VoiceRecognition" android:label="@string/voice_recognition">
+      <intent-filter>
+        <action android:name="android.intent.action.PICK" />
+        <category android:name="android.intent.category.DEFAULT" />
+      </intent-filter>
+    </activity>
+
   </application>
 
   <uses-sdk android:minSdkVersion="10" />

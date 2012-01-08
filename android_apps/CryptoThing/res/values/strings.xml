@@ -3,4 +3,9 @@
 
     <string name="app_name">Crypto Thing</string>
 
+    <string name="voice_recognition_prompt">This activity demonstrates the voice recognition APIs.</string>
+    <string name="speak_button">Speak!</string>
+    <string name="voice_recognition_results">Results:</string>
+    <string name="voice_recognition">Voice Recognition</string>
+
 </resources>

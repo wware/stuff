@@ -21,7 +21,7 @@
   <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	      android:id="@+id/widget31"
 	      android:layout_width="fill_parent"
-	      android:layout_height="300px"
+	      android:layout_height="60px"
 	      android:fillViewport="true">
 
     <EditText android:id="@+id/input_window"
