@@ -1,0 +1,62 @@
+
+This is a WinARM-Demo based on the Keil "Hello" example  
+
+done by Martin Thomas, Kaiserslautern, Germany
+<eversmith@heizung-thomas.de>
+http://www.siwawi.arubi.uni-kl.de/avr_projects/arm_projects
+
+- compiler: arm-elf-gcc, libc: newlib (as in WinARM)
+- modified startup-code and linker-skript for arm-elf-gcc / WinARM
+- modified and extended the UART functions (still just "polled" mode)
+- adapted interrupt handling to gcc, includes some "workarounds" for thumb
+- added syscalls (for newlib's stdio/(i)printf)
+- added "ramfunc-style" for gcc (so i.e. ISRs can be placed in RAM - see board.h)
+- thumb/thumb-interwork supported
+- supports remapping of exception vectors to RAM
+- enabled "Reset-Button" on Eval. Board
+- added simple "key-echo" in main.c
+
+TODO: 
+(a) "RAM-Target" - so far no work has been done for "RAM-target"
+
+Tested with arm-elf-gcc 4.0.1 newlib 1.13.0 from WinARM 8/2005.
+
+Feedback and suggestions welcome. I'm still a "SAM7-beginner"...
+
+Have fun.
+
+
+---
+
+
+Original Text from Keil:
+
+
+The Hello project is a demo program for the AT91SAM7S64
+using Atmel AT91SAM7S Microcontroller Board.
+
+It prints "Hello World" to the serial port and blinks
+LEDs according to the push buttons on the board:
+ - pressing SW1 prints "Hello World" and blinks LED1
+ - holding down SW2 holds the main program 
+   (except LED4 blinking) and lights LED2
+ - pressing SW3 turns on LED3
+ - pressing SW4 turns off LED3
+ - LED4 blinks at 1Hz rate
+
+The example shows:
+ - how to setup the Vectored Interrupt Controller (VIC)
+ - how to setup Interrupt Priority and Interrupt nesting
+ - how to setup Periodic Interval Timer (PIT)
+ - how to use the UART Interface
+ - how to use the Parallel I/O (PIO) Controller
+
+The Hello program is available in different targets:
+  Simulator:       configured for software Simulator
+  AT91SAM7S Flash: configured for on-chip Flash ROM
+                   (used for production or target debugging)
+  AT91SAM7S FRIRQ: configured for on-chip Flash ROM with
+                   Fast IRQ functions located in on-chip RAM
+                   (used for production or target debugging)
+  AT91SAM7S RAM:   configured to run from on-chip RAM
+                   (may be used for target debugging) 

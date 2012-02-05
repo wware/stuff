@@ -1,0 +1,4 @@
+This was taken from a zip file called at91_usbfw_core101_hid100_gcc_20070310b.zip which
+I think might have been an OpenPCD thing. In the lib directory there had been several
+ARM versions in addition to the SAM7S64, but since that's the only one I'm working with
+and I don't want a ton of cruft in my git repo, I rm'ed those.
