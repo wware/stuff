@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class Dictaphone extends Activity
     private SharedPreferences preferences;
 
     private SpeechRecognizer recognizer;
+
+    // ARGB, FF = opaque
+    private static final int WHITE = 0xFFFFFFFF;
+    private static final int RED = 0xFFFF4040;
 
     @Override
     public void onDestroy()
@@ -88,7 +93,7 @@ public class Dictaphone extends Activity
             } else {
                 recognizer.stopListening();
                 dictate_button.setText("Dictate");
-                dictate_button.setBackgroundResource(R.color.white);
+                dictate_button.setBackgroundColor(WHITE);
             }
         } else if (v == send_button) {
             Intent intent = new Intent(Intent.ACTION_SEND);
@@ -162,7 +167,7 @@ public class Dictaphone extends Activity
         runOnUiThread(new Runnable() {
                 public void run() {
                     dictate_button.setText("Dictate");
-                    dictate_button.setBackgroundResource(R.color.white);
+                    dictate_button.setBackgroundColor(WHITE);
                 }
             });
     }
@@ -178,41 +183,90 @@ public class Dictaphone extends Activity
         runOnUiThread(new Runnable() {
                 public void run() {
                     dictate_button.setText("Press to stop");
-                    dictate_button.setBackgroundResource(R.color.red);
+                    dictate_button.setBackgroundColor(RED);
                 }
             });
     }
 
     public void onResults(Bundle results) {
-        Log.i(TAG, "onResults");
-        ArrayList<String> matches =
-            results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        String s = "";
-        if (true) {
-            /*
-             * If I wanted to be really cool, I could look at the first N matches
-             * and send rich-text email, with font color black for very-high-conf
-             * words and gray for anything else.
-             */
-            int max = 3;
-            int n = matches.size();
-            if (n > max)
-                n = max;
-            for (int i = 0; i < n; i++) {
-                Log.i(TAG, "GOT RESULT: " + matches.get(i));
-                s += matches.get(i);
-                if (i < n - 1)
-                    s += "\n";
-            }
-        } else {
-            s = matches.get(0);
-        }
-
-        results_so_far += s + "\n*********\n";
-
-        final String fs = s;
+        String s = disambiguate
+            (results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION));
+        Log.i(TAG, "onResults: " + s);
+        results_so_far += s + "\n";
     }
 
     public void onRmsChanged(float rmsdB) {
+    }
+
+    private String disambiguate(ArrayList<String> matches) {
+        int index = 0;
+        ArrayList<String[]> wordlists = new ArrayList<String[]>();
+        ArrayList<String> result = new ArrayList<String>();
+        for (int i = 0; i < matches.size(); i++) {
+            wordlists.add(matches.get(i).split("\\s+"));
+        }
+
+        String[] w0 = wordlists.get(0);
+        while (index < w0.length) {
+            boolean allSame = true;
+            for (int i = 1; i < wordlists.size(); i++) {
+                String[] wi = wordlists.get(i);
+                if (index < wi.length && !wi[index].equals(w0[index])) {
+                    allSame = false;
+                    break;
+                }
+            }
+            if (allSame)
+                result.add(w0[index]);
+            else {
+                int i = 1;
+                while (i < wordlists.size()) {
+                    int m = 0, n = 0;
+                    String[] wi = wordlists.get(i);
+                    boolean ok = false;
+                    for (int j = 0; j < 21; j++) {
+                        int p = (int)(0.5 + Math.sqrt(2.0 * j + 0.25));
+                        m = i - p * (p - 1) / 2;
+                        n = p - m - 1;
+                        if (index + m >= 0 &&
+                            index + n >= 0 &&
+                            index + m + 1 < w0.length &&
+                            index + n + 1 < wi.length)
+                            if (w0[index+m].equals(wi[index+n]) &&
+                                w0[index+m+1].equals(wi[index+n+1])) {
+                                ok = true;
+                                break;
+                            }
+                    }
+                    if (ok) {
+                        if (m == 0 && n == 0) {
+                            // do nothing
+                        } else if (m == 1) {
+                            String[] newWi = new String[wi.length + 1 - n];
+                            for (int j = 0; j <= index; j++)
+                                newWi[j] = wi[j];
+                            for (int j = index + n; j < wi.length; j++)
+                                newWi[j+1-n] = wi[j];
+                            wordlists.set(i, newWi);
+                        } else {
+                            wordlists.remove(i);
+                        }
+                    }
+                    i++;
+                }
+                result.add(w0[index] + "?");
+            }
+            index++;
+        }
+
+        StringBuilder retval = new StringBuilder();
+        for (String s : result) {
+            retval.append(" ");
+            retval.append(s);
+        }
+        if (retval.length() >= 1)
+            return retval.substring(1);
+        else
+            return "";
     }
 }
