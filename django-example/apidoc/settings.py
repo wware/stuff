@@ -1,8 +1,8 @@
-# Django settings for mysite project.
+# Django settings for apidoc project.
 
 import os
 home = os.environ['HOME']
-siteroot = home + '/mine/stuff/django-example'
+siteroot = home + '/stuff/django-example'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -79,13 +79,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    siteroot + '/mysite/',
+    siteroot + '/apidoc/',
 )
 
 INSTALLED_APPS = (
@@ -95,5 +95,5 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    'mysite.polls',
+    'polls',
 )

@@ -1,4 +1,4 @@
-from mysite.polls.models import Poll, Choice
+from polls.models import Poll, Choice
 from django.contrib import admin
 
 admin.site.register(Poll)

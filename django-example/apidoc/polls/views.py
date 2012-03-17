@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.context_processors import csrf
 
 from settings import *
-from mysite.polls.models import Choice, Poll, ShortURL
+from apidoc.polls.models import Choice, Poll, ShortURL
 
 def index(request):
     c = { }
@@ -44,10 +44,10 @@ def vote(request, poll_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('mysite.polls.views.results', args=(p.id,)))
+        return HttpResponseRedirect(reverse('apidoc.polls.views.results', args=(p.id,)))
 
 def showcode(request, filename):
-    content = open(siteroot + '/mysite/' + filename).read()
+    content = open(siteroot + '/apidoc/' + filename).read()
     return render_to_response('polls/literal.html', {'filename': filename, 'content': content})
 
 def newShortUrl(request):
