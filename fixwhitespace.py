@@ -42,10 +42,10 @@ for filename in argv:
             fileChanged = True
 
         # remove trailing whitespace
-        s = trailingSpaces.search(L)
-        if s is not None:
+        L2 = L.rstrip() + "\n"
+        if L2 != L:
             fileChanged = True
-            L = L[:s.start()] + "\n"
+            L = L2
 
         newlines.append(L)
 
