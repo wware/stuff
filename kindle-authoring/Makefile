@@ -9,6 +9,9 @@ all: foo.mobi
 
 CHAPTERS=chapter1 chapter2 chapter3
 
+cover-pic.png:
+	python create-cover-art.py > cover-pic.png
+
 foo.mobi: make-index.py $(CHAPTERS:=.rst) cover-pic.png
 	python make-index.py $(CHAPTERS)
 
