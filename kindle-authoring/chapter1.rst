@@ -1,6 +1,18 @@
 Creating content for the Kindle
 ===============================
 
+The make-index.py script generates an OPF file and NCX file, which are
+used to create a table of contents. I don't know how to create an index at
+the end, but I know people have done it.
+
+Unfortunately the version of Docutils for Ubuntu Lucid is only 0.6. At
+version 0.8, it picks up "math" tag allowing you to write equations in
+LaTeX format and have them rendered in beautiful typography. Maybe I should
+do a custom install of Docutils just to get that.
+ 
+Historical
+----------
+
 I've wanted to create Kindle content for a while, and I've finally found out
 how to do it, thanks to this blog post:
 http://longair.net/blog/2010/10/04/the-guardian-on-your-kindle/

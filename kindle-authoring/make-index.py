@@ -3,10 +3,16 @@
 import os
 import sys
 
-TITLE = "Random Blatherings"
+TITLE = "Random Stuff"
 AUTHOR = "Will Ware"
 ISBN = "1234567890X"
-
+SHORTTITLE = TITLE.replace(" ", "")
+d = {
+    "author": AUTHOR,
+    "title": TITLE,
+    "isbn": ISBN,
+    "short": SHORTTITLE
+    }
 
 OPF_PREAMBLE = """<?xml version="1.0"?>
 <package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
@@ -22,11 +28,7 @@ OPF_PREAMBLE = """<?xml version="1.0"?>
 
   <manifest>
     <item id="tableofcontents" href="index.xhtml" media-type="application/xhtml+xml"/>
-""" % {
-    "author": AUTHOR,
-    "title": TITLE,
-    "isbn": ISBN
-    }
+""" % d
 
 OPF_ITEM = """\
     <item id="contents%(index)d" href="%(prefix)s.xhtml"
@@ -35,7 +37,7 @@ OPF_ITEM = """\
 
 OPF_POSTAMBLE = """\
     <item id="cover-pic.png" href="cover-pic.png" media-type="image/png"/>
-    <item id="ncx" href="foo.ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="ncx" href="%(short)s.ncx" media-type="application/x-dtbncx+xml"/>
   </manifest>
 
   <spine toc="ncx">
@@ -47,7 +49,7 @@ OPF_POSTAMBLE = """\
   </guide>
 
 </package>
-"""
+""" % d
 
 NCX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
@@ -70,11 +72,7 @@ NCX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
   <docAuthor>
     <text>%(author)s</text>
   </docAuthor>
-""" % {
-    "title": TITLE,
-    "author": AUTHOR,
-    "isbn": ISBN
-    }
+""" % d
 
 INDEX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -180,11 +178,11 @@ class NavMap:
 
 navmap = NavMap(sys.argv[1:])
 
-outf = open("foo.ncx", "w")
+outf = open("%(short)s.ncx" % d, "w")
 navmap.ncx(outf)
 outf.close()
 
-outf = open("foo.opf", "w")
+outf = open("%(short)s.opf" % d, "w")
 navmap.opf(outf)
 outf.close()
 
@@ -192,4 +190,4 @@ outf = open("index.xhtml", "w")
 navmap.index(outf)
 outf.close()
 
-os.system("/usr/local/kindlegen/kindlegen foo.opf -c1 -verbose")
+os.system("/usr/local/kindlegen/kindlegen %(short)s.opf -c1 -verbose" % d)
