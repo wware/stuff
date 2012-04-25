@@ -3,7 +3,7 @@
 import re, sys, string
 
 DEBUG = False
-tabWidth = 8
+tabWidth = 4
 
 argv = sys.argv[1:]
 
@@ -26,7 +26,11 @@ for filename in argv:
 
     fileChanged = False
     newlines = [ ]
-    lines = open(filename).readlines()
+    try:
+        lines = open(filename).readlines()
+    except:
+        # this can happen if the file was removed
+        continue
 
     for L in lines:
 

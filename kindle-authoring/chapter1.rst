@@ -9,7 +9,7 @@ Unfortunately the version of Docutils for Ubuntu Lucid is only 0.6. At
 version 0.8, it picks up "math" tag allowing you to write equations in
 LaTeX format and have them rendered in beautiful typography. Maybe I should
 do a custom install of Docutils just to get that.
- 
+
 Historical
 ----------
 
