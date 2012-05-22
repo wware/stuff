@@ -3,16 +3,6 @@
 import os
 import sys
 
-TITLE = "Random Stuff"
-AUTHOR = "Will Ware"
-ISBN = "1234567890X"
-SHORTTITLE = TITLE.replace(" ", "")
-d = {
-    "author": AUTHOR,
-    "title": TITLE,
-    "isbn": ISBN,
-    "short": SHORTTITLE
-    }
 
 OPF_PREAMBLE = """<?xml version="1.0"?>
 <package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
@@ -28,7 +18,7 @@ OPF_PREAMBLE = """<?xml version="1.0"?>
 
   <manifest>
     <item id="tableofcontents" href="index.xhtml" media-type="application/xhtml+xml"/>
-""" % d
+"""
 
 OPF_ITEM = """\
     <item id="contents%(index)d" href="%(prefix)s.xhtml"
@@ -49,7 +39,7 @@ OPF_POSTAMBLE = """\
   </guide>
 
 </package>
-""" % d
+"""
 
 NCX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
@@ -72,7 +62,7 @@ NCX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
   <docAuthor>
     <text>%(author)s</text>
   </docAuthor>
-""" % d
+"""
 
 INDEX_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -123,31 +113,40 @@ class NavPoint:
 
 class NavMap:
 
-    def __init__(self, prefixes):
-        self.prefixes = prefixes
+    def __init__(self):
+        self.prefixes = []
         self.navpoints = []
-        for p in prefixes:
-            self.addChapter(p)
 
-    def addChapter(self, prefix):
+    def loadFromPrefixes(self, prefixes):
+        for p in prefixes:
+            self.prefixes.append(p)
+            self.addChapterFromPrefix(p)
+
+    def addChapterFromPrefix(self, prefix):
         rstfile = prefix + ".rst"
         htmlfile = prefix + ".xhtml"
-        cmd = "rst2html " + rstfile + " " + htmlfile
-        os.system(cmd)
+        if not os.path.exists(htmlfile):
+            cmd = "rst2html " + rstfile + " " + htmlfile
+            os.system(cmd)
 
         lines = open(htmlfile).readlines()
         for i in range(len(lines)):
-            pt = None
             if lines[i].startswith("<div class=\"document\" id="):
                 text = lines[i + 1][18:-6]
                 id = lines[i][26:-3]
-                pt = NavPoint(text, "chapter", htmlfile, id)
+                self.addChapter(htmlfile, text, id)
             elif lines[i].startswith("<div class=\"section\" id="):
                 text = lines[i + 1][4:-6]
                 id = lines[i][25:-3]
-                pt = NavPoint(text, "section", htmlfile, id)
-            if pt is not None:
-                self.navpoints.append(pt)
+                self.addSection(htmlfile, text, id)
+
+    def addChapter(self, htmlfile, text, id):
+        pt = NavPoint(text, "chapter", htmlfile, id)
+        self.navpoints.append(pt)
+
+    def addSection(self, htmlfile, text, id):
+        pt = NavPoint(text, "section", htmlfile, id)
+        self.navpoints.append(pt)
 
     def ncx(self, outf):
         outf.write(NCX_PREAMBLE + "\n  <navMap>\n")
@@ -176,18 +175,40 @@ class NavMap:
         outf.write(OPF_POSTAMBLE)
 
 
-navmap = NavMap(sys.argv[1:])
+def doStuff(d):
+    global OPF_PREAMBLE, OPF_POSTAMBLE, NCX_PREAMBLE
 
-outf = open("%(short)s.ncx" % d, "w")
-navmap.ncx(outf)
-outf.close()
+    OPF_PREAMBLE = OPF_PREAMBLE % d
+    OPF_POSTAMBLE = OPF_POSTAMBLE % d
+    NCX_PREAMBLE = NCX_PREAMBLE % d
 
-outf = open("%(short)s.opf" % d, "w")
-navmap.opf(outf)
-outf.close()
+    outf = open("%(short)s.ncx" % d, "w")
+    navmap.ncx(outf)
+    outf.close()
 
-outf = open("index.xhtml", "w")
-navmap.index(outf)
-outf.close()
+    outf = open("%(short)s.opf" % d, "w")
+    navmap.opf(outf)
+    outf.close()
 
-os.system("/usr/local/kindlegen/kindlegen %(short)s.opf -c1 -verbose" % d)
+    outf = open("index.xhtml", "w")
+    navmap.index(outf)
+    outf.close()
+
+    os.system("%(kindlegen)s %(short)s.opf -c1 -verbose" % d)
+
+
+if __name__ == '__main__':
+    navmap = NavMap()
+    navmap.loadFromPrefixes(sys.argv[1:])
+
+    TITLE = "Random Stuff"
+    AUTHOR = "Will Ware"
+    ISBN = "1234567890X"
+    SHORTTITLE = TITLE.replace(" ", "")
+    doStuff({
+        "author": AUTHOR,
+        "title": TITLE,
+        "isbn": ISBN,
+        "short": SHORTTITLE,
+        "kindlegen": "/opt/kindlegen/kindlegen"
+        })

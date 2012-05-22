@@ -1,7 +1,7 @@
 Creating content for the Kindle
 ===============================
 
-The make-index.py script generates an OPF file and NCX file, which are
+The makeindex.py script generates an OPF file and NCX file, which are
 used to create a table of contents. I don't know how to create an index at
 the end, but I know people have done it.
 

@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" dir="ltr" class="client-nojs" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Streaming SIMD Extensions - Wikipedia, the free encyclopedia</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="MediaWiki 1.20wmf2" />
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit" />
+<link rel="edit" title="Edit this page" href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit" />
+<link rel="apple-touch-icon" href="//en.wikipedia.org/apple-touch-icon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Wikipedia (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd" />
+<link rel="copyright" href="//creativecommons.org/licenses/by-sa/3.0/" />
+<link rel="alternate" type="application/atom+xml" title="Wikipedia Atom feed" href="/w/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.teahouse%7Cext.wikihiero%7Cmediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=styles&amp;skin=vector&amp;*" type="text/css" media="all" />
+<style type="text/css" media="all">a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}
+
+/* cache key: enwiki:resourceloader:filter:minify-css:7:d5a1bf6cbd05fc6cc2705e47f52062dc */</style>
+
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Streaming_SIMD_Extensions","wgTitle":"Streaming SIMD Extensions","wgCurRevisionId":488487329,"wgArticleId":55365,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["All articles with unsourced statements","Articles with unsourced statements from March 2012","Use dmy dates from January 2012","SIMD computing","X86 instructions"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Streaming_SIMD_Extensions","wgRestrictionEdit":[],"wgRestrictionMove":[],"wgSearchNamespaces":[0],"wgVectorEnabledModules":{"collapsiblenav":true,"collapsibletabs":true,"editwarning":true,"expandablesearch":false,"footercleanup":false,"sectioneditlinks":false,"simplesearch":true,"experiments":true},"wgWikiEditorEnabledModules":{"toolbar":true,"dialogs":true,"hidesig":true,"templateEditor":false,"templates":false,"preview":false,"previewDialog":false,"publish":false,"toc":false},"wgTrackingToken":"e42cb106e46d38d25c5d0fda6ccdd5ad","wikilove-recipient":"","wikilove-edittoken":"+\\","wikilove-anon":0,"mbEmailEnabled":true,"mbUserEmail":false,"mbIsEmailConfirmationPending":false,"wgFlaggedRevsParams":{"tags":{"status":{"levels":1,"quality":2,"pristine":3}}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","Geo":{"city":"","country":""},"wgNoticeProject":"wikipedia"});
+}</script><script type="text/javascript">if(window.mw){
+mw.loader.implement("user.options",function(){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"imagesize":2,"justify":0,"math":0,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":false,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":4,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":0,"watchdeletion":0,"watchlistdays":3
+,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"flaggedrevssimpleui":1,"flaggedrevsstable":0,"flaggedrevseditdiffs":true,"flaggedrevsviewdiffs":false,"vector-simplesearch":1,"useeditwarning":1,"vector-collapsiblenav":1,"usebetatoolbar":1,"usebetatoolbar-cgd":1,"wikilove-enabled":1,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs100":false,"searchNs101":false,"searchNs108":false,"searchNs109":false,"gadget-teahouse":1,"gadget-mySandbox":1});;},{},{});mw.loader.implement("user.tokens",function(){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: enwiki:resourceloader:filter:minify-js:7:15f947b8a5d6ceebd1f399c3a1526c80 */
+}</script>
+<script type="text/javascript">if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.20wmf2/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Streaming_SIMD_Extensions skin-vector action-view">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content" class="mw-body">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><!-- centralNotice loads here --></div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">
+				<span dir="auto">Streaming SIMD Extensions</span>
+			</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From Wikipedia, the free encyclopedia</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav" class="mw-jump">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>In <a href="/wiki/Computing" title="Computing">computing</a>, <b>Streaming SIMD Extensions</b> (<b>SSE</b>) is an <a href="/wiki/SIMD" title="SIMD">SIMD</a> <a href="/wiki/Instruction_set" title="Instruction set">instruction set</a> extension to the <a href="/wiki/X86" title="X86">x86</a> architecture, designed by <a href="/wiki/Intel" title="Intel">Intel</a> and introduced in 1999 in their <a href="/wiki/Pentium_III" title="Pentium III">Pentium III</a> series processors as a reply to <a href="/wiki/AMD" title="AMD" class="mw-redirect">AMD</a>'s <a href="/wiki/3DNow!" title="3DNow!">3DNow!</a> (which had debuted a year earlier). SSE contains 70 new instructions, most of which work on <a href="/wiki/Single_precision" title="Single precision" class="mw-redirect">single precision</a> <a href="/wiki/Floating_point" title="Floating point">floating point</a> data. SIMD instructions can greatly increase performance when exactly the same operations are to be performed on multiple data objects. Typical applications are <a href="/wiki/Digital_signal_processing" title="Digital signal processing">digital signal processing</a> and <a href="/wiki/Graphics_processing" title="Graphics processing" class="mw-redirect">graphics processing</a>.</p>
+<p>Intel's first <a href="/wiki/IA-32" title="IA-32">IA-32</a> SIMD effort was the <a href="/wiki/MMX_(instruction_set)" title="MMX (instruction set)">MMX</a> instruction set. MMX had two main problems: it re-used existing <a href="/wiki/Floating_point" title="Floating point">floating point</a> registers making the <a href="/wiki/Central_processing_unit" title="Central processing unit">CPU</a> unable to work on both <a href="/wiki/Floating_point" title="Floating point">floating point</a> and SIMD data at the same time, and it only worked on <a href="/wiki/Integers" title="Integers" class="mw-redirect">integers</a>. SSE floating point instructions operate on a new independent register set (the XMM registers), and it adds a few integer instructions that work on MMX registers.</p>
+<p>SSE was subsequently expanded by Intel to <a href="/wiki/SSE2" title="SSE2">SSE2</a>, <a href="/wiki/SSE3" title="SSE3">SSE3</a>, <a href="/wiki/SSSE3" title="SSSE3">SSSE3</a>, and <a href="/wiki/SSE4" title="SSE4">SSE4</a>. Because it supports floating point math, it had a wider application than MMX and became more popular. The addition of integer support in SSE2 made MMX largely redundant, though further performance increases can be attained in some situations by using MMX in parallel with SSE operations.</p>
+<p>SSE was originally known as <b>KNI</b> for <i><b>K</b>atmai <b>N</b>ew <b>I</b>nstructions</i> (<i>Katmai</i> being the code name for the first <a href="/wiki/Pentium_III" title="Pentium III">Pentium III</a> core revision). During the Katmai project Intel sought to distinguish it from their earlier product line, particularly their flagship <a href="/wiki/Pentium_II" title="Pentium II">Pentium II</a>. It was later renamed <b>ISSE</b>, for <b>I</b>nternet <b>S</b>treaming <b>S</b>IMD <b>E</b>xtensions, then SSE. AMD eventually added support for SSE instructions, starting with its <a href="/wiki/Athlon_XP" title="Athlon XP" class="mw-redirect">Athlon XP</a> and <a href="/wiki/Duron" title="Duron">Duron</a> <i>(Morgan core)</i> processors.</p>
+<p><br /></p>
+<table id="toc" class="toc">
+<tr>
+<td>
+<div id="toctitle">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Registers"><span class="tocnumber">1</span> <span class="toctext">Registers</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#SSE_Instructions"><span class="tocnumber">2</span> <span class="toctext">SSE Instructions</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#Floating_point_instructions"><span class="tocnumber">2.1</span> <span class="toctext">Floating point instructions</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#Integer_instructions"><span class="tocnumber">2.2</span> <span class="toctext">Integer instructions</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#Other_instructions"><span class="tocnumber">2.3</span> <span class="toctext">Other instructions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Example"><span class="tocnumber">3</span> <span class="toctext">Example</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#Later_versions"><span class="tocnumber">4</span> <span class="toctext">Later versions</span></a></li>
+<li class="toclevel-1 tocsection-8"><a href="#Software_and_hardware_issues"><span class="tocnumber">5</span> <span class="toctext">Software and hardware issues</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#Related_links"><span class="tocnumber">6</span> <span class="toctext">Related links</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#References"><span class="tocnumber">7</span> <span class="toctext">References</span></a></li>
+</ul>
+</td>
+</tr>
+</table>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=1" title="Edit section: Registers">edit</a>]</span> <span class="mw-headline" id="Registers">Registers</span></h2>
+<p>SSE originally added eight new 128-bit registers known as XMM0 through XMM7. The <a href="/wiki/AMD64" title="AMD64" class="mw-redirect">AMD64</a> extensions from AMD (originally called <i>x86-64</i>) added a further eight registers XMM8 through XMM15, and this extension is duplicated in the <a href="/wiki/Intel_64" title="Intel 64" class="mw-redirect">Intel 64</a> architecture. There is also a new 32-bit control/status register, MXCSR. The registers XMM8 through XMM15 are accessible only in 64-bit operating mode.</p>
+<div class="floatright"><a href="/wiki/File:XMM_registers.svg" class="image"><img alt="XMM registers.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/5/5a/XMM_registers.svg/220px-XMM_registers.svg.png" width="220" height="220" /></a></div>
+<p>SSE used only a single data type for XMM registers:</p>
+<ul>
+<li>four 32-bit <a href="/wiki/Single-precision" title="Single-precision" class="mw-redirect">single-precision</a> floating point numbers</li>
+</ul>
+<p><a href="/wiki/SSE2" title="SSE2">SSE2</a> would later expand the usage of the XMM registers to include:</p>
+<ul>
+<li>two 64-bit <a href="/wiki/Double-precision" title="Double-precision" class="mw-redirect">double-precision</a> floating point numbers or</li>
+<li>two 64-bit integers or</li>
+<li>four 32-bit integers or</li>
+<li>eight 16-bit short integers or</li>
+<li>sixteen 8-bit bytes or characters.</li>
+</ul>
+<p>Because these 128-bit registers are additional program states that the <a href="/wiki/Operating_system" title="Operating system">operating system</a> must preserve across task switches, they are disabled by default until the operating system explicitly enables them. This means that the OS must know how to use the FXSAVE and FXRSTOR instructions, which is the extended pair of instructions which can save all <a href="/wiki/X86" title="X86">x86</a> and SSE register states all at once. This support was quickly added to all major IA-32 operating systems.</p>
+<p>The first CPU to support SSE, the Pentium III, shared execution resources between SSE and the <a href="/wiki/Floating_point_unit" title="Floating point unit" class="mw-redirect">FPU</a>. While a compiled application can interleave FPU and SSE instructions side-by-side, the Pentium III will not issue an FPU and an SSE instruction in the same clock-cycle. This limitation reduces the effectiveness of <a href="/wiki/Instruction_pipeline" title="Instruction pipeline">pipelining</a>, but the separate XMM registers do allow SIMD and scalar floating point operations to be mixed without the performance hit from explicit MMX/floating point mode switching.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=2" title="Edit section: SSE Instructions">edit</a>]</span> <span class="mw-headline" id="SSE_Instructions">SSE Instructions</span></h2>
+<p>SSE introduced both scalar and packed floating point instructions.</p>
+<h3><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=3" title="Edit section: Floating point instructions">edit</a>]</span> <span class="mw-headline" id="Floating_point_instructions">Floating point instructions</span></h3>
+<ul>
+<li>Memory-to-register/register-to-memory/register-to-register data movement
+<ul>
+<li><a href="/wiki/Scalar_(computing)" title="Scalar (computing)">Scalar</a>– MOVSS</li>
+<li><a href="/wiki/Data_structure_alignment" title="Data structure alignment">Packed</a> – MOVAPS, MOVUPS, MOVLPS, MOVHPS, MOVLHPS, MOVHLPS</li>
+</ul>
+</li>
+<li>Arithmetic
+<ul>
+<li>Scalar – ADDSS, SUBSS, MULSS, DIVSS, RCPSS, SQRTSS, MAXSS, MINSS, RSQRTSS</li>
+<li>Packed – ADDPS, SUBPS, MULPS, DIVPS, RCPPS, SQRTPS, MAXPS, MINPS, RSQRTPS</li>
+</ul>
+</li>
+<li>Compare
+<ul>
+<li>Scalar – CMPSS, COMISS, UCOMISS</li>
+<li>Packed – CMPPS</li>
+</ul>
+</li>
+<li>Data shuffle and unpacking
+<ul>
+<li>Packed – SHUFPS, UNPCKHPS, UNPCKLPS</li>
+</ul>
+</li>
+<li>Data-type conversion
+<ul>
+<li>Scalar – CVTSI2SS, CVTSS2SI, CVTTSS2SI</li>
+<li>Packed – CVTPI2PS, CVTPS2PI, CVTTPS2PI</li>
+</ul>
+</li>
+<li>Bitwise logical operations
+<ul>
+<li>Packed – ANDPS, ORPS, XORPS, ANDNPS</li>
+</ul>
+</li>
+</ul>
+<h3><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=4" title="Edit section: Integer instructions">edit</a>]</span> <span class="mw-headline" id="Integer_instructions">Integer instructions</span></h3>
+<ul>
+<li>Arithmetic
+<ul>
+<li>PMULHUW, PSADBW, PAVGB, PAVGW, PMAXUB, PMINUB, PMAXSW, PMINSW</li>
+</ul>
+</li>
+<li>Data movement
+<ul>
+<li>PEXTRW, PINSRW</li>
+</ul>
+</li>
+<li>Other
+<ul>
+<li>PMOVMSKB, PSHUFW</li>
+</ul>
+</li>
+</ul>
+<h3><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=5" title="Edit section: Other instructions">edit</a>]</span> <span class="mw-headline" id="Other_instructions">Other instructions</span></h3>
+<ul>
+<li>MXCSR management
+<ul>
+<li>LDMXCSR, STMXCSR</li>
+</ul>
+</li>
+<li>Cache and Memory management
+<ul>
+<li>MOVNTQ, MOVNTPS, MASKMOVQ, PREFETCH0, PREFETCH1, PREFETCH2, PREFETCHNTA, SFENCE</li>
+</ul>
+</li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=6" title="Edit section: Example">edit</a>]</span> <span class="mw-headline" id="Example">Example</span></h2>
+<p>The following simple example demonstrates the advantage of using SSE. Consider an operation like vector addition, which is used very often in computer graphics applications. To add two single precision, four-component vectors together using x86 requires four floating-point addition instructions</p>
+<pre>
+<b>vec_res.x = v1.x + v2.x</b>;<br /><b>vec_res.y = v1.y + v2.y</b>;<br /><b>vec_res.z = v1.z + v2.z</b>;<br /><b>vec_res.w = v1.w + v2.w</b>;
+</pre>
+<p>This would correspond to four x86 FADD instructions in the object code. On the other hand, as the following pseudo-code shows, a single 128-bit 'packed-add' instruction can replace the four scalar addition instructions.</p>
+<pre>
+<b>movaps xmm0, [v1]</b>          ;<b>xmm0 = v1.w | v1.z | v1.y | v1.x</b> <br /><b>addps xmm0, [v2]</b>           ;<b>xmm0 = v1.w+v2.w | v1.z+v2.z | v1.y+v2.y | v1.x+v2.x</b>               
+<b>movaps [vec_res], xmm0</b>
+</pre>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=7" title="Edit section: Later versions">edit</a>]</span> <span class="mw-headline" id="Later_versions">Later versions</span></h2>
+<ul>
+<li><a href="/wiki/SSE2" title="SSE2">SSE2</a>, introduced with the <a href="/wiki/Pentium_4" title="Pentium 4">Pentium 4</a>, is a major enhancement to SSE. SSE2 adds new math instructions for <a href="/wiki/Double-precision" title="Double-precision" class="mw-redirect">double-precision</a> (64-bit) floating point and also extends MMX integer instructions to operate on 128-bit XMM registers. Until SSE2, SSE integer instructions introduced with later SSE extensions could still operate on 64-bit MMX registers because the new XMM registers require operating system support. SSE2 enables the programmer to perform SIMD math on any data type (from 8-bit integer to 64-bit float) entirely with the XMM vector-register file, without the need to use the legacy MMX or FPU registers. Many programmers consider SSE2 to be "everything SSE should have been"<sup class="Template-Fact" style="white-space:nowrap;">[<i><a href="/wiki/Wikipedia:Citation_needed" title="Wikipedia:Citation needed"><span title="This claim needs references to reliable sources from March 2012">citation needed</span></a></i>]</sup> , as SSE2 offers an <a href="/wiki/Orthogonal_instruction_set" title="Orthogonal instruction set">orthogonal set of instructions</a> for dealing with common data types.</li>
+<li><a href="/wiki/SSE3" title="SSE3">SSE3</a>, also called Prescott New Instructions (PNI), is an incremental upgrade to SSE2, adding a handful of DSP-oriented mathematics instructions and some process (thread) management instructions.</li>
+<li><a href="/wiki/SSSE3" title="SSSE3">SSSE3</a> is an incremental upgrade to SSE3, adding 16 new instructions which include permuting the bytes in a word, multiplying 16-bit fixed-point numbers with correct rounding, and within-word accumulate instructions. SSSE3 is often mistaken for <a href="/wiki/SSE4" title="SSE4">SSE4</a> as this term was used during the development of the Core <a href="/wiki/Microarchitecture" title="Microarchitecture">microarchitecture</a>.</li>
+<li><a href="/wiki/SSE4" title="SSE4">SSE4</a> is another major enhancement, adding a dot product instruction, additional integer instructions, a popcnt instruction, and more.</li>
+<li><a href="/wiki/XOP_instruction_set" title="XOP instruction set">XOP</a>, <a href="/wiki/FMA_instruction_set" title="FMA instruction set">FMA4</a> and <a href="/wiki/CVT16_instruction_set" title="CVT16 instruction set">CVT16</a> are new iterations announced by <a href="/wiki/AMD" title="AMD" class="mw-redirect">AMD</a> in August 2007<sup id="cite_ref-0" class="reference"><a href="#cite_note-0"><span>[</span>1<span>]</span></a></sup><sup id="cite_ref-1" class="reference"><a href="#cite_note-1"><span>[</span>2<span>]</span></a></sup> and revised in May 2009.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2"><span>[</span>3<span>]</span></a></sup></li>
+<li><a href="/wiki/Advanced_Vector_Extensions" title="Advanced Vector Extensions">AVX</a> (Advanced Vector Extensions) is an advanced version of SSE announced by Intel featuring a widened data path from 128 bits to 256 bits and 3-operand instructions (up from 2). Intel released processors in early 2011 with AVX support.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3"><span>[</span>4<span>]</span></a></sup></li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=8" title="Edit section: Software and hardware issues">edit</a>]</span> <span class="mw-headline" id="Software_and_hardware_issues">Software and hardware issues</span></h2>
+<p>With all x86 instruction set extensions, it is up to the <a href="/wiki/BIOS" title="BIOS">BIOS</a>, operating system and application programmer to test and detect their existence and proper operation.</p>
+<ul>
+<li>Intel and AMD offer applications to detect what extensions your CPU supports.</li>
+<li>The <a href="/wiki/CPUID" title="CPUID">CPUID</a> opcode is a processor supplementary instruction (its name derived from CPU IDentification) for the x86 architecture. It was introduced by Intel in 1993 when it introduced the Pentium and SL-Enhanced 486 processors.</li>
+</ul>
+<p>User application uptake of the x86 extensions has been slow with even bare minimum baseline <a href="/wiki/MMX" title="MMX">MMX</a> and SSE support (in some cases) not being supported by applications some 10 years after these extensions became commonly available. Distributed computing has accelerated the use of these extensions in the scientific community—and many scientific applications refuse to run unless the CPU supports <a href="/wiki/SSE2" title="SSE2">SSE2</a> or <a href="/wiki/SSE3" title="SSE3">SSE3</a>.</p>
+<p>The use of multiple revisions of an application to cope with the many different sets of extensions available is the simplest way around the x86 extension optimization problem. Software libraries and some applications have begun to support multiple extension types hinting that full use of available x86 instructions may finally become common some 5 to 15 years after the instructions were initially introduced.</p>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=9" title="Edit section: Related links">edit</a>]</span> <span class="mw-headline" id="Related_links">Related links</span></h2>
+<p>Processor ID applications</p>
+<ul>
+<li><a rel="nofollow" class="external text" href="http://www.intel.com/support/processors/tools/piu/sb/cs-014921.htm">Intel Processor Identification Utility</a></li>
+<li><a href="/wiki/CPU-Z" title="CPU-Z">CPU-Z</a> CPU, motherboard and memory identifier utility</li>
+<li><a href="/wiki/BOINC" title="BOINC" class="mw-redirect">BOINC</a> that identifies AMD and Intel x86 features.</li>
+</ul>
+<h2><span class="editsection">[<a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit&amp;section=10" title="Edit section: References">edit</a>]</span> <span class="mw-headline" id="References">References</span></h2>
+<div class="reflist" style="list-style-type: decimal;">
+<ol class="references">
+<li id="cite_note-0"><span class="mw-cite-backlink"><b><a href="#cite_ref-0">^</a></b></span> <span class="reference-text"><span class="citation news"><a rel="nofollow" class="external text" href="http://www.theregister.co.uk/2007/08/30/amd_sse5/">"AMD plots single thread boost with x86 extensions"</a>. The Register. 30 August 2007<span class="printonly">. <a rel="nofollow" class="external free" href="http://www.theregister.co.uk/2007/08/30/amd_sse5/">http://www.theregister.co.uk/2007/08/30/amd_sse5/</a></span><span class="reference-accessdate">. Retrieved 1 February 2008</span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=AMD+plots+single+thread+boost+with+x86+extensions&amp;rft.atitle=&amp;rft.date=30+August+2007&amp;rft.pub=The+Register&amp;rft_id=http%3A%2F%2Fwww.theregister.co.uk%2F2007%2F08%2F30%2Famd_sse5%2F&amp;rfr_id=info:sid/en.wikipedia.org:Streaming_SIMD_Extensions"><span style="display: none;">&#160;</span></span></span></li>
+<li id="cite_note-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-1">^</a></b></span> <span class="reference-text"><a rel="nofollow" class="external free" href="http://developer.amd.com/sse5.jsp">http://developer.amd.com/sse5.jsp</a></span></li>
+<li id="cite_note-2"><span class="mw-cite-backlink"><b><a href="#cite_ref-2">^</a></b></span> <span class="reference-text"><span class="citation web"><a rel="nofollow" class="external text" href="http://support.amd.com/us/Processor_TechDocs/43479.pdf">"AMD64 Architecture Programmer’s Manual Volume 6: 128-Bit and 256-Bit XOP, FMA4 and CVT16 Instructions"</a>. <a href="/wiki/AMD" title="AMD" class="mw-redirect">AMD</a>. 1 May 2009<span class="printonly">. <a rel="nofollow" class="external free" href="http://support.amd.com/us/Processor_TechDocs/43479.pdf">http://support.amd.com/us/Processor_TechDocs/43479.pdf</a></span>.</span><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.btitle=AMD64+Architecture+Programmer%E2%80%99s+Manual+Volume+6%3A+128-Bit+and+256-Bit+XOP%2C+FMA4+and+CVT16+Instructions&amp;rft.atitle=&amp;rft.date=1+May+2009&amp;rft.pub=%5B%5BAMD%5D%5D&amp;rft_id=http%3A%2F%2Fsupport.amd.com%2Fus%2FProcessor_TechDocs%2F43479.pdf&amp;rfr_id=info:sid/en.wikipedia.org:Streaming_SIMD_Extensions"><span style="display: none;">&#160;</span></span></span></li>
+<li id="cite_note-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-3">^</a></b></span> <span class="reference-text"><a rel="nofollow" class="external free" href="http://software.intel.com/en-us/avx/">http://software.intel.com/en-us/avx/</a></span></li>
+</ol>
+</div>
+<table cellspacing="0" class="navbox" style="border-spacing:0;;">
+<tr>
+<td style="padding:2px;">
+<table cellspacing="0" class="nowraplinks collapsible autocollapse navbox-inner" style="border-spacing:0;background:transparent;color:inherit;;">
+<tr>
+<th scope="col" style=";" class="navbox-title" colspan="2">
+<div class="noprint plainlinks hlist navbar mini" style="">
+<ul>
+<li class="nv-view"><a href="/wiki/Template:Multimedia_extensions" title="Template:Multimedia extensions"><span title="View this template" style=";;background:none transparent;border:none;">v</span></a></li>
+<li class="nv-talk"><a href="/wiki/Template_talk:Multimedia_extensions" title="Template talk:Multimedia extensions"><span title="Discuss this template" style=";;background:none transparent;border:none;">t</span></a></li>
+<li class="nv-edit"><a class="external text" href="//en.wikipedia.org/w/index.php?title=Template:Multimedia_extensions&amp;action=edit"><span title="Edit this template" style=";;background:none transparent;border:none;">e</span></a></li>
+</ul>
+</div>
+<div class="" style="font-size:110%;">Multimedia extensions</div>
+</th>
+</tr>
+<tr style="height:2px;">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/Reduced_instruction_set_computing" title="Reduced instruction set computing">RISC</a></th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><a href="/wiki/PA-RISC" title="PA-RISC">PA-RISC</a>: <a href="/wiki/Multimedia_Acceleration_eXtensions" title="Multimedia Acceleration eXtensions">Multimedia Acceleration eXtensions (MAX)</a><br />
+<a href="/wiki/SPARC" title="SPARC">SPARC</a>: <a href="/wiki/Visual_Instruction_Set" title="Visual Instruction Set">Visual Instruction Set (VIS)</a><br />
+<a href="/wiki/MIPS_architecture" title="MIPS architecture">MIPS</a>: <a href="/wiki/MDMX" title="MDMX">MDMX</a>&#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/MIPS-3D" title="MIPS-3D">MIPS-3D</a><br />
+<a href="/wiki/DEC_Alpha" title="DEC Alpha">Alpha</a>: <a href="/wiki/DEC_Alpha#Motion_Video_Instructions_.28MVI.29" title="DEC Alpha">Motion Video Instructions (MVI)</a><br />
+<a href="/wiki/POWER6" title="POWER6">POWER6</a>: <a href="/wiki/AltiVec" title="AltiVec">AltiVec</a><br />
+<a href="/wiki/ARM_architecture" title="ARM architecture">ARM</a>: <a href="/wiki/ARM_architecture#Advanced_SIMD_.28NEON.29" title="ARM architecture">NEON</a></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/X86" title="X86">x86</a> (current)</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em"><a href="/wiki/MMX_(instruction_set)" title="MMX (instruction set)">MMX</a> (1996)&#160;<span style="font-weight:bold;">·</span>  <i><a href="/wiki/3DNow!" title="3DNow!">3DNow!</a></i> (1998)<br style="clear:both;" />
+<strong class="selflink">Streaming SIMD Extensions (SSE)</strong> (1999)&#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/SSE2" title="SSE2">SSE2</a> (2001) &#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/SSE3" title="SSE3">SSE3</a> (2004)<br style="clear:both;" />
+<a href="/wiki/SSSE3" title="SSSE3">Supplemental SSE3 (SSSE3)</a> (2006) &#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/SSE4" title="SSE4">SSE4</a> (2006) &#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/SSE5" title="SSE5">SSE5</a> <s>(2009)</s><br style="clear:both;" />
+<a href="/wiki/Advanced_Vector_Extensions" title="Advanced Vector Extensions">Advanced Vector Extensions (AVX)</a> (2008) &#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/CVT16_instruction_set" title="CVT16 instruction set">CVT16</a> (2009) &#160;<span style="font-weight:bold;">·</span>  <a href="/wiki/XOP_instruction_set" title="XOP instruction set">XOP</a> (2009)</div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;"><a href="/wiki/X86" title="X86">x86</a> (planned)</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-odd">
+<div style="padding:0em 0.25em"><a href="/wiki/FMA_instruction_set" title="FMA instruction set">FMA instructions</a> (FMA3: 2013, <i>FMA4</i>: 2011) &#160;<span style="font-weight:bold;">·</span>  <a href="/w/index.php?title=IAX64&amp;action=edit&amp;redlink=1" class="new" title="IAX64 (page does not exist)">IAX64 / ATAX64</a></div>
+</td>
+</tr>
+<tr style="height:2px">
+<td></td>
+</tr>
+<tr>
+<th scope="row" class="navbox-group" style=";;">Guide</th>
+<td style="text-align:left;border-left-width:2px;border-left-style:solid;width:100%;padding:0px;;;" class="navbox-list navbox-even">
+<div style="padding:0em 0.25em">x86&#160;: Instructions (Year Introduced); <i>Italics</i> = AMD exclusive; <s>Year</s> = Superseded</div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 2254/1000000
+Post-expand include size: 25643/2048000 bytes
+Template argument size: 9898/2048000 bytes
+Expensive parser function count: 2/500
+-->
+
+<!-- Saved in parser cache with key enwiki:pcache:idhash:55365-0!*!0!!en!4!* and timestamp 20120504201656 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://en.wikipedia.org/w/index.php?title=Streaming_SIMD_Extensions&amp;oldid=488487329">http://en.wikipedia.org/w/index.php?title=Streaming_SIMD_Extensions&amp;oldid=488487329</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id='catlinks' class='catlinks'><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/wiki/Category:SIMD_computing" title="Category:SIMD computing">SIMD computing</a></li><li><a href="/wiki/Category:X86_instructions" title="Category:X86 instructions">X86 instructions</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:All_articles_with_unsourced_statements" title="Category:All articles with unsourced statements">All articles with unsourced statements</a></li><li><a href="/wiki/Category:Articles_with_unsourced_statements_from_March_2012" title="Category:Articles with unsourced statements from March 2012">Articles with unsourced statements from March 2012</a></li><li><a href="/wiki/Category:Use_dmy_dates_from_January_2012" title="Category:Use dmy dates from January 2012">Use dmy dates from January 2012</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=Streaming+SIMD+Extensions" title="You are encouraged to log in; however, it is not mandatory. [o]" accesskey="o">Log in / create account</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li  id="ca-nstab-main" class="selected"><span><a href="/wiki/Streaming_SIMD_Extensions"  title="View the content page [c]" accesskey="c">Article</a></span></li>
+					<li  id="ca-talk"><span><a href="/wiki/Talk:Streaming_SIMD_Extensions"  title="Discussion about the content page [t]" accesskey="t">Talk</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+	<h4>
+		</h4>
+	<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="/wiki/Streaming_SIMD_Extensions" >Read</a></span></li>
+					<li id="ca-edit"><span><a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=edit"  title="You can edit this page. &#10;Please use the preview button before saving. [e]" accesskey="e">Edit</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;action=history"  title="Past versions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/w/index.php" id="searchform">
+				<div id="simpleSearch">
+						<input type="text" name="search" value="" title="Search Wikipedia [f]" accesskey="f" id="searchInput" />						<button type="submit" name="button" title="Search Wikipedia for this text" id="searchButton" width="12" height="13"><img src="//bits.wikimedia.org/static-1.20wmf2/skins/vector/images/search-ltr.png?303-4" alt="Search" /></button>								<input type='hidden' name="title" value="Special:Search"/>
+		</div>
+	</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(//upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png);" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id='p-navigation'>
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li>
+			<li id="n-contents"><a href="/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li>
+			<li id="n-featuredcontent"><a href="/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li>
+			<li id="n-currentevents"><a href="/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li>
+			<li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random article [x]" accesskey="x">Random article</a></li>
+			<li id="n-sitesupport"><a href="//wikimediafoundation.org/wiki/Special:Landingcheck?landing_page=WMFJA085&amp;language=en&amp;utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=20101204SB002" title="Support us">Donate to Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- interaction -->
+<div class="portal" id='p-interaction'>
+	<h5>Interaction</h5>
+	<div class="body">
+		<ul>
+			<li id="n-help"><a href="/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li>
+			<li id="n-aboutsite"><a href="/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li>
+			<li id="n-portal"><a href="/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+			<li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+			<li id="n-contact"><a href="/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact Wikipedia</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /interaction -->
+
+<!-- TOOLBOX -->
+<div class="portal" id='p-tb'>
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Streaming_SIMD_Extensions" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Streaming_SIMD_Extensions" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-upload"><a href="/wiki/Wikipedia:Upload" title="Upload files [u]" accesskey="u">Upload file</a></li>
+			<li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li id="t-permalink"><a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;oldid=488487329" title="Permanent link to this revision of the page">Permanent link</a></li>
+<li id="t-cite"><a href="/w/index.php?title=Special:Cite&amp;page=Streaming_SIMD_Extensions&amp;id=488487329" title="Information on how to cite this page">Cite this page</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- coll-print_export -->
+<div class="portal" id='p-coll-print_export'>
+	<h5>Print/export</h5>
+	<div class="body">
+		<ul id="collectionPortletList"><li id="coll-create_a_book"><a href="/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=Streaming+SIMD+Extensions" title="Create a book or page collection" rel="nofollow">Create a book</a></li><li id="coll-download-as-rl"><a href="/w/index.php?title=Special:Book&amp;bookcmd=render_article&amp;arttitle=Streaming+SIMD+Extensions&amp;oldid=488487329&amp;writer=rl" title="Download a PDF version of this wiki page" rel="nofollow">Download as PDF</a></li><li id="t-print"><a href="/w/index.php?title=Streaming_SIMD_Extensions&amp;printable=yes" title="Printable version of this page [p]" accesskey="p">Printable version</a></li></ul>	</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- LANGUAGES -->
+<div class="portal" id='p-lang'>
+	<h5>Languages</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-bg"><a href="//bg.wikipedia.org/wiki/SSE" title="SSE" lang="bg" hreflang="bg">Български</a></li>
+			<li class="interwiki-ca"><a href="//ca.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="ca" hreflang="ca">Català</a></li>
+			<li class="interwiki-cs"><a href="//cs.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="cs" hreflang="cs">Česky</a></li>
+			<li class="interwiki-de"><a href="//de.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="de" hreflang="de">Deutsch</a></li>
+			<li class="interwiki-es"><a href="//es.wikipedia.org/wiki/SSE" title="SSE" lang="es" hreflang="es">Español</a></li>
+			<li class="interwiki-eo"><a href="//eo.wikipedia.org/wiki/SSE_(instrukciaro)" title="SSE (instrukciaro)" lang="eo" hreflang="eo">Esperanto</a></li>
+			<li class="interwiki-fr"><a href="//fr.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="fr" hreflang="fr">Français</a></li>
+			<li class="interwiki-ko"><a href="//ko.wikipedia.org/wiki/%EC%8A%A4%ED%8A%B8%EB%A6%AC%EB%B0%8D_SIMD_%ED%99%95%EC%9E%A5" title="스트리밍 SIMD 확장" lang="ko" hreflang="ko">한국어</a></li>
+			<li class="interwiki-id"><a href="//id.wikipedia.org/wiki/SSE" title="SSE" lang="id" hreflang="id">Bahasa Indonesia</a></li>
+			<li class="interwiki-it"><a href="//it.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="it" hreflang="it">Italiano</a></li>
+			<li class="interwiki-hu"><a href="//hu.wikipedia.org/wiki/SSE" title="SSE" lang="hu" hreflang="hu">Magyar</a></li>
+			<li class="interwiki-nl"><a href="//nl.wikipedia.org/wiki/SSE" title="SSE" lang="nl" hreflang="nl">Nederlands</a></li>
+			<li class="interwiki-ja"><a href="//ja.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="ja" hreflang="ja">日本語</a></li>
+			<li class="interwiki-no"><a href="//no.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="no" hreflang="no">‪Norsk (bokmål)‬</a></li>
+			<li class="interwiki-pl"><a href="//pl.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="pl" hreflang="pl">Polski</a></li>
+			<li class="interwiki-pt"><a href="//pt.wikipedia.org/wiki/SSE" title="SSE" lang="pt" hreflang="pt">Português</a></li>
+			<li class="interwiki-ru"><a href="//ru.wikipedia.org/wiki/SSE" title="SSE" lang="ru" hreflang="ru">Русский</a></li>
+			<li class="interwiki-fi"><a href="//fi.wikipedia.org/wiki/SSE" title="SSE" lang="fi" hreflang="fi">Suomi</a></li>
+			<li class="interwiki-th"><a href="//th.wikipedia.org/wiki/Streaming_SIMD_Extensions" title="Streaming SIMD Extensions" lang="th" hreflang="th">ไทย</a></li>
+			<li class="interwiki-uk"><a href="//uk.wikipedia.org/wiki/SSE" title="SSE" lang="uk" hreflang="uk">Українська</a></li>
+			<li class="interwiki-zh"><a href="//zh.wikipedia.org/wiki/SSE" title="SSE" lang="zh" hreflang="zh">中文</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 21 April 2012 at 13:13.<br /></li>
+											<li id="footer-info-copyright">Text is available under the <a rel="license" href="//en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="//creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.
+See <a href="//wikimediafoundation.org/wiki/Terms_of_use">Terms of use</a> for details.<br/>
+Wikipedia&reg; is a registered trademark of the <a href="//www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.<br /></li><li class="noprint"><a class='internal' href="//en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact us</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="//wikimediafoundation.org/wiki/Privacy_policy" title="wikimedia:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+											<li id="footer-places-disclaimer"><a href="/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+											<li id="footer-places-mobileview"><a href="http://en.m.wikipedia.org/w/index.php?title=Streaming_SIMD_Extensions&amp;mobileaction=toggle_view_mobile" class="noprint">Mobile view</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-copyrightico">
+						<a href="//wikimediafoundation.org/"><img src="//bits.wikimedia.org/images/wikimedia-button.png" width="88" height="31" alt="Wikimedia Foundation"/></a>
+					</li>
+					<li id="footer-poweredbyico">
+						<a href="//www.mediawiki.org/"><img src="//bits.wikimedia.org/static-1.20wmf2/skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" /></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<script type="text/javascript">if(window.mw){
+mw.loader.state({"site":"loading","user":"ready","user.groups":"ready"});
+}</script>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=skins.vector&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script type="text/javascript">if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready","mediawiki.legacy.mwsuggest","ext.gadget.teahouse","ext.vector.collapsibleNav","ext.vector.collapsibleTabs","ext.vector.editWarning","ext.vector.simpleSearch","ext.UserBuckets","ext.articleFeedback.startup","ext.articleFeedbackv5.startup","ext.markAsHelpful"], null, true);
+}</script>
+<script src="/w/index.php?title=Special:BannerController&amp;cache=/cn.js&amp;303-4" type="text/javascript"></script>
+<script src="//bits.wikimedia.org/en.wikipedia.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=vector&amp;*" type="text/javascript"></script>
+<script src="//geoiplookup.wikimedia.org/" type="text/javascript"></script><!-- Served by srv235 in 0.113 secs. -->
+	</body>
+</html>
