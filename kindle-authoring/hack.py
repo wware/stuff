@@ -1,8 +1,17 @@
 import makeindex
 import os
 
-makeindex.d['short'] = 'SSE'
-makeindex.d['title'] = 'Streaming SIMD Extensions'
+TITLE = "Streaming SSE Extensions"
+AUTHOR = "Wikipedia"
+ISBN = "1234567890X"
+SHORTTITLE = TITLE.replace(" ", "")
+d = {
+    "author": AUTHOR,
+    "title": TITLE,
+    "isbn": ISBN,
+    "short": "SSE",
+    "kindlegen": "/opt/kindlegen/kindlegen"
+    }
 
 navmap = makeindex.NavMap()
 htmlfile = 'Streaming_SIMD_Extensions.xhtml'
@@ -24,16 +33,4 @@ section('Software and hardware issues')
 section('Related links')
 section('References')
 
-outf = open("%(short)s.ncx" % makeindex.d, "w")
-navmap.ncx(outf)
-outf.close()
-
-outf = open("%(short)s.opf" % makeindex.d, "w")
-navmap.opf(outf)
-outf.close()
-
-outf = open("index.xhtml", "w")
-navmap.index(outf)
-outf.close()
-
-os.system("%(kindlegen)s %(short)s.opf -c1 -verbose" % makeindex.d)
+makeindex.doStuff(navmap, d)

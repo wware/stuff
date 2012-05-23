@@ -175,7 +175,7 @@ class NavMap:
         outf.write(OPF_POSTAMBLE)
 
 
-def doStuff(d):
+def doStuff(navmap, d):
     global OPF_PREAMBLE, OPF_POSTAMBLE, NCX_PREAMBLE
 
     OPF_PREAMBLE = OPF_PREAMBLE % d
@@ -205,7 +205,7 @@ if __name__ == '__main__':
     AUTHOR = "Will Ware"
     ISBN = "1234567890X"
     SHORTTITLE = TITLE.replace(" ", "")
-    doStuff({
+    doStuff(navmap, {
         "author": AUTHOR,
         "title": TITLE,
         "isbn": ISBN,
