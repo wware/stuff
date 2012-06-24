@@ -1,0 +1,168 @@
+/*
+ * decode.txt
+ *
+ * This readme file provides the necessary information to the user for 
+ * using the decode demo for DM365 platform
+ *
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/ 
+ * 
+ * 
+ *  Redistribution and use in source and binary forms, with or without 
+ *  modification, are permitted provided that the following conditions 
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright 
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the   
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+*/
+
+NAME
+       decode - decode video and/or audio or speech files
+
+SYNOPSIS
+       decode [options...]
+
+DESCRIPTION
+       This demo uses the Codec Engine to decode data from files and output
+       the uncompressed data using peripheral device drivers. Video, audio and 
+       speech files are supported.  All files must consist of raw encoded 
+       frames of data (elementary streams). For MPEG4 and H264 video, we use 
+       the restricted version of the decoder, hence only videos encoded with
+       TI encoder can be decoded.
+
+       You must supply at least one file for the demo to run.
+
+       The DM365MM and CMEM kernel modules need to be inserted for this demo
+       to run.  Use the script 'loadmodule-rc' in the DVSDK to make sure both
+       kernel modules are loaded with adequate parameters.
+
+OPTIONS
+       -v <video file>, --videofile <video file>
+             Decodes a video file.  The demo detects which type of video file
+             is supplied using the file extension.  Supported video algorithms
+             are:
+
+                 MPEG4 SP (.mpeg4 or .m4v extension)
+                 H.264 HP (.264 extension)
+                 MPEG2 (.m2v extension)
+
+       -s <speech file>, --speechfile <speech file>
+             Decodes the speech file. The demo detects which type of speech
+             file is supplied using the file extension. The only supported
+             speech algorithm as of now is G.711 (.g711 extension).
+
+       -a <audio file>, --audiofile <audio file>
+             Decodes the audio file. The demo detects which type of audio
+             file is supplied using the file extension. The only supported
+             audio algorithm as of now is AAC (.aac extension).
+
+       -y <1-3>, --display_standard <1-3>
+             Sets the resolution of the display. Clips larger than the display
+             will be center clamped, and clips smaller than the display will
+             be centered.
+
+                    1       D1 @ 30 fps (NTSC) 
+                    2       D1 @ 25 fps (PAL)
+                    3       720P @ 60 fps   [Default]
+                    5       1080I @ 30 fps - for DM368  
+
+       -O <display output>, --display_output
+             Selects the video output to display, valid outputs are
+             'composite', or 'component'. 
+
+       -l, --loop
+             If this option is selected, the demo will restart at the
+             beginning of a file (or files) when the end is reached. If this
+             option is not selected (which is the default) the demo will quit
+             once the end of the file (or files) has been reached.
+
+       -o, --osd
+             Enables the On Screen Display for configuration and data 
+             visualization using a QT-based UI. If this option is not passed, 
+             the data will be output to stdout instead.
+
+       -k, --keyboard
+             Enables the keyboard input mode which lets the user input
+             commands using the keyboard in addition to the QT-based OSD
+             interface. At the prompt type 'help' for a list of available
+             commands.
+
+       -t <seconds>, --time <seconds>
+             The number of seconds to run the demo. Defaults to infinite time.
+
+       -h, --help
+             This will print the usage of the demo.
+
+EXAMPLE USAGE
+       First execute this script to load the kernel modules required:
+             ./loadmodules.sh
+
+       General usage:
+             ./decode -h
+
+       H264 HP  video on a 720p display and G.711 speech decode with OSD:
+             ./decode -s test.g711 -v test.264 -o -y 3
+
+       MPEG4 NTSC video decode only with keyboard interface on component output:
+             ./decode -v test.mpeg4 -k -y 1 
+
+COPYRIGHT
+       Copyright (c) Texas Instruments Inc 2011
+
+       Use of this software is controlled by the terms and conditions found in
+       the license agreement under which this software has been supplied or
+       provided.
+
+KNOWN ISSUES
+
+VERSION
+       4.02
+
+CHANGELOG
+       from 4.01:
+             Modified data flow to eliminate frame copies to maximize 
+             performance.
+
+             To improve performance further, we have also moved to using the
+             restricted (closed-loop) version of the H264 and MPEG4 decoder.
+
+             The result is that only clips encoded with TI encoders can be 
+             played back using this version of the demo.
+
+       from 4.0:
+             No change.
+
+       from 3.10:
+             Replaced old remote-driven interface with QT-based interface. This
+             can be turned on using the '-o' flag.
+
+             Added audio thread to allow audio playback.
+
+             Added option for audio support ('-a').
+
+             Added MPEG2 support.
+
+SEE ALSO
+       For documentation and release notes on the individual components see
+       the html files in the host installation directory.

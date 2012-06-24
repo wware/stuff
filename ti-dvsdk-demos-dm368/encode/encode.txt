@@ -1,0 +1,208 @@
+/*
+ * encode.txt
+ *
+ * This readme file explains the options and describes how to use 'encode demo' 
+ * on DM365 platform.
+ *
+ * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/ 
+ * 
+ * 
+ *  Redistribution and use in source and binary forms, with or without 
+ *  modification, are permitted provided that the following conditions 
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright 
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the   
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+*/
+
+NAME
+       encode - encode video and/or audio or speech files
+
+SYNOPSIS
+       encode [options...]
+
+DESCRIPTION
+       This demo uses the Codec Engine to encode data from peripheral device
+       drivers to files. Video, audio and speech files are supported. The files
+       created will be encoded elementary streams of video/audio/speech.
+
+       You must supply at least one file for the demo to run.
+
+       The DM365MM and CMEM kernel modules need to be inserted for this demo
+       to run.  Use the script 'loadmodule-rc' in the DVSDK to make sure both
+       kernel modules are loaded with adequate parameters.
+
+OPTIONS
+       -v <video file>, --videofile <video file>
+             Encodes video data to the given file. The file will be created if
+             it doesn't exist, and truncated if it does exist. The demo
+             detects which type of video file is supplied using the file
+             extension. Supported video algorithm is MPEG4 SP, H.264 MP, MPEG2
+             (.mpeg4 or .m4v extension, .264, .m2v).
+
+       -s <speech file>, --speechfile <speech file>
+             Encodes speech data to the given file. The file will be created
+             if it doesn't exist, and truncated if it does exist. The demo
+             detects which type of speech file is supplied using the file
+             extension. The only supported speech algorithm as of now is
+             G.711 (.g711 extension).
+
+       -a <audio file>, --audiofile <audio file>
+             Encodes audio data to the given file. The file will be created
+             if it doesn't exist, and truncated if it does exist. The demo
+             detects which type of audio file is supplied using the file
+             extension. The only supported speech algorithm as of now is
+             AAC (.aac extension).
+
+       -y <1-5>, --display_standard <1-5>
+             Sets the resolution of the display. If the captured resolution
+             is larger than the display it will be center clamped, and if it
+             is smaller the image will be centered.
+
+                    1       D1 @ 30 fps (NTSC)
+                    2       D1 @ 25 fps (PAL)
+                    3       720P @ 60 fps    [Default]
+                    5       1080I @ 30 fps - for DM368  
+
+       -r <resolution>, --resolution <resolution>
+             The resolution of video to encode in the format 'width'x'height'.
+             Default is the size of the video standard (720x480 for NTSC,
+             720x576 for PAL, 1280x720 for 720P).
+
+       -b <bit rate>, --videobitrate <bit rate>
+             This option sets the bit rate with which the video will be
+             encoded. Use a negative value for variable bit rate. Default is
+             variable bit rate.
+
+       -p <bit rate>, --soundbitrate <bit rate>
+             This option sets the bit rate with which the audio will be
+             encoded. Use a negative value for variable bit rate. Default is
+             96000.
+
+       -u <sample rate>, --samplerate <sample rate>
+             This option sets the sample rate with which the video will be
+             encoded. Default is 44100 Hz.
+
+       -w, --preview_disable
+             Disable preview of captured video frames.
+
+       -f, --write_disable
+             Disable recording of encoded file. This helps to validate 
+             performance without file I/O.
+
+       -I, --video_input
+		     Video input source to use.
+                 1       Composite                                                       
+                 2       S-video                                                         
+                 3       Component                                                       
+                 4       Imager/Camera - for DM368  
+             When not specified, the video input is chosen based on the display 
+             video standard selected. NTSC/PAL use Composite, 720P uses 
+             Component, and 1080I uses the Imager/Camera.
+
+       -l, --linein
+             This option makes the input device for sound recording be the
+             'line in' as opposed to the 'mic in' default.
+
+       -k, --keyboard
+             Enables the keyboard input mode which lets the user input
+             commands using the keyboard in addition to the QT-based OSD
+             interface. At the prompt type 'help' for a list of available
+             commands. 
+
+       -t <seconds>, --time <seconds>
+             The number of seconds to run the demo. Defaults to infinite time.
+
+       -o, --osd
+             Enables the On Screen Display for configuration and data 
+             visualization using a QT-based UI. If this option is not passed, 
+             the data will be output to stdout instead.
+
+       -h, --help
+             This will print the usage of the demo.
+
+EXAMPLE USAGE
+       First execute this script to load kernel modules required:
+             ./loadmodules.sh
+
+       General usage:
+             ./encode -h
+       
+       H264 HP video encode only @720p resolution with OSD:
+             ./encode -v test.264 -y 3 -o
+       
+       H264 HP video encode from s-video and G.711 speech encode:
+             ./encode -v test.264 -s test.g711 -I 2
+
+       MPEG4 SP video encode only in CIF NTSC resolution with OSD:
+             ./encode -v test.mpeg4 -r 352x240 -o
+
+       MPEG4 SP video encode at 1Mbps with keyboard interface on D1 PAL display:
+             ./encode -v test.mpeg4 -b 1000000 -k -y 2
+
+
+COPYRIGHT
+       Copyright (c) Texas Instruments Inc 2011
+
+       Use of this software is controlled by the terms and conditions found in
+       the license agreement under which this software has been supplied or
+       provided.
+
+KNOWN ISSUES
+
+VERSION
+       4.02
+
+CHANGELOG
+       from 4.01:
+             Modified data flow to eliminate frame copies to maximize
+             performance.
+
+             Modified thread priorities to enhance performance.
+
+       from 4.0:
+             Added support of 1080I display video standard for DM368
+
+             Added support of Camera input for DM368
+
+             Removed s-video (-x) option.
+
+             Added -I option to select video input.
+
+             Added options to disable preview and recording of encoded output.
+
+       from 3.10:
+             Replaced old remote-driven interface with QT-based interface. This
+             can be turned on using the '-o' flag.
+
+             Added audio thread to allow audio encode.
+
+             Added options for audio support ('-a', '-p', '-u').
+
+             Added MPEG2 support.
+
+SEE ALSO
+       For documentation and release notes on the individual components see
+       the html files in the host installation directory.
