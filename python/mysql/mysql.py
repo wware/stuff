@@ -13,6 +13,9 @@ WRITE_PROTECT = True
 _DEBUG = False
 _db = None
 
+class SqlException(Exception):
+    pass
+
 class WriteProtectException(Exception):
     pass
 
@@ -20,7 +23,10 @@ def handleSql(sql, handler=None):
     if _DEBUG:
         print sql
     c = _db.cursor()
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except Exception, e:
+        raise SqlException((sql, e.args))
     while True:
         x = c.fetchone()
         if x is None:
@@ -165,7 +171,10 @@ class MysqlTable(dict):
                 self.table = table
                 self.criterion = criterion
                 self.cursor = c = _db.cursor()
-                c.execute(sql)
+                try:
+                    c.execute(sql)
+                except Exception, e:
+                    raise SqlException((sql, e.args))
             def __iter__(self):
                 return self
             def __getitem__(self, n):
