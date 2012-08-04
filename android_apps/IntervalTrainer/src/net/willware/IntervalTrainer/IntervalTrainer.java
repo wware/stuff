@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.os.Handler;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.media.MediaPlayer;
 import android.media.AudioManager;
 

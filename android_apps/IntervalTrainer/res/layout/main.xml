@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
 	      android:id="@+id/background"
-	      android:padding="10px"
+	      android:padding="10dp"
 	      android:layout_width="fill_parent"
 	      android:layout_height="fill_parent"
 	      android:background="#004080">
@@ -13,14 +13,14 @@
                 android:orientation="horizontal">
 
     <Button android:id="@+id/start"
-	    android:layout_width="150px"
-	    android:layout_height="120px"
+	    android:layout_width="150dp"
+	    android:layout_height="120dp"
 	    android:textSize="25sp"
 	    android:text="Start"/>
 
     <Button android:id="@+id/reset"
-	    android:layout_width="150px"
-	    android:layout_height="120px"
+	    android:layout_width="150dp"
+	    android:layout_height="120dp"
 	    android:textSize="25sp"
 	    android:text="Reset"/>
 
@@ -29,7 +29,6 @@
   <TextView android:id="@+id/sprintnum"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/sprint"
 	    android:text="Warm up"
 	    android:textSize="60sp"/>
 
