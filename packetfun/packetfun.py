@@ -9,7 +9,9 @@ import sys, os, string, re, types
 try:
     import rawsocket
 except ImportError:
-    os.system("gcc -Wall -O2 -c -I/usr/include/python2.5 rawsocket.c")
+    pyversion = ".".join(map(str, sys.version_info[:2]))
+    incl = "-I/usr/include/python" + pyversion
+    os.system("gcc -fPIC -Wall -O2 -c " + incl + " rawsocket.c")
     os.system("gcc -shared -o rawsocket.so rawsocket.o")
     import rawsocket
 
