@@ -1,0 +1,40 @@
+@prefix : <http://willware.net/family.rdf> .
+@prefix bio: <http://purl.org/vocab/bio/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://willware.net/family.rdf/MoveTo> a rdfs:Class;
+    rdfs:comment "An event involving a change of residence.";
+    rdfs:isDefinedBy :;
+    rdfs:subClassOf bio:Event .
+
+<http://willware.net/family.rdf/child> a rdf:Property;
+    rdfs:label "child";
+    rdfs:comment "A child born to a couple or marriage";
+    rdfs:domain bio:Marriage;
+    rdfs:isDefinedBy :;
+    rdfs:range foaf:Person .
+
+<http://willware.net/family.rdf/ended> a rdf:Property;
+    rdfs:label "ended";
+    rdfs:comment "The end of a marriage";
+    rdfs:domain bio:Marriage;
+    rdfs:isDefinedBy :;
+    rdfs:range bio:Event .
+
+<http://willware.net/family.rdf/gender> a rdf:Property;
+    rdfs:label "gender";
+    rdfs:comment "The gender of a person";
+    rdfs:domain foaf:Person;
+    rdfs:isDefinedBy :;
+    rdfs:range rdfs:Literal .
+
+: a owl:Ontology;
+    dc:date "2003/10/24";
+    dc:description "A vocabulary for doing geneology, representing relationships in families.";
+    dc:title "Geneological vocabulary";
+    owl:imports <http://www.w3.org/2000/01/rdf-schema>,
+        <http://www.w3.org/2002/07/owl> .

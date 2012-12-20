@@ -1,0 +1,3 @@
+[submodule "rdfextras"]
+	path = rdfextras
+	url = https://github.com/RDFLib/rdfextras

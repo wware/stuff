@@ -1,0 +1,138 @@
+@prefix air: <http://www.daml.org/2001/10/html/airport-ont#> .
+@prefix bio: <http://purl.org/vocab/bio/0.1/> .
+@prefix contact: <http://www.w3.org/2000/10/swap/pim/contact#> .
+@prefix family: <http://willware.net/family.rdf/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wn: <http://xmlns.com/wordnet/1.6/> .
+
+[] a foaf:Person;
+    bio:event _:Nffd7f07194d14e1ab6d7161dba66bbb5;
+    family:gender "female";
+    contact:nearestAirport _:N00c8d0825b5641719044328cbadd7a26;
+    foaf:knows _:Nbb207f59f3d246ee9118f2bbb9c9598e;
+    foaf:name "Marian Ware" .
+
+[] a foaf:Person;
+    bio:event [ a bio:Birth;
+            bio:date "1932-06-27";
+            bio:place "Northampton, MA" ],
+        _:N47c6e0eb904a4893ac60ebc6ee3bf5db;
+    family:gender "female";
+    foaf:knows _:Ne9013aa25dbf469a8a7a117cbb511c4c;
+    foaf:name "Lois Ware" .
+
+[] a foaf:Person;
+    bio:event _:Nb367ba853e4642a18449a46376a3e9ff;
+    family:gender "female";
+    foaf:knows _:Nbb207f59f3d246ee9118f2bbb9c9598e;
+    foaf:name "Anja Wittig Ware" .
+
+[] a foaf:Person;
+    bio:event [ a bio:Birth;
+            bio:date "1926-06-02";
+            bio:place "Kansas City, MO" ],
+        _:N47c6e0eb904a4893ac60ebc6ee3bf5db,
+        [ a bio:Death;
+            bio:date "2009-01-23";
+            bio:place "Boston, MA" ];
+    family:gender "male";
+    foaf:knows _:Ne9013aa25dbf469a8a7a117cbb511c4c;
+    foaf:name "Bob Ware Jr." .
+
+_:N47f81c70dfb34a61b2edc61172ea73a6 a bio:Birth;
+    bio:date "1957-05-18";
+    bio:place "Manhattan, NY" .
+
+_:N5194f3e1e76d4630841907a031653989 a foaf:Person;
+    family:gender "male";
+    contact:nearestAirport _:N00c8d0825b5641719044328cbadd7a26;
+    foaf:name "Paul Ware" .
+
+_:N5ddaa38eb18f4e18b63f1be65bd65717 a foaf:Person;
+    family:gender "female";
+    foaf:name "Alice Ware" .
+
+_:N6c48b74106704e53a2139747284b8727 a foaf:Person;
+    bio:event _:Na6f2c74958dc4a298d21dd953301bfd6,
+        [ a bio:Birth;
+            bio:date "1959-02-25";
+            bio:place "New Haven, CT" ];
+    bio:olb "Author of this stuff";
+    family:gender "male";
+    contact:nearestAirport _:N00c8d0825b5641719044328cbadd7a26;
+    foaf:homepage <http://willware.net/>;
+    foaf:knows _:Nbb207f59f3d246ee9118f2bbb9c9598e;
+    foaf:mbox <mailto:wware@alum.mit.edu>;
+    foaf:name "Will Ware";
+    foaf:plan "Clueless, therefore planless." .
+
+_:N818150a9d5624903b08b2e09009f3cd4 a foaf:Person;
+    family:gender "female";
+    foaf:name "Elena Ware" .
+
+_:Nae01192068884ebe83279d93df547096 a bio:Birth;
+    bio:date "1966-05-07";
+    bio:place "New Haven, CT" .
+
+_:Nb9b7a5c8425a4841a075b8e9d1ddf9b9 a foaf:Person;
+    family:gender "male";
+    foaf:knows _:Nb012f375e6a2439d8713b1547dcad271;
+    foaf:name "Benjamin Moritz Ware" .
+
+_:Ncf0fb07807b44cc6bfddde69bb692414 a bio:Birth;
+    bio:date "1949-03-27";
+    bio:place "Joliet, IL" .
+
+_:N47c6e0eb904a4893ac60ebc6ee3bf5db a bio:Marriage;
+    bio:date "1957-01-01";
+    bio:place "Boston, MA";
+    family:child [ ],
+        _:N6c48b74106704e53a2139747284b8727,
+        _:Nb012f375e6a2439d8713b1547dcad271,
+        _:Nbb207f59f3d246ee9118f2bbb9c9598e .
+
+_:N5b39d40bad914ef2a8debf64b4a668c3 a bio:Death;
+    bio:date "2003-09-22";
+    bio:place "Orlando, FL" .
+
+_:Na6f2c74958dc4a298d21dd953301bfd6 a bio:Marriage;
+    bio:date "2001-10-27";
+    bio:place "Newton, MA (42.3322, -71.1937)";
+    family:ended _:N5b39d40bad914ef2a8debf64b4a668c3 .
+
+_:Nb012f375e6a2439d8713b1547dcad271 a foaf:Person;
+    bio:event _:Nae01192068884ebe83279d93df547096,
+        _:Nb367ba853e4642a18449a46376a3e9ff;
+    family:gender "male";
+    foaf:knows _:Ne9013aa25dbf469a8a7a117cbb511c4c;
+    foaf:mbox <mailto:bobindayton@gmail.com>;
+    foaf:name "Bob Ware III" .
+
+_:Nb367ba853e4642a18449a46376a3e9ff a bio:Marriage;
+    family:child _:N818150a9d5624903b08b2e09009f3cd4,
+        _:Nb9b7a5c8425a4841a075b8e9d1ddf9b9 .
+
+_:Nffd7f07194d14e1ab6d7161dba66bbb5 a bio:Marriage;
+    bio:place "Amherst, MA";
+    family:child _:N5194f3e1e76d4630841907a031653989,
+        _:N5ddaa38eb18f4e18b63f1be65bd65717 .
+
+_:N00c8d0825b5641719044328cbadd7a26 a wn:Airport;
+    air:iataCode "BOS";
+    air:icaoCode "KBOS" .
+
+_:Nbb207f59f3d246ee9118f2bbb9c9598e a foaf:Person;
+    bio:event _:N47f81c70dfb34a61b2edc61172ea73a6,
+        _:Nffd7f07194d14e1ab6d7161dba66bbb5;
+    family:gender "male";
+    contact:nearestAirport _:N00c8d0825b5641719044328cbadd7a26;
+    foaf:knows _:Ne9013aa25dbf469a8a7a117cbb511c4c;
+    foaf:mbox <mailto:rware@alum.mit.edu>;
+    foaf:name "Rich Ware" .
+
+_:Ne9013aa25dbf469a8a7a117cbb511c4c a foaf:Person;
+    bio:event _:N5b39d40bad914ef2a8debf64b4a668c3,
+        _:Na6f2c74958dc4a298d21dd953301bfd6,
+        _:Ncf0fb07807b44cc6bfddde69bb692414;
+    family:gender "female";
+    foaf:name "Sue Bauter" .
