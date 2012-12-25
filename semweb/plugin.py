@@ -22,12 +22,14 @@ See the `setuptools dynamic discovery of services and plugins <http://peak.telec
 """
 
 from rdflib.store import Store
-from rdflib.serializer import Serializer
-from rdflib.parser import Parser
+from rdflib.syntax.serializers import Serializer
+from rdflib.syntax.parsers import Parser
 from rdflib.exceptions import Error
 from rdfextras import sparql
-#from rdflib.query.result import QueryResult
-from rdflib.query import Processor, Result
+#from rdflib.query.result import QueryResult as Result
+from rdflib import QueryResult as Result
+from rdflib.sparql.bison import Processor
+#from rdflib.query import Processor, Result
 
 
 entry_points = {'rdf.plugins.store': Store,

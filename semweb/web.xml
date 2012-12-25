@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+    <display-name>
+    Semantic web servlet
+    </display-name>
+    <description>
+    Description of the application
+    </description>
+
+    <context-param>
+      <param-name>some_parameter</param-name>
+      <param-value>value_of_parameter</param-value>
+      <description>Description of this parameter</description>
+    </context-param>
+
+    <servlet>
+      <servlet-name>semweb</servlet-name>
+      <description>Again, some description</description>
+      <!--servlet-class>net.willware.semweb.WebApp</servlet-class-->
+      <jsp-file>/index.jsp</jsp-file>
+      <init-param>
+        <param-name>foo</param-name>
+        <param-value>bar</param-value>
+      </init-param>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>semweb</servlet-name>
+      <url-pattern>/semweb</url-pattern>
+    </servlet-mapping>
+
+    <!--servlet-mapping>
+      <servlet-name>image</servlet-name>
+      <url-pattern>/image</url-pattern>
+    </servlet-mapping-->
+
+    <session-config>
+      <session-timeout>30</session-timeout> 
+    </session-config>
+
+</web-app>

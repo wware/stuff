@@ -5,6 +5,7 @@ package net.willware.semweb;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.io.PrintStream;
 
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
@@ -16,10 +17,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.rdf.model.impl.InfModelImpl;
 import com.hp.hpl.jena.reasoner.InfGraph;
@@ -39,11 +37,7 @@ public class GenealogyModel extends InfModelImpl {
     private static final boolean verbose = true;
     private static boolean USE_RETE = true;
 
-    public static final String familyRdf = "http://willware.net/family.rdf";
-    public static final String waresRdf = "http://willware.net/wares.rdf";
-
-//    private static final Reasoner defaultReasoner =
-//        ReasonerRegistry.getRDFSSimpleReasoner();
+    public static final String waresRdf = "file:///home/wware/stuff/semweb/wares.rdf";
 
     /**
      * This is just a convenience class for packaging up queries in a
@@ -104,47 +98,20 @@ public class GenealogyModel extends InfModelImpl {
          * some deductions.
          */
         PrintUtil.registerPrefix("wares", waresRdf + "/");
-        PrintUtil.registerPrefix("family", familyRdf + "/");
         PrintUtil.registerPrefix("foaf", "http://xmlns.com/foaf/0.1/");
         PrintUtil.registerPrefix("bio", "http://purl.org/vocab/bio/0.1/");
+        PrintUtil.registerPrefix("rel", "http://purl.org/vocab/relationship/");
         PrintUtil.registerPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
         PrintUtil.registerPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
         String rules =
-            // If person X is in a marriage that produces child Y, then
-            // X is a parent of Y.
-            "[rule1: (?elder bio:event ?marriage)"
-            + "      (?marriage rdf:type bio:Marriage)"
-            + "      (?marriage family:child ?kid)"
-            + " -> (?kid family:parent ?elder)]"
-            // The parent of a parent is a grandparent.
-            + "[rule2: (?x family:parent ?y)"
-            + "        (?y family:parent ?z)"
-            + " -> (?x family:grandparent ?z)]"
-            // If X is a grandparent of Y, then Y is a grandchild of X.
-            + "[rule3: (?x family:grandparent ?y)"
-            + " -> (?y family:grandchild ?x)]"
-            // When people are married, they know each other. You hope so, anyway.
-            + "[rule4: (?who bio:event ?marriage)"
-            + "        (?other bio:event ?marriage)"
-            + "        (?marriage rdf:type bio:Marriage)"
-            + "        notEqual(?who, ?other)"
-            + " -> (?who foaf:knows ?other)]"
-            // A male parent is a father.
-            + "[rule5: (?kid family:parent ?elder)"
-            + "        (?elder family:gender 'male')"
-            + " -> (?kid family:father ?elder)]"
-            // A female parent is a mother.
-            + "[rule6: (?kid family:parent ?elder)"
-            + "        (?elder family:gender 'female')"
-            + " -> (?kid family:mother ?elder)]"
-            // A male child is a son.
-            + "[rule7: (?kid family:parent ?elder)"
-            + "        (?kid family:gender 'male')"
-            + " -> (?elder family:son ?kid)]"
-            // A female child is a daughter.
-            + "[rule8: (?kid family:parent ?elder)"
-            + "        (?kid family:gender 'female')"
-            + " -> (?elder family:daughter ?kid)]"
+            "[rule1: (?x bio:father ?y)"
+            + " -> (?y bio:child ?x)]"
+            + "[rule2: (?x bio:mother ?y)"
+            + " -> (?y bio:child ?x)]"
+            + "[rule3: (?x bio:child ?y)"
+            + " -> (?y rel:childOf ?x)]"
+            + "[rule4: (?x rel:childOf ?y)"
+            + " -> (?y bio:child ?x)]"
             ;
         GenericRuleReasoner ruleReasoner =
             new GenericRuleReasoner(Rule.parseRules(rules));
@@ -153,7 +120,7 @@ public class GenealogyModel extends InfModelImpl {
 
         // Create a generic model, populate it with some genealogical graph stuff.
         Model model = ModelFactory.createDefaultModel();
-        model.read(familyRdf);
+        //model.read(familyRdf);
         model.read(waresRdf);
         InfGraph graph = ruleReasoner.bind(model.getGraph());
         GenealogyModel gm = new GenealogyModel(graph);
@@ -181,57 +148,34 @@ public class GenealogyModel extends InfModelImpl {
         dump(this);
     }
 
+    private static void dump(Triple tr) {
+        Node subject = tr.getSubject();
+        Node predicate = tr.getPredicate(); // get the predicate
+        Node object = tr.getObject(); // get the object
+        String suri = subject.getURI();
+        System.out.print(((suri != null) ? suri : subject) +
+        		" " + predicate + " " +
+        		((object instanceof Resource) ? object : "\"" + object.toString() + "\"") +
+        		" .");
+    }
+
     public static void dump(Graph graph) {
         ExtendedIterator<Triple> iter = graph.find(null, null, null);
         int n = 0;
-
         // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             n++;
-            Triple tr = iter.next(); // get next statement
-            Node subject = tr.getSubject(); // get the subject
-            Node predicate = tr.getPredicate(); // get the predicate
-            Node object = tr.getObject(); // get the object
-
-            System.out.print(subject.toString() + " " +
-                    predicate.toString() + " ");
-            if (object instanceof Resource) {
-                System.out.print(object.toString());
-            } else {
-                // object is a literal
-                System.out.print(" \"" + object.toString() + "\"");
-            }
-            System.out.println(" .");
+            dump(iter.next());
         }
         System.out.println("There were " + n + " triplets.");
     }
-
+    
     public static void dump(Model model) {
-        // list the statements in the Model
         StmtIterator iter = model.listStatements();
         int n = 0;
-
-        // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             n++;
-            Statement stmt = iter.nextStatement(); // get next statement
-            Resource subject = stmt.getSubject(); // get the subject
-            Property predicate = stmt.getPredicate(); // get the predicate
-            RDFNode object = stmt.getObject(); // get the object
-
-            String suri = subject.getURI();
-            if (suri == null)
-                System.out.print(subject.toString());
-            else
-                System.out.print(subject.getURI());
-            System.out.print(" " + predicate.toString() + " ");
-            if (object instanceof Resource) {
-                System.out.print(object.toString());
-            } else {
-                // object is a literal
-                System.out.print(" \"" + object.toString() + "\"");
-            }
-            System.out.println(" .");
+            dump(iter.nextStatement().asTriple());
         }
         System.out.println("There were " + n + " triplets.");
         System.out.println("====================================");
@@ -243,19 +187,31 @@ public class GenealogyModel extends InfModelImpl {
      * @param queryString a SPARQL query to run against the model
      */
     public void query(String queryString) {
-        query(queryString, null);
+        query(queryString, null, System.out);
     }
 
     /**
      */
     public void query(Query wq) {
-        query(wq, null);
+        query(wq, null, System.out);
+    }
+
+    /**
+     */
+    public void query(String s, QueryProcessor prb) {
+        query(s, prb, System.out);
     }
 
     /**
      */
     public void query(Query wq, QueryProcessor prb) {
-        query(wq.toString(), prb);
+        query(wq.toString(), prb, System.out);
+    }
+
+    /**
+     */
+    public void query(Query wq, QueryProcessor prb, PrintStream pw) {
+        query(wq.toString(), prb, pw);
     }
 
     /**
@@ -266,20 +222,20 @@ public class GenealogyModel extends InfModelImpl {
      * @param queryString a SPARQL query to run against the model
      * @param prb a QueryProcessor telling what to do with query results
      */
-    public void query(String queryString, QueryProcessor prb) {
+    public void query(String queryString, QueryProcessor prb, PrintStream pw) {
         if (verbose)
-            System.out.println("SPARQL query: " + queryString);
+            pw.println("SPARQL query: " + queryString);
         com.hp.hpl.jena.query.Query query = QueryFactory.create(queryString);
-    	QueryExecution qe = QueryExecutionFactory.create(query, this);
-    	ResultSet results = qe.execSelect();
+        QueryExecution qe = QueryExecutionFactory.create(query, this);
+        ResultSet results = qe.execSelect();
         if (prb == null) {
-            ResultSetFormatter.out(System.out, results, query);
+            ResultSetFormatter.out(pw, results, query);
         } else {
             while (results.hasNext()) {
                 prb.process((ResultBinding) results.next());
             }
         }
-    	qe.close();
+        qe.close();
     }
 
     /**

@@ -1,25 +1,19 @@
 <?xml version="1.0"?>
 <rdf:RDF
   xmlns="http://willware.net/wares.rdf/"
-  xmlns:family="http://willware.net/family.rdf/"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xmlns:owl="http://www.w3.org/2002/07/owl#"
   xmlns:bio="http://purl.org/vocab/bio/0.1/"
   xmlns:foaf="http://xmlns.com/foaf/0.1/"
-  xmlns:wn="http://xmlns.com/wordnet/1.6/"
-  xmlns:chefmoz="http://chefmoz.org/rdf/elements/1.0/"
-  xmlns:air="http://www.daml.org/2001/10/html/airport-ont#"
-  xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#"
-  xmlns:dc="http://purl.org/dc/elements/1.1/">
-
+  xmlns:wn="http://xmlns.com/wordnet/1.6/">
 
 <foaf:Person rdf:nodeID="Will">
 	<foaf:name>Will Ware</foaf:name>
-	<family:gender>male</family:gender>
+	<foaf:gender>male</foaf:gender>
 	<foaf:mbox rdf:resource="mailto:wware@alum.mit.edu"/>
 	<foaf:homepage rdf:resource="http://willware.net/"/>
 	<!-- foaf:dateOfBirth>1959-02-25</foaf:dateOfBirth -->
+	<bio:father rdf:nodeID="willsDad"/>
+	<bio:mother rdf:nodeID="willsMom"/>
 	<bio:olb>Author of this stuff</bio:olb>
 	<bio:event>
 		<bio:Birth rdf:nodeID="willsBirth">
@@ -31,19 +25,15 @@
 		<bio:Marriage rdf:nodeID="willSueMarriage">
 			<bio:date>2001-10-27</bio:date>
 			<bio:place>Newton, MA (42.3322, -71.1937)</bio:place>
-			<family:ended rdf:nodeID="sueDied"/>
 		</bio:Marriage>
 	</bio:event>
-	<contact:nearestAirport>
-		<wn:Airport rdf:nodeID="loganAirport" air:icaoCode="KBOS" air:iataCode="BOS"/>
-	</contact:nearestAirport>
 	<foaf:plan>Clueless, therefore planless.</foaf:plan>
 	<foaf:knows rdf:nodeID="Rich"/>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Sue">
 	<foaf:name>Sue Bauter</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
 	<bio:event>
 		<bio:Birth>
 			<bio:date>1949-03-27</bio:date>
@@ -63,9 +53,11 @@
 
 <foaf:Person rdf:nodeID="Rich">
 	<foaf:name>Rich Ware</foaf:name>
-	<family:gender>male</family:gender>
+	<foaf:gender>male</foaf:gender>
 	<foaf:mbox rdf:resource="mailto:rware@alum.mit.edu"/>
 	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:father rdf:nodeID="willsDad"/>
+	<bio:mother rdf:nodeID="willsMom"/>
 	<bio:event>
 		<bio:Birth>
 			<bio:date>1957-05-18</bio:date>
@@ -75,31 +67,25 @@
 	<bio:event>
 		<bio:Marriage rdf:nodeID="richMarianWedding">
 			<bio:place>Amherst, MA</bio:place>
-			<family:child rdf:nodeID="Paul"/>
-			<family:child rdf:nodeID="Alice"/>
 		</bio:Marriage>
 	</bio:event>
-	<contact:nearestAirport>
-		<wn:Airport rdf:nodeID="loganAirport"/>
-	</contact:nearestAirport>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Marian">
 	<foaf:name>Marian Ware</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
 	<foaf:knows rdf:nodeID="Rich"/>
 	<bio:event>
 		<bio:Marriage rdf:nodeID="richMarianWedding"/>
 	</bio:event>
-	<contact:nearestAirport>
-		<wn:Airport rdf:nodeID="loganAirport"/>
-	</contact:nearestAirport>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Bob">
 	<foaf:name>Bob Ware III</foaf:name>
-	<family:gender>male</family:gender>
+	<foaf:gender>male</foaf:gender>
 	<foaf:mbox rdf:resource="mailto:bobindayton@gmail.com"/>
+	<bio:father rdf:nodeID="willsDad"/>
+	<bio:mother rdf:nodeID="willsMom"/>
 	<foaf:knows rdf:nodeID="Sue"/>
 	<bio:event>
 		<bio:Birth>
@@ -108,16 +94,27 @@
 		</bio:Birth>
 	</bio:event>
 	<bio:event>
-		<bio:Marriage rdf:nodeID="bobAnjaWedding">
-			<family:child rdf:nodeID="Benjamin"/>
-			<family:child rdf:nodeID="Elena"/>
-		</bio:Marriage>
+		<bio:Marriage rdf:nodeID="bobAnjaWedding"/>
+	</bio:event>
+</foaf:Person>
+
+<foaf:Person rdf:nodeID="Martha">
+	<foaf:name>Martha Ware</foaf:name>
+	<foaf:gender>female</foaf:gender>
+	<foaf:mbox rdf:resource="mailto:martha.c.ware@gmail.com"/>
+	<bio:father rdf:nodeID="willsDad"/>
+	<bio:mother rdf:nodeID="willsMom"/>
+	<foaf:knows rdf:nodeID="Sue"/>
+	<bio:event>
+		<bio:Birth>
+			<bio:date>1968-04-01</bio:date>
+		</bio:Birth>
 	</bio:event>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Anja">
 	<foaf:name>Anja Wittig Ware</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
 	<foaf:knows rdf:nodeID="Rich"/>
 	<bio:event>
 		<bio:Marriage rdf:nodeID="bobAnjaWedding"/>
@@ -126,40 +123,41 @@
 
 <foaf:Person rdf:nodeID="Benjamin">
 	<foaf:name>Benjamin Moritz Ware</foaf:name>
-	<family:gender>male</family:gender>
+	<foaf:gender>male</foaf:gender>
 	<foaf:knows rdf:nodeID="Bob"/>
+	<bio:father rdf:nodeID="Bob"/>
+	<bio:mother rdf:nodeID="Anja"/>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Elena">
 	<foaf:name>Elena Ware</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
+	<bio:father rdf:nodeID="Bob"/>
+	<bio:mother rdf:nodeID="Anja"/>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Paul">
 	<foaf:name>Paul Ware</foaf:name>
-	<family:gender>male</family:gender>
-	<contact:nearestAirport>
-		<wn:Airport rdf:nodeID="loganAirport"/>
-	</contact:nearestAirport>
+	<foaf:gender>male</foaf:gender>
+	<bio:father rdf:nodeID="Rich"/>
+	<bio:mother rdf:nodeID="Marian"/>
 </foaf:Person>
 
 <foaf:Person rdf:nodeID="Alice">
 	<foaf:name>Alice Ware</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
+	<bio:father rdf:nodeID="Rich"/>
+	<bio:mother rdf:nodeID="Marian"/>
 </foaf:Person>
 
 <bio:Marriage rdf:nodeID="BobLoisMarriage">
 	<bio:date>1957-01-01</bio:date>
 	<bio:place>Boston, MA</bio:place>
-	<family:child rdf:nodeID="Will"/>
-	<family:child rdf:nodeID="Rich"/>
-	<family:child rdf:nodeID="Bob"/>
-	<family:child rdf:nodeID="Martha"/>
 </bio:Marriage>
 
 <foaf:Person rdf:nodeID="willsDad">
 	<foaf:name>Bob Ware Jr.</foaf:name>
-	<family:gender>male</family:gender>
+	<foaf:gender>male</foaf:gender>
 	<foaf:knows rdf:nodeID="Sue"/>
 	<bio:event>
 		<bio:Birth>
@@ -180,7 +178,7 @@
 
 <foaf:Person rdf:nodeID="willsMom">
 	<foaf:name>Lois Ware</foaf:name>
-	<family:gender>female</family:gender>
+	<foaf:gender>female</foaf:gender>
 	<foaf:knows rdf:nodeID="Sue"/>
 	<bio:event>
 		<bio:Birth>

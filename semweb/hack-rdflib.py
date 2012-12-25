@@ -1,4 +1,5 @@
-from rdflib import Graph, Namespace, Literal, BNode, RDF, URIRef
+from rdflib import ConjunctiveGraph as Graph
+from rdflib import Namespace, Literal, BNode, RDF, URIRef
 import plugin
 import sys
 import string
@@ -134,6 +135,21 @@ def main():
             print g.turtle()
         else:
             print g.rdfxml()
+    elif True:
+        g = Graph()
+        #g.parse("family.rdf")
+        g.parse("wares.rdf")
+
+        if True:
+            for row in g.query('SELECT ?aname ?bname WHERE { ' +
+                               #'?a foaf:knows ?b . ?a foaf:name ?aname . ?b foaf:name ?bname . }',
+                               '?b rlsp:childOf ?a . ?a foaf:name ?aname . ?b foaf:name ?bname . }',
+                               initNs=dict(rlsp=Namespace("http://purl.org/vocab/relationship/"),
+                                           foaf=Namespace("http://xmlns.com/foaf/0.1/"),
+                                           bio=Namespace("http://purl.org/vocab/bio/0.1/"))):
+                print "%s is parent of %s" % row
+        else:
+            print g.serialize(format='turtle')
     else:
         # Create a graph and pull some factoids into it.
         g = Graph()

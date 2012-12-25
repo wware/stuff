@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<project name="hackingJena" default="javac" basedir=".">
+    <property name="projectroot" value="."/>
+    <!--property name="bld" value="${projectroot}/bin"/-->
+    <property name="war.dir" value="${projectroot}/war"/>
+    <property name="web.inf" value="${war.dir}/WEB-INF"/>
+    <property name="bld" value="${web.inf}/classes"/>
+    <property name="lib" value="${web.inf}/lib"/>
+    <property name="src" value="${projectroot}/src"/>
+
+    <property name="jena" value="../../apache-jena-2.7.4"/>
+	<!--
+    <property name="commons-codec" value="${jena}/lib/commons-codec-1.5.jar"/>
+    <property name="httpclient" value="${jena}/lib/httpclient-4.1.2.jar"/>
+    <property name="httpcore" value="${jena}/lib/httpcore-4.1.3.jar"/>
+    <property name="jcl-over-slf4j" value="${jena}/lib/jcl-over-slf4j-1.6.4.jar"/>
+    <property name="jena-arq" value="${jena}/lib/jena-arq-2.9.4.jar"/>
+    <property name="jena-core" value="${jena}/lib/jena-core-2.7.4.jar"/>
+    <property name="jena-iri" value="${jena}/lib/jena-iri-0.9.4.jar"/>
+    <property name="jena-tdb" value="${jena}/lib/jena-tdb-0.9.4.jar"/>
+    <property name="log4j" value="${jena}/lib/log4j-1.2.16.jar"/>
+    <property name="slf4j-api" value="${jena}/lib/slf4j-api-1.6.4.jar"/>
+    <property name="slf4j-log4j12" value="${jena}/lib/slf4j-log4j12-1.6.4.jar"/>
+    <property name="xercesImpl" value="${jena}/lib/xercesImpl-2.10.0.jar"/>
+    <property name="xml-apis" value="${jena}/lib/xml-apis-1.4.01.jar"/>
+    -->
+
+    <path id="sourcepath">
+        <pathelement path="${src}"/>
+    </path>
+
+    <path id="classpath">
+        <pathelement path="${bld}"/>
+    	<pathelement location="${lib}/jena-arq-2.9.4.jar"/>
+        <pathelement location="${lib}/jena-core-2.7.4.jar"/>
+        <pathelement location="/usr/share/tomcat6/lib/servlet-api.jar"/>
+        <pathelement location="/usr/share/tomcat6/lib/jsp-api.jar"/>
+    </path>
+
+    <target name="compile">
+        <mkdir dir="${bld}"/>
+        <javac includeantruntime="false" destdir="${bld}"
+	       deprecation="yes" debug="${debug}"
+	       debuglevel="lines,vars,source" target="1.5" source="1.5">
+            <compilerarg value="-Xlint:all-path"/>
+            <src refid="sourcepath"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="clean">
+    	<delete dir="${war.dir}"/>
+    	<delete>
+    		<fileset dir=".">
+    			<include name="semweb.war"/>
+    		</fileset>
+    		<fileset dir="${projectroot}/src">
+    			<include name="**/*.java.orig"/>
+    		</fileset>
+    	</delete>
+    </target>
+
+    <target name="libs" description="Copy libs to WEB-INF/lib">
+    	<mkdir dir="${lib}" />
+        <copy todir="${lib}" file="${jena}/lib/jena-core-2.7.4.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/jena-arq-2.9.4.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/jena-iri-0.9.4.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/jcl-over-slf4j-1.6.4.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/slf4j-api-1.6.4.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/xercesImpl-2.10.0.jar"/>
+        <copy todir="${lib}" file="${jena}/lib/xml-apis-1.4.01.jar"/>
+    </target>
+
+	<target name="javac" depends="libs" description="Compile java source to bytecode">
+    	<mkdir dir="${bld}"/>
+        <javac includeantruntime="false" destdir="${bld}"
+	       deprecation="yes" debug="${debug}"
+	       debuglevel="lines,vars,source" target="1.5" source="1.5">
+            <compilerarg value="-Xlint:all-path"/>
+            <src refid="sourcepath"/>
+            <classpath refid="classpath"/>
+        </javac>
+    	<copy todir="${bld}">
+    		<fileset dir="src" excludes="**/*.java"/>
+    	</copy>
+    </target>
+
+    <target name="build" depends="javac" description="??">
+    	<mkdir dir="${war.dir}" />
+        <copy todir="${war.dir}" file="index.jsp"/>
+        <copy todir="${war.dir}/WEB-INF" file="web.xml"/>
+    </target>
+
+    <target name="war" depends="build" description="Create a war file">
+    	<zip destfile="semweb.war" basedir="${war.dir}"/>
+    </target>
+
+    <target name="indent" description="Clean up Java indentation">
+	<exec dir="src" executable="/usr/bin/astyle" os="Linux">
+	    <arg line="-A2"/>
+	    <arg line="-r"/>
+	    <arg line="*.java"/>
+	</exec>
+    </target>
+
+</project>
