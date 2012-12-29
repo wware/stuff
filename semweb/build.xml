@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="hackingJena" default="javac" basedir=".">
+    <property name="debug" value="true"/>
     <property name="projectroot" value="."/>
     <!--property name="bld" value="${projectroot}/bin"/-->
     <property name="war.dir" value="${projectroot}/war"/>
@@ -33,24 +34,21 @@
         <pathelement path="${bld}"/>
     	<pathelement location="${lib}/jena-arq-2.9.4.jar"/>
         <pathelement location="${lib}/jena-core-2.7.4.jar"/>
-        <pathelement location="/usr/share/tomcat6/lib/servlet-api.jar"/>
+        <pathelement location="${lib}/jena-iri-0.9.4.jar"/>
+    	<pathelement location="${lib}/slf4j-api-1.6.4.jar"/>
+        <pathelement location="/slf4j-log4j12-1.6.4.jar"/>
+    	<pathelement location="/usr/share/tomcat6/lib/servlet-api.jar"/>
         <pathelement location="/usr/share/tomcat6/lib/jsp-api.jar"/>
+        <pathelement location="/usr/share/tomcat6/lib/jasper.jar"/>
+        <pathelement location="/usr/share/java/xercesImpl.jar"/>
     </path>
-
-    <target name="compile">
-        <mkdir dir="${bld}"/>
-        <javac includeantruntime="false" destdir="${bld}"
-	       deprecation="yes" debug="${debug}"
-	       debuglevel="lines,vars,source" target="1.5" source="1.5">
-            <compilerarg value="-Xlint:all-path"/>
-            <src refid="sourcepath"/>
-            <classpath refid="classpath"/>
-        </javac>
-    </target>
 
     <target name="clean">
     	<delete dir="${war.dir}"/>
     	<delete>
+    		<fileset dir="/var/lib/tomcat6/webapps/">
+    			<include name="semweb.war"/>
+    		</fileset>
     		<fileset dir=".">
     			<include name="semweb.war"/>
     		</fileset>
@@ -85,6 +83,13 @@
     	</copy>
     </target>
 
+    <target name="run" depends="javac" description="Run as a Java application">
+       <java classname="net.willware.semweb.Foo">
+            <!-- arg value="-h"/ -->
+            <classpath refid="classpath"/>
+       </java>
+    </target>
+
     <target name="build" depends="javac" description="??">
     	<mkdir dir="${war.dir}" />
         <copy todir="${war.dir}" file="index.jsp"/>
@@ -93,6 +98,10 @@
 
     <target name="war" depends="build" description="Create a war file">
     	<zip destfile="semweb.war" basedir="${war.dir}"/>
+    </target>
+
+    <target name="deploy" depends="war" description="Deploy to local Tomcat instance">
+        <copy todir="/var/lib/tomcat6/webapps/" file="semweb.war"/>
     </target>
 
     <target name="indent" description="Clean up Java indentation">

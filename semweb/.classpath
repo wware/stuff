@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="/home/wware/apache-jena-2.7.4/lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="/home/wware/apache-jena-2.7.4/lib/slf4j-log4j12-1.6.4.jar"/>
 	<classpathentry kind="lib" path="/usr/share/tomcat6/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat6/lib/jsp-api.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

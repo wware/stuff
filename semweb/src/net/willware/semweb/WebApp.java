@@ -16,7 +16,6 @@ public class WebApp extends HttpServlet {
 	throws ServletException, IOException {
 		// Use "request" to read incoming HTTP headers (e.g. cookies)
 		// and HTML form data (e.g. data the user entered and submitted)
-		if (true) throw new RuntimeException("Ouch");
 
 		// Use "response" to specify the HTTP response line and headers
 		// (e.g. specifying the content type, setting cookies).

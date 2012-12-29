@@ -2,10 +2,15 @@
 
 package net.willware.semweb;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.io.PrintStream;
 
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
@@ -23,7 +28,6 @@ import com.hp.hpl.jena.rdf.model.impl.InfModelImpl;
 import com.hp.hpl.jena.reasoner.InfGraph;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.TriplePattern;
-//import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.reasoner.ValidityReport;
 import com.hp.hpl.jena.reasoner.ValidityReport.Report;
 import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
@@ -36,8 +40,6 @@ public class GenealogyModel extends InfModelImpl {
 
     private static final boolean verbose = true;
     private static boolean USE_RETE = true;
-
-    public static final String waresRdf = "file:///home/wware/stuff/semweb/wares.rdf";
 
     /**
      * This is just a convenience class for packaging up queries in a
@@ -89,7 +91,7 @@ public class GenealogyModel extends InfModelImpl {
         }
     }
 
-    static GenealogyModel getInstance() {
+    static GenealogyModel getInstance(String waresRdf) {
 
         /* Let's make up some arbitrary rules. First we need to register some prefixes.
          * http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/reasoner/rulesys/Rule.html
@@ -159,6 +161,70 @@ public class GenealogyModel extends InfModelImpl {
         		" .");
     }
 
+    private String getBriefString(Node n, boolean edgeObject) {
+    	String str = n.toString();
+        if (str.startsWith("http://") || str.startsWith("https://")) {
+        	str = str.substring(str.lastIndexOf('/') + 1);
+        } else if (str.startsWith("\"")) {
+        	str = str.substring(1, str.length() - 1);
+        	if (edgeObject && str.indexOf(' ') != -1) {
+            	str = "\"" + str + "\"";
+        	}
+        } else {
+        	str = str.substring(str.lastIndexOf(':') + 1);
+        }
+        return str;
+    }
+    
+    /**
+     * This is a marginally promising start at using GraphViz's dot
+     * executable to create a drawing of a semantic network. Still needs
+     * a lot of work.
+     * @param outfile the full pathname of a PNG file to be written
+     * @return the command to invoke the dot executable, for debug purposes
+     * @throws IOException if any file I/O stuff goes badly
+     */
+    public String drawDotDiagram(String outfile) throws IOException {
+    	HashSet<String> vertices = new HashSet<String>();
+        ExtendedIterator<Triple> iter = graph.find(null, null, null);
+        int n = 0;
+        while (iter.hasNext()) {
+        	if (++n == 500) break; // not too complicated
+            Triple tr = iter.next();
+            vertices.add(getBriefString(tr.getSubject(), false));
+            vertices.add(getBriefString(tr.getObject(), false));
+        }
+    	File dotfile = File.createTempFile("semweb",".dot");
+    	BufferedWriter buffout = new BufferedWriter(new FileWriter(dotfile));
+    	buffout.write("digraph semantic_network { rankdir=LR;\n");
+        for (String s : vertices) {
+        	buffout.write("    \"" + s + "\" [fontsize=8];\n");
+        }
+        iter = graph.find(null, null, null);
+        HashSet<String> alreadyDone = new HashSet<String>();
+        while (iter.hasNext()) {
+            Triple tr = iter.next();
+            String sstr = getBriefString(tr.getSubject(), false);
+            String pstr = getBriefString(tr.getPredicate(), false);
+            String ostr = getBriefString(tr.getObject(), true);
+            String ostr2 = getBriefString(tr.getObject(), false);
+            String x = sstr + "::" + pstr + "::" + ostr2;
+            if (vertices.contains(sstr) &&
+            		vertices.contains(ostr2) &&
+            		!alreadyDone.contains(x)) {
+                buffout.write("    " + sstr + " -> " + ostr +
+                		" [label=\"" + pstr + "\", fontsize=8];\n");
+                alreadyDone.add(x);
+            }
+        }
+    	buffout.write("}\n");
+    	buffout.close();
+		String cmd = "dot -Tpng -o " + outfile + " " + dotfile.getAbsolutePath();
+    	Runtime.getRuntime().exec(cmd);
+    	//dotfile.delete();
+    	return cmd;
+    }
+
     public static void dump(Graph graph) {
         ExtendedIterator<Triple> iter = graph.find(null, null, null);
         int n = 0;
@@ -222,20 +288,21 @@ public class GenealogyModel extends InfModelImpl {
      * @param queryString a SPARQL query to run against the model
      * @param prb a QueryProcessor telling what to do with query results
      */
-    public void query(String queryString, QueryProcessor prb, PrintStream pw) {
+    public void query(String queryString, QueryProcessor prb, PrintStream ps) {
         if (verbose)
-            pw.println("SPARQL query: " + queryString);
+            ps.println("SPARQL query: " + queryString);
         com.hp.hpl.jena.query.Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.create(query, this);
         ResultSet results = qe.execSelect();
         if (prb == null) {
-            ResultSetFormatter.out(pw, results, query);
+            ResultSetFormatter.out(ps, results, query);
         } else {
             while (results.hasNext()) {
                 prb.process((ResultBinding) results.next());
             }
         }
         qe.close();
+        ps.println();
     }
 
     /**

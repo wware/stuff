@@ -2,9 +2,11 @@
 
 package net.willware.semweb;
 
-import java.util.ArrayList;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 
 import javax.servlet.jsp.JspWriter;
 
@@ -22,8 +24,6 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class Foo {
 
     private static boolean USE_OWL = true;
-    private static boolean DUMP_AND_QUIT = false;
-    private static boolean NOT_REALLY = false;
 
     private static final String Name = "<http://xmlns.com/foaf/0.1/name>";
     private static final String Knows = "<http://xmlns.com/foaf/0.1/knows>";
@@ -44,6 +44,9 @@ public class Foo {
     private static final String danbriFoaf =
         "http://danbri.livejournal.com/data/foaf";
 
+    public static String diagramName = "diagram_" + (new BigInteger(32, new SecureRandom()).toString(32)) + ".png";
+    public static String waresRdf = "file:///home/wware/stuff/semweb/wares.rdf";
+
     /**
      * Crawling seeAlso data in FOAF files turns out to be a very round-about fishing
      * trip. It's slow because you're fetching all sorts of documents from all over the
@@ -52,9 +55,9 @@ public class Foo {
      * data in some kind of overnight crawl, then stow it away in a model graph as a file
      * and reload the file whenever I want it.
      */
-    public static void foafCrawl() {
+    public static void foafCrawl(String waresRdf) {
         int howMany = 10;
-        GenealogyModel model = GenealogyModel.getInstance();
+        GenealogyModel model = GenealogyModel.getInstance(waresRdf);
         model.read(danbriFoaf);
 
         // Conjoin graphs from many different FOAF docs
@@ -80,17 +83,24 @@ public class Foo {
         });
     }
 
-    public static void main(String[] _args) {
-        doStuff(System.out);
+    public static void main(String[] _args) throws IOException {
+        String waresRdf = "file:///home/wware/stuff/semweb/wares.rdf";
+        new Foo().doStuff(waresRdf, System.out, diagramName);
+        // foafCrawl(waresRdf);
     }
 
-    public static void doStuff(JspWriter out) {
-        doStuff(new java.io.PrintStream(new net.willware.semweb.WriterOutputStream(out)));
+    public static void doStuff(String hostname, JspWriter out) throws IOException {
+    	String prefix = "";  // TODO correct value??
+        String waresRdf = "http://" + hostname + "/wares.rdf";
+        new Foo().doStuff(waresRdf,
+        		new java.io.PrintStream(new
+        				net.willware.semweb.WriterOutputStream(out)),
+        		prefix + diagramName);
     }
 
-    public static void doStuff(final PrintStream pw) {
+    public void doStuff(String waresRdf, final PrintStream pstream, String outfile) throws IOException {
 
-        GenealogyModel model = GenealogyModel.getInstance();
+        GenealogyModel model = GenealogyModel.getInstance(waresRdf);
 
         /* What do I get with the OWL reasoner? It should be able to
          * do things like merging people, or at least declaring them
@@ -99,17 +109,11 @@ public class Foo {
          */
         if (USE_OWL) {
             Reasoner owlReasoner = ReasonerRegistry.getOWLReasoner();
+            pstream.println("Using OWL reasoner: " + owlReasoner);
+            pstream.println();
             model = model.think(owlReasoner);
         } else {
             model = model.think();
-        }
-
-        if (NOT_REALLY) {
-            foafCrawl();
-            if (DUMP_AND_QUIT) {
-                model.dump();
-                System.exit(0);
-            }
         }
 
         GenealogyModel.Query query = new GenealogyModel.Query(new String[] { "?name1", "?name2" });
@@ -119,11 +123,11 @@ public class Foo {
         model.query(query,
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("name1")
+                pstream.println((Literal) binding.get("name1")
                                    + " knows "
                                    + (Literal) binding.get("name2"));
             }
-        }, pw);
+        }, pstream);
 
         query = new GenealogyModel.Query(new String[] { "?name", "?date" });
         query.addTriplet("?person", Name, "?name");
@@ -137,13 +141,13 @@ public class Foo {
                 String date = ((Literal) binding.get("date")).toString();
                 String combo = name + " " + date;
                 if (!alreadySeen.contains(combo)) {
-                    pw.println(name + " died on " + date);
+                    pstream.println(name + " died on " + date);
                     alreadySeen.add(combo);
                 }
             }
-        }, pw);
+        }, pstream);
 
-        query = new GenealogyModel.Query(new String[] { "?name", "?aname" });
+        query = new GenealogyModel.Query(new String[] { "?name" });
         query.addTriplet("?person", Name, "?name");
         model.query(query, null);
 
@@ -157,17 +161,17 @@ public class Foo {
         birthdateQuery.addTriplet("?birth", Rdftype, Birth);
         birthdateQuery.addTriplet("?birth", Date, "?date");
 
-        model.query(birthdateQuery);
+        //model.query(birthdateQuery);
 
         model.query(birthdateQuery,
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println(
+                pstream.println(
                     (Literal) binding.get("name")
                     + " was born on "
                     + (Literal) binding.get("date"));
             }
-        }, pw);
+        }, pstream);
 
         model.query("SELECT ?name1 ?name2 ?date\n"
                     + "   WHERE { ?person1 " + Name + " ?name1 .\n"
@@ -183,14 +187,14 @@ public class Foo {
                 String n1 = ((Literal) binding.get("name1")).getString();
                 String n2 = ((Literal) binding.get("name2")).getString();
                 if (n1.compareTo(n2) < 0) {
-                    pw.println(n1
+                    pstream.println(n1
                                        + " and "
                                        + n2
                                        + " were married on "
                                        + (Literal) binding.get("date"));
                 }
             }
-        }, pw);
+        }, pstream);
 
         model.query("SELECT ?eldername ?kidname\n"
                     + "    WHERE { ?elder " + Name + " ?eldername.\n"
@@ -198,7 +202,7 @@ public class Foo {
                     + "            ?kid " + Father + " ?elder. }",
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("kidname")
+                pstream.println((Literal) binding.get("kidname")
                                    + " has father: "
                                    + (Literal) binding.get("eldername"));
             }
@@ -210,7 +214,7 @@ public class Foo {
                     + "            ?kid " + Mother + " ?elder. }",
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("kidname")
+                pstream.println((Literal) binding.get("kidname")
                                    + " has mother: "
                                    + (Literal) binding.get("eldername"));
             }
@@ -223,7 +227,7 @@ public class Foo {
                     + "            ?kid " + childOf + " ?elder. }",
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("eldername")
+                pstream.println((Literal) binding.get("eldername")
                                    + " has daughter: "
                                    + (Literal) binding.get("kidname"));
             }
@@ -236,7 +240,7 @@ public class Foo {
                     + "            ?kid " + childOf + " ?elder. }",
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("eldername")
+                pstream.println((Literal) binding.get("eldername")
                                    + " has son: "
                                    + (Literal) binding.get("kidname"));
             }
@@ -249,7 +253,7 @@ public class Foo {
                     + "            ?parent " + childOf + " ?elder. }",
         new QueryProcessor() {
             public void process(ResultBinding binding) {
-                pw.println((Literal) binding.get("eldername")
+                pstream.println((Literal) binding.get("eldername")
                                    + " has grandchild: "
                                    + (Literal) binding.get("kidname"));
             }
@@ -281,8 +285,9 @@ public class Foo {
                     + "            ?x " + Name + " ?name1.\n"
                     + "            ?y " + Name + " ?name2 }",
                     plist);
-        pw.println(plist.listOfPeople() + " all are people who know SueB");
-        pw.println("fini");
+        pstream.println(plist.listOfPeople() + " all are people who know SueB");
+        //pstream.println();
+        //pstream.println(model.drawDotDiagram(diagramName));
     }
 
     static Model inferenceFun(Model model) {
