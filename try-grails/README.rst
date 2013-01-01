@@ -22,3 +22,10 @@ you don't block Grails from running its own Tomcat server.
 If you see something like "Error starting Sun’s native2ascii", that might mean you've
 set JAVA_PATH incorrectly. It should not be set for the JRE, it should be set for the
 JVM where bin/javac is.
+
+When the tutorial app is running, you should be able to type::
+
+ (cd my-project; grails run-app)
+
+and then visit http://localhost:8080/my-project/book/list in the browser to see the app
+maintaining a list of books.
