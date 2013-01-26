@@ -1,7 +1,7 @@
 
 @prefix : <http://willware.net/family.rdf/>.
-@prefix _10: <http://www.w3.org/2000/01/>.
-@prefix _11: <http://www.w3.org/2002/07/>.
+@prefix X: <http://www.w3.org/2000/01/>.
+@prefix Y: <http://www.w3.org/2002/07/>.
 @prefix bio: <http://purl.org/vocab/bio/0.1/>.
 @prefix chefmoz: <http://chefmoz.org/rdf/elements/1.0/>.
 @prefix dc: <http://purl.org/dc/elements/1.1/>.
@@ -57,5 +57,5 @@
      dc:date "2003/10/24";
      dc:description "A vocabulary for doing geneology, representing relationships in families.";
      dc:title "Geneological vocabulary";
-     owl:imports _10:rdf-schema,
-         _11:owl. 
+     owl:imports X:rdf-schema,
+         Y:owl. 
