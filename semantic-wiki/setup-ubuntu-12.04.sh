@@ -7,30 +7,29 @@ else
     CPU_BITS=32
 fi
 
-IPADDR=$(/sbin/ifconfig | grep 'inet addr' | grep -v '127.0.0' | cut -c 21-35 | sed 's/ //g')
+IPADDR=$(/sbin/ifconfig | grep 'inet addr' | grep -v '127.0.0' | cut -c 21-34 | sed 's/ //g')
 
+#############################################################
+#############################################################
+#############################################################
 if [ ! -f ~/.setup-step-one-complete ]
+#############################################################
+#############################################################
+#############################################################
 then
 
-    if [ ! -f home-dot-ssh.tgz ]
-    then
-	echo "Can't continue without home-dot-ssh.tgz"
-	exit 1
-    fi
-
-    tar xfz home-dot-ssh.tgz
-    rm home-dot-ssh.tgz
-
     sudo apt-get update
-    sudo apt-get install git vim openjdk-6-jdk groovy ant
+    sudo apt-get install -y git vim openjdk-6-jdk groovy ant apache2 unzip \
+	libapache2-mod-php5 mysql-server mysql-client php-apc imagemagick \
+	php5-intl php5-mysqlnd git ruby || exit 1
     # sudo apt-get install jenkins python-jenkins ? ? ?
 
     for x in stuff private
     do
-	git clone git@github.com:wware/$x.git
+	git clone git@github.com:wware/$x.git || exit 1
     done
 
-    wget http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-2.2.0.zip
+    wget http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-2.2.0.zip || exit 1
     unzip grails-2.2.0.zip
     mv grails-2.2.0 grails
 
@@ -46,11 +45,11 @@ export EDITOR=/usr/bin/vim
 export JAVA_HOME=/usr/lib/jvm/$JAVA_PACKAGE
 export GROOVY_HOME=/usr/share/groovy
 export GRAILS_HOME=$HOME/grails
-export PATH=$$PATH:$$JAVA_HOME/bin:$$GROOVY_HOME/bin:$$GRAILS_HOME/bin
+export PATH=\$PATH:\$JAVA_HOME/bin:\$GROOVY_HOME/bin:\$GRAILS_HOME/bin
 EOF
-    echo "Recommended: source ~/.bashrc"
+    source ~/.bashrc
 
-    wget http://dumps.wikimedia.org/mediawiki/1.20/mediawiki-1.20.2.tar.gz
+    wget http://dumps.wikimedia.org/mediawiki/1.20/mediawiki-1.20.2.tar.gz || exit 1
     tar xvzf mediawiki-1.20.2.tar.gz
     sudo mv mediawiki-1.20.2 /etc/mediawiki
 
@@ -74,24 +73,59 @@ EOF
     touch ~/.setup-step-one-complete
     exit 0
 
+#############################################################
+#############################################################
+#############################################################
 elif [ ! -f ~/.setup-step-two-complete ]
+#############################################################
+#############################################################
+#############################################################
 then
 
-    if [ ! -f rdf-cgi.py ]
-    then
-        echo "We need rdf-cgi.py to continue"
-        exit 1
-    fi
+    cat >> rdf-cgi.py <<EOF
+#!/usr/bin/python
+import cgi
+import os
+import re
+import urllib
+print "Content-Type: plain/text"
+print
+r1 = re.compile("<textarea readonly[^>]*>")
+r2 = re.compile("</textarea>")
+r3 = re.compile("===? (rdf|RDF) ===?")
+r4 = re.compile("title=[A-Z][_a-zA-Z0-9]*")
+pagename = "Main_Page"
+if os.environ.has_key('QUERY_STRING'):
+    qs = os.environ['QUERY_STRING']
+    m = r4.search(qs)
+    if m is not None:
+        pagename = qs[m.start()+6:m.end()]
+url = "http://localhost/wiki/index.php?title=" + pagename + "&action=edit"
+R = urllib.urlopen(url).read()
+R = R[r1.search(R).end():r2.search(R).start()].split('\n')
+rdfState = 0
+for L in R:
+    m = r3.search(L)
+    if rdfState == 0 and m is not None:
+        rdfState = 1
+    elif rdfState == 1 and L[:1] == ' ':
+        rdfState = 2
+        print L[1:]
+    elif L[:1] == ' ':
+        print L[1:]
+    else:
+        rdfState = 0
+EOF
 
-    a2enmod rewrite
     head -2 /etc/apache2/sites-enabled/000-default > /tmp/000-default
     cat >> /tmp/000-default <<EOF
 	RewriteEngine on
 	RewriteRule ^/rdf/([A-Z][_a-zA-Z0-9]*)$  /cgi-bin/rdf-cgi.py?title=$1  [PT]
 EOF
     tail --line=+3 /etc/apache2/sites-enabled/000-default >> /tmp/000-default
-    mv -f /tmp/000-default /etc/apache2/sites-enabled
+    sudo mv -f /tmp/000-default /etc/apache2/sites-enabled
 
+    sudo a2enmod rewrite
     sudo service apache2 restart
 
     sudo mv rdf-cgi.py /usr/lib/cgi-bin
@@ -113,6 +147,17 @@ EOF
     mv jena-fuseki-0.2.5 jena-fuseki
     chmod u+x jena-fuseki/s-*
     )
+    cat >> ~/.bashrc <<EOF
+export FUSEKI_HOME=/opt/jena-fuseki
+export PATH=\$PATH:\$FUSEKI_HOME
+EOF
+    source ~/.bashrc
+
+    #fuseki-server --update --mem /ds &
+    #setup 3
+    #s-put http://localhost:3030/ds/data default stuff/semweb/family.ttl
+    #s-put http://localhost:3030/ds/data default stuff/semweb/wares.ttl
+    #kill -9 $!
 
     touch ~/.setup-step-two-complete
     exit 0
