@@ -82,7 +82,9 @@ elif [ ! -f ~/.setup-step-two-complete ]
 #############################################################
 then
 
-    cat >> rdf-cgi.py <<EOF
+    sudo chmod 777 /usr/lib/cgi-bin
+
+    cat >> /usr/lib/cgi-bin/rdf-cgi.py <<EOF
 #!/usr/bin/python
 import cgi
 import os
@@ -101,7 +103,7 @@ if os.environ.has_key('QUERY_STRING'):
     if m is not None:
         pagename = qs[m.start()+6:m.end()]
 url = "http://localhost/wiki/index.php?title=" + pagename + "&action=edit"
-R = urllib.urlopen(url).read()
+R = urllib.urlopen(url).read().replace("&lt;", "<")
 R = R[r1.search(R).end():r2.search(R).start()].split('\n')
 rdfState = 0
 for L in R:
@@ -117,6 +119,30 @@ for L in R:
         rdfState = 0
 EOF
 
+    cat >> /usr/lib/cgi-bin/update-fuseki.sh <<EOF
+#!/bin/bash
+TTLFILE=/tmp/file-\$RANDOM.ttl
+rm -f \$TTLFILE
+for x in \$(mysql -B -u root --password=XXX -e "use my_wiki; select page_title from page;" | tail --line=+2)
+do
+    wget -O - http://localhost/rdf/\$x 2>/dev/null >> \$TTLFILE
+done
+export CP=\$(ls /opt/apache-jena/lib/*.jar | python -c \
+    'import sys; print ":".join(map(lambda x:x.rstrip(),sys.stdin.readlines()))')
+# Turn off fuseki server, and back on, to empty contents
+kill -9 \$(ps ax | grep fuseki-server | grep -v grep | cut -c -5)
+fuseki-server --update --mem /ds &
+sleep 3
+s-put http://localhost:3030/ds/data default \$TTLFILE
+rm -f \$TTLFILE
+echo "Content-Type: plain/text"
+echo ""
+echo "OK"
+EOF
+
+    chmod 755 /usr/lib/cgi-bin/*
+    sudo chmod 755 /usr/lib/cgi-bin
+
     head -2 /etc/apache2/sites-enabled/000-default > /tmp/000-default
     cat >> /tmp/000-default <<EOF
 	RewriteEngine on
@@ -127,9 +153,6 @@ EOF
 
     sudo a2enmod rewrite
     sudo service apache2 restart
-
-    sudo mv rdf-cgi.py /usr/lib/cgi-bin
-    sudo chmod 755 /usr/lib/cgi-bin/rdf-cgi.py
 
 #    Might be handy for Mediawiki debugging
 #    cat >> /etc/mediawiki/LocalSettings.php <<EOF

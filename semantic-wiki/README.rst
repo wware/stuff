@@ -43,8 +43,18 @@ because XML makes hair grow on your palms.
 If you put multiple RDF sections on a wiki page, they will be concatenated in
 order. So it's a sort of poor man's literate programming.
 
-The future
-----------
+Fuseki
+------
 
-The next thing I want to do is run a Fuseki server on the same machine, and
-let it automatically pull out these Turtle documents.
+This is a little RDF server running on the machine. When you visit the URL
+
+http://localhost/cgi-bin/update-fuseki.sh
+
+the Fuseki contents are emptied, and repopulated with the RDF contents of the
+entire wiki. It's not scalable but it will work as long as the amount of
+RDF is not very large, and there aren't too many pages. Later I'll think
+about how to do a better job of that.
+
+My idea here is to put a button on every edit page of the wiki that calls
+this CGI script, so after you finish an edit, you can freshen up the Fuseki
+contents.
