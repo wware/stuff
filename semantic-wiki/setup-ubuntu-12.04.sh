@@ -1,10 +1,30 @@
 #!/bin/bash
 
+if [ "$(whoami)" != "root" ]
+then
+    echo "Usage: sudo $0 <mysqlPassword>"
+    exit 0
+fi
+
+# When we sudo a script, the HOME variable is the normal one (e.g. /home/wware)
+# and we can derive the non-root user from that.
+USER=$(echo $HOME | sed 's#/home/##')
+
+MYSQL_PASSWORD=$1
+
+if [ "$MYSQL_PASSWORD" == "" ]
+then
+    echo "Usage: sudo $0 <mysqlPassword>"
+    exit 0
+fi
+
 if cat /proc/cpuinfo | grep ' lm ' > /dev/null
 then
     CPU_BITS=64
+    JAVA_PACKAGE=java-6-openjdk-amd64
 else
     CPU_BITS=32
+    JAVA_PACKAGE=java-6-openjdk-i386
 fi
 
 IPADDR=$(/sbin/ifconfig | grep 'inet addr' | grep -v '127.0.0' | cut -c 21-34 | sed 's/ //g')
@@ -18,43 +38,36 @@ if [ ! -f ~/.setup-step-one-complete ]
 #############################################################
 then
 
-    sudo apt-get update
-    sudo apt-get install -y git vim openjdk-6-jdk groovy ant apache2 unzip \
-	libapache2-mod-php5 mysql-server mysql-client php-apc imagemagick \
-	php5-intl php5-mysqlnd git ruby || exit 1
-    # sudo apt-get install jenkins python-jenkins ? ? ?
+    #apt-get update
+    apt-get install -y apache2 php5 php5-mysql \
+        git vim openjdk-6-jdk ant unzip expect \
+	php-apc imagemagick php5-intl git ruby || exit 1
+    # apt-get install jenkins python-jenkins ? ? ?
 
-    for x in stuff private
-    do
-	git clone git@github.com:wware/$x.git || exit 1
-    done
+    # http://stackoverflow.com/questions/1202347/
+    cat > /tmp/cmds.expect <<EOF
+spawn apt-get install -y mysql-server
+expect "New password for the MySQL \\"root\\" user:"
+send "$MYSQL_PASSWORD\\r"
+expect "Repeat password for the MySQL \\"root\\" user:"
+send "$MYSQL_PASSWORD\\r"
+expect eof
+EOF
+    expect -f /tmp/cmds.expect
+    rm /tmp/cmds.expect
 
-    wget http://dist.springframework.org.s3.amazonaws.com/release/GRAILS/grails-2.2.0.zip || exit 1
-    unzip grails-2.2.0.zip
-    mv grails-2.2.0 grails
-
-    if [ "$CPU_BITS" == "64" ]
-    then
-	JAVA_PACKAGE=java-6-openjdk-amd64
-    else
-	JAVA_PACKAGE=java-6-openjdk-i386
-    fi
-
-    cat >> ~/.bashrc <<EOF
+    cat >> $HOME/.bashrc <<EOF
 export EDITOR=/usr/bin/vim
 export JAVA_HOME=/usr/lib/jvm/$JAVA_PACKAGE
-export GROOVY_HOME=/usr/share/groovy
-export GRAILS_HOME=$HOME/grails
-export PATH=\$PATH:\$JAVA_HOME/bin:\$GROOVY_HOME/bin:\$GRAILS_HOME/bin
+export PATH=\$PATH:\$JAVA_HOME/bin
 EOF
-    source ~/.bashrc
+    source $HOME/.bashrc
 
     wget http://dumps.wikimedia.org/mediawiki/1.20/mediawiki-1.20.2.tar.gz || exit 1
     tar xvzf mediawiki-1.20.2.tar.gz
-    sudo mv mediawiki-1.20.2 /etc/mediawiki
+    mv mediawiki-1.20.2 /etc/mediawiki
 
-    sudo ln -s /etc/mediawiki /var/www/wiki
-    sudo service apache2 restart
+    ln -s /etc/mediawiki /var/www/wiki
 
     cat <<EOF
 Now visit http://$IPADDR/wiki/
@@ -81,8 +94,6 @@ elif [ ! -f ~/.setup-step-two-complete ]
 #############################################################
 #############################################################
 then
-
-    sudo chmod 777 /usr/lib/cgi-bin
 
     cat >> /usr/lib/cgi-bin/rdf-cgi.py <<EOF
 #!/usr/bin/python
@@ -123,7 +134,7 @@ EOF
 #!/bin/bash
 TTLFILE=/tmp/file-\$RANDOM.ttl
 rm -f \$TTLFILE
-for x in \$(mysql -B -u root --password=XXX -e "use my_wiki; select page_title from page;" | tail --line=+2)
+for x in \$(mysql -B -u root --password=$MYSQL_PASSWORD -e "use my_wiki; select page_title from page;" | tail --line=+2)
 do
     wget -O - http://localhost/rdf/\$x 2>/dev/null >> \$TTLFILE
 done
@@ -141,7 +152,6 @@ echo "OK"
 EOF
 
     chmod 755 /usr/lib/cgi-bin/*
-    sudo chmod 755 /usr/lib/cgi-bin
 
     head -2 /etc/apache2/sites-enabled/000-default > /tmp/000-default
     cat >> /tmp/000-default <<EOF
@@ -149,17 +159,16 @@ EOF
 	RewriteRule ^/rdf/([A-Z][_a-zA-Z0-9]*)$  /cgi-bin/rdf-cgi.py?title=$1  [PT]
 EOF
     tail --line=+3 /etc/apache2/sites-enabled/000-default >> /tmp/000-default
-    sudo mv -f /tmp/000-default /etc/apache2/sites-enabled
+    mv -f /tmp/000-default /etc/apache2/sites-enabled
 
-    sudo a2enmod rewrite
-    sudo service apache2 restart
+    a2enmod rewrite
+    service apache2 restart
 
 #    Might be handy for Mediawiki debugging
 #    cat >> /etc/mediawiki/LocalSettings.php <<EOF
 #\$wgShowSQLErrors = true;
 #EOF
 
-    sudo chmod 777 /opt
     (
     cd /opt
     wget http://www.apache.org/dist/jena/binaries/apache-jena-2.7.4.tar.gz || exit 1
@@ -170,11 +179,11 @@ EOF
     mv jena-fuseki-0.2.5 jena-fuseki
     chmod u+x jena-fuseki/s-*
     )
-    cat >> ~/.bashrc <<EOF
+    cat >> $HOME/.bashrc <<EOF
 export FUSEKI_HOME=/opt/jena-fuseki
 export PATH=\$PATH:\$FUSEKI_HOME
 EOF
-    source ~/.bashrc
+    source $HOME/.bashrc
 
     #fuseki-server --update --mem /ds &
     #setup 3
