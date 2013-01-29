@@ -38,11 +38,8 @@ if [ ! -f ~/.setup-step-one-complete ]
 #############################################################
 then
 
-    #apt-get update
-    apt-get install -y apache2 php5 php5-mysql \
-        git vim openjdk-6-jdk ant unzip expect \
-	php-apc imagemagick php5-intl git ruby || exit 1
-    # apt-get install jenkins python-jenkins ? ? ?
+    apt-get update || exit 1
+    apt-get install -y expect || exit 1
 
     # http://stackoverflow.com/questions/1202347/
     cat > /tmp/cmds.expect <<EOF
@@ -53,8 +50,21 @@ expect "Repeat password for the MySQL \\"root\\" user:"
 send "$MYSQL_PASSWORD\\r"
 expect eof
 EOF
+    #cat /tmp/cmds.expect
+    #exit 0
     expect -f /tmp/cmds.expect
     rm /tmp/cmds.expect
+
+    if [ ! -f /usr/bin/mysql_setpermission ]
+    then
+        echo "Failed to install mysql-server"
+        exit 1
+    fi
+
+    apt-get install -y apache2 php5 php5-mysql \
+        git vim openjdk-6-jdk ant unzip \
+	php-apc imagemagick php5-intl git ruby || exit 1
+    # apt-get install jenkins python-jenkins ? ? ?
 
     cat >> $HOME/.bashrc <<EOF
 export EDITOR=/usr/bin/vim
