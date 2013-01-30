@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
-import javax.servlet.jsp.JspWriter;
+//import javax.servlet.jsp.JspWriter;
 
 import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -89,6 +89,7 @@ public class Foo {
         // foafCrawl(waresRdf);
     }
 
+    /*
     public static void doStuff(String hostname, JspWriter out) throws IOException {
     	String prefix = "";  // TODO correct value??
         String waresRdf = "http://" + hostname + "/wares.rdf";
@@ -97,6 +98,7 @@ public class Foo {
         				net.willware.semweb.WriterOutputStream(out)),
         		prefix + diagramName);
     }
+    */
 
     public void doStuff(String waresRdf, final PrintStream pstream, String outfile) throws IOException {
 

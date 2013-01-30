@@ -1,0 +1,22 @@
+@prefix :       <> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+
+rdfs:subClassOf a owl:TransitiveProperty .
+
+# In order of decreasing generality...
+:Vertebrate rdfs:subClassOf :Animal .
+:Mammal rdfs:subClassOf :Vertebrate .
+
+:Fish rdfs:subClassOf :Vertebrate .
+
+:Cat rdfs:subClassOf :Mammal .
+:Bear rdfs:subClassOf :Mammal .
+:Whale rdfs:subClassOf :Mammal .
+
+:Cat :has :Fur .
+:Bear :has :Fur .
+:Whale :lives-in :Water .
+:Fish :lives-in :Water .
+
+:Kokopelli a :Cat.
