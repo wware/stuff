@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# The canonical example website is usually a Twitter clone, so here's mine.
+# I'll need to write a high-volume testing gadget, so I'll try to do that in
+# Ruby as well.
+
+rm -rf website/
+rails new website
+cd website/
+rails generate controller home index
+rm public/index.html 
+sed -i 's%get "home/index"%root :to => "home#index"%' config/routes.rb || exit 1
+rails generate scaffold Person email:string hashedpw:string location:references
+rails generate scaffold Tweet text:string person:references
+rails generate scaffold Location latitude:float longitude:float description:string
+rake db:migrate
