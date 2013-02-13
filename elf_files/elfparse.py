@@ -18,9 +18,8 @@ for x in list(R):
     if y < 0: y = y + 256
     bytes.append(y)
 
-if R[:16] != \
-   "\177ELF\001\001\001\000\000\000\000\000\000\000\000\000":
-    raise "This doesn't look like an ELF file!"
+if R[:4] != "\177ELF":
+    raise Exception("This doesn't look like an ELF file!")
 
 def get_struct(pointer, struct_descriptor, namespace=None):
     if namespace == None:
@@ -45,7 +44,7 @@ def get_struct(pointer, struct_descriptor, namespace=None):
                 pointer = pointer + 1
             namespace[fieldName] = value
         else:
-            raise 'bad case statement'
+            raise Exception('bad field type')
     return (pointer, namespace)
 
 def get_string(offset, strtab_index):
