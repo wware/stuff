@@ -18,3 +18,23 @@ off things on a checklist (Django vs Flask, MongoEngine vs MySQL, etc) and
 press a button, and get a trivial example website. Then you'd be able to
 focus on the interesting stuff. Over time, there might be APIs for web
 services like Google Maps or other such things.
+
+Django and postgresql
+---------------------
+
+I'm doing this on a Mac, which offers challenges. I've installed everything
+I need using MacPorts.
+
+ sudo port install py27-psycopg2 postgresql92-server findutils
+ export PATH=$PATH:/opt/local/lib/postgresql92/bin
+
+Start the server in a dedicated terminal window with
+
+ mkdir -p pg
+ postgres -D pg
+
+where pg is a directory for that purpose.
+
+Type "created dbpg" to create a database named "dbpg". Then you can run
+
+ ./hack-virtualenv.sh django-postgresql
