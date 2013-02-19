@@ -26,7 +26,7 @@ cd ${DJANGOPROJECT}
 
 python manage.py syncdb
 
-python manage.py test || exit 1
+# python manage.py test || exit 1
 
 python manage.py runserver
 
