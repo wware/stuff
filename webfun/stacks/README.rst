@@ -30,7 +30,10 @@ I need using MacPorts.
 
 Start the server in a dedicated terminal window with
 
+ # these are done only once
  mkdir -p pg
+ initdb pg -E utf8
+ # this is done whenever you need to start the PostgreSQL server
  postgres -D pg
 
 where pg is a directory for that purpose.
