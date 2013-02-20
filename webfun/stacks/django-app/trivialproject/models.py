@@ -23,7 +23,7 @@ class City(models.Model):
             obj = cls(city=city, state=state)
             url = "http://nominatim.openstreetmap.org/search?q=" + city + "%2C+" + state + "&format=json"
             R = urllib.urlopen(url).read()
-            logger.error("Geocode response: " + R)
+            logger.info("Geocode response: " + R)
             info = json.loads(R)[0]
             if info.has_key("lat") and info.has_key("lon"):
                 obj.latitude = string.atof(info["lat"])
