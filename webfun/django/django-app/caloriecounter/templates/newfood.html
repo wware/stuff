@@ -1,0 +1,13 @@
+<html>
+<body>
+Hello, {{ name }}! Some day you should visit {{ address }}.
+{% if citylist %}
+<p>
+<ul>
+{% for city in citylist %}
+  <li>{{ city }}
+{% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

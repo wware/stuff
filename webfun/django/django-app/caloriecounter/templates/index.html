@@ -1,0 +1,85 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"i>
+  <title>Will's Calorie Counter</title>
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+
+  <script type="text/javascript">
+    function showDefineFood() {
+      $(defineFood).show();
+      $(defineEntry).hide();
+    }
+    function showDefineEntry() {
+      $(defineFood).hide();
+      $(defineEntry).show();
+    }
+    $(function() {
+      $( "#datepicker" ).datepicker();
+    });
+  </script>
+</head>
+<body>
+{% if foodlist %}
+<h1>Foods</h1>
+<ul>
+{% for food in foodlist %}
+  <li>
+    <b>{{ food.name }}</b>
+    {{ food.calories }} calories,
+    {{ food.carb }} carb grams
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if entrylist %}
+<h1>Entries</h1>
+<ul>
+{% for entry in entrylist %}
+  <li>
+    <b>{{ entry.date }}</b>
+    {{ entry.food }}
+  </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<input type="button" onclick="showDefineEntry();" value="Define a new entry" />
+<input type="button" onclick="showDefineFood();" value="Define a new food" />
+<br/>
+
+<div id="defineFood" hidden="true">
+<form method="get" action="/newfood">
+Name: <input type="text" name="name" value=""/><br/>
+Serving: <input type="text" name="serving" value=""/><br/>
+Calories: <input type="text" name="calories" value=""/><br/>
+Carbs (grams): <input type="text" name="carb" value=""/><br/>
+Fat (grams): <input type="text" name="fat" value=""/><br/>
+Protein (grams): <input type="text" name="protein" value=""/><br/>
+Fiber (grams): <input type="text" name="fiber" value=""/><br/>
+<input type="submit" name="submit" value="Go!"/>
+</form>
+</div>
+<div id="defineEntry" hidden="true">
+{% if foodlist %}
+<form method="get" action="/newentry">
+{% for food in foodlist %}
+<input type="radio" name="food" value="{{ food.id }}"/>{{ food.name }}
+<br/>
+{% endfor %}
+Servings: <input type="text" name="servings" value=""/><br/>
+<!-- jQuery date/time chooser -->
+When: <input type="text" id="datepicker" name="when" value=""/><br/>
+<input type="submit" name="submit" value="Go!"/>
+</form>
+{% else %}
+Please define a food.
+{% endif %}
+</div>
+
+</body>
+</html>

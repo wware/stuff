@@ -5,7 +5,8 @@
 
 WHICHDB=$1
 PGBIN=/opt/local/lib/postgresql92/bin
-DJANGOPROJECT=trivialproject
+#DJANGOPROJECT=trivialproject
+DJANGOPROJECT=caloriecounter
 
 case $WHICHDB in
   sqlite3)
@@ -26,7 +27,8 @@ then
         exit 0
     fi
     PASSWORD=$(head -1 pw | sed 's/ //g')
-    sed "s/'password'/\"$PASSWORD\"/" < settings-django-$WHICHDB-1.py > settings-django-$WHICHDB.py
+    sed "s/'password'/\"$PASSWORD\"/" < settings-django-$WHICHDB-1.py | \
+            sed "s/DJANGOPROJECT/$DJANGOPROJECT/" > settings-django-$WHICHDB.py
     if [ "$(ps ax | grep '$PGBIN/postgres -D pg' | wc -l | sed 's/ //g')" == "1" ]
     then
         rm -rf pg || exit 1
@@ -39,6 +41,9 @@ then
         sleep 5
         $PGBIN/createdb -h localhost dbpg || exit 1
     fi
+else
+    sed "s/'password'/\"$PASSWORD\"/" < settings-django-$WHICHDB-1.py | \
+            sed "s/DJANGOPROJECT/$DJANGOPROJECT/" > settings-django-$WHICHDB.py
 fi
 
 virtualenv --no-site-packages django-app
@@ -61,7 +66,8 @@ virtualenv --no-site-packages django-app
     cd ${DJANGOPROJECT}
 
     python manage.py syncdb
-    # python manage.py test || exit 1
+    (mkdir -p static && python manage.py collectstatic)
+    python manage.py test || exit 1
     python manage.py runserver
 
     deactivate
