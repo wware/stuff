@@ -1,0 +1,33 @@
+#include "colors.inc"
+#include "woods.inc"
+#include "stones2.inc"
+
+background { color Cyan }
+
+camera {
+  location <0, 2, -3>
+  look_at  <0, 1,  2>
+}
+
+sphere {
+  <0, 1, 2>, 1
+  texture {
+    T_Stone25
+    //pigment { color Yellow }
+  }
+}
+
+box {
+  <-1, 0.6, -1>, <1, 0.8, 3>
+  texture {
+    //T_Stone25
+    T_Wood7
+    scale 4
+  }
+  rotate y*20
+}
+
+light_source {
+  <2, 4, -3>
+  color White
+}
