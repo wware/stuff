@@ -52,6 +52,7 @@ public class GenealogyModel extends InfModelImpl {
         public Query(String[] variables) {
             varList = variables;
         }
+        @SuppressWarnings("deprecation")
         public void addTriplet(String s, String p, String o) {
             Node sNode, pNode, oNode;
             if (s.startsWith("http://"))
@@ -106,17 +107,17 @@ public class GenealogyModel extends InfModelImpl {
         PrintUtil.registerPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
         PrintUtil.registerPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
         String rules =
-            "[rule1: (?x bio:father ?y)"
-            + " -> (?y bio:child ?x)]"
-            + "[rule2: (?x bio:mother ?y)"
-            + " -> (?y bio:child ?x)]"
-            + "[rule3: (?x bio:child ?y)"
-            + " -> (?y rel:childOf ?x)]"
-            + "[rule4: (?x rel:childOf ?y)"
-            + " -> (?y bio:child ?x)]"
-            ;
+                "[rule1: (?x bio:father ?y)"
+                        + " -> (?y bio:child ?x)]"
+                        + "[rule2: (?x bio:mother ?y)"
+                        + " -> (?y bio:child ?x)]"
+                        + "[rule3: (?x bio:child ?y)"
+                        + " -> (?y rel:childOf ?x)]"
+                        + "[rule4: (?x rel:childOf ?y)"
+                        + " -> (?y bio:child ?x)]"
+                        ;
         GenericRuleReasoner ruleReasoner =
-            new GenericRuleReasoner(Rule.parseRules(rules));
+                new GenericRuleReasoner(Rule.parseRules(rules));
         if (USE_RETE)
             ruleReasoner.setMode(GenericRuleReasoner.FORWARD_RETE);
 
@@ -156,26 +157,26 @@ public class GenealogyModel extends InfModelImpl {
         Node object = tr.getObject(); // get the object
         String suri = subject.getURI();
         System.out.print(((suri != null) ? suri : subject) +
-        		" " + predicate + " " +
-        		((object instanceof Resource) ? object : "\"" + object.toString() + "\"") +
-        		" .");
+                " " + predicate + " " +
+                ((object instanceof Resource) ? object : "\"" + object.toString() + "\"") +
+                " .");
     }
 
     private String getBriefString(Node n, boolean edgeObject) {
-    	String str = n.toString();
+        String str = n.toString();
         if (str.startsWith("http://") || str.startsWith("https://")) {
-        	str = str.substring(str.lastIndexOf('/') + 1);
+            str = str.substring(str.lastIndexOf('/') + 1);
         } else if (str.startsWith("\"")) {
-        	str = str.substring(1, str.length() - 1);
-        	if (edgeObject && str.indexOf(' ') != -1) {
-            	str = "\"" + str + "\"";
-        	}
+            str = str.substring(1, str.length() - 1);
+            if (edgeObject && str.indexOf(' ') != -1) {
+                str = "\"" + str + "\"";
+            }
         } else {
-        	str = str.substring(str.lastIndexOf(':') + 1);
+            str = str.substring(str.lastIndexOf(':') + 1);
         }
         return str;
     }
-    
+
     /**
      * This is a marginally promising start at using GraphViz's dot
      * executable to create a drawing of a semantic network. Still needs
@@ -185,20 +186,20 @@ public class GenealogyModel extends InfModelImpl {
      * @throws IOException if any file I/O stuff goes badly
      */
     public String drawDotDiagram(String outfile) throws IOException {
-    	HashSet<String> vertices = new HashSet<String>();
+        HashSet<String> vertices = new HashSet<String>();
         ExtendedIterator<Triple> iter = graph.find(null, null, null);
         int n = 0;
         while (iter.hasNext()) {
-        	if (++n == 500) break; // not too complicated
+            if (++n == 500) break; // not too complicated
             Triple tr = iter.next();
             vertices.add(getBriefString(tr.getSubject(), false));
             vertices.add(getBriefString(tr.getObject(), false));
         }
-    	File dotfile = File.createTempFile("semweb",".dot");
-    	BufferedWriter buffout = new BufferedWriter(new FileWriter(dotfile));
-    	buffout.write("digraph semantic_network { rankdir=LR;\n");
+        File dotfile = File.createTempFile("semweb",".dot");
+        BufferedWriter buffout = new BufferedWriter(new FileWriter(dotfile));
+        buffout.write("digraph semantic_network { rankdir=LR;\n");
         for (String s : vertices) {
-        	buffout.write("    \"" + s + "\" [fontsize=8];\n");
+            buffout.write("    \"" + s + "\" [fontsize=8];\n");
         }
         iter = graph.find(null, null, null);
         HashSet<String> alreadyDone = new HashSet<String>();
@@ -210,19 +211,19 @@ public class GenealogyModel extends InfModelImpl {
             String ostr2 = getBriefString(tr.getObject(), false);
             String x = sstr + "::" + pstr + "::" + ostr2;
             if (vertices.contains(sstr) &&
-            		vertices.contains(ostr2) &&
-            		!alreadyDone.contains(x)) {
+                    vertices.contains(ostr2) &&
+                    !alreadyDone.contains(x)) {
                 buffout.write("    " + sstr + " -> " + ostr +
-                		" [label=\"" + pstr + "\", fontsize=8];\n");
+                        " [label=\"" + pstr + "\", fontsize=8];\n");
                 alreadyDone.add(x);
             }
         }
-    	buffout.write("}\n");
-    	buffout.close();
-		String cmd = "dot -Tpng -o " + outfile + " " + dotfile.getAbsolutePath();
-    	Runtime.getRuntime().exec(cmd);
-    	//dotfile.delete();
-    	return cmd;
+        buffout.write("}\n");
+        buffout.close();
+        String cmd = "dot -Tpng -o " + outfile + " " + dotfile.getAbsolutePath();
+        Runtime.getRuntime().exec(cmd);
+        //dotfile.delete();
+        return cmd;
     }
 
     public static void dump(Graph graph) {
@@ -235,7 +236,7 @@ public class GenealogyModel extends InfModelImpl {
         }
         System.out.println("There were " + n + " triplets.");
     }
-    
+
     public static void dump(Model model) {
         StmtIterator iter = model.listStatements();
         int n = 0;
@@ -332,13 +333,13 @@ public class GenealogyModel extends InfModelImpl {
         };
         SpiderHelp spiderHelp = new SpiderHelp(tester);
         final String seeAlsoUri =
-            "http://www.w3.org/2000/01/rdf-schema#seeAlso";
+                "http://www.w3.org/2000/01/rdf-schema#seeAlso";
         while (true) {
             if (seeAlsoList.size() < maxcount) {
                 // Scan the model to pick up new docs
                 query("SELECT ?otherdoc\n"
-                      + "WHERE  { ?x <" + seeAlsoUri + "> ?otherdoc }",
-                      spiderHelp);
+                        + "WHERE  { ?x <" + seeAlsoUri + "> ?otherdoc }",
+                        spiderHelp);
             }
             if (startingPoint >= maxcount || startingPoint >= seeAlsoList.size())
                 return;
