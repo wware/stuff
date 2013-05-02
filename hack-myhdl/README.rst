@@ -1,7 +1,10 @@
 Hacking MyHDL
 =============
 
-Installation on Ubuntu 10.04 (Lucid)::
+Installation on Ubuntu 10.04 (Lucid)
+------------------------------------
+
+::
 
  sudo add-apt-repository ppa:balau82/ppa
  sudo apt-get update
@@ -20,6 +23,36 @@ Projects:
 * http://www.myhdl.org/doku.php/projects:intro
 * http://www.antfarm.org/blog/aaronf/2008/02/myhdl_a_brief_discussion_2.html
 * /usr/share/doc/myhdl/examples
+
+Installation on OSX 10.8.3 (Mountain Lion)
+------------------------------------------
+
+Download MyHDL from this website: http://sourceforge.net/projects/myhdl
+
+Then::
+
+ tar xfz Downloads/myhdl-0.7.tar.gz
+ cd myhdl-0.7
+ python setup.py build
+ sudo python setup.py install
+
+Unpack the GTKWave zip in the /Applications directory: http://gtkwave.sourceforge.net/gtkwave.zip
+
+Add this to your .bash_profile::
+
+ export PATH=$PATH:/Applications/gtkwave.app/Contents/Resources/bin
+
+Add this line to your MyHDL source file::
+
+ Simulation(traceSignals(testBench)).run()
+
+This will produce a file called testBench.vcd, and now you just type::
+
+ gtkwave testBench.vcd
+
+Open up the device under test in the upper left, select signals you want to look at, and drag them
+over to the waveform display. Right-click on the signal name to choose a data format, including
+analog formats that show waveforms.
 
 Cosimulation??
 --------------

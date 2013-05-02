@@ -1,0 +1,82 @@
+##################################################################################
+## BPC3003_2.03+.ucf
+##
+## Author: Jack Gassett
+##
+## Details: http://gadgetforge.gadgetfactory.net/gf/project/butterfly_one/
+##
+## Contains assignment and iostandard information for
+## all used pins as well as timing and area constraints for Papilio One 2.03 and higher boards. Papilio One boards started using 32Mhz oscillators at version 2.02 and above.
+##
+##################################################################################
+
+# Crystal Clock - use 32MHz onboard oscillator
+NET "clk" LOC = "P89" | IOSTANDARD = LVCMOS25 | PERIOD = 31.25ns ;
+
+# Wing1 Column A
+NET "param_data<0>" LOC = "P18" ;  
+NET "param_data<1>" LOC = "P23" ;      
+NET "param_data<2>" LOC = "P26" ;      
+NET "param_data<3>" LOC = "P33" ;      
+NET "param_clk" LOC = "P35" ;      
+NET "audio_req" LOC = "P40" ;      
+NET "audio_ack" LOC = "P53" ;      
+NET "dac_bit" LOC = "P57" ;      
+
+# Wing1 Column A
+# NET "W1A<0>" LOC = "P18" ;  
+# NET "W1A<1>" LOC = "P23" ;      
+# NET "W1A<2>" LOC = "P26" ;      
+# NET "W1A<3>" LOC = "P33" ;      
+# NET "W1A<4>" LOC = "P35" ;      
+# NET "W1A<5>" LOC = "P40" ;      
+# NET "W1A<6>" LOC = "P53" ;      
+# NET "W1A<7>" LOC = "P57" ;      
+# NET "W1A<8>" LOC = "P60" ;      
+# NET "W1A<9>" LOC = "P62" ;   
+# NET "W1A<10>" LOC = "P65" ; 
+# NET "W1A<11>" LOC = "P67" ; 
+# NET "W1A<12>" LOC = "P70" ; 
+# NET "W1A<13>" LOC = "P79" ; 
+# NET "W1A<14>" LOC = "P84" ; 
+# NET "W1A<15>" LOC = "P86" ; 
+
+# Wing1 Column B
+# NET "W1B<0>" LOC = "P85" ;	
+# NET "W1B<1>" LOC = "P83" ;	
+# NET "W1B<2>" LOC = "P78" ;	
+# NET "W1B<3>" LOC = "P71" ;	
+# NET "W1B<4>" LOC = "P68" ;	
+# NET "W1B<5>" LOC = "P66" ;	
+# NET "W1B<6>" LOC = "P63" ;	
+# NET "W1B<7>" LOC = "P61" ;	
+# NET "W1B<8>" LOC = "P58" ;	
+# NET "W1B<9>" LOC = "P54" ;	
+# NET "W1B<10>" LOC = "P41" ;	
+# NET "W1B<11>" LOC = "P36" ;	
+# NET "W1B<12>" LOC = "P34" ;	
+# NET "W1B<13>" LOC = "P32" ;	
+# NET "W1B<14>" LOC = "P25" ;	
+# NET "W1B<15>" LOC = "P22" ;	
+
+# Wing2 Column C
+# NET "W2C<0>" LOC = "P91" ;	
+# NET "W2C<1>" LOC = "P92" ;  	
+# NET "W2C<2>" LOC = "P94" ;  	
+# NET "W2C<3>" LOC = "P95" ;  	
+# NET "W2C<4>" LOC = "P98" ;  	
+# NET "W2C<5>" LOC = "P2" ;  	
+# NET "W2C<6>" LOC = "P3" ;  	
+# NET "W2C<7>" LOC = "P4" ;  	
+# NET "W2C<8>" LOC = "P5" ;  	
+# NET "W2C<9>" LOC = "P9" ;   
+# NET "W2C<10>" LOC = "P10" ;	
+# NET "W2C<11>" LOC = "P11" ;	
+# NET "W2C<12>" LOC = "P12" ;	
+# NET "W2C<13>" LOC = "P15" ;	
+# NET "W2C<14>" LOC = "P16" ;	
+# NET "W2C<15>" LOC = "P17" ;	
+
+## RS232
+# NET "rx"  LOC = "P88" | IOSTANDARD = LVCMOS25 ;
+# NET "tx"  LOC = "P90" | IOSTANDARD = LVCMOS25 | DRIVE = 4 | SLEW = SLOW ;

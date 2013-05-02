@@ -30,7 +30,7 @@ FPGA notes for the NEXYS 2 board
 
 Very lucky to find `this discussion`_ where I learned about nexys2prog, a great
 little Perl script that helps you to program the NEXYS 2 board without paying for
-a potentially expensive USB-JTAG interface. From the nexys2prog docs:
+a potentially expensive USB-JTAG interface. From the nexys2prog docs::
 
 .. _`this discussion`: http://www.edaboard.com/thread145823.html
 
@@ -45,7 +45,6 @@ Also useful: http://ixo-jtag.sourceforge.net/nexys2-linux-howto.html
 I've posted the nexys2prog_ and urjtag_ tarballs for download on Google Docs.
 
 .. _nexys2prog: https://docs.google.com/leaf?id=0B656IJ3nlMSMYjU5ZWJjOGQtYmY1NS00ODcxLWFjYWYtZjk4YjRhOGYzZjNk
-
 .. _urjtag: https://docs.google.com/leaf?id=0B656IJ3nlMSMNzZjNDRmZDctMGM5Yy00OWFmLWIwNTUtZjc2ZDk1YjFhNjU2
 
 The nexys2prog script depends upon your having installed the Xilinx IDE.
@@ -62,3 +61,20 @@ As root, do the following to program a bitstream into the NEXYS 2 board::
  sudo ./prog.sh foobar.bit
 
 So I ran the first example in the Digilent text involving gates2.v and gates2_top.v and everything worked great.
+
+Notes on the Papilio One board
+------------------------------
+
+These days I use a Macbook more often than a Linux machine, and the Xilinx tools
+don't work on Mac so I need to go back to Linux or Windows to build and program the 
+".bit" file. Given the neglected dual-boot Linux/Win7 laptop, the simplest approach
+is to install Windows ISE WebPack on Win7 along with `ButterflyLoader`_, and then I can
+port the Verilog file to Windows and do everything there. The `Getting Started`_ page
+has more information, including a Youtube video whose audio channel is broken. I've
+added a `UCF constraints file for the Papilio board`_ which I got from `Gadget Factory`_,
+who created the Papilio platform.
+
+.. _`ButterflyLoader`: http://gadgetforge.gadgetfactory.net/gf/project/butterflyloader/
+.. _`Getting Started`: http://papilio.cc/index.php?n=Papilio.GettingStarted
+.. _`UCF constraints file for the Papilio board`: http://gadgetforge.gadgetfactory.net/gf/download/frsrelease/134/412/BPC3003_2.03%2B.ucf
+.. _`Gadget Factory`: http://www.gadgetfactory.net/
