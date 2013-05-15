@@ -5,7 +5,7 @@ import sys
 from myhdl import Signal, delay, Simulation, always_comb, \
     instance, intbv, bin, toVerilog, toVHDL, always, now, traceSignals
 
-from wavegen import waveform_generator
+from wavegen import waveform_generator, single_waveform
 from param_loading import (
     get_nibbles,
     DaisyChain,
@@ -170,6 +170,84 @@ def fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit):
     return drivers
 
 
+def fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit):
+    # when I get to where I can pass in param data from the Arduino, switch to this.
+
+    audio_tick = Signal(False)
+    # param_tick = Signal(False)
+    areq_bit = Signal(False)
+    _output = Signal(intbv(0)[N:])
+    audio_counter = Signal(intbv(0)[16:])
+    param_counter = Signal(intbv(1)[24:])
+
+    ampl_counter = Signal(intbv(0)[18:])
+
+    @always(clk.posedge)
+    def audio_sample_rate():
+        if audio_counter >= DIVIDER - 1:
+            audio_counter.next = 0
+            audio_tick.next = True
+            ampl_counter.next = ampl_counter + 1
+        else:
+            audio_counter.next = audio_counter + 1
+            audio_tick.next = False
+
+    # @always(clk.posedge)
+    # def param_sample_rate():
+    #     if param_counter >= PDIVIDER - 1:
+    #         param_counter.next = 0
+    #         param_tick.next = True
+    #     else:
+    #         param_counter.next = param_counter + 1
+    #         param_tick.next = False
+
+    # @always(param_tick.posedge)
+    # def big_dumb_square_wave():
+    #     areq_bit.next = not areq_bit
+    #     if areq_bit:
+    #         areq_bit.next = False
+    #         _output.next = (7 * HALF) >> 3
+    #     else:
+    #         areq_bit.next = True
+    #         _output.next = (9 * HALF) >> 3
+
+    dphase = Signal(intbv(0)[24:])
+    threshold = Signal(intbv(0)[N:])
+    amplitude = Signal(intbv(0)[N:])
+    middle = Signal(intbv(0)[N:])
+    chorusing = Signal(False)
+    select = Signal(intbv(0)[2:])
+
+    @always_comb
+    def drive_areq():
+        audio_req.next = areq_bit
+        dphase.next = DELTA_PHASE >> 2
+        threshold.next = HALF >> 2
+        select.next = 1
+        chorusing.next = 0
+        amplitude.next = ampl_counter >> 4
+
+    wg = waveform_generator(audio_tick, dphase, chorusing, threshold, select, middle)
+
+    # Apparently the VCA is not working
+    v = vca(clk, middle, amplitude, _output)
+
+    dsig = delta_sigma_dac(clk, audio_tick, _output, dac_bit)
+    # dsig = delta_sigma_dac(clk, audio_tick, middle, dac_bit)
+
+    drivers = [
+        audio_sample_rate,
+        # param_sample_rate,
+        # big_dumb_square_wave,
+        drive_areq,
+        wg,
+        v,
+        dsig
+    ]
+
+    return drivers
+
+
 def real_fpga():
 
     # CHIP I/Os
@@ -197,34 +275,34 @@ def test_bench():
     simclk = simulated_clock(clk)
     fpga = fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit)
 
-    a = int((1.e9 / MHZ) + 0.5)   # round to nearest integer
-    b = int(0.5 * a)
+    # a = int((1.e9 / MHZ) + 0.5)   # round to nearest integer
+    # b = int(0.5 * a)
 
-    chorusing = 0
-    select = 1    # two bits
-    keydown = 1
+    # chorusing = 0
+    # select = 1    # two bits
+    # keydown = 1
 
-    threshold = MASK
-    controls = (chorusing << 3) | (select << 1) | keydown
-    # amplitude = MASK
-    envelope = 0x378F   # R=3, S=7, D=8, A=f
+    # threshold = MASK
+    # controls = (chorusing << 3) | (select << 1) | keydown
+    # # amplitude = MASK
+    # envelope = 0x378F   # R=3, S=7, D=8, A=f
 
-    param_bytes = (
-        # amplitude & 0xFF,
-        # (amplitude >> 8) & 0xFF,
-        envelope & 0xFF,
-        (envelope >> 8) & 0xFF,
-        controls,
-        threshold & 0xFF,
-        (threshold >> 8) & 0xFF,
-        DELTA_PHASE & 0xFF,
-        (DELTA_PHASE >> 8) & 0xFF,
-        (DELTA_PHASE >> 16) & 0xFF,
-    )
-    print map(hex, param_bytes)
+    # param_bytes = (
+    #     # amplitude & 0xFF,
+    #     # (amplitude >> 8) & 0xFF,
+    #     envelope & 0xFF,
+    #     (envelope >> 8) & 0xFF,
+    #     controls,
+    #     threshold & 0xFF,
+    #     (threshold >> 8) & 0xFF,
+    #     DELTA_PHASE & 0xFF,
+    #     (DELTA_PHASE >> 8) & 0xFF,
+    #     (DELTA_PHASE >> 16) & 0xFF,
+    # )
+    # print map(hex, param_bytes)
 
-    r = (daisy_chain_driver(param_bytes, param_data, audio_req, 10),
-         param_clock_driver(param_bytes, param_clk, 10),
+    r = (# daisy_chain_driver(param_bytes, param_data, audio_req, 10),
+         # param_clock_driver(param_bytes, param_clk, 10),
          fpga,
          simclk)
     return r

@@ -6,7 +6,7 @@ from myhdl import Signal, delay, always_comb, instance, intbv, bin, always, now
 # Papilio board
 MHZ = 32 * 1000 * 1000
 AUDIO_RATE = 40 * 1000
-PARAM_RATE = 50
+PARAM_RATE = 1000
 
 DIVIDER = MHZ / AUDIO_RATE
 PDIVIDER = MHZ / PARAM_RATE
@@ -26,14 +26,16 @@ LOADWIDTH = 4
 
 ############## Simulation stuff ################
 
-# FREQ = 440  # A above middle C
-FREQ = 2000
-ONE_HERTZ = 1. * (1 << 24) / AUDIO_RATE
-DELTA_PHASE = int(ONE_HERTZ * FREQ)
+FREQ = 440  # A above middle C
+ONE_HERTZ = 1. * (1 << PHASEWIDTH) / AUDIO_RATE
+DELTA_PHASE = int(round(ONE_HERTZ * FREQ))
+
+CDIFF1 = int(round(ONE_HERTZ * 2))
+CDIFF2 = int(round(ONE_HERTZ * 0.7))
 
 # SIMTIME = 0.200
 # SIMTIME = 0.01
-SIMTIME = 0.001
+SIMTIME = 0.01
 SIMLEN = int(SIMTIME * MHZ)
 
 

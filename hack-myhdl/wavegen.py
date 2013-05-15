@@ -3,6 +3,8 @@ from myhdl import Signal, delay, Simulation, always_comb, \
 from config import (
     PHASEWIDTH,
     N,
+    CDIFF1,
+    CDIFF2,
 )
 
 # Single generator of ramp wave, triangle wave, or PW-modulated square wave
@@ -17,18 +19,19 @@ def single_waveform(audio_tick, select, threshold, delta_phase, _output):
         else:
             phase_counter.next = phase_counter + delta_phase
 
-        if select == 0:
+        if select == 0:     # ramp
             _output.next = phase_counter >> 10
-        elif select == 1:
+        elif select == 1:   # triangle
             if phase_counter < (1 << (PHASEWIDTH - 1)):
                 _output.next = phase_counter >> 9
             else:
                 _output.next = ((1 << PHASEWIDTH) - 1 - phase_counter) >> 9
-        elif select == 2:
+        elif select == 2:   # square/pulse-width
             if phase_counter > (threshold << (PHASEWIDTH - N)):
                 _output.next = (1 << N) - 1
             else:
                 _output.next = 0
+        # in waveform_generator,  3 is noise
 
     return waveforms
 
@@ -58,9 +61,9 @@ def waveform_generator(audio_tick, delta_phase, chorusing, threshold, select, _o
 
     @always_comb
     def output_selector():
-        dphase1.next = delta_phase - (delta_phase >> 10)
-        dphase2.next = delta_phase + (delta_phase >> 10)
-        dphase3.next = delta_phase + (delta_phase >> 11)
+        dphase1.next = delta_phase - CDIFF1
+        dphase2.next = delta_phase + CDIFF1
+        dphase3.next = delta_phase + CDIFF2
         if select == 3:
             _output.next = noise_register >> 2
         elif chorusing:
