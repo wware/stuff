@@ -3,7 +3,7 @@ from myhdl import Signal, delay, always_comb, instance, intbv, bin, always, now
 
 ######### General stuff ################
 
-# Papilio board
+# Papilio board clocked at 32 MHz, audio rate is 40 kHz
 MHZ = 32 * 1000 * 1000
 AUDIO_RATE = 40 * 1000
 PARAM_RATE = 1000
@@ -23,15 +23,22 @@ PHASEWIDTH = 24
 
 LOADWIDTH = 4
 
+(RAMP, TRIANGLE, SQWAVE, NOISE) = range(4)
+
+def signed_bus(numbits):
+    min = -(1 << (numbits - 1))
+    max = 1 << (numbits - 1)
+    return Signal(intbv(0, min=min, max=max))
+
+def unsigned_bus(numbits):
+    return Signal(intbv(0)[numbits:])
+
 
 ############## Simulation stuff ################
 
 FREQ = 440  # A above middle C
 ONE_HERTZ = 1. * (1 << PHASEWIDTH) / AUDIO_RATE
 DELTA_PHASE = int(round(ONE_HERTZ * FREQ))
-
-CDIFF1 = int(round(ONE_HERTZ * 2))
-CDIFF2 = int(round(ONE_HERTZ * 0.7))
 
 # SIMTIME = 0.200
 # SIMTIME = 0.01
