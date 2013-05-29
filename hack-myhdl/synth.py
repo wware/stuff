@@ -5,7 +5,7 @@ import sys
 from myhdl import Signal, delay, Simulation, always_comb, \
     instance, intbv, bin, toVerilog, toVHDL, always, now, traceSignals
 
-from wavegen import waveform_generator, single_waveform
+from wavegen import waveform_generator, make_wavgen_ios
 from param_loading import (
     get_nibbles,
     DaisyChain,
@@ -20,301 +20,145 @@ from config import (
     MHZ,
     AUDIO_RATE,
     DIVIDER,
-    PDIVIDER,
     N,
     WHOLE,
     HALF,
     MASK,
-    DELTA_PHASE,
-    SIMLEN,
-    SIMTIME,
-    simulated_clock
+    SECOND,
+    compute_delta_phase,
+    unsigned_bus,
+    signed_bus,
+    signed_to_unsigned,
+    unsigned_to_signed
 )
 
 
-def clock_generator(clk, delta_phase, audio_tick):
+A_ABOVE_MIDDLE_C = compute_delta_phase(440)
+DELTA_PHASE = A_ABOVE_MIDDLE_C
 
-    audio_counter = Signal(intbv(0)[16:])
 
-    @always(clk.posedge)
-    def audio_sample_rate():
-        if audio_counter >= DIVIDER - 1:
-            audio_counter.next = 0
-            audio_tick.next = True
+def make_fpga_ios():
+    fastclk = Signal(False)
+    reset = Signal(False)
+    param_data = unsigned_bus(4)
+    param_clk = Signal(False)
+    audio_req = Signal(False)
+    audio_ack = Signal(False)
+    dac_bit = Signal(True)
+    return (fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit)
+
+
+def fpga(fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit):
+
+    aclk_counter = unsigned_bus(10)
+    clk = Signal(False)
+
+    # audio rate clock
+    @always(fastclk.posedge, reset.posedge)
+    def drive_audio_clock():
+        if reset:
+            aclk_counter.next = 0
+            clk.next = True
+        elif aclk_counter >= 800:
+            aclk_counter.next = 0
+            clk.next = True
         else:
-            audio_counter.next = audio_counter + 1
-            audio_tick.next = False
+            aclk_counter.next = aclk_counter + 1
+            clk.next = False
 
-    @always(clk.posedge)
-    def dphase_driver():
-        delta_phase.next = DELTA_PHASE
+    ignored, ignored2, select, threshold, delta_phase, wavgen_output = make_wavgen_ios()
 
-    # TODO generate a 50Hz clock for parameter updates
-
-    return (dphase_driver, audio_sample_rate)
-
-def one_voice(audio_tick, pdata_in, pdata_out, _output):
-    dphase = Signal(intbv(0)[24:])
-    threshold = Signal(intbv(0)[N:])
-    middle = Signal(intbv(0)[N:])
-
-    controls = Signal(intbv(0)[8:])
     keydown = Signal(False)
-    select = Signal(intbv(0)[2:])
-    chorusing = Signal(False)
+    select = unsigned_bus(2)
+    attack = unsigned_bus(4)
+    decay = unsigned_bus(4)
+    sustain = unsigned_bus(4)
+    _release = unsigned_bus(4)
+    amplitude = unsigned_bus(N)
+    _output = signed_bus(N)
 
-    envelope = Signal(intbv(0)[16:])
-    attack = Signal(intbv(0)[4:])
-    decay = Signal(intbv(0)[4:])
-    sustain = Signal(intbv(0)[4:])
-    _release = Signal(intbv(0)[4:])   # "release" is a reserved word in Verilog
+    # more bits than we really need, 18 bits would give 6.5536 seconds
+    input_driver_count = unsigned_bus(24)
 
-    amplitude = Signal(intbv(0)[N:])
-
-    a, b, c, d = get_nibbles(4)
-    chain = DaisyChain(pdata_in)
-
-    @always_comb
-    def drive_pdata_out():
-        pdata_out.next = d
-
-    drivers = [
-        drive_pdata_out,
-        chain.param_24(dphase, a),
-        chain.param_16(threshold, b, N),
-        chain.param_8(controls, c),
-        # chain.param_16(amplitude, d, N),
-        bitfields(controls, (0, 1, keydown),
-                            (1, 2, select),
-                            (3, 1, chorusing)),
-        chain.param_16(envelope, d),
-        bitfields(envelope, (0, 4, attack),
-                            (4, 4, decay),
-                            (8, 4, sustain),
-                            (12, 4, _release)),
-        waveform_generator(audio_tick, dphase, chorusing, threshold, select, middle),
-        adsr(audio_tick, attack, decay, sustain, _release, keydown, amplitude),
-        vca(middle, amplitude, _output)
-    ]
-
-    return drivers
-
-
-def fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit):
-    # when I get to where I can pass in param data from the Arduino, switch to this.
-
-    audio_tick = Signal(False)
-    param_tick = Signal(False)
-    areq_bit = Signal(False)
-    _output = Signal(intbv(0)[N:])
-    audio_counter = Signal(intbv(0)[16:])
-    param_counter = Signal(intbv(1)[24:])
-
-    @always(clk.posedge)
-    def audio_sample_rate():
-        if audio_counter >= DIVIDER - 1:
-            audio_counter.next = 0
-            audio_tick.next = True
-        else:
-            audio_counter.next = audio_counter + 1
-            audio_tick.next = False
-
-    @always(clk.posedge)
-    def param_sample_rate():
-        if param_counter >= PDIVIDER - 1:
-            param_counter.next = 0
-            param_tick.next = True
-        else:
-            param_counter.next = param_counter + 1
-            param_tick.next = False
-
-    @always(param_tick.posedge, audio_ack.posedge)
-    def handshake():
-        if audio_ack:
-            areq_bit.next = False
-        elif param_tick:
-            areq_bit.next = True
-
-    @always_comb
-    def drive_audio_req():
-        audio_req.next = areq_bit
-
-    DaisyChain.set_up_clocks(param_clk, audio_req)
-    a, b, c, d = get_nibbles(4)
-
-    out1 = Signal(intbv(0)[N:])
-    out2 = Signal(intbv(0)[N:])
-    out3 = Signal(intbv(0)[N:])
-    out4 = Signal(intbv(0)[N:])
-    _output = Signal(intbv(0)[N:])
-
-    @always_comb
-    def drive_output():
-        _output.next = (out1 + out2 + out3 + out4) >> 2
-
-    dsig = delta_sigma_dac(clk, audio_tick, _output, dac_bit)
-
-    drivers = [
-        audio_sample_rate,
-        param_sample_rate,
-        handshake,
-        drive_audio_req,
-        one_voice(audio_tick, param_data, a, out1),
-        one_voice(audio_tick, a, b, out2),
-        one_voice(audio_tick, b, c, out3),
-        one_voice(audio_tick, c, d, out4),
-        drive_output,
-        dsig
-    ]
-
-    return drivers
-
-
-def fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit):
-    # when I get to where I can pass in param data from the Arduino, switch to this.
-
-    audio_tick = Signal(False)
-    # param_tick = Signal(False)
-    areq_bit = Signal(False)
-    _output = Signal(intbv(0)[N:])
-    audio_counter = Signal(intbv(0)[16:])
-    param_counter = Signal(intbv(1)[24:])
-
-    ampl_counter = Signal(intbv(0)[18:])
-
-    @always(clk.posedge)
-    def audio_sample_rate():
-        if audio_counter >= DIVIDER - 1:
-            audio_counter.next = 0
-            audio_tick.next = True
-            ampl_counter.next = ampl_counter + 1
-        else:
-            audio_counter.next = audio_counter + 1
-            audio_tick.next = False
-
-    # @always(clk.posedge)
-    # def param_sample_rate():
-    #     if param_counter >= PDIVIDER - 1:
-    #         param_counter.next = 0
-    #         param_tick.next = True
-    #     else:
-    #         param_counter.next = param_counter + 1
-    #         param_tick.next = False
-
-    # @always(param_tick.posedge)
-    # def big_dumb_square_wave():
-    #     areq_bit.next = not areq_bit
-    #     if areq_bit:
-    #         areq_bit.next = False
-    #         _output.next = (7 * HALF) >> 3
-    #     else:
-    #         areq_bit.next = True
-    #         _output.next = (9 * HALF) >> 3
-
-    dphase = Signal(intbv(0)[24:])
-    threshold = Signal(intbv(0)[N:])
-    amplitude = Signal(intbv(0)[N:])
-    middle = Signal(intbv(0)[N:])
-    chorusing = Signal(False)
-    select = Signal(intbv(0)[2:])
-
-    @always_comb
-    def drive_areq():
-        audio_req.next = areq_bit
-        dphase.next = DELTA_PHASE >> 2
-        threshold.next = HALF >> 2
+    @always(clk.posedge, reset.posedge)
+    def drive_inputs():
+        attack.next = 3
+        decay.next = 5
+        sustain.next = 8
+        _release.next = 0
+        delta_phase.next = DELTA_PHASE
         select.next = 1
-        chorusing.next = 0
-        amplitude.next = ampl_counter >> 4
-
-    wg = waveform_generator(audio_tick, dphase, chorusing, threshold, select, middle)
-
-    # Apparently the VCA is not working
-    v = vca(clk, middle, amplitude, _output)
-
-    dsig = delta_sigma_dac(clk, audio_tick, _output, dac_bit)
-    # dsig = delta_sigma_dac(clk, audio_tick, middle, dac_bit)
+        threshold.next = HALF
+        keydown.next = 0
+        if reset:
+            keydown.next = 0
+            input_driver_count.next = 0
+        elif input_driver_count >= 5 * SECOND:
+            keydown.next = 0
+            input_driver_count.next = 0
+        elif input_driver_count < 2 * SECOND:
+            keydown.next = 1
+            input_driver_count.next = input_driver_count + 1
+        else:
+            keydown.next = 0
+            input_driver_count.next = input_driver_count + 1
 
     drivers = [
-        audio_sample_rate,
-        # param_sample_rate,
-        # big_dumb_square_wave,
-        drive_areq,
-        wg,
-        v,
-        dsig
+        drive_audio_clock,
+        drive_inputs,
+        waveform_generator(clk, reset, select, threshold, delta_phase, wavgen_output),
+        # adsr(clk, reset, keydown, attack, decay, sustain, _release, amplitude),
+        # vca(fastclk, reset, wavgen_output, amplitude, _output),
+        delta_sigma_dac(fastclk, clk, reset, wavgen_output, dac_bit),
     ]
-
     return drivers
 
+def simulate():
 
-def real_fpga():
+    # don't make the simulation take all day
+    global SECOND, DELTA_PHASE
+    SECOND = 200
+    DELTA_PHASE = compute_delta_phase(1000)
 
-    # CHIP I/Os
-    clk = Signal(False)
-    param_data = Signal(intbv(0)[4:])
-    param_clk = Signal(False)
-    audio_req = Signal(False)
-    audio_ack = Signal(False)
-    dac_bit = Signal(True)
+    fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit = make_fpga_ios()
 
-    toVerilog(fpga_synth, clk, param_data, param_clk, audio_req, audio_ack, dac_bit)
-    # toVHDL(...)
+    @instance
+    def bench():
+        fastclk.next = 0
+        reset.next = 0
+        param_data.next = 0
+        param_clk.next = 0
+        audio_req.next = 0
+        audio_ack.next = 0
+        yield delay(1)
+        reset.next = 1
+        yield delay(1)
+        reset.next = 0
+        # for i in range(8 * SECOND * 32000000 / 40000):
+        for i in range(SECOND * 32000000 / 40000):
+            yield delay(1)
+            fastclk.next = 1
+            yield delay(1)
+            fastclk.next = 0
+
+    stuff = [
+        bench,
+        fpga(fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit)
+    ]
+    return stuff
 
 
-def test_bench():
+class TestFpga(unittest.TestCase):
+    # TODO write tests
+    pass
 
-    # CHIP I/Os
-    clk = Signal(False)
-    param_data = Signal(intbv(0)[4:])
-    param_clk = Signal(False)
-    audio_req = Signal(False)
-    audio_ack = Signal(False)
-    dac_bit = Signal(True)
 
-    simclk = simulated_clock(clk)
-    fpga = fpga_synth(clk, param_data, param_clk, audio_req, audio_ack, dac_bit)
-
-    # a = int((1.e9 / MHZ) + 0.5)   # round to nearest integer
-    # b = int(0.5 * a)
-
-    # chorusing = 0
-    # select = 1    # two bits
-    # keydown = 1
-
-    # threshold = MASK
-    # controls = (chorusing << 3) | (select << 1) | keydown
-    # # amplitude = MASK
-    # envelope = 0x378F   # R=3, S=7, D=8, A=f
-
-    # param_bytes = (
-    #     # amplitude & 0xFF,
-    #     # (amplitude >> 8) & 0xFF,
-    #     envelope & 0xFF,
-    #     (envelope >> 8) & 0xFF,
-    #     controls,
-    #     threshold & 0xFF,
-    #     (threshold >> 8) & 0xFF,
-    #     DELTA_PHASE & 0xFF,
-    #     (DELTA_PHASE >> 8) & 0xFF,
-    #     (DELTA_PHASE >> 16) & 0xFF,
-    # )
-    # print map(hex, param_bytes)
-
-    r = (# daisy_chain_driver(param_bytes, param_data, audio_req, 10),
-         # param_clock_driver(param_bytes, param_clk, 10),
-         fpga,
-         simclk)
-    return r
-
-if __name__ == "__main__":
-    if 'tb' in sys.argv[1:]:
-        tb = traceSignals(test_bench)
-        sim = Simulation(tb)
-        sim.run()
-    elif 'hdl' in sys.argv[1:]:
-        real_fpga()
+if __name__ == '__main__':
+    if 'hdl' in sys.argv[1:]:
+        fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit = make_fpga_ios()
+        toVerilog(fpga, fastclk, reset, param_data, param_clk, audio_req, audio_ack, dac_bit)
+    elif 'sim' in sys.argv[1:]:
+        Simulation(traceSignals(simulate)).run()
     else:
-        raise Exception('broken code')
-        suite = unittest.makeSuite(TestGrayCodeProperties)
+        suite = unittest.TestLoader().loadTestsFromTestCase(TestFpga)
         unittest.TextTestRunner(verbosity=2).run(suite)

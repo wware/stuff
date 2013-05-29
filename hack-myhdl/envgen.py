@@ -150,7 +150,7 @@ def adsr(clk, keydown, attack, sustain, decay, release, _out):
 
     @always_comb
     def combinatorial():
-        latch_dq.next = (keydown1 and not keydown2) or lzero
+        latch_dq.next = (keydown1 and not keydown2) or (keydown2 and not keydown1) or lzero
         threshold.next = (qi == MASK)
         _out.next = qi
         if state == ATTACK:

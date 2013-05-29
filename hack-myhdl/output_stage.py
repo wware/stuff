@@ -7,22 +7,33 @@ from myhdl import Signal, delay, Simulation, always_comb, \
 from config import (
     MHZ,
     N,
+    WHOLE,
+    MASK,
     HALF,
     unsigned_bus,
-    signed_bus
+    signed_bus,
+    signed_to_unsigned,
+    unsigned_to_signed
 )
+
+"""
+Make A a 32-bit number. Make B 16 bits, and vc_estimate 16 bits. Then the sum of
+A+B*vc_estimate will be 32 bits, clipped to (1<<32)-1 and take
+the upper 16 bits for the next value of vc_estimate. Get dac_bit by comparing
+vc_estimate with (target << 2).
+"""
 
 DT = 1./MHZ
 R = 1000
 C = 0.01e-6
 ALPHA = math.exp(-DT / (R * C))
-A = int(round((1. - ALPHA) * (1 << 18)))
-B = int(round(ALPHA * (1 << 18)))
+A = int(round((1. - ALPHA) * (1 << 32)))
+B = int(round(ALPHA * (1 << 16)))
 
 
 # fastclk is the 32 MHz clock to the FPGA
 # clk is the audio-rate clock at 40 kHz, which is high for one fastclk period
-def interpolator(fastclk, clk, input_data, interp_out):
+def interpolator(fastclk, clk, reset, input_data, interp_out):
 
     # There are 800 fastclk periods during each clk period, so on each fastclk we want to
     # advance 1/800th from the previous sound sample to the current sample. 800 is pretty
@@ -31,52 +42,85 @@ def interpolator(fastclk, clk, input_data, interp_out):
     # many non-zero bits. By accumulating this difference and right-shifting 22 bits, we
     # arrive almost exactly where we want to end up after 800 accumulations.
 
-    FRACTION_BITS = 22
+    FRACTION_BITS = 16
     delay_1 = signed_bus(N)
+    x = signed_bus(N)
     interp_step = signed_bus(N + FRACTION_BITS)
     interp_data = signed_bus(N + FRACTION_BITS)
 
-    @always(fastclk.posedge)
+    @always(fastclk.posedge, reset.posedge)
     def do_stuff():
-        if clk:
-            interp_data.next = delay_1 << FRACTION_BITS
-            delay_1.next = input_data
-            x = input_data - delay_1
-            # multiply by 5243 in binary
-            interp_step.next = (x << 12) + (x << 10) + (x << 6) + (x << 5) + \
-                (x << 4) + (x << 3) + (x << 1) + x
+        if reset:
+            delay_1.next = 0
+            interp_data.next = 0
+            interp_step.next = 0
         else:
-            interp_data.next = interp_data + interp_step
+            if clk:
+                interp_data.next = delay_1 << FRACTION_BITS
+                delay_1.next = input_data
+                # multiply by 5243 in binary
+                interp_step.next = (x << 12) + (x << 10) + (x << 6) + (x << 5) + \
+                    (x << 4) + (x << 3) + (x << 1) + x
+            elif (interp_data + interp_step) < interp_data.min:
+                interp_data.next = interp_data.min
+            elif (interp_data + interp_step) >= interp_data.max:
+                interp_data.next = interp_data.max - 1
+            else:
+                interp_data.next = interp_data + interp_step
 
     @always_comb
     def rightshift_for_output():
+        x.next = input_data - delay_1
         interp_out.next = interp_data >> FRACTION_BITS
 
     return (do_stuff, rightshift_for_output)
 
 
-def delta_sigma_dac(fastclk, clk, input_data, dac_bit):
+def delta_sigma_dac(fastclk, clk, reset, input_data, dac_bit):
 
     interp_result = signed_bus(N)
-    vc_estimate = unsigned_bus(18)
-    sum_of_products = unsigned_bus(36)
+    interp_result_unsigned = unsigned_bus(N)
+    # the input of the Xilinx multiplier is an 18-bit factor
+    vc_estimate = unsigned_bus(16)
+    # the output of the Xilinx multiplier is a 36-bit product
+    sum_of_products = unsigned_bus(32)
+    dac_bit_internal = Signal(False)
 
-    # Interpolation is a huge help with anti-aliasing.
-    _interp = interpolator(fastclk, clk, input_data, interp_result)
+    @always_comb
+    def drive_dac_bit():
+        dac_bit.next = dac_bit_internal
 
-    @always(fastclk.posedge)
+    @always(fastclk.posedge, reset.posedge)
     def do_stuff():
-        dac_bit.next = (interp_result + HALF) > (sum_of_products >> (36 - N))
-        vc_estimate.next = sum_of_products >> 18
+        # sum_of_products is the next value for vc_estimate, with lots of fraction
+        # bits. vc_estimate already has fraction bits beyond N. All these fraction
+        # bits are helpful in keeping out audible artifacts.
+        if reset:
+            dac_bit_internal.next = 0
+            vc_estimate.next = 1 << 15
+        else:
+            dac_bit_internal.next = interp_result_unsigned > (sum_of_products >> (32 - N))
+            vc_estimate.next = sum_of_products >> 16
 
     @always_comb
     def multiply():
-        if dac_bit:
-            sum_of_products.next = (A << 18) + (B * vc_estimate)
+        if dac_bit_internal:
+            if A + (B * vc_estimate) >= (1 << 32):
+                sum_of_products.next = (1 << 32) - 1
+            else:
+                sum_of_products.next = A + (B * vc_estimate)
         else:
-            sum_of_products.next = B * vc_estimate
+                sum_of_products.next = B * vc_estimate
 
-    return (_interp, do_stuff, multiply)
+    things = [
+        # Interpolation is a huge help with anti-aliasing.
+        interpolator(fastclk, clk, reset, input_data, interp_result),
+        drive_dac_bit,
+        do_stuff,
+        multiply,
+        signed_to_unsigned(N, interp_result, interp_result_unsigned)
+    ]
+    return things
 
 def make_dsig_ios():
     fastclk = Signal(False)

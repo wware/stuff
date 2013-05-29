@@ -24,7 +24,7 @@ def log2(x):
 
 # Ramp wave, triangle wave, PW-modulated square wave, or noise
 # Clock this at the 40 kHz audio rate
-def waveform_generator(clk, select, threshold, delta_phase, _output):
+def waveform_generator(clk, reset, select, threshold, delta_phase, _output):
 
     NOISEWIDTH16 = 16    # depends on polynomial
     NOISEWIDTH13 = 13
@@ -38,55 +38,62 @@ def waveform_generator(clk, select, threshold, delta_phase, _output):
     noise_register_16 = unsigned_bus(NOISEWIDTH16)
     noise_register_13 = unsigned_bus(NOISEWIDTH13)
 
-    @always(clk.posedge)
+    @always(clk.posedge, reset.posedge)
     def waveforms():
-        if noise_register_16 == 0:
+        if reset:
             noise_register_16.next = 123
-        elif (noise_register_16 ^ (noise_register_16 >> 2) ^
-                (noise_register_16 >> 3) ^ (noise_register_16 >> 5)) & 1:
-            noise_register_16.next = (1 << 15) + (noise_register_16 >> 1)
-        else:
-            noise_register_16.next = (noise_register_16 >> 1)
-
-        if noise_register_13 == 0:
             noise_register_13.next = 1787
-        elif (noise_register_13 ^ (noise_register_13 >> 1) ^
-                (noise_register_13 >> 2) ^ (noise_register_13 >> 5)) & 1:
-            noise_register_13.next = (1 << 12) + (noise_register_13 >> 1)
+            phase_counter.next = 0
+            _output.next = 0
         else:
-            noise_register_13.next = (noise_register_13 >> 1)
-
-        if phase_counter + delta_phase >= (1 << PHASEWIDTH):
-            phase_counter.next = phase_counter + delta_phase - (1 << PHASEWIDTH)
-        else:
-            phase_counter.next = phase_counter + delta_phase
-
-        if select == RAMP:
-            _output.next = (phase_counter - HALFPHASE) >> RAMPSHIFT
-        elif select == TRIANGLE:
-            if phase_counter < HALFPHASE:
-                _output.next = (phase_counter - QUARTERPHASE) >> TRIANGLESHIFT
+            if noise_register_16 == 0:
+                noise_register_16.next = 123
+            elif (noise_register_16 ^ (noise_register_16 >> 2) ^
+                    (noise_register_16 >> 3) ^ (noise_register_16 >> 5)) & 1:
+                noise_register_16.next = (1 << 15) + (noise_register_16 >> 1)
             else:
+                noise_register_16.next = (noise_register_16 >> 1)
+
+            if noise_register_13 == 0:
+                noise_register_13.next = 1787
+            elif (noise_register_13 ^ (noise_register_13 >> 1) ^
+                    (noise_register_13 >> 2) ^ (noise_register_13 >> 5)) & 1:
+                noise_register_13.next = (1 << 12) + (noise_register_13 >> 1)
+            else:
+                noise_register_13.next = (noise_register_13 >> 1)
+
+            if phase_counter + delta_phase >= (1 << PHASEWIDTH):
+                phase_counter.next = phase_counter + delta_phase - (1 << PHASEWIDTH)
+            else:
+                phase_counter.next = phase_counter + delta_phase
+
+            if select == RAMP:
+                _output.next = (phase_counter - HALFPHASE) >> RAMPSHIFT
+            elif select == TRIANGLE:
+                if phase_counter < HALFPHASE:
+                    _output.next = (phase_counter - QUARTERPHASE) >> TRIANGLESHIFT
+                else:
+                    _output.next = \
+                        (THREEQUARTERPHASE - phase_counter) >> TRIANGLESHIFT
+            elif select == SQWAVE:
+                if phase_counter > (threshold << (PHASEWIDTH - N)):
+                    _output.next = MASK - HALF
+                else:
+                    _output.next = -HALF
+            else:   # NOISE
                 _output.next = \
-                    (THREEQUARTERPHASE - phase_counter) >> TRIANGLESHIFT
-        elif select == SQWAVE:
-            if phase_counter > (threshold << (PHASEWIDTH - N)):
-                _output.next = MASK - HALF
-            else:
-                _output.next = -HALF
-        else:   # NOISE
-            _output.next = \
-                ((noise_register_16 ^ noise_register_13) & MASK) - HALF
+                    ((noise_register_16 ^ noise_register_13) & MASK) - HALF
 
     return waveforms
 
 def make_wavgen_ios():
     clk = Signal(False)
+    reset = Signal(False)
     select = unsigned_bus(2)
     threshold = unsigned_bus(N)
     delta_phase = unsigned_bus(PHASEWIDTH)
     _output = signed_bus(N)
-    return (clk, select, threshold, delta_phase, _output)
+    return (clk, reset, select, threshold, delta_phase, _output)
 
 
 class TestWaveformGenerator(unittest.TestCase):
@@ -106,12 +113,16 @@ class TestWaveformGenerator(unittest.TestCase):
 
 def simulate():
     from config import DELTA_PHASE
-    clk, select, threshold, delta_phase, _output = make_wavgen_ios()
-    wavgen = waveform_generator(clk, select, threshold, delta_phase, _output)
+    clk, reset, select, threshold, delta_phase, _output = make_wavgen_ios()
+    wavgen = waveform_generator(clk, reset, select, threshold, delta_phase, _output)
 
     @instance
     def bench():
         clk.next = 0
+        yield delay(1)
+        reset.next = 1
+        yield delay(1)
+        reset.next = 0
         select.next = RAMP
         delta_phase.next = DELTA_PHASE
         threshold.next = HALF
@@ -144,8 +155,8 @@ def simulate():
 
 if __name__ == '__main__':
     if 'hdl' in sys.argv[1:]:
-        clk, keydown, attack, sustain, decay, release, _out = make_adsr_ios()
-        toVerilog(adsr, clk, keydown, attack, sustain, decay, release, _out)
+        clk, reset, select, threshold, delta_phase, _output = make_wavgen_ios()
+        toVerilog(waveform_generator, clk, reset, select, threshold, delta_phase, _output)
     elif 'sim' in sys.argv[1:]:
         Simulation(traceSignals(simulate)).run()
     else:
