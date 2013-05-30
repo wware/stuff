@@ -11,35 +11,36 @@
 ##################################################################################
 
 # Crystal Clock - use 32MHz onboard oscillator
-NET "clk" LOC = "P89" | IOSTANDARD = LVCMOS25 | PERIOD = 31.25ns ;
+NET "fastclk" LOC = "P89" | IOSTANDARD = LVCMOS25 | PERIOD = 31.25ns ;
 
 # Wing1 Column A
-NET "param_data<0>" LOC = "P18" ;  
-NET "param_data<1>" LOC = "P23" ;      
-NET "param_data<2>" LOC = "P26" ;      
-NET "param_data<3>" LOC = "P33" ;      
-NET "param_clk" LOC = "P35" ;      
-NET "audio_req" LOC = "P40" ;      
-NET "audio_ack" LOC = "P53" ;      
-NET "dac_bit" LOC = "P57" ;      
+NET "param_data<0>" LOC = "P18" | PULLUP ;
+NET "param_data<1>" LOC = "P23" | PULLUP ;
+NET "param_data<2>" LOC = "P26" | PULLUP ;
+NET "param_data<3>" LOC = "P33" | PULLUP ;
+NET "param_clk" LOC = "P35" | PULLUP ;
+NET "audio_req" LOC = "P40" | PULLUP ;
+NET "audio_ack" LOC = "P53" | PULLUP ;
+NET "dac_bit" LOC = "P57";
+NET "reset" LOC = "P60" | PULLDOWN ;
 
 # Wing1 Column A
-# NET "W1A<0>" LOC = "P18" ;  
-# NET "W1A<1>" LOC = "P23" ;      
-# NET "W1A<2>" LOC = "P26" ;      
-# NET "W1A<3>" LOC = "P33" ;      
-# NET "W1A<4>" LOC = "P35" ;      
-# NET "W1A<5>" LOC = "P40" ;      
-# NET "W1A<6>" LOC = "P53" ;      
-# NET "W1A<7>" LOC = "P57" ;      
-# NET "W1A<8>" LOC = "P60" ;      
-# NET "W1A<9>" LOC = "P62" ;   
-# NET "W1A<10>" LOC = "P65" ; 
-# NET "W1A<11>" LOC = "P67" ; 
-# NET "W1A<12>" LOC = "P70" ; 
-# NET "W1A<13>" LOC = "P79" ; 
-# NET "W1A<14>" LOC = "P84" ; 
-# NET "W1A<15>" LOC = "P86" ; 
+# NET "W1A<0>" LOC = "P18" ;
+# NET "W1A<1>" LOC = "P23" ;
+# NET "W1A<2>" LOC = "P26" ;
+# NET "W1A<3>" LOC = "P33" ;
+# NET "W1A<4>" LOC = "P35" ;
+# NET "W1A<5>" LOC = "P40" ;
+# NET "W1A<6>" LOC = "P53" ;
+# NET "W1A<7>" LOC = "P57" ;
+# NET "W1A<8>" LOC = "P60" ;
+# NET "W1A<9>" LOC = "P62" ;
+# NET "W1A<10>" LOC = "P65" ;
+# NET "W1A<11>" LOC = "P67" ;
+# NET "W1A<12>" LOC = "P70" ;
+# NET "W1A<13>" LOC = "P79" ;
+# NET "W1A<14>" LOC = "P84" ;
+# NET "W1A<15>" LOC = "P86" ;
 
 # Wing1 Column B
 # NET "W1B<0>" LOC = "P85" ;	
@@ -69,7 +70,7 @@ NET "dac_bit" LOC = "P57" ;
 # NET "W2C<6>" LOC = "P3" ;  	
 # NET "W2C<7>" LOC = "P4" ;  	
 # NET "W2C<8>" LOC = "P5" ;  	
-# NET "W2C<9>" LOC = "P9" ;   
+# NET "W2C<9>" LOC = "P9" ;
 # NET "W2C<10>" LOC = "P10" ;	
 # NET "W2C<11>" LOC = "P11" ;	
 # NET "W2C<12>" LOC = "P12" ;	
