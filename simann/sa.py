@@ -4,7 +4,6 @@ import os
 import sys
 import math
 import random
-import Tkinter
 
 try:
     import sahelp
@@ -164,6 +163,8 @@ class City:
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.distCache = { }
+    def __repr__(self):
+        return '<City %s %s>' % (self.x, self.y)
     def distance(self, other):
         try:
             return self.distCache[id(other)]
@@ -206,7 +207,8 @@ if False:
         simAnn(cities, KMAX, 0, E, neighbor)
     prof.runcall(foo)
     prof.close()
-else:
+elif False:
+    import Tkinter
     answer, ignored = simAnn(cities, KMAX, 0, E, neighbor)
     root = Tkinter.Tk()
     canvas = Tkinter.Canvas(root, height=HEIGHT, width=WIDTH)
@@ -223,3 +225,7 @@ else:
                        city2.x - 2, city2.y - 2,
                        fill="#00ff00")
     root.mainloop()
+else:
+    answer, ignored = simAnn(cities, KMAX, 0, E, neighbor)
+    for city in answer:
+	print city
