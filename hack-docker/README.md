@@ -65,11 +65,9 @@ Given an existing image, you can run /bin/bash, go in there, install stuff with
     [existing_image]$ exit
     sudo docker commit $NEW_IMAGE my_new_image
 
-Adding to existing images
--------------------------
-
 You can create a new image from scratch. One approach is to start with an empty
-Ubuntu distribution.
+Ubuntu distribution. You'll really want to skip ahead to the part about
+Dockerfiles but this is here for completeness.
 
 * http://docs.docker.io/en/latest/use/baseimages/
 * http://stackoverflow.com/questions/18274088/
@@ -98,53 +96,52 @@ it go, type:
 
     sudo docker build -t wware/runapp wware-runapp
 
-and a `wware/runapp` image will be created.
+and a `wware/runapp` image will be created. The Dockerfile is worth a look as
+an example of how to instruct Docker to construct your image.
 
 Using the stuff in the wware-runapp directory
 ---------------------------------------------
 
-Let's suppose that we have a tarball containing a Flask app (which will run on
-port 5000 of each Docker instance) and we want to create four Docker instances,
-and have them on ports 80 through 83, all running the same Flask app. Then we
-could do this. (NB: `seq` in Bash starts counting from _1_, not 0 like most
-other software county things.)
+First get some prerequisites set up on the host machine.
 
-    N=4
-    for i in $(seq 0 $(($N - 1)))
-    do
-       PORT=$((80 + $i))
-       sudo docker run -d -t -p $PORT:5000 \
-           wware-runapp /bin/runapp.sh $URL $i $N
-    done
+    sudo apt-get install -y python-flask python-setuptools python-dev curl
+    sudo easy_install pip virtualenv docopt netifaces
 
-Because we pass `$i` and `$N` as arguments to the `run.sh` script in the
-tarball, we can customize each instance's behavior to be cognizant of its place
-in the system.
+Now you can use `flask-serve.sh` to serve static files. Just run it with no
+arguments.
+
+In another shell, type:
+
+    $ IPADDR=$(ifconfig | awk '{x++;if(x==y){print $2;}}/eth0/{y=x+1;}' | sed 's/.*://')
+    $ tar cfz example.tar.gz example
+    $ sudo docker run -i -t wware/runapp /bin/runapp.sh http://$IPADDR:5000/example.tar.gz
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100   333  100   333    0     0  50546      0 --:--:-- --:--:-- --:--:-- 55500
+    example/
+    example/run.sh
+    
+    ****    ****    ****    ****    ****    ****    ****    ****    ****
+    
+                   This is just an example, but it works!
+    
+                           HAPPY HAPPY JOY JOY!!
+    
+    ****    ****    ****    ****    ****    ****    ****    ****    ****
+
+The `start-many.sh` script starts several instances using a tarball where the
+`run.sh` script accepts two arguments telling the instance where it fits in the
+whole system. The first argument is its index, and the second argument is the
+total number of instances being started.
+
+Here is an example usage.
+
+    $ IPADDR=$(ifconfig | awk '{x++;if(x==y){print $2;}}/eth0/{y=x+1;}' | sed 's/.*://')
+    $ tar cfz example.tar.gz example
+    $ ./start-many.sh 4 http://$IPADDR:5000/example.tar.gz
 
 It's generally a good idea to minimize network traffic in big parallel
 computations such as molecular modeling. The values of `$i` and `$N` might be
 used to assign each machine responsibility for a certain region of XYZ space,
 and to make predictable routing when some piece of information must be sent
 from one point in space to another.
-
-Flask to serve static files
----------------------------
-
-First get some prerequisites set up on the host machine.
-
-    sudo apt-get install python-flask python-setuptools
-    sudo easy_install pip virtualenv docopt
-
-Now you can use `flask-serve.sh` to serve static files. Just run it with no
-arguments. Then in another shell (assuming the host machine is at 192.168.1.4),
-type:
-
-    $ sudo docker run -i -t wware/runapp /bin/runapp.sh \
-                              http://192.168.1.4:5000/example-tarball.tar.gz
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-    100   219  100   219    0     0   8052      0 --:--:-- --:--:-- --:--:--  9125
-    example/
-    example/build.sh
-    This is just an example, but it works!
-    HAPPY HAPPY JOY JOY!!

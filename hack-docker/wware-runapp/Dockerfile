@@ -12,4 +12,8 @@ RUN apt-get update
 RUN apt-get install -y openssh-server python-setuptools curl python-redis redis-server \
 	python-flask git
 
-RUN easy_install pip virtualenv
+RUN easy_install pip virtualenv docopt
+
+RUN adduser wware
+
+ADD image /
