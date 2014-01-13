@@ -1,0 +1,115 @@
+% http://www-cdf.fnal.gov/offline/PostScript/BLUEBOOK.PDF
+
+/xcenter 306 def
+/ycenter 500 def
+/scalefactor 8 def
+
+/scale1 {
+    scalefactor mul
+} def
+
+/scale2 {
+    exch
+    % first scale x
+    scale1 xcenter add
+    exch
+    % next scale y
+    scale1 ycenter add
+} def
+
+0.2 scale1 setlinewidth
+0 0 scale2 10 scale1 0 360 arc
+stroke
+
+1 scale1 setlinewidth
+-6 6.5 scale2 moveto
+6 6.5 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-7 2.5 scale2 moveto
+-5 2.5 scale2 lineto
+-3 2.5 scale2 moveto
+-1 2.5 scale2 lineto
+1 2.5 scale2 moveto
+3 2.5 scale2 lineto
+5 2.5 scale2 moveto
+15.01 2.5 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-18.01 -1.5 scale2 moveto
+-5 -1.5 scale2 lineto
+-3 -1.5 scale2 moveto
+-1 -1.5 scale2 lineto
+1 -1.5 scale2 moveto
+3 -1.5 scale2 lineto
+5 -1.5 scale2 moveto
+7 -1.5 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-2.5 -8 scale2 moveto
+-2.5 -5.5 scale2 lineto
+2.5 -5.5 scale2 lineto
+2.5 -8 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-8 21 scale2 moveto
+8 21 scale2 lineto
+0 16 scale2 lineto
+-8 21 scale2 lineto
+8 21 scale2 lineto
+0 21 scale2 moveto
+0 16 scale2 lineto
+stroke
+
+0.2 scale1 setlinewidth
+0 6.5 scale2 moveto
+0 16 scale2 lineto
+stroke
+
+0.2 scale1 setlinewidth
+-2.5 -6.5 scale2 moveto
+-2.5 -13 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-8.5 -13.5 scale2 moveto
+3.5 -13.5 scale2 lineto
+-8.5 -16.5 scale2 moveto
+3.5 -16.5 scale2 lineto
+stroke
+
+0.2 scale1 setlinewidth
+-2.5 -16.5 scale2 moveto
+-2.5 -24.5 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-8.5 -24.5 scale2 moveto
+3.5 -24.5 scale2 lineto
+-7 -26.5 scale2 moveto
+2 -26.5 scale2 lineto
+-5.5 -28.5 scale2 moveto
+0.5 -28.5 scale2 lineto
+-4 -30.5 scale2 moveto
+-1 -30.5 scale2 lineto
+stroke
+
+1 scale1 setlinewidth
+-18 -8 scale2 6.5 scale1 90 270 arc
+-18 -10 scale2 4.5 scale1 270 495 arc
+stroke
+/adjust -0.53 def
+0.2 scale1 setlinewidth
+-21 adjust sub -7 adjust add scale2 1.5 scale1 0 360 arc closepath
+0 setgray fill
+
+0.1 scale1 setlinewidth
+15 15 scale2 12 scale1 270 315 arc
+15 -10 scale2 12 scale1 45 90 arc closepath
+0 setgray fill
+
+showpage
