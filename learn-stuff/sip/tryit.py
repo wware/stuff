@@ -1,21 +1,45 @@
 #!/usr/bin/env python
+# http://pyqt.sourceforge.net/Docs/sip4/using.html
 
 import os
 
-if not os.path.exists("word.so"):
-    if not os.path.exists("word.o"):
-        assert os.system("g++ -c -o word.o word.cpp") == 0
+HAVE_CPP_FILE = False
+
+########## configure.py ##############
+
+if not os.path.exists("sharedptr.so"):
+    if not os.path.exists("sharedptr.o"):
+        if HAVE_CPP_FILE:
+            incl = '-I/usr/local/Cellar/boost/1.55.0_1/include'
+            incl += ' -I/usr/local/Cellar/qt/4.8.6/include'
+            assert os.system("g++ -c {0} -o sharedptr.o sharedptr.cpp".format(incl)) == 0
     import sipconfig
-    build_file = "word.sbf"
+    build_file = "sharedptr.sbf"
     config = sipconfig.Configuration()
-    assert os.system(" ".join([config.sip_bin, "-c", ".", "-b", build_file, "word.sip"])) == 0
+    assert os.system(" ".join([config.sip_bin, "-c", ".", "-b", build_file, "sharedptr.sip"])) == 0
     makefile = sipconfig.SIPModuleMakefile(config, build_file)
-    makefile.extra_lflags.append("word.o")
+    if HAVE_CPP_FILE:
+        makefile.extra_lflags.append("sharedptr.o")
+    makefile.extra_lflags.append("-F/usr/local/Cellar/qt/4.8.6/lib -framework QtCore")
     makefile.generate()
-    os.system("make word.so")
+    assert os.system("make sharedptr.so") == 0
 
-import word
+################ test ########################
 
-w = word.Word("abcde")
-print w
-print w.content()
+import sharedptr
+
+a = sharedptr.A()
+b = sharedptr.B()
+
+b.setX(5)
+
+a.b = b
+assert b.getX() == 5
+assert a.b.getX() == 5
+
+b.setX(11)
+
+assert b.getX() == 11
+assert a.b.getX() == 11
+
+print "Success"
