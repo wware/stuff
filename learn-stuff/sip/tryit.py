@@ -28,10 +28,13 @@ if not os.path.exists("sharedptr.so"):
 
 import sharedptr
 
-a = sharedptr.A()
-b = sharedptr.B()
+def newB(x):
+    b = sharedptr.B()
+    b.setX(x)
+    return b
 
-b.setX(5)
+a = sharedptr.A()
+b = newB(5)
 
 a.b = b
 assert b.getX() == 5
@@ -41,5 +44,14 @@ b.setX(11)
 
 assert b.getX() == 11
 assert a.b.getX() == 11
+
+a.bList = [newB(2), newB(3), newB(5)]
+assert [b.getX() for b in a.bList] == [2, 3, 5]
+
+a.bList = [newB(3), newB(4)]
+assert [b.getX() for b in a.bList] == [3, 4]
+
+a.bList.append(newB(5))
+# [b.getX() for b in a.bList] => [3, 4, 5]??? NO, because GetCode returns a different list.
 
 print "Success"

@@ -19,6 +19,7 @@ class A
 {
 public:
     QSharedPointer<B> b;
+    QList < QSharedPointer<B> > bList;
 };
 
 #endif
