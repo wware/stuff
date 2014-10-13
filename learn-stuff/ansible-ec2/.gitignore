@@ -1,0 +1,5 @@
+.vagrant/
+build/
+venv/
+
+*.pyc

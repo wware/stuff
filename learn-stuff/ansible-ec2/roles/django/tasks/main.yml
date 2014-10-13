@@ -1,0 +1,66 @@
+---
+- name: apt install system packages.
+  apt: >
+    pkg={{ item }}
+    state=installed
+    update_cache=yes
+    force=yes
+  with_items: system_packages
+
+- name: pip install python packages.
+  pip: name={{ item }}
+  with_items: python_packages
+
+- name: delete the dialout group (we need the gid)
+  group: gid={{ host_gid }} name="dialout" state=absent
+  when: vm is defined
+
+- name: create the user_group with the group id of the host
+  sudo: true
+  group: gid={{ host_gid }} name={{ user_group }} state=present
+  when: vm is defined
+
+- name: create django project user
+  when: vm is defined
+  user: >
+    name={{ user_name }}
+    home={{ user_home }}
+    groups={{ user_group }}
+    uid={{ host_uid }}
+    shell=/bin/bash
+    createhome=yes
+    state=present
+
+- name: create django project user when not in vm
+  when: vm is not defined
+  user: >
+    name={{ user_name }}
+    home={{ user_home }}
+    groups={{ user_group }}
+    shell=/bin/bash
+    createhome=yes
+    state=present
+
+- name: chown the home dir of the user_name
+  file: >
+    mode=755
+    path={{ user_home }}
+    owner={{ user_name }}
+    group={{ user_group }}
+
+- name: add a git deploy key to allow github checkout
+  when: vm is not defined
+  copy: >
+    src=./files/cms-ssh-key-rsa
+    dest={{ user_home }}/.ssh/
+    owner={{ user_name }}
+    group={{ user_name }}
+    mode=600
+
+- name: chown the user_name/.ssh directory as username
+  file: >
+    path={{ user_home }}/.ssh
+    state=directory
+    owner={{ user_name }}
+    group={{ user_group }}
+    mode=744

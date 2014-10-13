@@ -1,0 +1,12 @@
+[local]
+localhost:2222
+
+[local:vars]
+ansible_ssh_host=127.0.0.1
+ansible_ssh_port=2222
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=id_rsa_insecure
+vm=yes
+env_mode=dev
+host_name=localhost
+project_branch=master

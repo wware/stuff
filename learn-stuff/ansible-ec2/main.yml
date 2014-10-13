@@ -1,0 +1,104 @@
+---
+##
+#  Register variables
+#
+- shell: 'date +%Y-%m-%d--%H%M'
+  register: timestamp
+  tags: backup
+
+##
+#  Put the (new) code on the server
+#
+- name: create the varwww directory
+  file: path=/var/www state=directory owner=root group=www-data mode=775
+
+- name: clone or update the repo
+  sudo_user: XYZZY
+  git: >
+    repo=git@github.com:wware/WTF_IS_THIS.git
+    accept_hostkey=yes
+    key_file={{ user_home }}/.ssh/cms-ssh-key-rsa
+    depth=1
+    dest={{ project_root }}
+    version={{ project_branch }}
+    update=yes
+  when: vm is not defined
+  notify:
+    - django collectstatic
+    - restart gunicorn
+  tags:
+    - gitupdate
+
+- name: set deployment env mode
+  template: >
+    src=env.py.j2
+    dest={{ project_root }}/XYZZY/XYZZY/settings/env.py
+    owner={{ user_name }}
+    group={{ user_group }}
+    mode=755
+
+
+#- name: template the secrets.py file for django
+#  template: >
+#    src=secret.py.j2
+#    dest={{ project_root }}/XYZZY/XYZZY/settings/secret.py
+#    owner={{ user_name }}
+#    group={{ user_group }}
+#    mode=755
+#  when: vm is not defined
+
+
+- name: replace media files to the media dir, if any
+  sudo: yes
+  shell: cp -R {{ backup_dir_media }}/media-{{ timestamp.stdout }}/* {{ project_root }}/XYZZY/media/
+  ignore_errors: yes
+  tags: backup
+  when: vm is not defined
+
+- name: delete media backups
+  file: >
+    path={{ backup_dir_media }}/media-{{ timestamp.stdout }}
+    state=absent
+  tags: backup
+  when: vm is not defined
+
+- name: chown the project as user_name
+  when: vm is not defined
+  file: >
+    path={{ project_root }}
+    recurse=yes
+    owner={{ user_name }}
+    group={{ user_group }}
+
+- name: set the src folder as writeable to allow for gunicorn.pid
+  file: >
+    path={{ project_root }}/XYZZY
+    state=directory
+    mode=777
+
+- name: cleanup if there is a failed pip install
+  file: path={{ venv_path }}/build state=absent
+
+- name: create/update virtualenv in user home
+  sudo_user: '{{ user_name }}'
+  pip: requirements={{ project_root }}/requirements/dev.pip virtualenv={{ venv_path }}
+  notify:
+    - restart gunicorn
+  tags:
+    - pip
+
+- name: allow writable permissions on the logging folder
+  file: >
+    path={{ project_root }}/XYZZY/logging/
+    state=directory
+    mode=777
+    recurse=yes
+
+- name: allow writable permissions on the assets dir
+  file: >
+    path={{ project_root }}/XYZZY/assets/
+    state=directory
+    mode=777
+
+- name: Sync Django database.
+  shell: "{{ venv_path }}/bin/python {{ project_root }}/XYZZY/manage.py syncdb --migrate --noinput"

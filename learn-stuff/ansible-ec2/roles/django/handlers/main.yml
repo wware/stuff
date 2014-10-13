@@ -1,0 +1,7 @@
+---
+- name: reload supervisor
+  shell: supervisorctl reload
+
+- name: restart supervisor
+  action: service name=supervisor state=started
+

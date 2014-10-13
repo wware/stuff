@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.network :private_network, ip: "10.0.1.192"
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
+  config.vm.network :forwarded_port, guest: 443, host: 4343
+  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.ssh.forward_agent = true
+
+  config.vm.provision :ansible do |ansible|
+    #ansible.inventory_path = "localvm"
+    ansible.playbook = "site.yml"
+    #ansible.verbose = 'vvvv'
+    ansible.extra_vars = {
+      "vm" => true,
+      "host_name" => '127.0.0.1',
+      "host_uid" => Process.uid,
+      "host_gid" => Process.gid,
+      "env_mode" => "dev",
+      "project_branch" => "master",
+    }
+  end
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "learn_ansible_ec2"
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+
+end

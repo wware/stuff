@@ -1,0 +1,29 @@
+---
+# Do I have to make /var/www writeable to www-data?
+#
+- name: create the varwww directory
+  file: path=/var/www state=directory owner=root group=www-data mode=775
+
+- name: chown the project as user_name
+  when: vm is not defined
+  file: >
+    path={{ project_root }}
+    recurse=yes
+    owner={{ user_name }}
+    group={{ user_group }}
+
+- name: set the src folder as writeable to allow for gunicorn.pid
+  file: >
+    path={{ project_root }}/WTF_IS_THIS
+    state=directory
+    mode=777
+
+- name: cleanup if there is a failed pip install
+  file: path={{ venv_path }}/build state=absent
+
+- name: create/update virtualenv in user home
+  sudo_user: '{{ user_name }}'
+  pip: requirements={{ project_root }}/requirements.txt virtualenv={{ venv_path }}
+
+- name: Sync Django database.
+  shell: "{{ venv_path }}/bin/python {{ project_root }}/XYZZY/manage.py syncdb --migrate --noinput"

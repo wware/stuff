@@ -1,0 +1,29 @@
+---
+project_name: djangoapp
+project_root: /var/www/djangoapp
+project_static_root: '{{ project_root }}/assets/'
+project_repo: git@github.com:wware/djangoapp.git
+
+user_name: ubuntu
+user_group: ubuntu
+user_home: /home/ubuntu
+venv_path: /home/ubuntu/venv
+
+system_packages:
+    - build-essential
+    - nginx
+    - sqlite3
+    - python-dev
+    - libpq-dev
+    - git
+    - vim-nox
+    - python-pip
+    - python-django
+    - curl
+    - libjpeg-dev
+    - libgeos-dev
+    - ntp
+python_packages:
+    - pip
+    - virtualenv
+    - boto

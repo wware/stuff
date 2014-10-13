@@ -1,0 +1,11 @@
+---
+- name: Install a trivial django app on ubuntu 12.04
+  hosts: all
+  sudo: yes
+  gather_facts: yes
+#  handlers:
+#    - include: handlers/main.yml
+  vars_files:
+    - vars.yml
+  roles:
+    - {role: django, tags:['django']}
