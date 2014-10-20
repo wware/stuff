@@ -23,7 +23,21 @@ system_packages:
     - libjpeg-dev
     - libgeos-dev
     - ntp
+    - kde-plasma-desktop
+    - libumfpack5.4.0
+    - libamd2.2.0
+    - python-qt4
+    - python-qt4-gl
+    - libqt4-opengl
+    - python-imaging
+    - python-matplotlib
+    - python-pyopencl
+    - python-scipy
+    - python-opencv
 python_packages:
     - pip
     - virtualenv
     - boto
+    - docopt
+    - pyfft
+    - BeautifulSoup
