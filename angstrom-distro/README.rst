@@ -1,5 +1,5 @@
-Fun with Android on Beagleboard
-===============================
+Fun with Angstrom on Beagleboard
+================================
 
 Here is some background about this stuff:
 http://en.wikipedia.org/wiki/User:WillWare/Angstrom_and_Beagleboard
