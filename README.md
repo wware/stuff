@@ -1,6 +1,7 @@
-================
 A pile of random code
 ================
+
+![Will in the snow](will_snow_small.png)
 
 Some of this is stuff I posted on alt.sources back in the day. Other
 of it is more recent.
