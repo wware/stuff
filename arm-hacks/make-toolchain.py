@@ -11,9 +11,11 @@ srcdir = os.path.join(root, 'src')
 builddir = os.path.join(root, 'build')
 objtype = 'elf'
 
-def do_cmd(x):
+def do_cmd(x, must_succeed=True):
     print x
-    assert os.system(x) == 0
+    r = os.system(x)
+    if must_succeed:
+        assert r == 0
 
 def mkdir(d):
     do_cmd('mkdir -p ' + d)
@@ -44,14 +46,17 @@ class Package:
             assert os.path.isfile(path)
 
     def unpack_source(self):
-        path = os.path.join(srcdir, self.filename)
-        if self.url.endswith('.gz'):
-            cmdopts = 'zxvf'
-        else:
-            assert self.url.endswith('.bz2')
-            cmdopts = 'jxvf'
-        cmd = 'tar %s %s -C %s' % (cmdopts, path, srcdir)
-        do_cmd(cmd)
+        if not os.path.exists("{0}/{1}-{2}".format(
+            srcdir, self.name, self.version
+        )):
+            path = os.path.join(srcdir, self.filename)
+            if self.url.endswith('.gz'):
+                cmdopts = 'zxvf'
+            else:
+                assert self.url.endswith('.bz2')
+                cmdopts = 'jxvf'
+            cmd = 'tar %s %s -C %s' % (cmdopts, path, srcdir)
+            do_cmd(cmd)
 
     def build_phase1(self, arch):
         mkdir(self.blddir)
@@ -60,17 +65,29 @@ class Package:
                                             self.srcdir,
                                             opts)
         do_cmd(cmd)
+        must_succeed = True
         if self.name == 'gcc':
             cmd = '(cd %s; make all-gcc install-gcc)' % self.blddir
+            must_succeed = False
         else:
             cmd = '(cd %s; make all install)' % self.blddir
-        do_cmd(cmd)
+        do_cmd(cmd, must_succeed=must_succeed)
 
     def build_phase2(self, arch):
         if self.name == 'gcc':
             cmd = '(cd %s; make all install)' % self.blddir
             do_cmd(cmd)
 
+
+gmp = Package('gmp',
+              '4.3.2',
+              'ftp://gcc.gnu.org/pub/gcc/infrastructure/' +
+              'gmp-VERSION.tar.bz2')
+
+mpfr = Package('mpfr',
+               '2.4.2',
+               'ftp://gcc.gnu.org/pub/gcc/infrastructure/' +
+               'mpfr-VERSION.tar.bz2')
 
 binutils = Package('binutils',
                    '2.19.1',
@@ -92,29 +109,34 @@ gdb = Package('gdb',
               'ftp://ftp.gnu.org/gnu/gdb/gdb-VERSION.tar.bz2')
 
 # build order
-packages = [ binutils, gcc, newlib, gdb ]
+packages = [ gmp, mpfr, binutils, gcc, newlib, gdb ]
 
 
 class Architecture:
     def __init__(self, name):
         self.name = name
         self.prefix = '/opt/gnu-' + name
+        self.gmpopts = '--disable-shared --enable-static --prefix=PREFIX'\
+            .replace('PREFIX', self.prefix)
+        self.mpfropts= self.gmpopts + ' --with-gmp=PREFIX'\
+            .replace('PREFIX', self.prefix)
         self.gccopts = '''--target=TARGET-OBJTYPE \
             --prefix=PREFIX \
-            --with-gmp=/usr/lib \
-            --with-mpfr=/usr/lib \
+            --with-gmp=PREFIX \
+            --with-mpfr=PREFIX \
             --enable-interwork \
             --enable-multilib \
             --with-float=soft \
             --nfp \
             --enable-languages="c" \
             --with-newlib \
-            --with-headers=SRCDIR/NEWLIBDIR/newlib/libc/include'''\
+            --with-headers=NEWLIBDIR/newlib/libc/include \
+            MAKEINFO=missing'''\
             .replace('OBJTYPE', objtype)\
             .replace('TARGET', name)\
             .replace('SRCDIR', srcdir)\
             .replace('PREFIX', self.prefix)\
-            .replace('NEWLIBDIR', newlib.blddir)
+            .replace('NEWLIBDIR', newlib.srcdir)
         self.newlibopts = '''--target=TARGET-OBJTYPE \
             --prefix=PREFIX \
             --disable-werror \
@@ -141,7 +163,7 @@ if 'm68k' in sys.argv[1:]:
 else:
     arch = Architecture('arm')
 
-
+os.environ['PATH'] += ':' + arch.prefix + '/bin'
 
 if 'clean' in sys.argv[1:]:
     map(lambda pkg: pkg.clean(),
