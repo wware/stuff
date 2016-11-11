@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SOURCE_ISO=ubuntu-mini-remix-10.10-i386.iso
-SRC_ISO_URL=http://www.ubuntu-mini-remix.org/download/10.10/${SOURCE_ISO}
+SOURCE_ISO=ubuntu-mini-remix-16.04-i386.iso
+SRC_ISO_URL=http://www.ubuntu-mini-remix.org/download/16.04/${SOURCE_ISO}
 SRC_ISO_COPY=${HOME}/${SOURCE_ISO}
 
 ROOT=${HOME}/livecdtmp
@@ -9,18 +9,20 @@ CHROOT_JAIL=${ROOT}/edit
 DISK_IMAGE=${ROOT}/extract-cd
 ISO_MOUNT=${ROOT}/mnt
 
-TARGET_ISO=${HOME}/customized-umr-10.10-i386.iso
+TARGET_ISO=${HOME}/customized-umr-16.04-i386.iso
 
 # First fetch the ISO if we don't already have it
 if [ ! -f ${SRC_ISO_COPY} ]
 then
-    wget -o ${SRC_ISO_COPY} ${SRC_ISO_URL} || exit 1
+    curl ${SRC_ISO_URL} > ${SRC_ISO_COPY} || exit 1
 fi
 
-if [ X$(md5sum ${SRC_ISO_COPY} | cut -c -32) != \
-     Xab35482566e6e4c13bc49fe423624652 ]
+EXPECTED_MD5=303abd1dd70907bf904174022818abe7
+MD5=$(md5sum ${SRC_ISO_COPY} | cut -c -32)
+if [ X${MD5} != X${EXPECTED_MD5} ]
 then
     echo Bad MD5 for ${SRC_ISO_COPY}
+    echo Expected ${EXPECTED_MD5} but instead got ${MD5}
     exit 1
 fi
 
