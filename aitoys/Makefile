@@ -11,8 +11,9 @@ debug:
 
 # make OPT="-Wall" all   <=== build using gcc's lint function
 
+VERSION=$(shell python -V 2>&1 | sed 's/Python //' | cut -c -3)
 CC = gcc
-CFLAGS = $(OPT) -fpic -O2 -I/usr/local/include -I/usr/include/python2.5
+CFLAGS = $(OPT) -fpic -O2 -I/usr/local/include -I/usr/include/python$(VERSION)
 
 .SUFFIXES: .i .c .o .e .so .h .wrap.c
 

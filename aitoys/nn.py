@@ -124,7 +124,7 @@ t = TrainingSet(pairs, iter, L3.adjust, 0.01)
 
 def main():
     for i in range(5):
-        t.train(100)
+        t.train(500)
         print t.showoff(1)
 
 if __name__ == "__main__":
