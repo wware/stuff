@@ -11,6 +11,10 @@ staticforward PyTypeObject Ruletype;
 #define is_graphobject(v)		((v)->ob_type == &Graphtype)
 #define is_ruleobject(v)		((v)->ob_type == &Ruletype)
 
+static int
+get_triple(PyObject *item,
+	   int *s, int *p, int *o);
+
 static PyObject *
 newgraphobject(PyObject *self, PyObject *args)
 {

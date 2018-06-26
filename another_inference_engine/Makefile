@@ -7,7 +7,7 @@ CFLAGS += $(INCLUDES)
 LDFLAGS = -L$(PYLIBDIR)/config -lm -lpython$(PYDVER)
 LDSHARED = $(CC) -shared
 CC=gcc
-CFLAGS+=-Wall -O2
+CFLAGS+=-Wall -O2 -fPIC
 # CFLAGS+=-Wall -g -pg    # for collecting performance data
 
 all: graph.so
