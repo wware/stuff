@@ -21,7 +21,7 @@ DESCRIPTION
 
        Each blip descriptor starts with one line, the  number  of
        sinusoids  in this blip. For each sinusoid there is a line
-       with five floats, the frequency, left channel cosine  com­
+       with five floats, the frequency, left channel cosine  com-
        ponent,  left channel sine component, right channel cosine
        component, and right channel sine component.
 
@@ -395,7 +395,7 @@ static void help(void)
 	       "\n"
 	       "       Each blip descriptor starts with one line, the  number  of\n"
 	       "       sinusoids  in this blip. For each sinusoid there is a line\n"
-	       "       with five floats, the frequency, left channel cosine  com­\n"
+	       "       with five floats, the frequency, left channel cosine  com-\n"
 	       "       ponent,  left channel sine component, right channel cosine\n"
 	       "       component, and right channel sine component.\n"
 	       "\n"
