@@ -1,0 +1,9 @@
+- name: do stuff
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: remove container
+    docker_container:
+      name: gunicorn-server
+      image: foobar:latest
+      state: absent

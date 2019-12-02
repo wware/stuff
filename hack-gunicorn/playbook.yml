@@ -1,0 +1,20 @@
+- name: do stuff
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Build an image
+    # https://docs.ansible.com/ansible/2.9/modules/docker_image_module.html
+    docker_image:
+      build:
+        pull: yes
+        path: .
+      name: foobar
+      tag: latest
+      source: build
+  - name: gunicorn docker container
+    docker_container:
+      name: gunicorn-server
+      image: foobar:latest
+      state: started
+      ports:
+      - "8000:8000"
