@@ -1,4 +1,4 @@
-Django==1.4.3
+Django==1.11.23
 PyRSS2Gen==1.0.0
 Twisted==19.7.0
 altgraph==0.9
