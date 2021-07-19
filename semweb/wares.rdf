@@ -28,10 +28,10 @@
 		</bio:Marriage>
 	</bio:event>
 	<foaf:plan>Clueless, therefore planless.</foaf:plan>
-	<foaf:knows rdf:nodeID="Rich"/>
+	<foaf:knows rdf:nodeID="Dicky"/>
 </foaf:Person>
 
-<foaf:Person rdf:nodeID="Sue">
+<foaf:Person rdf:nodeID="Suxie">
 	<foaf:name>Sue Bauter</foaf:name>
 	<foaf:gender>female</foaf:gender>
 	<bio:event>
@@ -41,26 +41,26 @@
 		</bio:Birth>
 	</bio:event>
 	<bio:event>
-		<bio:Marriage rdf:nodeID="willSueMarriage"/>
+		<bio:Marriage rdf:nodeID="willSuxieMarriage"/>
 	</bio:event>
 	<bio:event>
-		<bio:Death rdf:nodeID="sueDied">
+		<bio:Death rdf:nodeID="suxieDied">
 			<bio:date>2003-09-22</bio:date>
 			<bio:place>Orlando, FL</bio:place>
 		</bio:Death>
 	</bio:event>
 </foaf:Person>
 
-<foaf:Person rdf:nodeID="Rich">
+<foaf:Person rdf:nodeID="Dick">
 	<foaf:name>Rich Ware</foaf:name>
 	<foaf:gender>male</foaf:gender>
-	<foaf:mbox rdf:resource="mailto:rware@alum.mit.edu"/>
+	<foaf:mbox rdf:resource="mailto:dware@alum.mit.edu"/>
 	<foaf:knows rdf:nodeID="Sue"/>
 	<bio:father rdf:nodeID="willsDad"/>
 	<bio:mother rdf:nodeID="willsMom"/>
 	<bio:event>
 		<bio:Birth>
-			<bio:date>1957-05-18</bio:date>
+			<bio:date>1937-05-18</bio:date>
 			<bio:place>Manhattan, NY</bio:place>
 		</bio:Birth>
 	</bio:event>
@@ -74,9 +74,9 @@
 <foaf:Person rdf:nodeID="Marian">
 	<foaf:name>Marian Ware</foaf:name>
 	<foaf:gender>female</foaf:gender>
-	<foaf:knows rdf:nodeID="Rich"/>
+	<foaf:knows rdf:nodeID="Dick"/>
 	<bio:event>
-		<bio:Marriage rdf:nodeID="richMarianWedding"/>
+		<bio:Marriage rdf:nodeID="dickMarianWedding"/>
 	</bio:event>
 </foaf:Person>
 
@@ -86,7 +86,7 @@
 	<foaf:mbox rdf:resource="mailto:bobindayton@gmail.com"/>
 	<bio:father rdf:nodeID="willsDad"/>
 	<bio:mother rdf:nodeID="willsMom"/>
-	<foaf:knows rdf:nodeID="Sue"/>
+	<foaf:knows rdf:nodeID="Suxie"/>
 	<bio:event>
 		<bio:Birth>
 			<bio:date>1966-05-07</bio:date>
@@ -98,16 +98,16 @@
 	</bio:event>
 </foaf:Person>
 
-<foaf:Person rdf:nodeID="Martha">
-	<foaf:name>Martha Ware</foaf:name>
+<foaf:Person rdf:nodeID="Amanda">
+	<foaf:name>Amanda Ware</foaf:name>
 	<foaf:gender>female</foaf:gender>
-	<foaf:mbox rdf:resource="mailto:martha.c.ware@gmail.com"/>
+	<foaf:mbox rdf:resource="mailto:amanda.ware@gmail.com"/>
 	<bio:father rdf:nodeID="willsDad"/>
 	<bio:mother rdf:nodeID="willsMom"/>
-	<foaf:knows rdf:nodeID="Sue"/>
+	<foaf:knows rdf:nodeID="Suxie"/>
 	<bio:event>
 		<bio:Birth>
-			<bio:date>1968-04-01</bio:date>
+			<bio:date>1948-04-11</bio:date>
 		</bio:Birth>
 	</bio:event>
 </foaf:Person>
