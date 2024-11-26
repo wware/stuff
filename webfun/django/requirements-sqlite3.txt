@@ -1,4 +1,4 @@
-Django==2.2.24
+Django==2.2.28
 wsgiref==0.1.2
 yolk==0.4.1
 django-jquery==1.9.1
